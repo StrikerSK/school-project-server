@@ -12,11 +12,11 @@ public class TypeOfSelling {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "platnost")
-	private String validity;
-
 	@Column(name = "typ_predaja")
 	private String type;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Validity validity;
 
 	@OneToMany(mappedBy = "sellingType")
 	private Set<Person> persons;
@@ -32,11 +32,11 @@ public class TypeOfSelling {
 		this.id = id;
 	}
 
-	public String getValidity() {
+	public Validity getValidity() {
 		return validity;
 	}
 
-	public void setValidity(String validity) {
+	public void setValidity(Validity validity) {
 		this.validity = validity;
 	}
 
