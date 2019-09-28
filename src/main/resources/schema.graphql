@@ -1,0 +1,13 @@
+schema {
+    query: Query
+}
+
+type Query {
+    allData: [Data]
+}
+
+type Data {
+    code: String
+    month: String
+    year: Int
+}
