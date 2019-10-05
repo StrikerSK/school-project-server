@@ -15,7 +15,8 @@ import java.util.List;
 @Repository
 public interface PidRepository extends JpaRepository<PidData, Long> {
 
-    List<PidData> getByCode(String code);
+	List<PidData> getByCode(String code);
+	List<PidData> getAllByYear(Integer year);
 
     @Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(adults)) from PidData WHERE type IN :sellType AND validity IN :validity group by code,month order by code asc")
     List<DataXY> getAdultSum(@Param("validity") Collection<String> queryType,
