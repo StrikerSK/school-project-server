@@ -1,7 +1,7 @@
 package com.javapid.controller;
 
+import com.javapid.entity.SellType;
 import com.javapid.objects.recharts.PersonAbstractClass;
-import com.javapid.objects.TypeOfSell;
 import com.javapid.objects.recharts.AreaChartData;
 import com.javapid.service.RechartsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ public class RechartsController {
 
 	@RequestMapping("/area")
 	public List<AreaChartData> getAreaChart(){
-		return rechartsService.getAreaChartData(2017, TypeOfSell.KUPON.getLabel());
+		return rechartsService.getAreaChartData(2017, SellType.COUPON.getValue());
 	}
 
 	@RequestMapping("/bar")
     public List<List<PersonAbstractClass>> getBarData(){
-	    return rechartsService.getPersonData(2017,TypeOfSell.KUPON.getLabel());
+	    return rechartsService.getPersonData(2017,SellType.COUPON.getValue());
     }
 }

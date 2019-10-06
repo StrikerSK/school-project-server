@@ -4,7 +4,7 @@ public abstract class PersonAbstractClass {
 
     private String name;
     private String month;
-    private Integer ticketCount;
+    private Integer value;
 
     public String getName() {
         return name;
@@ -22,11 +22,11 @@ public abstract class PersonAbstractClass {
         this.month = month;
     }
 
-    public Integer getTicketCount() {
-        return ticketCount;
+    public Integer getValue() {
+        return value;
     }
 
-    public void setTicketCount(Integer ticketCount) {
-        this.ticketCount = ticketCount;
+    public void setValue(Integer value) {
+        this.value = value;
     }
 }
