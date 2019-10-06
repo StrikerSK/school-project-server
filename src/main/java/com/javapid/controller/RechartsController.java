@@ -1,7 +1,9 @@
 package com.javapid.controller;
 
+import com.javapid.objects.TypeOfSell;
 import com.javapid.objects.recharts.AreaChartData;
-import com.javapid.service.PidService;
+import com.javapid.service.RechartsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,15 +13,12 @@ import java.util.List;
 @RequestMapping("/recharts")
 public class RechartsController {
 
-	private final PidService pidService;
-
-	public RechartsController(PidService pidService) {
-		this.pidService = pidService;
-	}
+	@Autowired
+    private RechartsService rechartsService;
 
 	@RequestMapping("/area")
 	public List<AreaChartData> getAreaChart(){
-		return pidService.getAreaChartData();
+		return rechartsService.getAreaChartData(2017, TypeOfSell.KUPON.getLabel());
 	}
 
 }
