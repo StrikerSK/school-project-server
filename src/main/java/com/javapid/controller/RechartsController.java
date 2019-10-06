@@ -1,5 +1,6 @@
 package com.javapid.controller;
 
+import com.javapid.objects.recharts.PersonAbstractClass;
 import com.javapid.objects.TypeOfSell;
 import com.javapid.objects.recharts.AreaChartData;
 import com.javapid.service.RechartsService;
@@ -21,4 +22,8 @@ public class RechartsController {
 		return rechartsService.getAreaChartData(2017, TypeOfSell.KUPON.getLabel());
 	}
 
+	@RequestMapping("/bar")
+    public List<List<PersonAbstractClass>> getBarData(){
+	    return rechartsService.getPersonData(2017,TypeOfSell.KUPON.getLabel());
+    }
 }
