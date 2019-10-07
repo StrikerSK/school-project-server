@@ -1,7 +1,6 @@
 package com.javapid.service;
 
-import com.javapid.entity.PidData;
-import com.javapid.entity.nivo.PieChartData;
+import com.javapid.entity.nivo.*;
 import com.javapid.repository.PidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +14,20 @@ public class NivoDataService {
 	@Autowired
 	private PidRepository repository;
 
-	public List<PieChartData> getNivoData(){
-		List<PidData> pidDataList = repository.countTotal();
+	public List<NivoAbstractLineData> getNivoData(){
+		NivoAbstractLineData adultData = new NivoAdultLineData(repository.getAdultSum());
+		NivoAbstractLineData studentData = new NivoStudentLineData(repository.getStudentSum());
+		NivoAbstractLineData seniorData = new NivoSeniorLineData(repository.getSeniorSum());
+		NivoAbstractLineData juniorData  = new NivoJuniorLineData(repository.getJuniorSum());
+		NivoAbstractLineData portableData  = new NivoPortableLineData(repository.getPortableSum());
 
+		List<NivoAbstractLineData> personList = new ArrayList<>();
+		personList.add(adultData);
+		personList.add(studentData);
+		personList.add(seniorData);
+		personList.add(juniorData);
+		personList.add(portableData);
 
-		return null;
-	}
-
-	public List<PieChartData> createData(PidData data){
-		List<PieChartData> list = new ArrayList<>();
-		return null;
+		return personList;
 	}
 }
