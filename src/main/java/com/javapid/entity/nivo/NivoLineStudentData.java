@@ -4,9 +4,9 @@ import com.javapid.entity.PersonType;
 
 import java.util.List;
 
-public class NivoStudentLineData extends NivoAbstractLineData {
+public class NivoLineStudentData extends NivoLineAbstractData {
 
-    public NivoStudentLineData(List<DataXY> data) {
+    public NivoLineStudentData(List<DataXY> data) {
         setId(PersonType.STUDENT.getValue());
         setData(data);
     }

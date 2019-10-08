@@ -1,18 +1,16 @@
 package com.javapid.entity.nivo;
 
-import com.sun.org.apache.xpath.internal.objects.XString;
-
 import java.util.List;
 
-public abstract class NivoAbstractLineData {
+public abstract class NivoLineAbstractData {
 
     private String id;
     private List<DataXY> data;
 
-    public NivoAbstractLineData() {
+    public NivoLineAbstractData() {
     }
 
-    public NivoAbstractLineData(String id, List<DataXY> data) {
+    public NivoLineAbstractData(String id, List<DataXY> data) {
         this.id = id;
         this.data = data;
     }

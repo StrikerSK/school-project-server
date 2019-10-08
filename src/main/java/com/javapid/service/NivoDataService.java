@@ -14,14 +14,14 @@ public class NivoDataService {
 	@Autowired
 	private PidRepository repository;
 
-	public List<NivoAbstractLineData> getNivoData(){
-		NivoAbstractLineData adultData = new NivoAdultLineData(repository.getAdultSum());
-		NivoAbstractLineData studentData = new NivoStudentLineData(repository.getStudentSum());
-		NivoAbstractLineData seniorData = new NivoSeniorLineData(repository.getSeniorSum());
-		NivoAbstractLineData juniorData  = new NivoJuniorLineData(repository.getJuniorSum());
-		NivoAbstractLineData portableData  = new NivoPortableLineData(repository.getPortableSum());
+	public List<NivoLineAbstractData> getNivoData(){
+		NivoLineAbstractData adultData = new NivoLineAdultData(repository.getAdultSum());
+		NivoLineAbstractData studentData = new NivoLineStudentData(repository.getStudentSum());
+		NivoLineAbstractData seniorData = new NivoLineSeniorData(repository.getSeniorSum());
+		NivoLineAbstractData juniorData  = new NivoLineJuniorData(repository.getJuniorSum());
+		NivoLineAbstractData portableData  = new NivoLinePortableData(repository.getPortableSum());
 
-		List<NivoAbstractLineData> personList = new ArrayList<>();
+		List<NivoLineAbstractData> personList = new ArrayList<>();
 		personList.add(adultData);
 		personList.add(studentData);
 		personList.add(seniorData);
@@ -29,5 +29,9 @@ public class NivoDataService {
 		personList.add(portableData);
 
 		return personList;
+	}
+
+	public List<NivoBarData> getNivoBarData(){
+		return repository.getNivoBarData();
 	}
 }

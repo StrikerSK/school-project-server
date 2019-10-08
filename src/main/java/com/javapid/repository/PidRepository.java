@@ -2,6 +2,7 @@ package com.javapid.repository;
 
 import com.javapid.entity.PidData;
 import com.javapid.entity.nivo.DataXY;
+import com.javapid.entity.nivo.NivoBarData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -27,5 +28,8 @@ public interface PidRepository extends JpaRepository<PidData, Long> {
 
 	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(students)) from PidData group by code,month order by code asc")
 	List<DataXY> getStudentSum();
+
+	@Query("SELECT new com.javapid.entity.nivo.NivoBarData(month,sum(adults),sum(seniors),sum(junior),sum(students),sum(portable)) from PidData group by code,month order by code asc")
+	List<NivoBarData> getNivoBarData();
 
 }
