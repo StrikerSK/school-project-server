@@ -18,19 +18,12 @@ public class NivoDataService {
 	private PidRepository repository;
 
 	public List<NivoLineAbstractData> getNivoData(){
-		NivoLineAbstractData adultData = new NivoLineAdultData(repository.getAdultSum());
-		NivoLineAbstractData studentData = new NivoLineStudentData(repository.getStudentSum());
-		NivoLineAbstractData seniorData = new NivoLineSeniorData(repository.getSeniorSum());
-		NivoLineAbstractData juniorData  = new NivoLineJuniorData(repository.getJuniorSum());
-		NivoLineAbstractData portableData  = new NivoLinePortableData(repository.getPortableSum());
-
 		List<NivoLineAbstractData> personList = new ArrayList<>();
-		personList.add(adultData);
-		personList.add(studentData);
-		personList.add(seniorData);
-		personList.add(juniorData);
-		personList.add(portableData);
-
+		personList.add(new NivoLineAdultData(repository.getAdultSum()));
+		personList.add(new NivoLineStudentData(repository.getStudentSum()));
+		personList.add(new NivoLineSeniorData(repository.getSeniorSum()));
+		personList.add(new NivoLineJuniorData(repository.getJuniorSum()));
+		personList.add(new NivoLinePortableData(repository.getPortableSum()));
 		return personList;
 	}
 
@@ -41,19 +34,11 @@ public class NivoDataService {
 	public List<NivoPieAbstractData> getNivoPieData(){
 		DataSumDTO pieData = repository.getNivoPieData();
 		List<NivoPieAbstractData> outputData = new ArrayList<>();
-
-		NivoPieAbstractData adultData = new NivoPieAdultData(pieData.getAdults());
-		NivoPieAbstractData studentData = new NivoPieStudentData(pieData.getStudents());
-		NivoPieAbstractData seniorData = new NivoPieSeniorData(pieData.getSeniors());
-		NivoPieAbstractData juniorData  = new NivoPieJuniorData(pieData.getJuniors());
-		NivoPieAbstractData portableData  = new NivoPiePortableData(pieData.getPortable());
-
-		outputData.add(adultData);
-		outputData.add(studentData);
-		outputData.add(seniorData);
-		outputData.add(juniorData);
-		outputData.add(portableData);
-
+		outputData.add(new NivoPieAdultData(pieData.getAdults()));
+		outputData.add(new NivoPieStudentData(pieData.getStudents()));
+		outputData.add(new NivoPieSeniorData(pieData.getSeniors()));
+		outputData.add(new NivoPieJuniorData(pieData.getJuniors()));
+		outputData.add(new NivoPiePortableData(pieData.getPortable()));
 		return outputData;
 	}
 }

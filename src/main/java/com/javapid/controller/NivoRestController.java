@@ -27,7 +27,7 @@ public class NivoRestController {
         return nivoDataService.getNivoBarData();
     }
 
-    @RequestMapping("pie")
+    @RequestMapping({"pie","waffle"})
     public List<NivoPieAbstractData> retrievePieData(){
         return nivoDataService.getNivoPieData();
     }
