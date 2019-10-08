@@ -1,6 +1,7 @@
-package com.javapid.entity.nivo;
+package com.javapid.entity.nivo.line;
 
 import com.javapid.entity.PersonType;
+import com.javapid.entity.nivo.DataXY;
 
 import java.util.List;
 

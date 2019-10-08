@@ -3,10 +3,10 @@ package com.javapid.entity.enums;
 public enum PersonType {
 
     ADULT("Dospelý"),
-    SENIOR("Dôchodca"),
-    JUNIOR("Junior"),
+    SENIOR("Dôchodcovia"),
+    JUNIOR("Juniori"),
     PORTABLE("Prenosná"),
-    STUDENT("Študent");
+    STUDENT("Študenti");
 
     private String value;
 

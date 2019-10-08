@@ -1,5 +1,6 @@
 package com.javapid.repository;
 
+import com.javapid.entity.nivo.DataSumDTO;
 import com.javapid.entity.PidData;
 import com.javapid.entity.nivo.DataXY;
 import com.javapid.entity.nivo.NivoBarData;
@@ -32,4 +33,6 @@ public interface PidRepository extends JpaRepository<PidData, Long> {
 	@Query("SELECT new com.javapid.entity.nivo.NivoBarData(month,sum(adults),sum(seniors),sum(junior),sum(students),sum(portable)) from PidData group by code,month order by code asc")
 	List<NivoBarData> getNivoBarData();
 
+	@Query("SELECT new com.javapid.entity.nivo.DataSumDTO(sum(adults),sum(seniors),sum(junior),sum(students),sum(portable)) from PidData group by year")
+	DataSumDTO getNivoPieData();
 }

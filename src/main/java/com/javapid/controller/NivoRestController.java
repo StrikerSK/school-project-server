@@ -1,7 +1,8 @@
 package com.javapid.controller;
 
-import com.javapid.entity.nivo.NivoLineAbstractData;
+import com.javapid.entity.nivo.line.NivoLineAbstractData;
 import com.javapid.entity.nivo.NivoBarData;
+import com.javapid.entity.nivo.pie.NivoPieAbstractData;
 import com.javapid.service.NivoDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,4 +27,8 @@ public class NivoRestController {
         return nivoDataService.getNivoBarData();
     }
 
+    @RequestMapping("pie")
+    public List<NivoPieAbstractData> retrievePieData(){
+        return nivoDataService.getNivoPieData();
+    }
 }
