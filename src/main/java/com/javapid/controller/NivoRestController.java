@@ -19,7 +19,7 @@ public class NivoRestController {
 
     @RequestMapping("line")
     public List<NivoLineAbstractData> getData(){
-        return nivoDataService.getNivoData();
+        return nivoDataService.getNivoLineData();
     }
 
     @RequestMapping("bar")

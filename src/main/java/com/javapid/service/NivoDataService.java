@@ -5,7 +5,6 @@ import com.javapid.entity.nivo.*;
 import com.javapid.entity.nivo.line.*;
 import com.javapid.entity.nivo.pie.*;
 import com.javapid.repository.PidRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,10 +13,13 @@ import java.util.List;
 @Service
 public class NivoDataService {
 
-	@Autowired
-	private PidRepository repository;
+	private final PidRepository repository;
 
-	public List<NivoLineAbstractData> getNivoData(){
+	public NivoDataService(PidRepository repository) {
+		this.repository = repository;
+	}
+
+	public List<NivoLineAbstractData> getNivoLineData(){
 		List<NivoLineAbstractData> personList = new ArrayList<>();
 		personList.add(new NivoLineAdultData(repository.getAdultSum()));
 		personList.add(new NivoLineStudentData(repository.getStudentSum()));
