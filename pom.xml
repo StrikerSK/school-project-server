@@ -79,6 +79,34 @@
 
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+                <spring.datasource.driver-class-name>org.postgresql.Driver</spring.datasource.driver-class-name>
+                <spring.datasource.url>jdbc:postgresql://localhost:5432/PidDB</spring.datasource.url>
+                <spring.datasource.username>hank03</spring.datasource.username>
+                <spring.datasource.password>Database4hank</spring.datasource.password>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <activation>
+                <!-- this profile is active by default -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+                <spring.datasource.driver-class-name>org.postgresql.Driver</spring.datasource.driver-class-name>
+                <spring.datasource.url>jdbc:postgresql://ec2-54-75-235-28.eu-west-1.compute.amazonaws.com:5432/de1aapeq360ln5</spring.datasource.url>
+                <spring.datasource.username>kzyoxwtphkpejr</spring.datasource.username>
+                <spring.datasource.password>68b4eb9fade9ae11feee10658599549f58521ec9e26835473fc0bfaa3eb5dc37</spring.datasource.password>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
