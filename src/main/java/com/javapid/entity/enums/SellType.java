@@ -1,4 +1,4 @@
-package com.javapid.entity;
+package com.javapid.entity.enums;
 
 public enum SellType {
 
