@@ -6,8 +6,10 @@ import com.javapid.entity.nivo.DataXY;
 import com.javapid.entity.nivo.NivoBarData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -15,24 +17,24 @@ public interface PidRepository extends JpaRepository<PidData, Long> {
 
 	List<PidData> getByCode(String code);
 
-	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(adults)) from PidData group by code,month order by code asc")
-	List<DataXY> getAdultSum();
+	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(adults)) from PidData WHERE validity IN :validity group by code,month order by code asc")
+	List<DataXY> getAdultSum(@Param("validity") Collection<String> queryType);
 
-	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(junior)) from PidData group by code,month order by code asc")
-	List<DataXY> getJuniorSum();
+	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(junior)) from PidData WHERE validity IN :validity group by code,month order by code asc")
+	List<DataXY> getJuniorSum(@Param("validity") Collection<String> queryType);
 
-	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(seniors)) from PidData group by code,month order by code asc")
-	List<DataXY> getSeniorSum();
+	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(seniors)) from PidData WHERE validity IN :validity group by code,month order by code asc")
+	List<DataXY> getSeniorSum(@Param("validity") Collection<String> queryType);
 
-	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(portable)) from PidData group by code,month order by code asc")
-	List<DataXY> getPortableSum();
+	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(portable)) from PidData WHERE validity IN :validity group by code,month order by code asc")
+	List<DataXY> getPortableSum(@Param("validity") Collection<String> queryType);
 
-	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(students)) from PidData group by code,month order by code asc")
-	List<DataXY> getStudentSum();
+	@Query("SELECT new com.javapid.entity.nivo.DataXY(month,sum(students)) from PidData WHERE validity IN :validity group by code,month order by code asc")
+	List<DataXY> getStudentSum(@Param("validity") Collection<String> queryType);
 
-	@Query("SELECT new com.javapid.entity.nivo.NivoBarData(month,sum(adults),sum(seniors),sum(junior),sum(students),sum(portable)) from PidData group by code,month order by code asc")
-	List<NivoBarData> getNivoBarData();
+	@Query("SELECT new com.javapid.entity.nivo.NivoBarData(month,sum(adults),sum(seniors),sum(junior),sum(students),sum(portable)) from PidData WHERE validity IN :validity group by code,month order by code asc")
+	List<NivoBarData> getNivoBarData(@Param("validity") Collection<String> queryType);
 
-	@Query("SELECT new com.javapid.entity.nivo.DataSumDTO(sum(adults),sum(seniors),sum(junior),sum(students),sum(portable)) from PidData group by year")
-	DataSumDTO getNivoPieData();
+	@Query("SELECT new com.javapid.entity.nivo.DataSumDTO(SUM(adults),SUM(seniors),SUM(junior),SUM(students),SUM(portable)) FROM PidData WHERE validity IN :validity GROUP BY year")
+	DataSumDTO getNivoPieData(@Param("validity") Collection<String> queryType);
 }
