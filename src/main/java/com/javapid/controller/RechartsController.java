@@ -19,13 +19,15 @@ public class RechartsController {
 
     @RequestMapping("/area")
     public List<NivoBarData> getAreaChart(@RequestParam(required = false) List<String> validity,
-                                          @RequestParam(required = false) List<String> type) {
-        return rechartsService.getAreaChartData(validity, type);
+                                          @RequestParam(required = false) List<String> type,
+                                          @RequestParam(required = false) List<String> month) {
+        return rechartsService.getAreaChartData(validity, type, month);
     }
 
     @RequestMapping({"/bar", "/pie"})
     public List<List<PersonAbstractClass>> getBarData(@RequestParam(required = false) List<String> validity,
-                                                      @RequestParam(required = false) List<String> type) {
-        return rechartsService.getPersonData(validity, type);
+                                                      @RequestParam(required = false) List<String> type,
+                                                      @RequestParam(required = false) List<String> month) {
+        return rechartsService.getPersonData(validity, type, month);
     }
 }

@@ -22,19 +22,22 @@ public class NivoRestController {
 
     @RequestMapping("line")
     public List<NivoLineAbstractData> getData(@RequestParam(required = false) List<String> validity,
-                                              @RequestParam(required = false) List<String> type) {
-        return nivoDataService.getNivoLineData(validity, type);
+                                              @RequestParam(required = false) List<String> type,
+                                              @RequestParam(required = false) List<String> month) {
+        return nivoDataService.getNivoLineData(validity, type, month);
     }
 
     @RequestMapping("bar")
     public List<NivoBarData> retrieveBarData(@RequestParam(required = false) List<String> validity,
-                                             @RequestParam(required = false) List<String> type) {
-        return nivoDataService.getNivoBarData(validity, type);
+                                             @RequestParam(required = false) List<String> type,
+                                             @RequestParam(required = false) List<String> month) {
+        return nivoDataService.getNivoBarData(validity, type, month);
     }
 
     @RequestMapping({"pie", "waffle"})
     public List<NivoPieAbstractData> retrievePieData(@RequestParam(required = false) List<String> validity,
-                                                     @RequestParam(required = false) List<String> type) {
-        return nivoDataService.getNivoPieData(validity, type);
+                                                     @RequestParam(required = false) List<String> type,
+                                                     @RequestParam(required = false) List<String> month) {
+        return nivoDataService.getNivoPieData(validity, type, month);
     }
 }
