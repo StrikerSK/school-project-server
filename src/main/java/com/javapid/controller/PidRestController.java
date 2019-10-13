@@ -14,25 +14,25 @@ import java.util.List;
 @RestController
 public class PidRestController {
 
-	private final PidService pidService;
+    private final PidService pidService;
 
-	public PidRestController(PidService pidService) {
-		this.pidService = pidService;
-	}
+    public PidRestController(PidService pidService) {
+        this.pidService = pidService;
+    }
 
-	@RequestMapping(name = "/getData")
-	public List<PidData> getData(){
-		return pidService.getAllData();
-	}
+    @RequestMapping(name = "/getData")
+    public List<PidData> getData() {
+        return pidService.getAllData();
+    }
 
-	@RequestMapping("/uploadJson")
-	public void uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-		pidService.saveDataFromFile(file);
-	}
+    @RequestMapping("/uploadJson")
+    public void uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        pidService.saveDataFromFile(file);
+    }
 
-	@RequestMapping("/getData/{code}")
-	public List<PidData> uploadFile(@PathVariable String code) {
-		return pidService.getDataByCode(code);
-	}
+    @RequestMapping("/getData/{code}")
+    public List<PidData> uploadFile(@PathVariable String code) {
+        return pidService.getDataByCode(code);
+    }
 
 }

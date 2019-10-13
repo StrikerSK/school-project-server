@@ -4,7 +4,7 @@ public abstract class PersonAbstractClass {
 
     private String name;
     private String month;
-    private Integer value;
+    private Long value;
 
     public String getName() {
         return name;
@@ -22,11 +22,11 @@ public abstract class PersonAbstractClass {
         this.month = month;
     }
 
-    public Integer getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 }

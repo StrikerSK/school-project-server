@@ -1,33 +1,42 @@
 package com.javapid.service;
 
 import com.javapid.entity.PidData;
+import com.javapid.entity.nivo.NivoBarData;
 import com.javapid.objects.recharts.PersonAbstractClass;
-import com.javapid.objects.recharts.AreaChartData;
 import com.javapid.repository.PidRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.javapid.service.Validators.verifySellTypeList;
+import static com.javapid.service.Validators.verifyValidityList;
+
 @Service
 public class RechartsService {
 
-    @Autowired
-    private PidRepository pidRepository;
+    private final PidRepository pidRepository;
 
-    public List<AreaChartData> getAreaChartData(Integer year, String sellType){
-        List<PidData> dataList = pidRepository.getAllByYearOrderByCode(year);
+    public RechartsService(PidRepository pidRepository) {
+        this.pidRepository = pidRepository;
+    }
+
+    public List<NivoBarData> getAreaChartData(List<String> validations, List<String> sellTypes) {
+        validations = verifyValidityList(validations);
+        sellTypes = verifySellTypeList(sellTypes);
+
+        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes);
         return dataList.stream()
-                .filter(e -> sellType.equals(e.getType()))
                 .map(DataCreator::createAreaChartData)
                 .collect(Collectors.toList());
     }
 
-    public List<List<PersonAbstractClass>> getPersonData(Integer year, String sellType){
-        List<PidData> dataList = pidRepository.getAllByYearOrderByCode(year);
+    public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes) {
+        validations = verifyValidityList(validations);
+        sellTypes = verifySellTypeList(sellTypes);
+
+        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes);
         return dataList.stream()
-                .filter(e -> sellType.equals(e.getType()))
                 .map(DataCreator::createPeronList)
                 .collect(Collectors.toList());
     }

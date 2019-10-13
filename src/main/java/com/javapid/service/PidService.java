@@ -13,26 +13,26 @@ import static com.javapid.service.FileParser.getEmployeeFromJson;
 @Service
 public class PidService {
 
-	private final PidRepository pidRepository;
+    private final PidRepository pidRepository;
 
-	public PidService(PidRepository pidRepository) {
-		this.pidRepository = pidRepository;
-	}
+    public PidService(PidRepository pidRepository) {
+        this.pidRepository = pidRepository;
+    }
 
-	public void saveData(PidData data){
-		pidRepository.save(data);
-	}
+    public void saveData(PidData data) {
+        pidRepository.save(data);
+    }
 
-	public void saveDataFromFile(MultipartFile file) throws IOException {
-		PidData data = getEmployeeFromJson(file);
-		saveData(data);
-	}
+    public void saveDataFromFile(MultipartFile file) throws IOException {
+        PidData data = getEmployeeFromJson(file);
+        saveData(data);
+    }
 
-	public List<PidData> getAllData(){
-		return pidRepository.findAll();
-	}
+    public List<PidData> getAllData() {
+        return pidRepository.findAll();
+    }
 
-	public List<PidData> getDataByCode(String code){
-		return pidRepository.getByCode(code);
-	}
+    public List<PidData> getDataByCode(String code) {
+        return pidRepository.getByCode(code);
+    }
 }
