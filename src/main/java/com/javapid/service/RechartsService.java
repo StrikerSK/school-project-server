@@ -1,6 +1,5 @@
 package com.javapid.service;
 
-import com.javapid.entity.PidData;
 import com.javapid.entity.nivo.NivoBarData;
 import com.javapid.objects.recharts.PersonAbstractClass;
 import com.javapid.repository.PidRepository;
