@@ -1,5 +1,6 @@
 package com.javapid.service;
 
+import com.javapid.entity.enums.Months;
 import com.javapid.entity.enums.SellType;
 import com.javapid.entity.enums.Validity;
 
@@ -23,4 +24,10 @@ class Validators {
         return sellTypes;
     }
 
+    static List<String> verifyMonthsList(List<String> months) {
+        if (months == null) {
+            months = Stream.of(Months.values()).map(Months::getValue).collect(Collectors.toList());
+        }
+        return months;
+    }
 }

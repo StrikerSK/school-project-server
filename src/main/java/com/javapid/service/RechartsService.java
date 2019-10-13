@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.javapid.service.Validators.verifySellTypeList;
-import static com.javapid.service.Validators.verifyValidityList;
+import static com.javapid.service.Validators.*;
 
 @Service
 public class RechartsService {
@@ -20,21 +19,23 @@ public class RechartsService {
         this.pidRepository = pidRepository;
     }
 
-    public List<NivoBarData> getAreaChartData(List<String> validations, List<String> sellTypes) {
+    public List<NivoBarData> getAreaChartData(List<String> validations, List<String> sellTypes, List<String> months) {
         validations = verifyValidityList(validations);
         sellTypes = verifySellTypeList(sellTypes);
+        months = verifyMonthsList(months);
 
-        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes);
+        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes, months);
         return dataList.stream()
                 .map(DataCreator::createAreaChartData)
                 .collect(Collectors.toList());
     }
 
-    public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes) {
+    public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes, List<String> months) {
         validations = verifyValidityList(validations);
         sellTypes = verifySellTypeList(sellTypes);
+        months = verifyMonthsList(months);
 
-        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes);
+        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes, months);
         return dataList.stream()
                 .map(DataCreator::createPeronList)
                 .collect(Collectors.toList());
