@@ -1,7 +1,7 @@
 package com.javapid.controller;
 
+import com.javapid.entity.enums.SellType;
 import com.javapid.objects.recharts.PersonAbstractClass;
-import com.javapid.entity.SellType;
 import com.javapid.objects.recharts.AreaChartData;
 import com.javapid.service.RechartsService;
 import org.springframework.beans.factory.annotation.Autowired;
