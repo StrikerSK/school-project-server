@@ -1,6 +1,6 @@
 package com.javapid.entity.nivo.pie;
 
-import com.javapid.entity.PersonType;
+import com.javapid.entity.enums.PersonType;
 
 public class NivoPieSeniorData extends NivoPieAbstractData {
 

@@ -1,11 +1,22 @@
 package com.javapid.entity.nivo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public abstract class DataAbstract {
 
+    @JsonProperty("Dospelý")
     private Long adults;
+
+    @JsonProperty("Dôchodcovoa")
     private Long seniors;
+
+    @JsonProperty("Juniori")
     private Long juniors;
+
+    @JsonProperty("Študenti")
     private Long students;
+
+    @JsonProperty("Prenosné")
     private Long portable;
 
     public Long getAdults() {
