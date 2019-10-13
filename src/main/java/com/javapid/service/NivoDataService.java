@@ -38,14 +38,14 @@ public class NivoDataService {
 
     public List<NivoBarData> getNivoBarData(List<String> validities, List<String> sellTypes) {
         validities = verifyValidityList(validities);
-		sellTypes = verifySellTypeList(sellTypes);
+        sellTypes = verifySellTypeList(sellTypes);
 
         return repository.getNivoBarData(validities, sellTypes);
     }
 
     public List<NivoPieAbstractData> getNivoPieData(List<String> validities, List<String> sellTypes) {
         validities = verifyValidityList(validities);
-		sellTypes = verifySellTypeList(sellTypes);
+        sellTypes = verifySellTypeList(sellTypes);
 
         DataSumDTO pieData = repository.getNivoPieData(validities, sellTypes);
         List<NivoPieAbstractData> outputData = new ArrayList<>();

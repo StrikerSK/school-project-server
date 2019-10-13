@@ -4,6 +4,9 @@ public class NivoBarData extends DataAbstract {
 
     private String month;
 
+    public NivoBarData() {
+    }
+
     public NivoBarData(String month, Long adults, Long seniors, Long juniors, Long students, Long portable) {
         this.month = month;
         setAdults(adults);
