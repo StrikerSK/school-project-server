@@ -4,6 +4,7 @@ import com.javapid.entity.enums.Months;
 import com.javapid.entity.enums.SellType;
 import com.javapid.entity.enums.Validity;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,5 +30,12 @@ class Validators {
             months = Stream.of(Months.values()).map(Months::getValue).collect(Collectors.toList());
         }
         return months;
+    }
+
+    static List<Boolean> verifyDiscountedList(List<Boolean> discounted) {
+        if (discounted == null) {
+            discounted = Arrays.asList(true, false);
+        }
+        return discounted;
     }
 }
