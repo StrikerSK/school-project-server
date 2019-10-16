@@ -2,10 +2,11 @@ package com.javapid.controller;
 
 import com.javapid.entity.CouponEntity;
 import com.javapid.service.PidService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.javapid.service.graphql.GraphQLService;
+import graphql.ExecutionResult;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,9 +17,12 @@ public class PidRestController {
 
 	private final PidService pidService;
 
-	public PidRestController(PidService pidService) {
-		this.pidService = pidService;
-	}
+    private final GraphQLService graphQLService;
+
+    public PidRestController(PidService pidService, GraphQLService graphQLService) {
+        this.pidService = pidService;
+        this.graphQLService = graphQLService;
+    }
 
 	@RequestMapping(name = "/getData")
 	public List<CouponEntity> getData() {
@@ -34,4 +38,12 @@ public class PidRestController {
 	public List<CouponEntity> uploadFile(@PathVariable String code) {
 		return pidService.getDataByCode(code);
 	}
+
+    @PostMapping("/graphql")
+    public ResponseEntity<Object> getAllBarData(@RequestBody String query){
+        ExecutionResult executionResult = graphQLService.getGraphQL().execute(query);
+
+        return new ResponseEntity<>(executionResult, HttpStatus.OK);
+    }
+
 }
