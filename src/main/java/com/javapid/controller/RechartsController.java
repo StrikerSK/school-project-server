@@ -14,20 +14,20 @@ import java.util.List;
 @RequestMapping("/recharts")
 public class RechartsController {
 
-    @Autowired
-    private RechartsService rechartsService;
+	@Autowired
+	private RechartsService rechartsService;
 
-    @RequestMapping("/area")
-    public List<NivoBarData> getAreaChart(@RequestParam(required = false) List<String> validity,
-                                          @RequestParam(required = false) List<String> type,
-                                          @RequestParam(required = false) List<String> month) {
-        return rechartsService.getAreaChartData(validity, type, month);
-    }
+	@RequestMapping("/area")
+	public List<NivoBarData> getAreaChart(@RequestParam(required = false) List<String> validity,
+	                                      @RequestParam(required = false) List<String> type,
+	                                      @RequestParam(required = false) List<String> month) {
+		return rechartsService.getAreaChartData(validity, type, month);
+	}
 
-    @RequestMapping({"/bar", "/pie"})
-    public List<List<PersonAbstractClass>> getBarData(@RequestParam(required = false) List<String> validity,
-                                                      @RequestParam(required = false) List<String> type,
-                                                      @RequestParam(required = false) List<String> month) {
-        return rechartsService.getPersonData(validity, type, month);
-    }
+	@RequestMapping({"/bar", "/pie"})
+	public List<List<PersonAbstractClass>> getBarData(@RequestParam(required = false) List<String> validity,
+	                                                  @RequestParam(required = false) List<String> type,
+	                                                  @RequestParam(required = false) List<String> month) {
+		return rechartsService.getPersonData(validity, type, month);
+	}
 }
