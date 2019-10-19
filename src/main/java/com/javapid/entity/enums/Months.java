@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum Months {
+public enum Months implements ValueGetter {
 
 	JANUARY("Január"),
 	FEBRUARY("Február"),
@@ -21,6 +21,7 @@ public enum Months {
 		this.value = value;
 	}
 
+	@Override
 	public String getValue() {
 		return value;
 	}

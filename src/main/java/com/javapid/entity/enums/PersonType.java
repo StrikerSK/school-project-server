@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum PersonType {
+public enum PersonType implements ValueGetter {
 
 	ADULT("Dospelý"),
 	SENIOR("Dôchodcovia"),
@@ -14,6 +14,7 @@ public enum PersonType {
 		this.value = value;
 	}
 
+	@Override
 	public String getValue() {
 		return value;
 	}

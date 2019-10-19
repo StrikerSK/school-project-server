@@ -19,23 +19,23 @@ public class RechartsService {
         this.pidRepository = pidRepository;
     }
 
-    public List<NivoBarData> getAreaChartData(List<String> validations, List<String> sellTypes, List<String> months) {
+    public List<NivoBarData> getAreaChartData(List<String> validations, List<String> sellTypes, List<String> months, List<String> year) {
         validations = verifyValidityList(validations);
         sellTypes = verifySellTypeList(sellTypes);
         months = verifyMonthsList(months);
 
-        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes, months);
+        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes, months, verifyYears(year));
         return dataList.stream()
                 .map(DataCreator::createAreaChartData)
                 .collect(Collectors.toList());
     }
 
-    public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes, List<String> months) {
+    public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes, List<String> months, List<String> year) {
         validations = verifyValidityList(validations);
         sellTypes = verifySellTypeList(sellTypes);
         months = verifyMonthsList(months);
 
-        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes, months);
+        List<NivoBarData> dataList = pidRepository.getNivoBarData(validations, sellTypes, months, verifyYears(year));
         return dataList.stream()
                 .map(DataCreator::createPeronList)
                 .collect(Collectors.toList());
