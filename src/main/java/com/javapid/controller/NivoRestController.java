@@ -47,26 +47,26 @@ public class NivoRestController {
 		return nivoDataService.getNivoPieData(validity, type, month, year, person);
 	}
 
-	@RequestMapping("/jizdenky/line")
+	@RequestMapping("/tickets/line")
 	public List<NivoLineAbstractData> getData(@RequestParam(required = false) List<Boolean> discounted,
 	                                          @RequestParam(required = false) List<String> month,
 	                                          @RequestParam(required = false) List<String> year,
-	                                          @RequestParam(required = false) List<String> jizdenky) {
-		return nivoDataService.getJizdenyLineData(discounted, month, year, jizdenky);
+	                                          @RequestParam(required = false) List<String> ticket) {
+		return nivoDataService.getJizdenyLineData(discounted, month, year, ticket);
 	}
 
-	@RequestMapping("/jizdenky/bar")
+	@RequestMapping("/tickets/bar")
 	public List<NivoJizdenkyBarData> retrieveBarData(@RequestParam(required = false) List<Boolean> discounted,
 	                                                 @RequestParam(required = false) List<String> month,
 	                                                 @RequestParam(required = false) List<String> year) {
 		return nivoDataService.getJizdenkyBarData(discounted, month, year);
 	}
 
-	@RequestMapping({"/jizdenky/pie", "/jizdenky/waffle"})
+	@RequestMapping({"/tickets/pie", "/tickets/waffle"})
 	public List<NivoPieAbstractData> retrievePieData(@RequestParam(required = false) List<Boolean> discounted,
 	                                                 @RequestParam(required = false) List<String> month,
 	                                                 @RequestParam(required = false) List<String> year,
-	                                                 @RequestParam(required = false) List<String> jizdenky) {
-		return nivoDataService.getJizdenkyPieData(discounted, month, year, jizdenky);
+	                                                 @RequestParam(required = false) List<String> ticket) {
+		return nivoDataService.getJizdenkyPieData(discounted, month, year, ticket);
 	}
 }

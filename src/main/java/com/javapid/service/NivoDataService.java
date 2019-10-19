@@ -1,6 +1,6 @@
 package com.javapid.service;
 
-import com.javapid.entity.enums.JizdenkyTypes;
+import com.javapid.entity.enums.TicketTypes;
 import com.javapid.entity.enums.PersonType;
 import com.javapid.entity.nivo.DataSumDTO;
 import com.javapid.entity.nivo.*;
@@ -96,62 +96,62 @@ public class NivoDataService {
 		return outputData;
 	}
 
-	public List<NivoLineAbstractData> getJizdenyLineData(List<Boolean> discounted, List<String> months, List<String> year, List<String> jizdenkyTypes) {
+	public List<NivoLineAbstractData> getJizdenyLineData(List<Boolean> discounted, List<String> months, List<String> year, List<String> ticketTypes) {
 		List<NivoLineAbstractData> personList = new ArrayList<>();
 
 		discounted = verifyDiscountedList(discounted);
 		months = verifyMonthsList(months);
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.FIFTEEN_MINUTES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.FIFTEEN_MINUTES.getValue(), jizdenkyRepository.getFifteenMinutes(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.FIFTEEN_MINUTES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.FIFTEEN_MINUTES.getValue(), jizdenkyRepository.getFifteenMinutes(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.ONE_DAY.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.ONE_DAY.getValue(), jizdenkyRepository.getOneDay(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.ONE_DAY.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.ONE_DAY.getValue(), jizdenkyRepository.getOneDay(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.ONE_DAY_ALL.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.ONE_DAY_ALL.getValue(), jizdenkyRepository.getOneDayAll(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.ONE_DAY_ALL.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.ONE_DAY_ALL.getValue(), jizdenkyRepository.getOneDayAll(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.TWO_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.TWO_ZONES.getValue(), jizdenkyRepository.getTwoZones(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.TWO_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.TWO_ZONES.getValue(), jizdenkyRepository.getTwoZones(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.THREE_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.THREE_ZONES.getValue(), jizdenkyRepository.getThreeZone(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.THREE_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.THREE_ZONES.getValue(), jizdenkyRepository.getThreeZone(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.FOUR_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.FOUR_ZONES.getValue(), jizdenkyRepository.getFourZone(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.FOUR_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.FOUR_ZONES.getValue(), jizdenkyRepository.getFourZone(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.FIVE_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.FIVE_ZONES.getValue(), jizdenkyRepository.getFiveZone(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.FIVE_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.FIVE_ZONES.getValue(), jizdenkyRepository.getFiveZone(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.SIX_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.SIX_ZONES.getValue(), jizdenkyRepository.getSixZone(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.SIX_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.SIX_ZONES.getValue(), jizdenkyRepository.getSixZone(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.SEVEN_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.SEVEN_ZONES.getValue(), jizdenkyRepository.getSevenZone(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.SEVEN_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.SEVEN_ZONES.getValue(), jizdenkyRepository.getSevenZone(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.EIGHT_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.EIGHT_ZONES.getValue(), jizdenkyRepository.getEightZone(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.EIGHT_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.EIGHT_ZONES.getValue(), jizdenkyRepository.getEightZone(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.NINE_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.NINE_ZONES.getValue(), jizdenkyRepository.getNineZone(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.NINE_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.NINE_ZONES.getValue(), jizdenkyRepository.getNineZone(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.TEN_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.TEN_ZONES.getValue(), jizdenkyRepository.getTenZone(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.TEN_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.TEN_ZONES.getValue(), jizdenkyRepository.getTenZone(discounted, months, verifyYears(year))));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.ELEVEN_ZONES.getValue())) {
-			personList.add(new NivoGeneralLineData(JizdenkyTypes.ELEVEN_ZONES.getValue(), jizdenkyRepository.getElevenZone(discounted, months, verifyYears(year))));
+		if(isTicketTypeRequested(ticketTypes, TicketTypes.ELEVEN_ZONES.getValue())) {
+			personList.add(new NivoGeneralLineData(TicketTypes.ELEVEN_ZONES.getValue(), jizdenkyRepository.getElevenZone(discounted, months, verifyYears(year))));
 		}
 		return personList;
 	}
@@ -170,56 +170,56 @@ public class NivoDataService {
 		DataSumJizdenkyDTO pieData = jizdenkyRepository.getJizdenkyPieData(discounted, months, verifyYears(year));
 		List<NivoPieAbstractData> outputData = new ArrayList<>();
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.FIFTEEN_MINUTES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.FIFTEEN_MINUTES.getValue(), pieData.getFifteenMinutes()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.FIFTEEN_MINUTES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.FIFTEEN_MINUTES.getValue(), pieData.getFifteenMinutes()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.ONE_DAY.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.ONE_DAY.getValue(), pieData.getOneDay()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.ONE_DAY.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.ONE_DAY.getValue(), pieData.getOneDay()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.ONE_DAY_ALL.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.ONE_DAY_ALL.getValue(), pieData.getOneDayAll()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.ONE_DAY_ALL.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.ONE_DAY_ALL.getValue(), pieData.getOneDayAll()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.TWO_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.TWO_ZONES.getValue(), pieData.getTwoZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.TWO_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.TWO_ZONES.getValue(), pieData.getTwoZones()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.THREE_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.THREE_ZONES.getValue(), pieData.getThreeZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.THREE_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.THREE_ZONES.getValue(), pieData.getThreeZones()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.FOUR_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.FOUR_ZONES.getValue(), pieData.getFourZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.FOUR_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.FOUR_ZONES.getValue(), pieData.getFourZones()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.FIVE_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.FIVE_ZONES.getValue(), pieData.getFiveZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.FIVE_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.FIVE_ZONES.getValue(), pieData.getFiveZones()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.SIX_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.SIX_ZONES.getValue(), pieData.getSixZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.SIX_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.SIX_ZONES.getValue(), pieData.getSixZones()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.SEVEN_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.SEVEN_ZONES.getValue(), pieData.getSevenZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.SEVEN_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.SEVEN_ZONES.getValue(), pieData.getSevenZones()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.TEN_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.EIGHT_ZONES.getValue(), pieData.getEightZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.TEN_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.EIGHT_ZONES.getValue(), pieData.getEightZones()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.NINE_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.NINE_ZONES.getValue(), pieData.getNineZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.NINE_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.NINE_ZONES.getValue(), pieData.getNineZones()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.TEN_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.TEN_ZONES.getValue(), pieData.getTenZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.TEN_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.TEN_ZONES.getValue(), pieData.getTenZones()));
 		}
 
-		if(isJizdenkyType(jizdenkyTypes,JizdenkyTypes.ELEVEN_ZONES.getValue())) {
-			outputData.add(new NivoGeneralPieData(JizdenkyTypes.ELEVEN_ZONES.getValue(), pieData.getElevenZones()));
+		if(isTicketTypeRequested(jizdenkyTypes, TicketTypes.ELEVEN_ZONES.getValue())) {
+			outputData.add(new NivoGeneralPieData(TicketTypes.ELEVEN_ZONES.getValue(), pieData.getElevenZones()));
 		}
 		return outputData;
 	}

@@ -48,17 +48,24 @@ class Validators {
 
 	static Boolean isPersonTypeRequested(List<String> personList, String personType){
 		try {
-			return personList.contains(personType);
+			return isEmptyList(personList, PersonType.values()).contains(personType);
 		} catch (NullPointerException e){
 			return true;
 		}
 	}
 
-	static Boolean isJizdenkyType(List<String> jizdenkyList, String personType){
+	static Boolean isTicketTypeRequested(List<String> ticketList, String personType){
 		try {
-			return jizdenkyList.contains(personType);
+			return isEmptyList(ticketList, TicketTypes.values()).contains(personType);
 		} catch (NullPointerException e){
 			return true;
 		}
+	}
+
+	private static <G extends ValueGetter> List<String> isEmptyList(List<String> inputArray, G[] defaultList){
+		if(inputArray.size() == 0){
+			return getEnumList(defaultList);
+		}
+		return inputArray;
 	}
 }
