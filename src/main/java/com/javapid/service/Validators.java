@@ -46,5 +46,26 @@ class Validators {
 		return Arrays.stream(enumValues).map(T::getValue).collect(Collectors.toList());
 	}
 
-	;
+	static Boolean isPersonTypeRequested(List<String> personList, String personType){
+		try {
+			return isEmptyList(personList, PersonType.values()).contains(personType);
+		} catch (NullPointerException e){
+			return true;
+		}
+	}
+
+	static Boolean isTicketTypeRequested(List<String> ticketList, String personType){
+		try {
+			return isEmptyList(ticketList, TicketTypes.values()).contains(personType);
+		} catch (NullPointerException e){
+			return true;
+		}
+	}
+
+	private static <G extends ValueGetter> List<String> isEmptyList(List<String> inputArray, G[] defaultList){
+		if(inputArray.size() == 0){
+			return getEnumList(defaultList);
+		}
+		return inputArray;
+	}
 }
