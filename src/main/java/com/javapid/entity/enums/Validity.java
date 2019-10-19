@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum Validity {
+public enum Validity implements ValueGetter {
 
 	MONTHLY("Mesačná"),
 	THREE_MONTHS("3 Mesačná"),
@@ -13,6 +13,7 @@ public enum Validity {
 		this.value = value;
 	}
 
+	@Override
 	public String getValue() {
 		return value;
 	}

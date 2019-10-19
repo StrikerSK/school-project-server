@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum JizdenkyTypes {
+public enum JizdenkyTypes implements ValueGetter{
 
 	FIFTEEN_MINUTES("15 Minútové"),
 	ONE_DAY("24 Hodinový - Pásmo P"),
@@ -22,6 +22,7 @@ public enum JizdenkyTypes {
 		this.value = value;
 	}
 
+	@Override
 	public String getValue() {
 		return value;
 	}

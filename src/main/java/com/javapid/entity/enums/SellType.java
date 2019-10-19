@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum SellType {
+public enum SellType implements ValueGetter {
 
 	CARD("Čipová karta"),
 	COUPON("Papierový kupón");
@@ -11,6 +11,7 @@ public enum SellType {
 		this.value = value;
 	}
 
+	@Override
 	public String getValue() {
 		return value;
 	}
