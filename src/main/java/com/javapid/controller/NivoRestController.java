@@ -47,19 +47,22 @@ public class NivoRestController {
 
 	@RequestMapping("/jizdenky/line")
 	public List<NivoLineAbstractData> getData(@RequestParam(required = false) List<Boolean> discounted,
-	                                          @RequestParam(required = false) List<String> month) {
-		return nivoDataService.getJizdenyLineData(discounted, month);
+	                                          @RequestParam(required = false) List<String> month,
+	                                          @RequestParam(required = false) List<String> year) {
+		return nivoDataService.getJizdenyLineData(discounted, month, year);
 	}
 
 	@RequestMapping("/jizdenky/bar")
 	public List<NivoJizdenkyBarData> retrieveBarData(@RequestParam(required = false) List<Boolean> discounted,
-	                                                 @RequestParam(required = false) List<String> month) {
-		return nivoDataService.getJizdenkyBarData(discounted, month);
+	                                                 @RequestParam(required = false) List<String> month,
+	                                                 @RequestParam(required = false) List<String> year) {
+		return nivoDataService.getJizdenkyBarData(discounted, month, year);
 	}
 
 	@RequestMapping({"/jizdenky/pie", "/jizdenky/waffle"})
 	public List<NivoPieAbstractData> retrievePieData(@RequestParam(required = false) List<Boolean> discounted,
-	                                                 @RequestParam(required = false) List<String> month) {
-		return nivoDataService.getJizdenkyPieData(discounted, month);
+	                                                 @RequestParam(required = false) List<String> month,
+	                                                 @RequestParam(required = false) List<String> year) {
+		return nivoDataService.getJizdenkyPieData(discounted, month, year);
 	}
 }
