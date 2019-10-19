@@ -7,7 +7,7 @@ public abstract class DataAbstract {
     @JsonProperty("Dospelý")
     private Long adults;
 
-    @JsonProperty("Dôchodcovoa")
+    @JsonProperty("Dôchodcovia")
     private Long seniors;
 
     @JsonProperty("Juniori")
