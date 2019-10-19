@@ -26,37 +26,37 @@ public class NivoDataService {
         this.jizdenkyRepository = jizdenkyRepository;
     }
 
-    public List<NivoLineAbstractData> getNivoLineData(List<String> validities, List<String> sellTypes, List<String> months) {
+    public List<NivoLineAbstractData> getNivoLineData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year) {
         List<NivoLineAbstractData> personList = new ArrayList<>();
 
         validities = verifyValidityList(validities);
         sellTypes = verifySellTypeList(sellTypes);
         months = verifyMonthsList(months);
 
-        personList.add(new NivoLineAdultData(repository.getAdultSum(validities, sellTypes, months)));
-        personList.add(new NivoLineStudentData(repository.getStudentSum(validities, sellTypes, months)));
-        personList.add(new NivoLineSeniorData(repository.getSeniorSum(validities, sellTypes, months)));
-        personList.add(new NivoLineJuniorData(repository.getJuniorSum(validities, sellTypes, months)));
-        personList.add(new NivoLinePortableData(repository.getPortableSum(validities, sellTypes, months)));
+        personList.add(new NivoLineAdultData(repository.getAdultSum(validities, sellTypes, months, verifyYears(year))));
+        personList.add(new NivoLineStudentData(repository.getStudentSum(validities, sellTypes, months, verifyYears(year))));
+        personList.add(new NivoLineSeniorData(repository.getSeniorSum(validities, sellTypes, months, verifyYears(year))));
+        personList.add(new NivoLineJuniorData(repository.getJuniorSum(validities, sellTypes, months, verifyYears(year))));
+        personList.add(new NivoLinePortableData(repository.getPortableSum(validities, sellTypes, months, verifyYears(year))));
         return personList;
     }
 
-    public List<NivoBarData> getNivoBarData(List<String> validities, List<String> sellTypes, List<String> months) {
+    public List<NivoBarData> getNivoBarData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year) {
 
         validities = verifyValidityList(validities);
         sellTypes = verifySellTypeList(sellTypes);
         months = verifyMonthsList(months);
 
-        return repository.getNivoBarData(validities, sellTypes, months);
+        return repository.getNivoBarData(validities, sellTypes, months, verifyYears(year));
     }
 
-    public List<NivoPieAbstractData> getNivoPieData(List<String> validities, List<String> sellTypes, List<String> months) {
+    public List<NivoPieAbstractData> getNivoPieData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year) {
 
         validities = verifyValidityList(validities);
         sellTypes = verifySellTypeList(sellTypes);
         months = verifyMonthsList(months);
 
-        DataSumDTO pieData = repository.getNivoPieData(validities, sellTypes, months);
+        DataSumDTO pieData = repository.getNivoPieData(validities, sellTypes, months, verifyYears(year));
         List<NivoPieAbstractData> outputData = new ArrayList<>();
         outputData.add(new NivoPieAdultData(pieData.getAdults()));
         outputData.add(new NivoPieStudentData(pieData.getStudents()));
