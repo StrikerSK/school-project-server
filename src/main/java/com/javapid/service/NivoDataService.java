@@ -1,6 +1,7 @@
 package com.javapid.service;
 
 import com.javapid.entity.enums.JizdenkyTypes;
+import com.javapid.entity.enums.PersonType;
 import com.javapid.entity.nivo.DataSumDTO;
 import com.javapid.entity.nivo.*;
 import com.javapid.entity.nivo.line.*;
@@ -26,18 +27,32 @@ public class NivoDataService {
 		this.jizdenkyRepository = jizdenkyRepository;
 	}
 
-	public List<NivoLineAbstractData> getNivoLineData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year) {
+	public List<NivoLineAbstractData> getNivoLineData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
 		List<NivoLineAbstractData> personList = new ArrayList<>();
 
 		validities = verifyValidityList(validities);
 		sellTypes = verifySellTypeList(sellTypes);
 		months = verifyMonthsList(months);
 
-		personList.add(new NivoLineAdultData(repository.getAdultSum(validities, sellTypes, months, verifyYears(year))));
-		personList.add(new NivoLineStudentData(repository.getStudentSum(validities, sellTypes, months, verifyYears(year))));
-		personList.add(new NivoLineSeniorData(repository.getSeniorSum(validities, sellTypes, months, verifyYears(year))));
-		personList.add(new NivoLineJuniorData(repository.getJuniorSum(validities, sellTypes, months, verifyYears(year))));
-		personList.add(new NivoLinePortableData(repository.getPortableSum(validities, sellTypes, months, verifyYears(year))));
+		if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
+			personList.add(new NivoLineAdultData(repository.getAdultSum(validities, sellTypes, months, verifyYears(year))));
+		}
+
+		if (isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
+			personList.add(new NivoLineStudentData(repository.getStudentSum(validities, sellTypes, months, verifyYears(year))));
+		}
+
+		if (isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
+			personList.add(new NivoLineSeniorData(repository.getSeniorSum(validities, sellTypes, months, verifyYears(year))));
+		}
+
+		if (isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
+			personList.add(new NivoLineJuniorData(repository.getJuniorSum(validities, sellTypes, months, verifyYears(year))));
+		}
+
+		if (isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
+			personList.add(new NivoLinePortableData(repository.getPortableSum(validities, sellTypes, months, verifyYears(year))));
+		}
 		return personList;
 	}
 
@@ -50,7 +65,7 @@ public class NivoDataService {
 		return repository.getNivoBarData(validities, sellTypes, months, verifyYears(year));
 	}
 
-	public List<NivoPieAbstractData> getNivoPieData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year) {
+	public List<NivoPieAbstractData> getNivoPieData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
 
 		validities = verifyValidityList(validities);
 		sellTypes = verifySellTypeList(sellTypes);
@@ -58,11 +73,26 @@ public class NivoDataService {
 
 		DataSumDTO pieData = repository.getNivoPieData(validities, sellTypes, months, verifyYears(year));
 		List<NivoPieAbstractData> outputData = new ArrayList<>();
-		outputData.add(new NivoPieAdultData(pieData.getAdults()));
-		outputData.add(new NivoPieStudentData(pieData.getStudents()));
-		outputData.add(new NivoPieSeniorData(pieData.getSeniors()));
-		outputData.add(new NivoPieJuniorData(pieData.getJuniors()));
-		outputData.add(new NivoPiePortableData(pieData.getPortable()));
+
+		if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
+			outputData.add(new NivoPieAdultData(pieData.getAdults()));
+		}
+
+		if (isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
+			outputData.add(new NivoPieStudentData(pieData.getStudents()));
+		}
+
+		if (isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
+			outputData.add(new NivoPieSeniorData(pieData.getSeniors()));
+		}
+
+		if (isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
+			outputData.add(new NivoPieJuniorData(pieData.getJuniors()));
+		}
+
+		if (isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
+			outputData.add(new NivoPiePortableData(pieData.getPortable()));
+		}
 		return outputData;
 	}
 

@@ -46,5 +46,19 @@ class Validators {
 		return Arrays.stream(enumValues).map(T::getValue).collect(Collectors.toList());
 	}
 
-	;
+	static Boolean isPersonTypeRequested(List<String> personList, String personType){
+		try {
+			return personList.contains(personType);
+		} catch (NullPointerException e){
+			return true;
+		}
+	}
+
+	static Boolean isJizdenkyType(List<String> jizdenkyList, String personType){
+		try {
+			return jizdenkyList.contains(personType);
+		} catch (NullPointerException e){
+			return true;
+		}
+	}
 }

@@ -25,8 +25,9 @@ public class NivoRestController {
 	public List<NivoLineAbstractData> getData(@RequestParam(required = false) List<String> validity,
 	                                          @RequestParam(required = false) List<String> type,
 	                                          @RequestParam(required = false) List<String> month,
-	                                          @RequestParam(required = false) List<String> year) {
-		return nivoDataService.getNivoLineData(validity, type, month, year);
+	                                          @RequestParam(required = false) List<String> year,
+	                                          @RequestParam(required = false) List<String> person) {
+		return nivoDataService.getNivoLineData(validity, type, month, year, person);
 	}
 
 	@RequestMapping("bar")
@@ -41,8 +42,9 @@ public class NivoRestController {
 	public List<NivoPieAbstractData> retrievePieData(@RequestParam(required = false) List<String> validity,
 	                                                 @RequestParam(required = false) List<String> type,
 	                                                 @RequestParam(required = false) List<String> month,
-	                                                 @RequestParam(required = false) List<String> year) {
-		return nivoDataService.getNivoPieData(validity, type, month, year);
+	                                                 @RequestParam(required = false) List<String> year,
+	                                                 @RequestParam(required = false) List<String> person) {
+		return nivoDataService.getNivoPieData(validity, type, month, year, person);
 	}
 
 	@RequestMapping("/jizdenky/line")
