@@ -115,13 +115,22 @@ public class NivoDataService {
 	}
 
 	public List<NivoBarData> getNivoBarData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year) {
-
-		validities = verifyValidityList(validities);
-		sellTypes = verifySellTypeList(sellTypes);
-		months = verifyMonthsList(months);
-
-		return repository.getNivoBarData(validities, sellTypes, months, verifyYears(year));
+		return repository.getNivoBarData(verifyValidityList(validities), verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year));
 	}
+
+	public List<NivoGeneralPieData> getNivoBarDataByValidity(List<String> sellTypes, List<String> months, List<String> year, List<String> personList) {
+		return verifyValidityList(null).stream()
+				.map(element -> new NivoGeneralPieData(element, getPieValueByValidity(element, sellTypes, months, year, personList)))
+				.collect(Collectors.toList());
+	}
+
+	private Long getPieValueByValidity(String requestedItem, List<String> sellTypes, List<String> months, List<String> year, List<String> personList) {
+		return repository.getNivoBarDataByValidity(requestedItem, verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year))
+				.stream()
+				.mapToLong(element -> getDataSum(element, personList)).sum();
+	}
+
+	;;
 
 	public List<NivoPieAbstractData> getNivoPieData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
 

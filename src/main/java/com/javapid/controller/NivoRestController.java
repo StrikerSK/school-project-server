@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("nivo")
+@RequestMapping("/nivo")
 public class NivoRestController {
 
 	private final NivoDataService nivoDataService;
@@ -23,7 +23,7 @@ public class NivoRestController {
 		this.nivoDataService = nivoDataService;
 	}
 
-	@RequestMapping("line")
+	@RequestMapping("/line")
 	public List<NivoLineAbstractData> getData(@RequestParam(required = false) List<String> validity,
 	                                          @RequestParam(required = false) List<String> type,
 	                                          @RequestParam(required = false) List<String> month,
@@ -32,7 +32,7 @@ public class NivoRestController {
 		return nivoDataService.getNivoLineData(validity, type, month, year, person);
 	}
 
-	@RequestMapping("line/sell")
+	@RequestMapping("/line/sell")
 	public List<NivoGeneralLineData> getDataBySell(@RequestParam(required = false) List<String> type,
 	                                               @RequestParam(required = false) List<String> month,
 	                                               @RequestParam(required = false) List<String> year,
@@ -40,7 +40,7 @@ public class NivoRestController {
 		return nivoDataService.getNivoLineDataByValidity(type, month, year, person);
 	}
 
-	@RequestMapping("bar")
+	@RequestMapping("/bar")
 	public List<NivoBarData> retrieveBarData(@RequestParam(required = false) List<String> validity,
 	                                         @RequestParam(required = false) List<String> type,
 	                                         @RequestParam(required = false) List<String> month,
@@ -48,7 +48,15 @@ public class NivoRestController {
 		return nivoDataService.getNivoBarData(validity, type, month, year);
 	}
 
-	@RequestMapping({"pie", "waffle"})
+	@RequestMapping("/bar/sell")
+	public List<NivoGeneralPieData> retrieveBarDataByValidity(@RequestParam(required = false) List<String> type,
+	                                                          @RequestParam(required = false) List<String> month,
+	                                                          @RequestParam(required = false) List<String> year,
+	                                                          @RequestParam(required = false) List<String> person) {
+		return nivoDataService.getNivoPieDataByValidity(type, month, year, person);
+	}
+
+	@RequestMapping({"/pie", "/waffle"})
 	public List<NivoPieAbstractData> retrievePieData(@RequestParam(required = false) List<String> validity,
 	                                                 @RequestParam(required = false) List<String> type,
 	                                                 @RequestParam(required = false) List<String> month,
@@ -57,7 +65,7 @@ public class NivoRestController {
 		return nivoDataService.getNivoPieData(validity, type, month, year, person);
 	}
 
-	@RequestMapping({"pie/sell", "waffle/sell"})
+	@RequestMapping({"/pie/sell", "/waffle/sell"})
 	public List<NivoGeneralPieData> retrievePieDataByValidity(@RequestParam(required = false) List<String> validity,
 	                                                          @RequestParam(required = false) List<String> type,
 	                                                          @RequestParam(required = false) List<String> month,

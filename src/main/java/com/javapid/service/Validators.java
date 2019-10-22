@@ -1,6 +1,7 @@
 package com.javapid.service;
 
 import com.javapid.entity.enums.*;
+import org.springframework.lang.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.stream.Collectors;
 
 class Validators {
 
-	static List<String> verifyValidityList(List<String> validities) {
+	static List<String> verifyValidityList(@Nullable List<String> validities) {
 		return verifyList(validities, getEnumList(Validity.values()));
 	}
 
