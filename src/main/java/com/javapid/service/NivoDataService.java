@@ -30,6 +30,15 @@ public class NivoDataService {
 		this.jizdenkyRepository = jizdenkyRepository;
 	}
 
+	/**
+	 * Method gets pid data adapted to Nivo Line data format
+	 *
+	 * @param validities  - list of relevancy requested by client
+	 * @param sellTypes   - list of ticket sell types requested by user
+	 * @param months      - list of months requested by user
+	 * @param year        - list of years requested by user
+	 * @param personTypes - list of person types requested by user
+	 */
 	public List<NivoLineAbstractData> getNivoLineData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
 		List<NivoLineAbstractData> personList = new ArrayList<>();
 
@@ -67,11 +76,12 @@ public class NivoDataService {
 				new NivoGeneralLineData(Validity.YEARLY.getValue())
 		);
 
-		personList.forEach(element -> generateLineData(element, personTypes, repository.getNivoBarDataByValidity(element.getId(), verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year))));
+		personList.forEach(element -> generateLineData(element, element.getId(), sellTypes, months, year, personTypes));
 		return personList;
 	}
 
-	private void generateLineData(NivoGeneralLineData lineData, List<String> personTypes, List<NivoBarData> barData) {
+	private void generateLineData(NivoGeneralLineData lineData, String validity, List<String> sellTypes, final List<String> months, List<String> year, List<String> personTypes) {
+		List<NivoBarData> barData = repository.getNivoBarDataByValidity(validity, verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year));
 		List<DataXY> test = barData.stream()
 				.map(element -> new DataXY(element.getMonth(), getDataSum(element, personTypes)))
 				.collect(Collectors.toList());
@@ -151,12 +161,14 @@ public class NivoDataService {
 				new NivoGeneralPieData(Validity.FIVE_MONTHS.getValue()),
 				new NivoGeneralPieData(Validity.YEARLY.getValue())
 		);
-		outputData.forEach(element -> element.setValue(setPieValidityValue(repository.getNivoBarDataByValidity(element.getId(), verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year)), personTypes)));
+		outputData.forEach(element -> element.setValue(setPieValidityValue(element.getId(), sellTypes, months, year, personTypes)));
 		return outputData;
 	}
 
-	private Long setPieValidityValue(List<NivoBarData> databaseData, List<String> personTypes){
-		return databaseData.stream().mapToLong(line -> getDataSum(line, personTypes)).sum();
+	private Long setPieValidityValue(String validity, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
+		return repository.getNivoBarDataByValidity(validity, verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year))
+				.stream()
+				.mapToLong(test -> getDataSum(test, personTypes)).sum();
 	}
 
 	public List<NivoLineAbstractData> getJizdenyLineData(List<Boolean> discounted, List<String> months, List<String> year, List<String> ticketTypes) {
