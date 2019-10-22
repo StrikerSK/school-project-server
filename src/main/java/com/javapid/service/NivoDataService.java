@@ -144,6 +144,21 @@ public class NivoDataService {
 		return outputData;
 	}
 
+	public List<NivoGeneralPieData> getNivoPieDataByValidity(List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
+		List<NivoGeneralPieData> outputData = Arrays.asList(
+				new NivoGeneralPieData(Validity.MONTHLY.getValue()),
+				new NivoGeneralPieData(Validity.THREE_MONTHS.getValue()),
+				new NivoGeneralPieData(Validity.FIVE_MONTHS.getValue()),
+				new NivoGeneralPieData(Validity.YEARLY.getValue())
+		);
+		outputData.forEach(element -> element.setValue(setPieValidityValue(repository.getNivoBarDataByValidity(element.getId(), verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year)), personTypes)));
+		return outputData;
+	}
+
+	private Long setPieValidityValue(List<NivoBarData> databaseData, List<String> personTypes){
+		return databaseData.stream().mapToLong(line -> getDataSum(line, personTypes)).sum();
+	}
+
 	public List<NivoLineAbstractData> getJizdenyLineData(List<Boolean> discounted, List<String> months, List<String> year, List<String> ticketTypes) {
 		List<NivoLineAbstractData> personList = new ArrayList<>();
 

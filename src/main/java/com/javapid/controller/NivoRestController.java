@@ -4,6 +4,7 @@ import com.javapid.entity.nivo.NivoJizdenkyBarData;
 import com.javapid.entity.nivo.line.NivoGeneralLineData;
 import com.javapid.entity.nivo.line.NivoLineAbstractData;
 import com.javapid.entity.nivo.NivoBarData;
+import com.javapid.entity.nivo.pie.NivoGeneralPieData;
 import com.javapid.entity.nivo.pie.NivoPieAbstractData;
 import com.javapid.service.NivoDataService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +55,15 @@ public class NivoRestController {
 	                                                 @RequestParam(required = false) List<String> year,
 	                                                 @RequestParam(required = false) List<String> person) {
 		return nivoDataService.getNivoPieData(validity, type, month, year, person);
+	}
+
+	@RequestMapping({"pie/sell", "waffle/sell"})
+	public List<NivoGeneralPieData> retrievePieDataByValidity(@RequestParam(required = false) List<String> validity,
+	                                                          @RequestParam(required = false) List<String> type,
+	                                                          @RequestParam(required = false) List<String> month,
+	                                                          @RequestParam(required = false) List<String> year,
+	                                                          @RequestParam(required = false) List<String> person) {
+		return nivoDataService.getNivoPieDataByValidity(type, month, year, person);
 	}
 
 	@RequestMapping("/tickets/line")
