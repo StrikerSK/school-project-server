@@ -22,7 +22,8 @@ public class RechartsController {
 	public List<List<PersonAbstractClass>> getBarData(@RequestParam(required = false) List<String> validity,
 	                                                  @RequestParam(required = false) List<String> type,
 	                                                  @RequestParam(required = false) List<String> month,
-	                                                  @RequestParam(required = false) List<String> year) {
-		return pidCouponsService.getPersonData(validity, type, month, year);
+	                                                  @RequestParam(required = false) List<String> year,
+	                                                  @RequestParam(required = false) List<String> person) {
+		return pidCouponsService.getPersonData(validity, type, month, year, person);
 	}
 }

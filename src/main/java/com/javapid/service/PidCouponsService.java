@@ -227,21 +227,36 @@ public class PidCouponsService {
 				.mapToLong(test -> getDataSum(test, personTypes)).sum();
 	}
 
-	public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes, List<String> months, List<String> year) {
-		List<NivoBarDataByMonth> dataList = repository.getNivoBarData(verifyValidityList(validations), verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year));
-		return dataList.stream()
-				.map(this::createPeronList)
+	public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
+		return repository.getNivoBarData(verifyValidityList(validations), verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year)).stream()
+				.map(element -> createPeronList(element, personTypes))
 				.collect(Collectors.toList());
 	}
 
-	private List<PersonAbstractClass> createPeronList(NivoBarDataByMonth data) {
+	private List<PersonAbstractClass> createPeronList(NivoBarDataByMonth data, List<String> personTypes) {
 		List<PersonAbstractClass> personsList = new ArrayList<>();
 		String month = data.getMonth();
-		personsList.add(new AdultObject(month, data.getAdults()));
-		personsList.add(new JuniorObject(month, data.getJuniors()));
-		personsList.add(new SeniorObject(month, data.getSeniors()));
-		personsList.add(new PortableObject(month, data.getPortable()));
-		personsList.add(new StudentObject(month, data.getStudents()));
+
+		if(isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())){
+			personsList.add(new AdultObject(month, data.getAdults()));
+		}
+
+		if(isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
+			personsList.add(new JuniorObject(month, data.getJuniors()));
+		}
+
+		if(isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
+			personsList.add(new SeniorObject(month, data.getSeniors()));
+		}
+
+		if(isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
+			personsList.add(new PortableObject(month, data.getPortable()));
+		}
+
+		if(isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
+			personsList.add(new StudentObject(month, data.getStudents()));
+		}
+
 		return personsList;
 	}
 }
