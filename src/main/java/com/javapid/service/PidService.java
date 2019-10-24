@@ -13,26 +13,26 @@ import static com.javapid.service.FileParser.getEmployeeFromJson;
 @Service
 public class PidService {
 
-    private final PidCouponsRepository pidCouponsRepository;
+	private final PidCouponsRepository pidCouponsRepository;
 
-    public PidService(PidCouponsRepository pidCouponsRepository) {
-        this.pidCouponsRepository = pidCouponsRepository;
-    }
+	public PidService(PidCouponsRepository pidCouponsRepository) {
+		this.pidCouponsRepository = pidCouponsRepository;
+	}
 
-    public void saveData(CouponEntity data) {
-        pidCouponsRepository.save(data);
-    }
+	public void saveData(CouponEntity data) {
+		pidCouponsRepository.save(data);
+	}
 
-    public void saveDataFromFile(MultipartFile file) throws IOException {
-        CouponEntity data = getEmployeeFromJson(file);
-        saveData(data);
-    }
+	public void saveDataFromFile(MultipartFile file) throws IOException {
+		CouponEntity data = getEmployeeFromJson(file);
+		saveData(data);
+	}
 
-    public List<CouponEntity> getAllData() {
-        return pidCouponsRepository.findAll();
-    }
+	public List<CouponEntity> getAllData() {
+		return pidCouponsRepository.findAll();
+	}
 
-    public List<CouponEntity> getDataByCode(String code) {
-        return pidCouponsRepository.getByCode(code);
-    }
+	public List<CouponEntity> getDataByCode(String code) {
+		return pidCouponsRepository.getByCode(code);
+	}
 }

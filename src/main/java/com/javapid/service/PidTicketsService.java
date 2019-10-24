@@ -24,7 +24,7 @@ public class PidTicketsService {
 		this.pidTicketsRepository = pidTicketsRepository;
 	}
 
-	public List<NivoLineAbstractData> getJizdenyLineData(List<Boolean> discounted, List<String> months, List<String> year, List<String> ticketTypes) {
+	public List<NivoLineAbstractData> getTicketsLineData(List<Boolean> discounted, List<String> months, List<String> year, List<String> ticketTypes) {
 		List<NivoLineAbstractData> personList = new ArrayList<>();
 
 		discounted = verifyDiscountedList(discounted);
