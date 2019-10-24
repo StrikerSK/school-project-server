@@ -6,6 +6,10 @@ import java.util.List;
 
 public class NivoGeneralLineData extends NivoLineAbstractData {
 
+    public NivoGeneralLineData(String name) {
+        setId(name);
+    }
+
     public NivoGeneralLineData(String name, List<DataXY> data) {
         setId(name);
         setData(data);

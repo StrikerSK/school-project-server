@@ -53,6 +53,12 @@ public interface PidRepository extends JpaRepository<PidData, Long> {
 	                                 @Param("months") Collection<String> months,
 	                                 @Param("year") Collection<Integer> year);
 
+	@Query("SELECT new com.javapid.entity.nivo.NivoBarData(month,SUM(adults),SUM(seniors),SUM(junior),SUM(students),SUM(portable)) FROM PidData WHERE type IN :sellType AND validity = :validity AND month IN :months AND year IN :year GROUP BY code,month ORDER by code ASC")
+	List<NivoBarData> getNivoBarDataByValidity(@Param("validity") String queryType,
+	                                           @Param("sellType") Collection<String> sellType,
+	                                           @Param("months") Collection<String> months,
+	                                           @Param("year") Collection<Integer> year);
+
 	@Query("SELECT new com.javapid.entity.nivo.DataSumDTO(SUM(adults),SUM(seniors),SUM(junior),SUM(students),SUM(portable)) FROM PidData WHERE type IN :sellType AND validity IN :validity AND month IN :months AND year IN :year GROUP BY year")
 	DataSumDTO getNivoPieData(@Param("validity") Collection<String> queryType,
 	                          @Param("sellType") Collection<String> sellType,
