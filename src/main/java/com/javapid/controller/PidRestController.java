@@ -42,9 +42,9 @@ public class PidRestController {
 		return pidService.getDataByCode(code);
 	}
 
-	@RequestMapping(name = "/test")
-	public List<DataXY> testEndpoint() {
-		return couponRepository.testTemplating("dospeli", Arrays.asList("Mesačná"));
-	}
+//	@RequestMapping(name = "/test")
+//	public List<DataXY> testEndpoint() {
+//		return couponRepository.testTemplating("dospeli", Arrays.asList("Mesačná"));
+//	}
 
 }

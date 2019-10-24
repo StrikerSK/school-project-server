@@ -7,7 +7,9 @@ import com.javapid.entity.nivo.*;
 import com.javapid.entity.nivo.line.*;
 import com.javapid.entity.nivo.pie.*;
 import com.javapid.objects.recharts.*;
+import com.javapid.repository.CouponRepository;
 import com.javapid.repository.PidCouponsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +25,9 @@ public class PidCouponsService {
 
 	private final PidCouponsRepository repository;
 
+	@Autowired
+	private CouponRepository couponRepository;
+
 	public PidCouponsService(PidCouponsRepository repository) {
 		this.repository = repository;
 	}
@@ -37,33 +42,18 @@ public class PidCouponsService {
 	 * @param personTypes - list of person types requested by user
 	 */
 	public List<NivoLineAbstractData> getNivoLineData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
-		List<NivoLineAbstractData> personList = new ArrayList<>();
 
-		validities = verifyValidityList(validities);
-		sellTypes = verifySellTypeList(sellTypes);
-		months = verifyMonthsList(months);
-		List<Integer> verifiedYears = verifyYears(year);
-
-		if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
-			personList.add(new NivoLineAdultData(repository.getAdultSum(validities, sellTypes, months, verifiedYears)));
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
-			personList.add(new NivoLineStudentData(repository.getStudentSum(validities, sellTypes, months, verifiedYears)));
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
-			personList.add(new NivoLineSeniorData(repository.getSeniorSum(validities, sellTypes, months, verifiedYears)));
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
-			personList.add(new NivoLineJuniorData(repository.getJuniorSum(validities, sellTypes, months, verifiedYears)));
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
-			personList.add(new NivoLinePortableData(repository.getPortableSum(validities, sellTypes, months, verifiedYears)));
-		}
-		return personList;
+		return verifyPersonList(personTypes).stream()
+				.map(element -> new NivoGeneralLineData(
+						element,
+						couponRepository.testTemplating(
+								getColumnName(element),
+								verifySellTypeList(sellTypes),
+								verifyValidityList(validities),
+								verifyMonthsList(months),
+								verifyYearsList(year)
+						)
+				)).collect(Collectors.toList());
 	}
 
 	public List<NivoGeneralLineData> getNivoLineDataByValidity(final List<String> sellTypes, final List<String> months, List<String> year, List<String> personTypes) {
@@ -237,26 +227,34 @@ public class PidCouponsService {
 		List<PersonAbstractClass> personsList = new ArrayList<>();
 		String month = data.getMonth();
 
-		if(isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())){
+		if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
 			personsList.add(new AdultObject(month, data.getAdults()));
 		}
 
-		if(isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
+		if (isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
 			personsList.add(new JuniorObject(month, data.getJuniors()));
 		}
 
-		if(isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
+		if (isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
 			personsList.add(new SeniorObject(month, data.getSeniors()));
 		}
 
-		if(isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
+		if (isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
 			personsList.add(new PortableObject(month, data.getPortable()));
 		}
 
-		if(isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
+		if (isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
 			personsList.add(new StudentObject(month, data.getStudents()));
 		}
 
 		return personsList;
+	}
+
+	private String getColumnName(String name) {
+		return Arrays.stream(PersonType.values())
+				.filter(e -> name.equals(e.getValue()))
+				.findFirst()
+				.get()
+				.getColumn();
 	}
 }

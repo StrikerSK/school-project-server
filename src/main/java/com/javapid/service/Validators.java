@@ -21,6 +21,15 @@ class Validators {
 		return verifyList(months, getEnumList(Months.values()));
 	}
 
+	static List<String> verifyYearsList(List<String> years) {
+		return verifyList(years, getEnumList(YearOptions.values()));
+	}
+
+	static List<String> verifyPersonList(List<String> personList) {
+		return verifyList(personList, getEnumList(PersonType.values()));
+	}
+
+
 	static List<Integer> verifyYears(List<String> year) {
 		return verifyList(year, getEnumList(YearOptions.values())).stream()
 				.map(Integer::parseInt)
