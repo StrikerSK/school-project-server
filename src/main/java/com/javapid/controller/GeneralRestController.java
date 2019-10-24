@@ -1,6 +1,6 @@
 package com.javapid.controller;
 
-import com.javapid.entity.nivo.NivoBarData;
+import com.javapid.entity.nivo.NivoBarDataByMonth;
 import com.javapid.service.PidCouponsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,11 +19,12 @@ public class GeneralRestController {
 	}
 
 	@RequestMapping({"/area", "/bar"})
-	public List<NivoBarData> getGeneralBarData(@RequestParam(required = false) List<String> validity,
-	                                           @RequestParam(required = false) List<String> type,
-	                                           @RequestParam(required = false) List<String> month,
-	                                           @RequestParam(required = false) List<String> year) {
-		return nivoService.getNivoBarData(validity, type, month, year);
+	public List<NivoBarDataByMonth> getGeneralBarData(@RequestParam(required = false) List<String> validity,
+	                                                  @RequestParam(required = false) List<String> type,
+	                                                  @RequestParam(required = false) List<String> month,
+	                                                  @RequestParam(required = false) List<String> year,
+	                                                  @RequestParam(required = false) List<String> person) {
+		return nivoService.getNivoBarData(validity, type, month, year, person);
 	}
 
 }

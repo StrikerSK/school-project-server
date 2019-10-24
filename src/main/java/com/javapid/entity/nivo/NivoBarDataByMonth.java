@@ -1,13 +1,10 @@
 package com.javapid.entity.nivo;
 
-public class NivoBarData extends DataAbstract {
+public class NivoBarDataByMonth extends NivoBarDataAbstract {
 
 	private String month;
 
-	public NivoBarData() {
-	}
-
-	public NivoBarData(String month, Long adults, Long seniors, Long juniors, Long students, Long portable) {
+	public NivoBarDataByMonth(String month, Long adults, Long seniors, Long juniors, Long students, Long portable) {
 		this.month = month;
 		setAdults(adults);
 		setJuniors(juniors);
