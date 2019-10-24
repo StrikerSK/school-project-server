@@ -8,19 +8,6 @@ import java.util.List;
 
 public class DataCreator {
 
-    public static NivoBarData createAreaChartData(NivoBarData data) {
-        NivoBarData sellData = new NivoBarData();
-
-        sellData.setMonth(data.getMonth());
-        sellData.setAdults(data.getAdults());
-        sellData.setJuniors(data.getJuniors());
-        sellData.setPortable(data.getPortable());
-        sellData.setSeniors(data.getSeniors());
-        sellData.setStudents(data.getStudents());
-
-        return sellData;
-    }
-
     public static List<PersonAbstractClass> createPeronList(NivoBarData data) {
         List<PersonAbstractClass> personsList = new ArrayList<>();
         String month = data.getMonth();

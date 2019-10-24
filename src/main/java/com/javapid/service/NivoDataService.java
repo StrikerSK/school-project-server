@@ -1,6 +1,5 @@
 package com.javapid.service;
 
-import com.javapid.entity.enums.TicketTypes;
 import com.javapid.entity.enums.PersonType;
 import com.javapid.entity.enums.Validity;
 import com.javapid.entity.nivo.DataSumDTO;
@@ -8,7 +7,6 @@ import com.javapid.entity.nivo.*;
 import com.javapid.entity.nivo.line.*;
 import com.javapid.entity.nivo.pie.*;
 import com.javapid.objects.recharts.PersonAbstractClass;
-import com.javapid.repository.PidJizdenkyRepository;
 import com.javapid.repository.PidRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +22,8 @@ public class NivoDataService {
 
 	private final PidRepository repository;
 
-	private final PidJizdenkyRepository jizdenkyRepository;
-
-	public NivoDataService(PidRepository repository, PidJizdenkyRepository jizdenkyRepository) {
+	public NivoDataService(PidRepository repository) {
 		this.repository = repository;
-		this.jizdenkyRepository = jizdenkyRepository;
 	}
 
 	/**
@@ -179,17 +174,6 @@ public class NivoDataService {
 		return repository.getNivoBarDataByValidity(validity, verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year))
 				.stream()
 				.mapToLong(test -> getDataSum(test, personTypes)).sum();
-	}
-
-	public List<NivoBarData> getAreaChartData(List<String> validations, List<String> sellTypes, List<String> months, List<String> year) {
-		validations = verifyValidityList(validations);
-		sellTypes = verifySellTypeList(sellTypes);
-		months = verifyMonthsList(months);
-
-		List<NivoBarData> dataList = repository.getNivoBarData(validations, sellTypes, months, verifyYears(year));
-		return dataList.stream()
-				.map(DataCreator::createAreaChartData)
-				.collect(Collectors.toList());
 	}
 
 	public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes, List<String> months, List<String> year) {

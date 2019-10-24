@@ -3,7 +3,6 @@ package com.javapid.controller;
 import com.javapid.entity.nivo.NivoJizdenkyBarData;
 import com.javapid.entity.nivo.line.NivoGeneralLineData;
 import com.javapid.entity.nivo.line.NivoLineAbstractData;
-import com.javapid.entity.nivo.NivoBarData;
 import com.javapid.entity.nivo.pie.NivoGeneralPieData;
 import com.javapid.entity.nivo.pie.NivoPieAbstractData;
 import com.javapid.service.NivoDataService;
@@ -43,14 +42,6 @@ public class NivoRestController {
 	                                               @RequestParam(required = false) List<String> year,
 	                                               @RequestParam(required = false) List<String> person) {
 		return nivoDataService.getNivoLineDataByValidity(type, month, year, person);
-	}
-
-	@RequestMapping("/bar")
-	public List<NivoBarData> retrieveBarData(@RequestParam(required = false) List<String> validity,
-	                                         @RequestParam(required = false) List<String> type,
-	                                         @RequestParam(required = false) List<String> month,
-	                                         @RequestParam(required = false) List<String> year) {
-		return nivoDataService.getNivoBarData(validity, type, month, year);
 	}
 
 	@RequestMapping("/bar/sell")

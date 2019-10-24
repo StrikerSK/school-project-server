@@ -64,7 +64,7 @@ class Validators {
 	}
 
 	private static <G extends ValueGetter> List<String> isEmptyList(List<String> inputArray, G[] defaultList) {
-		if (inputArray.size() == 0) {
+		if (inputArray.isEmpty()) {
 			return getEnumList(defaultList);
 		}
 		return inputArray;
