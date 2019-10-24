@@ -1,7 +1,7 @@
 package com.javapid.service;
 
-import com.javapid.entity.PidData;
-import com.javapid.repository.PidRepository;
+import com.javapid.entity.CouponEntity;
+import com.javapid.repository.PidCouponsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,26 +13,26 @@ import static com.javapid.service.FileParser.getEmployeeFromJson;
 @Service
 public class PidService {
 
-    private final PidRepository pidRepository;
+    private final PidCouponsRepository pidCouponsRepository;
 
-    public PidService(PidRepository pidRepository) {
-        this.pidRepository = pidRepository;
+    public PidService(PidCouponsRepository pidCouponsRepository) {
+        this.pidCouponsRepository = pidCouponsRepository;
     }
 
-    public void saveData(PidData data) {
-        pidRepository.save(data);
+    public void saveData(CouponEntity data) {
+        pidCouponsRepository.save(data);
     }
 
     public void saveDataFromFile(MultipartFile file) throws IOException {
-        PidData data = getEmployeeFromJson(file);
+        CouponEntity data = getEmployeeFromJson(file);
         saveData(data);
     }
 
-    public List<PidData> getAllData() {
-        return pidRepository.findAll();
+    public List<CouponEntity> getAllData() {
+        return pidCouponsRepository.findAll();
     }
 
-    public List<PidData> getDataByCode(String code) {
-        return pidRepository.getByCode(code);
+    public List<CouponEntity> getDataByCode(String code) {
+        return pidCouponsRepository.getByCode(code);
     }
 }

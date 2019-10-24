@@ -1,6 +1,6 @@
 package com.javapid.controller;
 
-import com.javapid.entity.PidData;
+import com.javapid.entity.CouponEntity;
 import com.javapid.service.PidService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ public class PidRestController {
 	}
 
 	@RequestMapping(name = "/getData")
-	public List<PidData> getData() {
+	public List<CouponEntity> getData() {
 		return pidService.getAllData();
 	}
 
@@ -31,7 +31,7 @@ public class PidRestController {
 	}
 
 	@RequestMapping("/getData/{code}")
-	public List<PidData> uploadFile(@PathVariable String code) {
+	public List<CouponEntity> uploadFile(@PathVariable String code) {
 		return pidService.getDataByCode(code);
 	}
 

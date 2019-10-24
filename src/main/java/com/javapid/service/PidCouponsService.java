@@ -6,8 +6,8 @@ import com.javapid.entity.nivo.DataSumDTO;
 import com.javapid.entity.nivo.*;
 import com.javapid.entity.nivo.line.*;
 import com.javapid.entity.nivo.pie.*;
-import com.javapid.objects.recharts.PersonAbstractClass;
-import com.javapid.repository.PidRepository;
+import com.javapid.objects.recharts.*;
+import com.javapid.repository.PidCouponsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 import static com.javapid.service.Validators.*;
 
 @Service
-public class NivoDataService {
+public class PidCouponsService {
 
-	private final PidRepository repository;
+	private final PidCouponsRepository repository;
 
-	public NivoDataService(PidRepository repository) {
+	public PidCouponsService(PidCouponsRepository repository) {
 		this.repository = repository;
 	}
 
@@ -183,7 +183,18 @@ public class NivoDataService {
 
 		List<NivoBarData> dataList = repository.getNivoBarData(validations, sellTypes, months, verifyYears(year));
 		return dataList.stream()
-				.map(DataCreator::createPeronList)
+				.map(this::createPeronList)
 				.collect(Collectors.toList());
+	}
+
+	private List<PersonAbstractClass> createPeronList(NivoBarData data) {
+		List<PersonAbstractClass> personsList = new ArrayList<>();
+		String month = data.getMonth();
+		personsList.add(new AdultObject(month, data.getAdults()));
+		personsList.add(new JuniorObject(month, data.getJuniors()));
+		personsList.add(new SeniorObject(month, data.getSeniors()));
+		personsList.add(new PortableObject(month, data.getPortable()));
+		personsList.add(new StudentObject(month, data.getStudents()));
+		return personsList;
 	}
 }
