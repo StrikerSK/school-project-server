@@ -1,6 +1,6 @@
 package com.javapid;
 
-import com.javapid.entity.PidData;
+import com.javapid.entity.CouponEntity;
 import com.javapid.service.PidService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,15 +21,15 @@ public class JavaPidApplicationTests {
 
 	@Test
 	public void checkEmptyDatabase() {
-		List<PidData> dataList = pidService.getAllData();
+		List<CouponEntity> dataList = pidService.getAllData();
 		assertEquals(0,dataList.size());
 	}
 
 	@Test
 	public void addOneItem() {
-		PidData data = new PidData("012019","Leden",2019,"Mesačná","Čipová karta",123456,234567,345678,456789,567891);
+		CouponEntity data = new CouponEntity("012019","Leden",2019,"Mesačná","Čipová karta",123456,234567,345678,456789,567891);
 		pidService.saveData(data);
-		List<PidData> dataList = pidService.getAllData();
+		List<CouponEntity> dataList = pidService.getAllData();
 		assertEquals(1,dataList.size());
 	}
 

@@ -6,8 +6,8 @@ import com.javapid.entity.nivo.DataSumDTO;
 import com.javapid.entity.nivo.*;
 import com.javapid.entity.nivo.line.*;
 import com.javapid.entity.nivo.pie.*;
-import com.javapid.objects.recharts.PersonAbstractClass;
-import com.javapid.repository.PidRepository;
+import com.javapid.objects.recharts.*;
+import com.javapid.repository.PidCouponsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 import static com.javapid.service.Validators.*;
 
 @Service
-public class NivoDataService {
+public class PidCouponsService {
 
-	private final PidRepository repository;
+	private final PidCouponsRepository repository;
 
-	public NivoDataService(PidRepository repository) {
+	public PidCouponsService(PidCouponsRepository repository) {
 		this.repository = repository;
 	}
 
@@ -41,25 +41,26 @@ public class NivoDataService {
 		validities = verifyValidityList(validities);
 		sellTypes = verifySellTypeList(sellTypes);
 		months = verifyMonthsList(months);
+		List<Integer> verifiedYears = verifyYears(year);
 
 		if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
-			personList.add(new NivoLineAdultData(repository.getAdultSum(validities, sellTypes, months, verifyYears(year))));
+			personList.add(new NivoLineAdultData(repository.getAdultSum(validities, sellTypes, months, verifiedYears)));
 		}
 
 		if (isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
-			personList.add(new NivoLineStudentData(repository.getStudentSum(validities, sellTypes, months, verifyYears(year))));
+			personList.add(new NivoLineStudentData(repository.getStudentSum(validities, sellTypes, months, verifiedYears)));
 		}
 
 		if (isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
-			personList.add(new NivoLineSeniorData(repository.getSeniorSum(validities, sellTypes, months, verifyYears(year))));
+			personList.add(new NivoLineSeniorData(repository.getSeniorSum(validities, sellTypes, months, verifiedYears)));
 		}
 
 		if (isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
-			personList.add(new NivoLineJuniorData(repository.getJuniorSum(validities, sellTypes, months, verifyYears(year))));
+			personList.add(new NivoLineJuniorData(repository.getJuniorSum(validities, sellTypes, months, verifiedYears)));
 		}
 
 		if (isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
-			personList.add(new NivoLinePortableData(repository.getPortableSum(validities, sellTypes, months, verifyYears(year))));
+			personList.add(new NivoLinePortableData(repository.getPortableSum(validities, sellTypes, months, verifiedYears)));
 		}
 		return personList;
 	}
@@ -177,13 +178,20 @@ public class NivoDataService {
 	}
 
 	public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes, List<String> months, List<String> year) {
-		validations = verifyValidityList(validations);
-		sellTypes = verifySellTypeList(sellTypes);
-		months = verifyMonthsList(months);
-
-		List<NivoBarData> dataList = repository.getNivoBarData(validations, sellTypes, months, verifyYears(year));
+		List<NivoBarData> dataList = repository.getNivoBarData(verifyValidityList(validations), verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year));
 		return dataList.stream()
-				.map(DataCreator::createPeronList)
+				.map(this::createPeronList)
 				.collect(Collectors.toList());
+	}
+
+	private List<PersonAbstractClass> createPeronList(NivoBarData data) {
+		List<PersonAbstractClass> personsList = new ArrayList<>();
+		String month = data.getMonth();
+		personsList.add(new AdultObject(month, data.getAdults()));
+		personsList.add(new JuniorObject(month, data.getJuniors()));
+		personsList.add(new SeniorObject(month, data.getSeniors()));
+		personsList.add(new PortableObject(month, data.getPortable()));
+		personsList.add(new StudentObject(month, data.getStudents()));
+		return personsList;
 	}
 }

@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "pid_jizdenky")
-public class PidJizenky {
+public class TicketEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,10 +67,10 @@ public class PidJizenky {
 	@Column(name = "jedenast_pasem")
 	private Long elevenZones;
 
-	public PidJizenky() {
+	public TicketEntity() {
 	}
 
-	public PidJizenky(String code, String month, Integer year, Boolean discounted, Long fifteenMinutes, Long oneDay, Long oneDayAll, Long twoZones, Long threeZones, Long fourZones, Long fiveZones, Long sixZones, Long sevenZones, Long eightZones, Long nineZones, Long tenZones, Long elevenZones) {
+	public TicketEntity(String code, String month, Integer year, Boolean discounted, Long fifteenMinutes, Long oneDay, Long oneDayAll, Long twoZones, Long threeZones, Long fourZones, Long fiveZones, Long sixZones, Long sevenZones, Long eightZones, Long nineZones, Long tenZones, Long elevenZones) {
 		this.code = code;
 		this.month = month;
 		this.year = year;

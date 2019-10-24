@@ -1,7 +1,7 @@
 package com.javapid.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.javapid.entity.PidData;
+import com.javapid.entity.CouponEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,9 +12,9 @@ public class FileParser {
         return new String(originalFile.getBytes());
     }
 
-    public static PidData getEmployeeFromJson(MultipartFile originalFile) throws IOException {
+    public static CouponEntity getEmployeeFromJson(MultipartFile originalFile) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = getJsonData(originalFile);
-        return mapper.readValue(jsonString, PidData.class);
+        return mapper.readValue(jsonString, CouponEntity.class);
     }
 }

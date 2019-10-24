@@ -1,7 +1,7 @@
 package com.javapid.controller;
 
 import com.javapid.objects.recharts.PersonAbstractClass;
-import com.javapid.service.NivoDataService;
+import com.javapid.service.PidCouponsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,10 +12,10 @@ import java.util.List;
 @RequestMapping("/recharts")
 public class RechartsController {
 
-	private final NivoDataService nivoDataService;
+	private final PidCouponsService pidCouponsService;
 
-	public RechartsController(NivoDataService nivoDataService) {
-		this.nivoDataService = nivoDataService;
+	public RechartsController(PidCouponsService pidCouponsService) {
+		this.pidCouponsService = pidCouponsService;
 	}
 
 	@RequestMapping({"/bar", "/pie", "/line"})
@@ -23,6 +23,6 @@ public class RechartsController {
 	                                                  @RequestParam(required = false) List<String> type,
 	                                                  @RequestParam(required = false) List<String> month,
 	                                                  @RequestParam(required = false) List<String> year) {
-		return nivoDataService.getPersonData(validity, type, month, year);
+		return pidCouponsService.getPersonData(validity, type, month, year);
 	}
 }

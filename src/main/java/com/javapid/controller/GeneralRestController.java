@@ -1,7 +1,7 @@
 package com.javapid.controller;
 
 import com.javapid.entity.nivo.NivoBarData;
-import com.javapid.service.NivoDataService;
+import com.javapid.service.PidCouponsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +12,9 @@ import java.util.List;
 @RequestMapping("/general")
 public class GeneralRestController {
 
-	private final NivoDataService nivoService;
+	private final PidCouponsService nivoService;
 
-	public GeneralRestController(NivoDataService nivoService) {
+	public GeneralRestController(PidCouponsService nivoService) {
 		this.nivoService = nivoService;
 	}
 
