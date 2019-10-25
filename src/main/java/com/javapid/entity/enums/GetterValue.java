@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public interface ValueGetter {
+public interface GetterValue {
 
 	String getValue();
 

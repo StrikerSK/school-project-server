@@ -42,17 +42,21 @@ class Validators {
 
 	private static <T> List<T> verifyList(List<T> checkedArray, List<T> enumList) {
 		try {
-			checkedArray = checkedArray.stream().filter(enumList::contains).collect(Collectors.toList());
+			checkedArray = checkedArray.stream()
+					.filter(enumList::contains)
+					.collect(Collectors.toList());
+
 			if (checkedArray.isEmpty()) {
 				checkedArray = enumList;
 			}
+
 			return checkedArray;
 		} catch (NullPointerException e) {
 			return enumList;
 		}
 	}
 
-	private static <T extends ValueGetter> List<String> getEnumList(T[] enumValues) {
+	private static <T extends GetterValue> List<String> getEnumList(T[] enumValues) {
 		return Arrays.stream(enumValues).map(T::getValue).collect(Collectors.toList());
 	}
 
@@ -72,7 +76,7 @@ class Validators {
 		}
 	}
 
-	private static <G extends ValueGetter> List<String> isEmptyList(List<String> inputArray, G[] defaultList) {
+	private static <G extends GetterValue> List<String> isEmptyList(List<String> inputArray, G[] defaultList) {
 		if (inputArray.isEmpty()) {
 			return getEnumList(defaultList);
 		}

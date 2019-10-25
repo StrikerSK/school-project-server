@@ -46,7 +46,7 @@ public class PidCouponsService {
 		return verifyPersonList(personTypes).stream()
 				.map(element -> new NivoGeneralLineData(
 						element,
-						couponRepository.testTemplating(
+						couponRepository.fetchCouponLineData(
 								getColumnName(element),
 								verifySellTypeList(sellTypes),
 								verifyValidityList(validities),

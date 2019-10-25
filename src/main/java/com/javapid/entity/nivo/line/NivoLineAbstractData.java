@@ -9,13 +9,7 @@ public abstract class NivoLineAbstractData {
     private String id;
     private List<DataXY> data;
 
-    public NivoLineAbstractData() {
-    }
-
-    public NivoLineAbstractData(String id, List<DataXY> data) {
-        this.id = id;
-        this.data = data;
-    }
+    NivoLineAbstractData() { }
 
     public String getId() {
         return id;

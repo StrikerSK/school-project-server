@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum Validity implements ValueGetter {
+public enum Validity implements GetterValue {
 
 	MONTHLY("Mesačná"),
 	THREE_MONTHS("3 Mesačná"),
