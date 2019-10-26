@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum PersonType implements GetterValue {
+public enum PersonType implements GetterValue, GetterColumn {
 
 	ADULT("Dospelý", "dospeli"),
 	SENIOR("Dôchodcovia", "dochodcovia"),
@@ -21,6 +21,7 @@ public enum PersonType implements GetterValue {
 		return value;
 	}
 
+	@Override
 	public String getColumn(){
 		return column;
 	}

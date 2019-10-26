@@ -1,7 +1,6 @@
 package com.javapid.controller;
 
 import com.javapid.entity.CouponEntity;
-import com.javapid.entity.nivo.DataXY;
 import com.javapid.repository.CouponRepository;
 import com.javapid.service.PidService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -27,10 +25,10 @@ public class PidRestController {
 		this.pidService = pidService;
 	}
 
-//	@RequestMapping(name = "/getData")
-//	public List<CouponEntity> getData() {
-//		return pidService.getAllData();
-//	}
+	@RequestMapping(name = "/getData")
+	public List<CouponEntity> getData() {
+		return pidService.getAllData();
+	}
 
 	@RequestMapping("/uploadJson")
 	public void uploadFile(@RequestParam("file") MultipartFile file) throws IOException {

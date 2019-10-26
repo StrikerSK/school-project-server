@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum TicketTypes implements GetterValue {
+public enum TicketTypes implements GetterValue, GetterColumn {
 
 	FIFTEEN_MINUTES("15 Minútové", "stvrt_minut"),
 	ONE_DAY("24 Hodinový - Pásmo P", "jeden_den"),
@@ -29,6 +29,7 @@ public enum TicketTypes implements GetterValue {
 		return value;
 	}
 
+	@Override
 	public String getColumn() {
 		return column;
 	}

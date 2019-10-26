@@ -15,8 +15,8 @@ public class TicketRepository extends RepositoryAbstract {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public List<DataXY> getTicketLineData(String columnName, List<String> discounted, List<String> months, List<String> years){
-		String query = String.format("SELECT " + MONTH_COLUMN + ", SUM(%s) from TicketEntity WHERE %s AND %s AND %s GROUP BY " + CODE_COLUMN + "," + MONTH_COLUMN + " ORDER BY " + CODE_COLUMN + " ASC",
+	public List<DataXY> getTicketLineData(String columnName, List<Boolean> discounted, List<String> months, List<Integer> years){
+		String query = String.format("SELECT " + MONTH_COLUMN + ", SUM(%s) FROM pid_jizdenky WHERE %s AND %s AND %s GROUP BY " + CODE_COLUMN + "," + MONTH_COLUMN + " ORDER BY " + CODE_COLUMN + " ASC",
 				columnName,
 				arrayToSqlString(DISCOUNTED_COLUMN, discounted),
 				arrayToSqlString(MONTH_COLUMN, months),

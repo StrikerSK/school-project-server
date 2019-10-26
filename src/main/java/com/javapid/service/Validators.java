@@ -29,11 +29,14 @@ class Validators {
 		return verifyList(personList, getEnumList(PersonType.values()));
 	}
 
-
 	static List<Integer> verifyYears(List<String> year) {
 		return verifyList(year, getEnumList(YearOptions.values())).stream()
 				.map(Integer::parseInt)
 				.collect(Collectors.toList());
+	}
+
+	static List<String> verifyTicketType(List<String> ticketTypes){
+		return verifyList(ticketTypes, getEnumList(TicketTypes.values()));
 	}
 
 	static List<Boolean> verifyDiscountedList(List<Boolean> discounted) {

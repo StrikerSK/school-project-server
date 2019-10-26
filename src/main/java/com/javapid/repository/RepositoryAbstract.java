@@ -13,11 +13,12 @@ public abstract class RepositoryAbstract {
 	final String CODE_COLUMN = "kod";
 	final String DISCOUNTED_COLUMN = "zlavneny";
 
-	String arrayToSqlString(String columnName, List<String> inputStrings) {
-		inputStrings = inputStrings.stream()
+	<T> String arrayToSqlString(String columnName, List<T> inputStrings) {
+		List<String> convertedString = inputStrings.stream()
+				.map(String::valueOf)
 				.map(element -> "'" + element + "'")
 				.collect(Collectors.toList());
-		return columnName + " IN (" + String.join(",", inputStrings) + ")";
+		return columnName + " IN (" + String.join(",", convertedString) + ")";
 	}
 
 }
