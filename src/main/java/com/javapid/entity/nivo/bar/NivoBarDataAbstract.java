@@ -1,4 +1,4 @@
-package com.javapid.entity.nivo;
+package com.javapid.entity.nivo.bar;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -18,6 +18,14 @@ public abstract class NivoBarDataAbstract {
 
 	@JsonProperty("Prenosné")
 	private Long portable;
+
+	NivoBarDataAbstract(Long adults, Long seniors, Long juniors, Long students, Long portable) {
+		this.adults = adults;
+		this.seniors = seniors;
+		this.juniors = juniors;
+		this.students = students;
+		this.portable = portable;
+	}
 
 	public Long getAdults() {
 		return adults;

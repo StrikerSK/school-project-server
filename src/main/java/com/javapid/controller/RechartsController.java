@@ -1,5 +1,6 @@
 package com.javapid.controller;
 
+import com.javapid.entity.PidCouponsParameters;
 import com.javapid.objects.recharts.PersonAbstractClass;
 import com.javapid.service.PidCouponsService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,6 @@ public class RechartsController {
 	                                                  @RequestParam(required = false) List<String> month,
 	                                                  @RequestParam(required = false) List<String> year,
 	                                                  @RequestParam(required = false) List<String> person) {
-		return pidCouponsService.getPersonData(validity, type, month, year, person);
+		return pidCouponsService.getPersonData(new PidCouponsParameters(validity, type, month, year, person));
 	}
 }

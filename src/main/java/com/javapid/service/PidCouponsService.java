@@ -1,19 +1,22 @@
 package com.javapid.service;
 
+import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.enums.PersonType;
 import com.javapid.entity.enums.Validity;
-import com.javapid.entity.nivo.NivoBarDataSumDTO;
+import com.javapid.entity.nivo.bar.NivoBarDataByMonth;
+import com.javapid.entity.nivo.bar.NivoBarDataByValidity;
+import com.javapid.entity.nivo.bar.NivoBarDataSumDTO;
 import com.javapid.entity.nivo.*;
 import com.javapid.entity.nivo.line.*;
 import com.javapid.entity.nivo.pie.*;
 import com.javapid.objects.recharts.*;
 import com.javapid.repository.CouponRepository;
 import com.javapid.repository.PidCouponsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -25,55 +28,35 @@ public class PidCouponsService {
 
 	private final PidCouponsRepository repository;
 
-	@Autowired
-	private CouponRepository couponRepository;
+	private final CouponRepository couponRepository;
 
-	public PidCouponsService(PidCouponsRepository repository) {
+	public PidCouponsService(PidCouponsRepository repository, CouponRepository couponRepository) {
 		this.repository = repository;
+		this.couponRepository = couponRepository;
 	}
 
-	/**
-	 * Method gets pid data adapted to Nivo Line data format
-	 *
-	 * @param validities  - list of relevancy requested by client
-	 * @param sellTypes   - list of ticket sell types requested by user
-	 * @param months      - list of months requested by user
-	 * @param year        - list of years requested by user
-	 * @param personTypes - list of person types requested by user
-	 */
-	public List<NivoLineAbstractData> getNivoLineData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
+	public List<NivoLineAbstractData> getNivoLineData(PidCouponsParameters parameters) {
 
-		return verifyPersonList(personTypes).stream()
-				.map(element -> new NivoGeneralLineData(
-						element,
-						couponRepository.fetchCouponLineData(
-								getColumnName(element),
-								verifySellTypeList(sellTypes),
-								verifyValidityList(validities),
-								verifyMonthsList(months),
-								verifyYearsList(year)
-						)
-				)).collect(Collectors.toList());
+		return verifyPersonList(parameters.getPerson()).stream()
+				.map(element -> new NivoGeneralLineData(element, couponRepository.fetchCouponLineData(getColumnName(element), parameters)))
+				.collect(Collectors.toList());
 	}
 
-	public List<NivoGeneralLineData> getNivoLineDataByValidity(final List<String> sellTypes, final List<String> months, List<String> year, List<String> personTypes) {
-		List<NivoGeneralLineData> personList = Arrays.asList(
-				new NivoGeneralLineData(Validity.MONTHLY.getValue()),
-				new NivoGeneralLineData(Validity.THREE_MONTHS.getValue()),
-				new NivoGeneralLineData(Validity.FIVE_MONTHS.getValue()),
-				new NivoGeneralLineData(Validity.YEARLY.getValue())
-		);
+	public List<NivoGeneralLineData> getNivoLineDataByValidity(PidCouponsParameters parameters) {
+		List<NivoGeneralLineData> personList = verifyPersonList(Collections.emptyList()).stream()
+				.map(NivoGeneralLineData::new)
+				.collect(Collectors.toList());
 
-		personList.forEach(element -> generateLineData(element, element.getId(), sellTypes, months, year, personTypes));
+		personList.forEach(element -> generateLineData(element, element.getId(), parameters));
 		return personList;
 	}
 
-	private void generateLineData(NivoGeneralLineData lineData, String validity, List<String> sellTypes, final List<String> months, List<String> year, List<String> personTypes) {
-		List<NivoBarDataByMonth> barData = repository.getNivoBarDataByValidity(validity, verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year));
-		List<DataXY> test = barData.stream()
-				.map(element -> new DataXY(element.getMonth(), getDataSum(element, personTypes)))
+	private void generateLineData(NivoGeneralLineData lineData, String validity, PidCouponsParameters parameters) {
+		List<NivoBarDataByMonth> barData = repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+		List<DataXY> outputBarData = barData.stream()
+				.map(element -> new DataXY(element.getMonth(), getDataSum(element, parameters.getPerson())))
 				.collect(Collectors.toList());
-		lineData.setData(test);
+		lineData.setData(outputBarData);
 	}
 
 	private Long getDataSum(NivoBarDataByMonth element, List<String> personTypes) {
@@ -102,65 +85,66 @@ public class PidCouponsService {
 		return dataSum;
 	}
 
-	public List<NivoBarDataByMonth> getNivoBarData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
-		List<NivoBarDataByMonth> dataList = repository.getNivoBarData(verifyValidityList(validities), verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year));
+	public List<NivoBarDataByMonth> getNivoBarData(PidCouponsParameters parameters) {
+		List<NivoBarDataByMonth> dataList = repository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 		dataList
 				.forEach(element -> {
-					if (!isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
+					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
 						element.setAdults(0L);
 					}
 
-					if (!isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
+					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
 						element.setSeniors(0L);
 					}
 
-					if (!isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
+					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
 						element.setJuniors(0L);
 					}
 
-					if (!isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
+					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
 						element.setStudents(0L);
 					}
 
-					if (!isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
+					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
 						element.setPortable(0L);
 					}
 				});
 		return dataList;
 	}
 
-	public List<NivoBarDataByValidity> getNivoBarDataByValidity(List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
-		return verifyValidityList(null).stream()
-				.map(element -> getBarDataFromRepository(element, sellTypes, months, year, personTypes))
+	public List<NivoBarDataByValidity> getNivoBarDataByValidity(PidCouponsParameters parameters) {
+		return verifyValidityList(Collections.emptyList()).stream()
+				.map(element -> getBarDataFromRepository(element, parameters))
 				.collect(Collectors.toList());
 	}
 
-	private NivoBarDataByValidity getBarDataFromRepository(String validity, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
+	private NivoBarDataByValidity getBarDataFromRepository(String validity, PidCouponsParameters parameters) {
 		AtomicReference<Long> adults = new AtomicReference<>(0L);
 		AtomicReference<Long> juniors = new AtomicReference<>(0L);
 		AtomicReference<Long> seniors = new AtomicReference<>(0L);
 		AtomicReference<Long> students = new AtomicReference<>(0L);
 		AtomicReference<Long> portable = new AtomicReference<>(0L);
+		List<String> personTypeList = parameters.getPerson();
 
-		repository.getNivoBarDataByValidity(validity, verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year))
+		repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger())
 				.forEach(element -> {
-					if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
+					if (isPersonTypeRequested(personTypeList, PersonType.ADULT.getValue())) {
 						adults.updateAndGet(v -> v + element.getAdults());
 					}
 
-					if (isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
+					if (isPersonTypeRequested(personTypeList, PersonType.JUNIOR.getValue())) {
 						juniors.updateAndGet(v -> v + element.getJuniors());
 					}
 
-					if (isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
+					if (isPersonTypeRequested(personTypeList, PersonType.SENIOR.getValue())) {
 						seniors.updateAndGet(v -> v + element.getSeniors());
 					}
 
-					if (isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
+					if (isPersonTypeRequested(personTypeList, PersonType.STUDENT.getValue())) {
 						students.updateAndGet(v -> v + element.getStudents());
 					}
 
-					if (isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
+					if (isPersonTypeRequested(personTypeList, PersonType.PORTABLE.getValue())) {
 						portable.updateAndGet(v -> v + element.getPortable());
 					}
 				});
@@ -169,57 +153,46 @@ public class PidCouponsService {
 	}
 
 
-	public List<NivoPieAbstractData> getNivoPieData(List<String> validities, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
-
-		validities = verifyValidityList(validities);
-		sellTypes = verifySellTypeList(sellTypes);
-		months = verifyMonthsList(months);
-
-		NivoBarDataSumDTO pieData = repository.getNivoPieData(validities, sellTypes, months, verifyYears(year));
+	public List<NivoPieAbstractData> getNivoPieData(PidCouponsParameters parameters) {
+		NivoBarDataSumDTO pieData = repository.getNivoPieData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 		List<NivoPieAbstractData> outputData = new ArrayList<>();
 
-		if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
+		if (isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
 			outputData.add(new NivoPieAdultData(pieData.getAdults()));
 		}
 
-		if (isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
+		if (isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
 			outputData.add(new NivoPieStudentData(pieData.getStudents()));
 		}
 
-		if (isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
+		if (isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
 			outputData.add(new NivoPieSeniorData(pieData.getSeniors()));
 		}
 
-		if (isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
+		if (isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
 			outputData.add(new NivoPieJuniorData(pieData.getJuniors()));
 		}
 
-		if (isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
+		if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
 			outputData.add(new NivoPiePortableData(pieData.getPortable()));
 		}
 		return outputData;
 	}
 
-	public List<NivoGeneralPieData> getNivoPieDataByValidity(List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
-		List<NivoGeneralPieData> outputData = Arrays.asList(
-				new NivoGeneralPieData(Validity.MONTHLY.getValue()),
-				new NivoGeneralPieData(Validity.THREE_MONTHS.getValue()),
-				new NivoGeneralPieData(Validity.FIVE_MONTHS.getValue()),
-				new NivoGeneralPieData(Validity.YEARLY.getValue())
-		);
-		outputData.forEach(element -> element.setValue(setPieValidityValue(element.getId(), sellTypes, months, year, personTypes)));
+	public List<NivoGeneralPieData> getNivoPieDataByValidity(PidCouponsParameters parameters) {
+		List<NivoGeneralPieData> outputData = verifyValidityList(Collections.emptyList()).stream().map(NivoGeneralPieData::new).collect(Collectors.toList());
+		outputData.forEach(element -> element.setValue(setPieValidityValue(element.getId(), parameters)));
 		return outputData;
 	}
 
-	private Long setPieValidityValue(String validity, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
-		return repository.getNivoBarDataByValidity(validity, verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year))
-				.stream()
-				.mapToLong(test -> getDataSum(test, personTypes)).sum();
+	private Long setPieValidityValue(String validity, PidCouponsParameters parameters) {
+		return repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger()).stream()
+				.mapToLong(element -> getDataSum(element, parameters.getPerson())).sum();
 	}
 
-	public List<List<PersonAbstractClass>> getPersonData(List<String> validations, List<String> sellTypes, List<String> months, List<String> year, List<String> personTypes) {
-		return repository.getNivoBarData(verifyValidityList(validations), verifySellTypeList(sellTypes), verifyMonthsList(months), verifyYears(year)).stream()
-				.map(element -> createPeronList(element, personTypes))
+	public List<List<PersonAbstractClass>> getPersonData(PidCouponsParameters parameters) {
+		return repository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger()).stream()
+				.map(element -> createPeronList(element, parameters.getPerson()))
 				.collect(Collectors.toList());
 	}
 

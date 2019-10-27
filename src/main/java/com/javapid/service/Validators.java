@@ -7,39 +7,39 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class Validators {
+public class Validators {
 
-	static List<String> verifyValidityList(@Nullable List<String> validities) {
+	public static List<String> verifyValidityList(@Nullable List<String> validities) {
 		return verifyList(validities, getEnumList(Validity.values()));
 	}
 
-	static List<String> verifySellTypeList(List<String> sellTypes) {
+	public static List<String> verifySellTypeList(List<String> sellTypes) {
 		return verifyList(sellTypes, getEnumList(SellType.values()));
 	}
 
-	static List<String> verifyMonthsList(List<String> months) {
+	public static List<String> verifyMonthsList(List<String> months) {
 		return verifyList(months, getEnumList(Months.values()));
 	}
 
-	static List<String> verifyYearsList(List<String> years) {
+	public static List<String> verifyYearsList(List<String> years) {
 		return verifyList(years, getEnumList(YearOptions.values()));
 	}
 
-	static List<String> verifyPersonList(List<String> personList) {
+	public static List<String> verifyPersonList(List<String> personList) {
 		return verifyList(personList, getEnumList(PersonType.values()));
 	}
 
-	static List<Integer> verifyYears(List<String> year) {
+	public static List<Integer> verifyYears(List<String> year) {
 		return verifyList(year, getEnumList(YearOptions.values())).stream()
 				.map(Integer::parseInt)
 				.collect(Collectors.toList());
 	}
 
-	static List<String> verifyTicketType(List<String> ticketTypes){
+	public static List<String> verifyTicketType(List<String> ticketTypes){
 		return verifyList(ticketTypes, getEnumList(TicketTypes.values()));
 	}
 
-	static List<Boolean> verifyDiscountedList(List<Boolean> discounted) {
+	public static List<Boolean> verifyDiscountedList(List<Boolean> discounted) {
 		return verifyList(discounted, Arrays.asList(true, false));
 	}
 
@@ -63,7 +63,7 @@ class Validators {
 		return Arrays.stream(enumValues).map(T::getValue).collect(Collectors.toList());
 	}
 
-	static Boolean isPersonTypeRequested(List<String> personList, String personType) {
+	public static Boolean isPersonTypeRequested(List<String> personList, String personType) {
 		try {
 			return isEmptyList(personList, PersonType.values()).contains(personType);
 		} catch (NullPointerException e) {
@@ -71,7 +71,7 @@ class Validators {
 		}
 	}
 
-	static Boolean isTicketTypeRequested(List<String> ticketList, String personType) {
+	public static Boolean isTicketTypeRequested(List<String> ticketList, String personType) {
 		try {
 			return isEmptyList(ticketList, TicketTypes.values()).contains(personType);
 		} catch (NullPointerException e) {

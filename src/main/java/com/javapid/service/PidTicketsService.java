@@ -1,5 +1,6 @@
 package com.javapid.service;
 
+import com.javapid.entity.PidTicketsParameters;
 import com.javapid.entity.enums.TicketTypes;
 import com.javapid.entity.nivo.DataSumJizdenkyDTO;
 import com.javapid.entity.nivo.NivoJizdenkyBarData;
@@ -29,27 +30,20 @@ public class PidTicketsService extends ServiceAbstract {
 		this.ticketRepository = ticketRepository;
 	}
 
-	public List<NivoLineAbstractData> getTicketsLineData(List<Boolean> discounted, List<String> months, List<String> year, List<String> ticketTypes) {
-		return verifyTicketType(ticketTypes).stream()
-				.map(element -> new NivoGeneralLineData(
-								element,
-								ticketRepository.getTicketLineData(
-										getColumnName(element, TicketTypes.values()),
-										verifyDiscountedList(discounted),
-										verifyMonthsList(months),
-										verifyYears(year)
-								)
-						)
-				).collect(Collectors.toList());
+	public List<NivoLineAbstractData> getTicketsLineData(PidTicketsParameters parameters) {
+		return verifyTicketType(parameters.getTicketType()).stream()
+				.map(element -> new NivoGeneralLineData(element, ticketRepository.getTicketLineData(getColumnName(element, TicketTypes.values()), parameters)))
+				.collect(Collectors.toList());
 	}
 
-	public List<NivoJizdenkyBarData> getTicketBarData(List<Boolean> discounted, List<String> months, List<String> year) {
-		return pidTicketsRepository.getTicketsBarData(verifyDiscountedList(discounted), verifyMonthsList(months), verifyYears(year));
+	public List<NivoJizdenkyBarData> getTicketBarData(PidTicketsParameters parameters) {
+		return pidTicketsRepository.getTicketsBarData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
 	}
 
-	public List<NivoPieAbstractData> getTicketsPieData(List<Boolean> discounted, List<String> months, List<String> year, List<String> ticketTypes) {
-		DataSumJizdenkyDTO pieData = pidTicketsRepository.getTicketsPieData(verifyDiscountedList(discounted), verifyMonthsList(months), verifyYears(year));
+	public List<NivoPieAbstractData> getTicketsPieData(PidTicketsParameters parameters) {
+		DataSumJizdenkyDTO pieData = pidTicketsRepository.getTicketsPieData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
 		List<NivoPieAbstractData> outputData = new ArrayList<>();
+		List<String> ticketTypes = parameters.getTicketType();
 
 		if (isTicketTypeRequested(ticketTypes, TicketTypes.FIFTEEN_MINUTES.getValue())) {
 			outputData.add(new NivoGeneralPieData(TicketTypes.FIFTEEN_MINUTES.getValue(), pieData.getFifteenMinutes()));
