@@ -1,21 +1,28 @@
 package com.javapid.entity.enums;
 
-public enum PersonType implements ValueGetter {
+public enum PersonType implements GetterValue, GetterColumn {
 
-	ADULT("Dospelý"),
-	SENIOR("Dôchodcovia"),
-	JUNIOR("Juniori"),
-	PORTABLE("Prenosná"),
-	STUDENT("Študenti");
+	ADULT("Dospelý", "dospeli"),
+	SENIOR("Dôchodcovia", "dochodcovia"),
+	JUNIOR("Juniori", "junior"),
+	PORTABLE("Prenosná", "prenosna"),
+	STUDENT("Študenti", "studenti");
 
-	private String value;
+	public final String value;
+	public final String column;
 
-	private PersonType(String value) {
+	PersonType(String value, String column) {
 		this.value = value;
+		this.column = column;
 	}
 
 	@Override
 	public String getValue() {
 		return value;
+	}
+
+	@Override
+	public String getColumn(){
+		return column;
 	}
 }

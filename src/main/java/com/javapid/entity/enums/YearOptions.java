@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum YearOptions implements ValueGetter {
+public enum YearOptions implements GetterValue {
 
 	TWO_OH_SIXTEEN("2016"),
 	TWO_OH_SEVENTEEN("2017"),

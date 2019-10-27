@@ -1,16 +1,12 @@
-package com.javapid.entity.nivo;
+package com.javapid.entity.nivo.bar;
 
 public class NivoBarDataByValidity extends NivoBarDataAbstract {
 
 	private String validity;
 
 	public NivoBarDataByValidity(String validity, Long adults, Long seniors, Long juniors, Long students, Long portable) {
+		super(adults, seniors, juniors, students, portable);
 		this.validity = validity;
-		setAdults(adults);
-		setJuniors(juniors);
-		setPortable(portable);
-		setSeniors(seniors);
-		setStudents(students);
 	}
 
 	public String getValidity() {

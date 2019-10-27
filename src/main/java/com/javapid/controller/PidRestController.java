@@ -34,5 +34,4 @@ public class PidRestController {
 	public List<CouponEntity> uploadFile(@PathVariable String code) {
 		return pidService.getDataByCode(code);
 	}
-
 }

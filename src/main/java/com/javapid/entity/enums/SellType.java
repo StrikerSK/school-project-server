@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum SellType implements ValueGetter {
+public enum SellType implements GetterValue {
 
 	CARD("Čipová karta"),
 	COUPON("Papierový kupón");

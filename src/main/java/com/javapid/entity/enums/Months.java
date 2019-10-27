@@ -1,6 +1,6 @@
 package com.javapid.entity.enums;
 
-public enum Months implements ValueGetter {
+public enum Months implements GetterValue {
 
 	JANUARY("Január"),
 	FEBRUARY("Február"),
