@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CouponRepository extends RepositoryAbstract {
+public class JdbcCouponRepository extends JdbcAbstractRepository {
 
 	private final JdbcTemplate jdbcTemplate;
 
-	public CouponRepository(JdbcTemplate jdbcTemplate) {
+	public JdbcCouponRepository(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 

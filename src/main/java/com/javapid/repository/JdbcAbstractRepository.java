@@ -3,7 +3,7 @@ package com.javapid.repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class RepositoryAbstract {
+public abstract class JdbcAbstractRepository {
 
 	final String COUPON_TABLE = "data_pid";
 	final String TICKET_TABLE = "pid_jizdenky";
@@ -20,6 +20,10 @@ public abstract class RepositoryAbstract {
 				.map(element -> "'" + element + "'")
 				.collect(Collectors.toList());
 		return columnName + " IN (" + String.join(",", convertedString) + ")";
+	}
+
+	<T> String singleToSqlString(String columnName, T inputStrings) {
+		return columnName + " = " + inputStrings;
 	}
 
 }

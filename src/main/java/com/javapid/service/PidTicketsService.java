@@ -9,7 +9,7 @@ import com.javapid.entity.nivo.line.NivoLineAbstractData;
 import com.javapid.entity.nivo.pie.NivoGeneralPieData;
 import com.javapid.entity.nivo.pie.NivoPieAbstractData;
 import com.javapid.repository.PidTicketsRepository;
-import com.javapid.repository.TicketRepository;
+import com.javapid.repository.JdbcTicketRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,16 +23,16 @@ public class PidTicketsService extends ServiceAbstract {
 
 	private final PidTicketsRepository pidTicketsRepository;
 
-	private final TicketRepository ticketRepository;
+	private final JdbcTicketRepository jdbcTicketRepository;
 
-	public PidTicketsService(PidTicketsRepository pidTicketsRepository, TicketRepository ticketRepository) {
+	public PidTicketsService(PidTicketsRepository pidTicketsRepository, JdbcTicketRepository jdbcTicketRepository) {
 		this.pidTicketsRepository = pidTicketsRepository;
-		this.ticketRepository = ticketRepository;
+		this.jdbcTicketRepository = jdbcTicketRepository;
 	}
 
 	public List<NivoLineAbstractData> getTicketsLineData(PidTicketsParameters parameters) {
 		return verifyTicketType(parameters.getTicketType()).stream()
-				.map(element -> new NivoGeneralLineData(element, ticketRepository.getTicketLineData(getColumnName(element, TicketTypes.values()), parameters)))
+				.map(element -> new NivoGeneralLineData(element, jdbcTicketRepository.getTicketLineData(getColumnName(element, TicketTypes.values()), parameters)))
 				.collect(Collectors.toList());
 	}
 

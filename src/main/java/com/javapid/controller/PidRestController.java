@@ -1,9 +1,7 @@
 package com.javapid.controller;
 
 import com.javapid.entity.CouponEntity;
-import com.javapid.repository.CouponRepository;
 import com.javapid.service.PidService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,9 +15,6 @@ import java.util.List;
 public class PidRestController {
 
 	private final PidService pidService;
-
-	@Autowired
-	private CouponRepository couponRepository;
 
 	public PidRestController(PidService pidService) {
 		this.pidService = pidService;
@@ -39,10 +34,4 @@ public class PidRestController {
 	public List<CouponEntity> uploadFile(@PathVariable String code) {
 		return pidService.getDataByCode(code);
 	}
-
-//	@RequestMapping(name = "/test")
-//	public List<DataXY> testEndpoint() {
-//		return couponRepository.testTemplating("dospeli", Arrays.asList("Mesačná"));
-//	}
-
 }

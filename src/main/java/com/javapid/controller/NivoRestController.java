@@ -3,6 +3,7 @@ package com.javapid.controller;
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.PidTicketsParameters;
 import com.javapid.entity.nivo.bar.NivoBarDataByMonth;
+import com.javapid.entity.nivo.bar.NivoBarDataValidityByMonth;
 import com.javapid.entity.nivo.bar.NivoBarDataByValidity;
 import com.javapid.entity.nivo.NivoJizdenkyBarData;
 import com.javapid.entity.nivo.line.NivoGeneralLineData;
@@ -55,6 +56,15 @@ public class NivoRestController {
 	                                                  @RequestParam(required = false) List<String> year,
 	                                                  @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getNivoBarData(new PidCouponsParameters(validity, type, month, year, person));
+	}
+
+	@RequestMapping("/bar/test")
+	public List<NivoBarDataValidityByMonth> testMethod(@RequestParam(required = false) List<String> validity,
+	                                                   @RequestParam(required = false) List<String> type,
+	                                                   @RequestParam(required = false) List<String> month,
+	                                                   @RequestParam(required = false) List<String> year,
+	                                                   @RequestParam(required = false) List<String> person) {
+		return pidCouponsService.getValidityByMonth(new PidCouponsParameters(validity, type, month, year, person));
 	}
 
 	@RequestMapping("/bar/sell")
