@@ -23,7 +23,7 @@ public abstract class JdbcAbstractRepository {
 	}
 
 	<T> String singleToSqlString(String columnName, T inputStrings) {
-		return columnName + " = " + inputStrings;
+		return columnName + "='" + inputStrings + "\'";
 	}
 
 }

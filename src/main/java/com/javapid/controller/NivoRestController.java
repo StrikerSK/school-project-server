@@ -6,6 +6,7 @@ import com.javapid.entity.nivo.bar.NivoBarDataByMonth;
 import com.javapid.entity.nivo.bar.NivoBarDataValidityByMonth;
 import com.javapid.entity.nivo.bar.NivoBarDataByValidity;
 import com.javapid.entity.nivo.NivoJizdenkyBarData;
+import com.javapid.entity.nivo.bubble.BubbleChartData;
 import com.javapid.entity.nivo.line.NivoGeneralLineData;
 import com.javapid.entity.nivo.line.NivoLineAbstractData;
 import com.javapid.entity.nivo.pie.NivoGeneralPieData;
@@ -65,6 +66,15 @@ public class NivoRestController {
 	                                                   @RequestParam(required = false) List<String> year,
 	                                                   @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getValidityByMonth(new PidCouponsParameters(validity, type, month, year, person));
+	}
+
+	@RequestMapping("/bubble")
+	public BubbleChartData getBubbleData(@RequestParam(required = false) List<String> validity,
+	                                     @RequestParam(required = false) List<String> type,
+	                                     @RequestParam(required = false) List<String> month,
+	                                     @RequestParam(required = false) List<String> year,
+	                                     @RequestParam(required = false) List<String> person) {
+		return pidCouponsService.getNivoBubbleChart(new PidCouponsParameters(validity, type, month, year, person));
 	}
 
 	@RequestMapping("/bar/sell")

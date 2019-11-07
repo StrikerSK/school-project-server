@@ -4,6 +4,8 @@ import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.enums.PersonType;
 import com.javapid.entity.nivo.bar.*;
 import com.javapid.entity.nivo.*;
+import com.javapid.entity.nivo.bubble.BubbleChartData;
+import com.javapid.entity.nivo.bubble.InnerChildren;
 import com.javapid.entity.nivo.line.*;
 import com.javapid.entity.nivo.pie.*;
 import com.javapid.objects.recharts.*;
@@ -202,6 +204,32 @@ public class PidCouponsService {
 		List<NivoGeneralPieData> outputData = verifyValidityList(Collections.emptyList()).stream().map(NivoGeneralPieData::new).collect(Collectors.toList());
 		outputData.forEach(element -> element.setValue(setPieValidityValue(element.getId(), parameters)));
 		return outputData;
+	}
+
+	public BubbleChartData getNivoBubbleChart(PidCouponsParameters parameters) {
+		List<InnerChildren> childrenList = new ArrayList<>();
+		for (String personType : parameters.getPerson()) {
+			InnerChildren children = new InnerChildren(personType);
+			String personColumn = findColumnByValue(personType);
+			for (String couponType : parameters.getValidity()) {
+				Long sum = jdbcCouponRepository.fetchBubbleData(personColumn, couponType, parameters).stream()
+						.map(DataXY::getY)
+						.reduce(0L, Long::sum);
+				children.addChildren(couponType, sum);
+			}
+			childrenList.add(children);
+		}
+		return new BubbleChartData("Predaj kupónov", childrenList);
+	}
+
+	private String findColumnByValue(String lookedPerson) {
+		PersonType[] personTypes = PersonType.values();
+		for (PersonType personType : personTypes) {
+			if (personType.getValue().equals(lookedPerson)) {
+				return personType.getColumn();
+			}
+		}
+		return null;
 	}
 
 	private Long setPieValidityValue(String validity, PidCouponsParameters parameters) {
