@@ -3,7 +3,7 @@ package com.javapid.entity.nivo.bubble;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InnerChildren{
+public class InnerChildren {
 	private String name;
 	private List<FinalChildren> children;
 
@@ -20,11 +20,11 @@ public class InnerChildren{
 		return children;
 	}
 
-	public void addChildren(String name, Long value){
+	public void addChildren(String name, Long value) {
 		children.add(new FinalChildren(name, value));
 	}
 
-	static class FinalChildren{
+	static class FinalChildren {
 		private String name;
 		private Long value;
 

@@ -2,10 +2,10 @@ package com.javapid.controller;
 
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.PidTicketsParameters;
-import com.javapid.entity.nivo.bar.NivoBarDataByMonth;
-import com.javapid.entity.nivo.bar.NivoBarDataValidityByMonth;
-import com.javapid.entity.nivo.bar.NivoBarDataByValidity;
 import com.javapid.entity.nivo.NivoJizdenkyBarData;
+import com.javapid.entity.nivo.bar.NivoBarDataByMonth;
+import com.javapid.entity.nivo.bar.NivoBarDataByValidity;
+import com.javapid.entity.nivo.bar.NivoBarDataValidityByMonth;
 import com.javapid.entity.nivo.bubble.BubbleChartData;
 import com.javapid.entity.nivo.line.NivoGeneralLineData;
 import com.javapid.entity.nivo.line.NivoLineAbstractData;
@@ -73,8 +73,18 @@ public class NivoRestController {
 	                                     @RequestParam(required = false) List<String> type,
 	                                     @RequestParam(required = false) List<String> month,
 	                                     @RequestParam(required = false) List<String> year,
-	                                     @RequestParam(required = false) List<String> person) {
-		return pidCouponsService.getNivoBubbleChart(new PidCouponsParameters(validity, type, month, year, person));
+	                                     @RequestParam(required = false) List<String> person,
+	                                     @RequestParam(required = false) String getBy) {
+		PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
+		try {
+			if ("validity".equals(getBy.toLowerCase())) {
+				return pidCouponsService.getNivoBubbleChartByValidity(parameters);
+			}
+			return pidCouponsService.getNivoBubbleChart(parameters);
+		} catch (NullPointerException e) {
+			return pidCouponsService.getNivoBubbleChart(parameters);
+		}
+
 	}
 
 	@RequestMapping("/bar/sell")

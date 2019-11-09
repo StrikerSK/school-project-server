@@ -5,19 +5,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public abstract class NivoBarDataAbstract {
 
 	@JsonProperty("Dospelý")
-	private Long adults;
+	private Long adults = 0L;
 
 	@JsonProperty("Dôchodcovia")
-	private Long seniors;
+	private Long seniors = 0L;
 
 	@JsonProperty("Juniori")
-	private Long juniors;
+	private Long juniors = 0L;
 
 	@JsonProperty("Študenti")
-	private Long students;
+	private Long students = 0L;
 
 	@JsonProperty("Prenosné")
-	private Long portable;
+	private Long portable = 0L;
+
+	public NivoBarDataAbstract() {
+	}
 
 	NivoBarDataAbstract(Long adults, Long seniors, Long juniors, Long students, Long portable) {
 		this.adults = adults;
@@ -35,12 +38,20 @@ public abstract class NivoBarDataAbstract {
 		this.adults = adults;
 	}
 
+	public void addToAdults(Long adults) {
+		this.adults += adults;
+	}
+
 	public Long getSeniors() {
 		return seniors;
 	}
 
 	public void setSeniors(Long seniors) {
 		this.seniors = seniors;
+	}
+
+	public void addToSeniors(Long seniors) {
+		this.seniors += seniors;
 	}
 
 	public Long getJuniors() {
@@ -51,6 +62,10 @@ public abstract class NivoBarDataAbstract {
 		this.juniors = juniors;
 	}
 
+	public void addToJuniors(Long juniors) {
+		this.juniors += juniors;
+	}
+
 	public Long getStudents() {
 		return students;
 	}
@@ -59,11 +74,19 @@ public abstract class NivoBarDataAbstract {
 		this.students = students;
 	}
 
+	public void addToStudents(Long students) {
+		this.students += students;
+	}
+
 	public Long getPortable() {
 		return portable;
 	}
 
 	public void setPortable(Long portable) {
 		this.portable = portable;
+	}
+
+	public void addToPortable(Long portable) {
+		this.portable += portable;
 	}
 }
