@@ -21,10 +21,10 @@ public class JdbcCouponRepository extends JdbcAbstractRepository {
 
 		String query = String.format(SQL_QUERY,
 				summedColumn,
-				arrayToSqlString(VALIDITY_COLUMN, parameters.getValidity()),
-				arrayToSqlString(SELL_TYPE_COLUMN, parameters.getSellType()),
-				arrayToSqlString(MONTH_COLUMN, parameters.getMonth()),
-				arrayToSqlString(YEAR_COLUMN, parameters.getYear())
+				generateSqlByColumnQuery(VALIDITY_COLUMN, parameters.getValidity()),
+				generateSqlByColumnQuery(SELL_TYPE_COLUMN, parameters.getSellType()),
+				generateSqlByColumnQuery(MONTH_COLUMN, parameters.getMonth()),
+				generateSqlByColumnQuery(YEAR_COLUMN, parameters.getYear())
 		);
 
 		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2)));
@@ -32,16 +32,18 @@ public class JdbcCouponRepository extends JdbcAbstractRepository {
 
 	//TODO add setters methods to Parameter object
 	//TODO set parameter to single element array
-	public List<DataXY> fetchBubbleData(String summedColumn, String validityColumn, PidCouponsParameters parameters) {
+	public Long fetchBubbleData(String summedColumn, String validityColumn, PidCouponsParameters parameters) {
 
 		String query = String.format(SQL_QUERY,
 				summedColumn,
-				singleToSqlString(VALIDITY_COLUMN, validityColumn),
-				arrayToSqlString(SELL_TYPE_COLUMN, parameters.getSellType()),
-				arrayToSqlString(MONTH_COLUMN, parameters.getMonth()),
-				arrayToSqlString(YEAR_COLUMN, parameters.getYear())
+				generateSqlByColumnQuery(VALIDITY_COLUMN, validityColumn),
+				generateSqlByColumnQuery(SELL_TYPE_COLUMN, parameters.getSellType()),
+				generateSqlByColumnQuery(MONTH_COLUMN, parameters.getMonth()),
+				generateSqlByColumnQuery(YEAR_COLUMN, parameters.getYear())
 		);
 
-		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2)));
+		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2))).stream()
+				.map(DataXY::getY)
+				.reduce(0L, Long::sum);
 	}
 }
