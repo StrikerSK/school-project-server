@@ -2,9 +2,13 @@ package com.javapid.service;
 
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.enums.PersonType;
+import com.javapid.entity.nivo.DataXY;
 import com.javapid.entity.nivo.bar.*;
-import com.javapid.entity.nivo.*;
-import com.javapid.entity.nivo.line.*;
+import com.javapid.entity.nivo.bubble.BubbleChartData;
+import com.javapid.entity.nivo.bubble.NivoBubbleData;
+import com.javapid.entity.nivo.bubble.NivoBubbleAbstract;
+import com.javapid.entity.nivo.line.NivoGeneralLineData;
+import com.javapid.entity.nivo.line.NivoLineAbstractData;
 import com.javapid.entity.nivo.pie.*;
 import com.javapid.objects.recharts.*;
 import com.javapid.repository.JdbcCouponRepository;
@@ -12,10 +16,8 @@ import com.javapid.repository.PidCouponsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static com.javapid.service.Validators.*;
@@ -33,14 +35,13 @@ public class PidCouponsService {
 	}
 
 	public List<NivoLineAbstractData> getNivoLineData(PidCouponsParameters parameters) {
-
 		return verifyPersonList(parameters.getPerson()).stream()
-				.map(element -> new NivoGeneralLineData(element, jdbcCouponRepository.fetchCouponLineData(getColumnName(element), parameters)))
+				.map(element -> new NivoGeneralLineData(element, jdbcCouponRepository.fetchCouponLineData(findColumnByValue(element), parameters)))
 				.collect(Collectors.toList());
 	}
 
-	public List<NivoGeneralLineData> getNivoLineDataByValidity(PidCouponsParameters parameters) {
-		List<NivoGeneralLineData> outputValidityData = new ArrayList<>();
+	public List<NivoLineAbstractData> getNivoLineDataByValidity(PidCouponsParameters parameters) {
+		List<NivoLineAbstractData> outputValidityData = new ArrayList<>();
 		for (String validity : parameters.getValidity()) {
 			NivoGeneralLineData singleElement = new NivoGeneralLineData(validity);
 			List<DataXY> outputBarData = repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger()).stream()
@@ -52,7 +53,7 @@ public class PidCouponsService {
 		return outputValidityData;
 	}
 
-	private Long getDataSum(NivoBarDataByMonth element, List<String> personTypes) {
+	private Long getDataSum(NivoBarDataAbstract element, List<String> personTypes) {
 		Long dataSum = 0L;
 
 		if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
@@ -80,28 +81,27 @@ public class PidCouponsService {
 
 	public List<NivoBarDataByMonth> getNivoBarData(PidCouponsParameters parameters) {
 		List<NivoBarDataByMonth> dataList = repository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
-		dataList
-				.forEach(element -> {
-					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
-						element.setAdults(0L);
-					}
+		dataList.forEach(element -> {
+			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
+				element.setAdults(0L);
+			}
 
-					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
-						element.setSeniors(0L);
-					}
+			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
+				element.setSeniors(0L);
+			}
 
-					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
-						element.setJuniors(0L);
-					}
+			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
+				element.setJuniors(0L);
+			}
 
-					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
-						element.setStudents(0L);
-					}
+			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
+				element.setStudents(0L);
+			}
 
-					if (!isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
-						element.setPortable(0L);
-					}
-				});
+			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
+				element.setPortable(0L);
+			}
+		});
 		return dataList;
 	}
 
@@ -138,37 +138,31 @@ public class PidCouponsService {
 	}
 
 	private NivoBarDataByValidity getBarDataFromRepository(String validity, PidCouponsParameters parameters) {
-		AtomicReference<Long> adults = new AtomicReference<>(0L);
-		AtomicReference<Long> juniors = new AtomicReference<>(0L);
-		AtomicReference<Long> seniors = new AtomicReference<>(0L);
-		AtomicReference<Long> students = new AtomicReference<>(0L);
-		AtomicReference<Long> portable = new AtomicReference<>(0L);
-		List<String> personTypeList = parameters.getPerson();
+		NivoBarDataByValidity outputData = new NivoBarDataByValidity(validity);
 
-		repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger())
-				.forEach(element -> {
-					if (isPersonTypeRequested(personTypeList, PersonType.ADULT.getValue())) {
-						adults.updateAndGet(v -> v + element.getAdults());
-					}
+		for (NivoBarDataAbstract element : repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger())) {
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
+				outputData.addToAdults(element.getAdults());
+			}
 
-					if (isPersonTypeRequested(personTypeList, PersonType.JUNIOR.getValue())) {
-						juniors.updateAndGet(v -> v + element.getJuniors());
-					}
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
+				outputData.addToJuniors(element.getJuniors());
+			}
 
-					if (isPersonTypeRequested(personTypeList, PersonType.SENIOR.getValue())) {
-						seniors.updateAndGet(v -> v + element.getSeniors());
-					}
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
+				outputData.addToSeniors(element.getSeniors());
+			}
 
-					if (isPersonTypeRequested(personTypeList, PersonType.STUDENT.getValue())) {
-						students.updateAndGet(v -> v + element.getStudents());
-					}
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
+				outputData.addToStudents(element.getStudents());
+			}
 
-					if (isPersonTypeRequested(personTypeList, PersonType.PORTABLE.getValue())) {
-						portable.updateAndGet(v -> v + element.getPortable());
-					}
-				});
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
+				outputData.addToPortable(element.getPortable());
+			}
+		}
 
-		return new NivoBarDataByValidity(validity, adults.get(), seniors.get(), juniors.get(), students.get(), portable.get());
+		return outputData;
 	}
 
 
@@ -209,6 +203,74 @@ public class PidCouponsService {
 				.mapToLong(element -> getDataSum(element, parameters.getPerson())).sum();
 	}
 
+	public BubbleChartData getNivoBubbleChart(PidCouponsParameters parameters) {
+		BubbleChartData outputData = new BubbleChartData("Predaj kupónov");
+		for (String personType : parameters.getPerson()) {
+			BubbleChartData.FirstChildren firstChildren = new BubbleChartData.FirstChildren(personType);
+			String personColumn = findColumnByValue(personType);
+			for (String couponType : parameters.getValidity()) {
+				firstChildren.addSecondChildren(couponType, jdbcCouponRepository.fetchBubbleData(personColumn, couponType, parameters));
+			}
+			outputData.addFirstChildren(firstChildren);
+		}
+		return outputData;
+	}
+
+	public BubbleChartData getNivoBubbleChartByValidity(PidCouponsParameters parameters) {
+		BubbleChartData outputData = new BubbleChartData("Predaj kupónov");
+		for (String couponType : parameters.getValidity()) {
+			BubbleChartData.FirstChildren children = new BubbleChartData.FirstChildren(couponType);
+			NivoBarDataSumDTO data = repository.getNivoPieData(Collections.singletonList(couponType), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
+				children.addSecondChildren(PersonType.ADULT.getValue(), data.getAdults());
+			}
+
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
+				children.addSecondChildren(PersonType.SENIOR.getValue(), data.getSeniors());
+			}
+
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
+				children.addSecondChildren(PersonType.JUNIOR.getValue(), data.getJuniors());
+			}
+
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
+				children.addSecondChildren(PersonType.STUDENT.getValue(), data.getStudents());
+			}
+
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
+				children.addSecondChildren(PersonType.PORTABLE.getValue(), data.getPortable());
+			}
+			outputData.addFirstChildren(children);
+		}
+		return outputData;
+	}
+
+	public NivoBubbleAbstract getNivoBubbleChartExperimental(PidCouponsParameters parameters) {
+		NivoBubbleData outputData = new NivoBubbleData("Predaj kupónov");
+		for (String month : parameters.getMonth()) {
+			NivoBubbleData.FirstComplexChildren firstComplexChildren = new NivoBubbleData.FirstComplexChildren(month);
+			for (String person : parameters.getPerson()){
+				NivoBubbleData.FirstComplexChildren.SecondComplexChildren secondComplexChildren = new NivoBubbleData.FirstComplexChildren.SecondComplexChildren(person);
+				for (String validity : parameters.getValidity()) {
+					Long sum = jdbcCouponRepository.fetchBubbleData(findColumnByValue(person),validity,month,parameters);
+					secondComplexChildren.addToList(validity, sum);
+				}
+				firstComplexChildren.addChildren(secondComplexChildren);
+			}
+			outputData.addChildren(firstComplexChildren);
+		}
+		return outputData;
+	}
+
+	private String findColumnByValue(String lookedPerson) {
+		for (PersonType personType : PersonType.values()) {
+			if (personType.getValue().equals(lookedPerson)) {
+				return personType.getColumn();
+			}
+		}
+		return null;
+	}
+
 	public List<List<PersonAbstractClass>> getPersonData(PidCouponsParameters parameters) {
 		return repository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger()).stream()
 				.map(element -> createPeronList(element, parameters.getPerson()))
@@ -240,13 +302,5 @@ public class PidCouponsService {
 		}
 
 		return personsList;
-	}
-
-	private String getColumnName(String name) {
-		return Arrays.stream(PersonType.values())
-				.filter(e -> name.equals(e.getValue()))
-				.findFirst()
-				.get()
-				.getColumn();
 	}
 }

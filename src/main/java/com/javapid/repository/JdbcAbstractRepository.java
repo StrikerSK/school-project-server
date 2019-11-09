@@ -14,7 +14,11 @@ public abstract class JdbcAbstractRepository {
 	final String CODE_COLUMN = "kod";
 	final String DISCOUNTED_COLUMN = "zlavneny";
 
-	<T> String arrayToSqlString(String columnName, List<T> inputStrings) {
+	<T> String generateSqlByColumnQuery(String columnName, List<T> inputStrings) {
+		if(inputStrings.size() == 1){
+			return generateSqlByColumnQuery(columnName, inputStrings.get(0));
+		}
+
 		List<String> convertedString = inputStrings.stream()
 				.map(String::valueOf)
 				.map(element -> "'" + element + "'")
@@ -22,8 +26,8 @@ public abstract class JdbcAbstractRepository {
 		return columnName + " IN (" + String.join(",", convertedString) + ")";
 	}
 
-	<T> String singleToSqlString(String columnName, T inputStrings) {
-		return columnName + " = " + inputStrings;
+	<T> String generateSqlByColumnQuery(String columnName, T inputStrings) {
+		return columnName + "='" + inputStrings + "\'";
 	}
 
 }

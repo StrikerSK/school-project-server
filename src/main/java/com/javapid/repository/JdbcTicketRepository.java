@@ -19,9 +19,9 @@ public class JdbcTicketRepository extends JdbcAbstractRepository {
 	public List<DataXY> getTicketLineData(String columnName, PidTicketsParameters parameters){
 		String query = String.format("SELECT " + MONTH_COLUMN + ", SUM(%s) FROM " + TICKET_TABLE + " WHERE %s AND %s AND %s GROUP BY " + CODE_COLUMN + "," + MONTH_COLUMN + " ORDER BY " + CODE_COLUMN + " ASC",
 				columnName,
-				arrayToSqlString(DISCOUNTED_COLUMN, parameters.getDiscounted()),
-				arrayToSqlString(MONTH_COLUMN, parameters.getMonth()),
-				arrayToSqlString(YEAR_COLUMN, parameters.getYear())
+				generateSqlByColumnQuery(DISCOUNTED_COLUMN, parameters.getDiscounted()),
+				generateSqlByColumnQuery(MONTH_COLUMN, parameters.getMonth()),
+				generateSqlByColumnQuery(YEAR_COLUMN, parameters.getYear())
 		);
 
 		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2)));
