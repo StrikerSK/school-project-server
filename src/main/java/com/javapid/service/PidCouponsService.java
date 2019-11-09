@@ -5,7 +5,6 @@ import com.javapid.entity.enums.PersonType;
 import com.javapid.entity.nivo.DataXY;
 import com.javapid.entity.nivo.bar.*;
 import com.javapid.entity.nivo.bubble.BubbleChartData;
-import com.javapid.entity.nivo.bubble.InnerChildren;
 import com.javapid.entity.nivo.bubble.NivoBubbleData;
 import com.javapid.entity.nivo.bubble.NivoBubbleAbstract;
 import com.javapid.entity.nivo.line.NivoGeneralLineData;
@@ -205,60 +204,60 @@ public class PidCouponsService {
 	}
 
 	public BubbleChartData getNivoBubbleChart(PidCouponsParameters parameters) {
-		List<InnerChildren> childrenList = new ArrayList<>();
+		BubbleChartData outputData = new BubbleChartData("Predaj kupónov");
 		for (String personType : parameters.getPerson()) {
-			InnerChildren children = new InnerChildren(personType);
+			BubbleChartData.FirstChildren firstChildren = new BubbleChartData.FirstChildren(personType);
 			String personColumn = findColumnByValue(personType);
 			for (String couponType : parameters.getValidity()) {
-				children.addChildren(couponType, jdbcCouponRepository.fetchBubbleData(personColumn, couponType, parameters));
+				firstChildren.addSecondChildren(couponType, jdbcCouponRepository.fetchBubbleData(personColumn, couponType, parameters));
 			}
-			childrenList.add(children);
+			outputData.addFirstChildren(firstChildren);
 		}
-		return new BubbleChartData("Predaj kupónov", childrenList);
+		return outputData;
 	}
 
 	public BubbleChartData getNivoBubbleChartByValidity(PidCouponsParameters parameters) {
-		List<InnerChildren> childrenList = new ArrayList<>();
+		BubbleChartData outputData = new BubbleChartData("Predaj kupónov");
 		for (String couponType : parameters.getValidity()) {
-			InnerChildren children = new InnerChildren(couponType);
+			BubbleChartData.FirstChildren children = new BubbleChartData.FirstChildren(couponType);
 			NivoBarDataSumDTO data = repository.getNivoPieData(Collections.singletonList(couponType), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 			if (isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
-				children.addChildren(PersonType.ADULT.getValue(), data.getAdults());
+				children.addSecondChildren(PersonType.ADULT.getValue(), data.getAdults());
 			}
 
 			if (isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
-				children.addChildren(PersonType.SENIOR.getValue(), data.getSeniors());
+				children.addSecondChildren(PersonType.SENIOR.getValue(), data.getSeniors());
 			}
 
 			if (isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
-				children.addChildren(PersonType.JUNIOR.getValue(), data.getJuniors());
+				children.addSecondChildren(PersonType.JUNIOR.getValue(), data.getJuniors());
 			}
 
 			if (isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
-				children.addChildren(PersonType.STUDENT.getValue(), data.getStudents());
+				children.addSecondChildren(PersonType.STUDENT.getValue(), data.getStudents());
 			}
 
 			if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
-				children.addChildren(PersonType.PORTABLE.getValue(), data.getPortable());
+				children.addSecondChildren(PersonType.PORTABLE.getValue(), data.getPortable());
 			}
-			childrenList.add(children);
+			outputData.addFirstChildren(children);
 		}
-		return new BubbleChartData("Predaj kupónov", childrenList);
+		return outputData;
 	}
 
 	public NivoBubbleAbstract getNivoBubbleChartExperimental(PidCouponsParameters parameters) {
 		NivoBubbleData outputData = new NivoBubbleData("Predaj kupónov");
 		for (String month : parameters.getMonth()) {
-			NivoBubbleData.FirstNestedChildren firstNestedChildren = new NivoBubbleData.FirstNestedChildren(month);
+			NivoBubbleData.FirstComplexChildren firstComplexChildren = new NivoBubbleData.FirstComplexChildren(month);
 			for (String person : parameters.getPerson()){
-				NivoBubbleData.FirstNestedChildren.SecondNestedChildren secondNestedChildren = new NivoBubbleData.FirstNestedChildren.SecondNestedChildren(person);
+				NivoBubbleData.FirstComplexChildren.SecondComplexChildren secondComplexChildren = new NivoBubbleData.FirstComplexChildren.SecondComplexChildren(person);
 				for (String validity : parameters.getValidity()) {
 					Long sum = jdbcCouponRepository.fetchBubbleData(findColumnByValue(person),validity,month,parameters);
-					secondNestedChildren.addToList(validity, sum);
+					secondComplexChildren.addToList(validity, sum);
 				}
-				firstNestedChildren.addChildren(secondNestedChildren);
+				firstComplexChildren.addChildren(secondComplexChildren);
 			}
-			outputData.addChildren(firstNestedChildren);
+			outputData.addChildren(firstComplexChildren);
 		}
 		return outputData;
 	}

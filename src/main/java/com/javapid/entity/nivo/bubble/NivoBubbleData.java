@@ -4,26 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NivoBubbleData extends NivoBubbleAbstract {
-	private List<FirstNestedChildren> children;
+	private List<FirstComplexChildren> children;
 
 	public NivoBubbleData(String name) {
 		super(name);
 		this.children = new ArrayList<>();
 	}
 
-	public List<FirstNestedChildren> getChildren() {
+	public List<FirstComplexChildren> getChildren() {
 		return children;
 	}
 
-	public void addChildren(FirstNestedChildren children) {
+	public void addChildren(FirstComplexChildren children) {
 		this.children.add(children);
 	}
 
-	public static class FirstNestedChildren {
+	public static class FirstComplexChildren {
 		private String name;
-		private List<SecondNestedChildren> children;
+		private List<SecondComplexChildren> children;
 
-		public FirstNestedChildren(String name) {
+		public FirstComplexChildren(String name) {
 			this.name = name;
 			this.children = new ArrayList<>();
 		}
@@ -32,55 +32,37 @@ public class NivoBubbleData extends NivoBubbleAbstract {
 			return name;
 		}
 
-		public List<SecondNestedChildren> getChildren() {
+		public List<SecondComplexChildren> getChildren() {
 			return children;
 		}
 
-		public void setChildren(List<SecondNestedChildren> children) {
+		public void setChildren(List<SecondComplexChildren> children) {
 			this.children = children;
 		}
 
-		public void addChildren(SecondNestedChildren children) {
+		public void addChildren(SecondComplexChildren children) {
 			this.children.add(children);
 		}
 
-		public static class SecondNestedChildren {
+		public static class SecondComplexChildren {
 			private String name;
-			private List<ThirdNestedChildren> children;
+			private List<BubbleFinalChildren> children;
 
-			public SecondNestedChildren(String name) {
+			public SecondComplexChildren(String name) {
 				this.name = name;
 				children = new ArrayList<>();
 			}
 
 			public void addToList(String name, Long value) {
-				this.children.add(new ThirdNestedChildren(name, value));
+				this.children.add(new BubbleFinalChildren(name, value));
 			}
 
 			public String getName() {
 				return name;
 			}
 
-			public List<ThirdNestedChildren> getChildren() {
+			public List<BubbleFinalChildren> getChildren() {
 				return children;
-			}
-
-			public static class ThirdNestedChildren {
-				private String name;
-				private Long value;
-
-				ThirdNestedChildren(String name, Long value) {
-					this.name = name;
-					this.value = value;
-				}
-
-				public String getName() {
-					return name;
-				}
-
-				public Long getValue() {
-					return value;
-				}
 			}
 		}
 	}
