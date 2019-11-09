@@ -6,6 +6,8 @@ import com.javapid.entity.nivo.DataXY;
 import com.javapid.entity.nivo.bar.*;
 import com.javapid.entity.nivo.bubble.BubbleChartData;
 import com.javapid.entity.nivo.bubble.InnerChildren;
+import com.javapid.entity.nivo.bubble.NivoBubbleData;
+import com.javapid.entity.nivo.bubble.NivoBubbleAbstract;
 import com.javapid.entity.nivo.line.NivoGeneralLineData;
 import com.javapid.entity.nivo.line.NivoLineAbstractData;
 import com.javapid.entity.nivo.pie.*;
@@ -39,8 +41,8 @@ public class PidCouponsService {
 				.collect(Collectors.toList());
 	}
 
-	public List<NivoGeneralLineData> getNivoLineDataByValidity(PidCouponsParameters parameters) {
-		List<NivoGeneralLineData> outputValidityData = new ArrayList<>();
+	public List<NivoLineAbstractData> getNivoLineDataByValidity(PidCouponsParameters parameters) {
+		List<NivoLineAbstractData> outputValidityData = new ArrayList<>();
 		for (String validity : parameters.getValidity()) {
 			NivoGeneralLineData singleElement = new NivoGeneralLineData(validity);
 			List<DataXY> outputBarData = repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger()).stream()
@@ -242,6 +244,23 @@ public class PidCouponsService {
 			childrenList.add(children);
 		}
 		return new BubbleChartData("Predaj kupónov", childrenList);
+	}
+
+	public NivoBubbleAbstract getNivoBubbleChartExperimental(PidCouponsParameters parameters) {
+		NivoBubbleData outputData = new NivoBubbleData("Predaj kupónov");
+		for (String month : parameters.getMonth()) {
+			NivoBubbleData.FirstNestedChildren firstNestedChildren = new NivoBubbleData.FirstNestedChildren(month);
+			for (String person : parameters.getPerson()){
+				NivoBubbleData.FirstNestedChildren.SecondNestedChildren secondNestedChildren = new NivoBubbleData.FirstNestedChildren.SecondNestedChildren(person);
+				for (String validity : parameters.getValidity()) {
+					Long sum = jdbcCouponRepository.fetchBubbleData(findColumnByValue(person),validity,month,parameters);
+					secondNestedChildren.addToList(validity, sum);
+				}
+				firstNestedChildren.addChildren(secondNestedChildren);
+			}
+			outputData.addChildren(firstNestedChildren);
+		}
+		return outputData;
 	}
 
 	private String findColumnByValue(String lookedPerson) {

@@ -46,4 +46,19 @@ public class JdbcCouponRepository extends JdbcAbstractRepository {
 				.map(DataXY::getY)
 				.reduce(0L, Long::sum);
 	}
+
+	public Long fetchBubbleData(String summedColumn, String validityColumn, String monthColumn, PidCouponsParameters parameters) {
+
+		String query = String.format(SQL_QUERY,
+				summedColumn,
+				generateSqlByColumnQuery(VALIDITY_COLUMN, validityColumn),
+				generateSqlByColumnQuery(SELL_TYPE_COLUMN, parameters.getSellType()),
+				generateSqlByColumnQuery(MONTH_COLUMN, monthColumn),
+				generateSqlByColumnQuery(YEAR_COLUMN, parameters.getYear())
+		);
+
+		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2))).stream()
+				.map(DataXY::getY)
+				.reduce(0L, Long::sum);
+	}
 }

@@ -15,6 +15,10 @@ public abstract class JdbcAbstractRepository {
 	final String DISCOUNTED_COLUMN = "zlavneny";
 
 	<T> String generateSqlByColumnQuery(String columnName, List<T> inputStrings) {
+		if(inputStrings.size() == 1){
+			return generateSqlByColumnQuery(columnName, inputStrings.get(0));
+		}
+
 		List<String> convertedString = inputStrings.stream()
 				.map(String::valueOf)
 				.map(element -> "'" + element + "'")
