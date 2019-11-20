@@ -19,15 +19,19 @@ public abstract class NivoBarDataAbstract {
 	@JsonProperty("Prenosné")
 	private Long portable = 0L;
 
+	@JsonProperty("Deti")
+	private Long children = 0L;
+
 	public NivoBarDataAbstract() {
 	}
 
-	NivoBarDataAbstract(Long adults, Long seniors, Long juniors, Long students, Long portable) {
+	public NivoBarDataAbstract(Long adults, Long seniors, Long juniors, Long students, Long portable, Long children) {
 		this.adults = adults;
 		this.seniors = seniors;
 		this.juniors = juniors;
 		this.students = students;
 		this.portable = portable;
+		this.children = children;
 	}
 
 	public Long getAdults() {
@@ -88,5 +92,13 @@ public abstract class NivoBarDataAbstract {
 
 	public void addToPortable(Long portable) {
 		this.portable += portable;
+	}
+
+	public Long getChildren() {
+		return children;
+	}
+
+	public void setChildren(Long children) {
+		this.children = children;
 	}
 }

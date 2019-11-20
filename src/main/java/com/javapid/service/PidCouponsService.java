@@ -5,8 +5,8 @@ import com.javapid.entity.enums.PersonType;
 import com.javapid.entity.nivo.DataXY;
 import com.javapid.entity.nivo.bar.*;
 import com.javapid.entity.nivo.bubble.BubbleChartData;
-import com.javapid.entity.nivo.bubble.NivoBubbleData;
 import com.javapid.entity.nivo.bubble.NivoBubbleAbstract;
+import com.javapid.entity.nivo.bubble.NivoBubbleData;
 import com.javapid.entity.nivo.line.NivoGeneralLineData;
 import com.javapid.entity.nivo.line.NivoLineAbstractData;
 import com.javapid.entity.nivo.pie.*;
@@ -76,6 +76,10 @@ public class PidCouponsService {
 			dataSum += element.getPortable();
 		}
 
+		if (isPersonTypeRequested(personTypes, PersonType.CHILDREN.getValue())) {
+			dataSum += element.getChildren();
+		}
+
 		return dataSum;
 	}
 
@@ -100,6 +104,10 @@ public class PidCouponsService {
 
 			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
 				element.setPortable(0L);
+			}
+
+			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.CHILDREN.getValue())) {
+				element.setChildren(0L);
 			}
 		});
 		return dataList;
@@ -160,6 +168,10 @@ public class PidCouponsService {
 			if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
 				outputData.addToPortable(element.getPortable());
 			}
+
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.CHILDREN.getValue())) {
+				outputData.setChildren(element.getChildren());
+			}
 		}
 
 		return outputData;
@@ -188,6 +200,10 @@ public class PidCouponsService {
 
 		if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
 			outputData.add(new NivoPiePortableData(pieData.getPortable()));
+		}
+
+		if (isPersonTypeRequested(parameters.getPerson(), PersonType.CHILDREN.getValue())) {
+			outputData.add(new NivoPiePortableData(pieData.getChildren()));
 		}
 		return outputData;
 	}
@@ -240,6 +256,10 @@ public class PidCouponsService {
 			if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
 				children.addSecondChildren(PersonType.PORTABLE.getValue(), data.getPortable());
 			}
+
+			if (isPersonTypeRequested(parameters.getPerson(), PersonType.CHILDREN.getValue())) {
+				children.addSecondChildren(PersonType.CHILDREN.getValue(), data.getChildren());
+			}
 			outputData.addFirstChildren(children);
 		}
 		return outputData;
@@ -249,10 +269,10 @@ public class PidCouponsService {
 		NivoBubbleData outputData = new NivoBubbleData("Predaj kupónov");
 		for (String month : parameters.getMonth()) {
 			NivoBubbleData.FirstComplexChildren firstComplexChildren = new NivoBubbleData.FirstComplexChildren(month);
-			for (String person : parameters.getPerson()){
+			for (String person : parameters.getPerson()) {
 				NivoBubbleData.FirstComplexChildren.SecondComplexChildren secondComplexChildren = new NivoBubbleData.FirstComplexChildren.SecondComplexChildren(person);
 				for (String validity : parameters.getValidity()) {
-					Long sum = jdbcCouponRepository.fetchBubbleData(findColumnByValue(person),validity,month,parameters);
+					Long sum = jdbcCouponRepository.fetchBubbleData(findColumnByValue(person), validity, month, parameters);
 					secondComplexChildren.addToList(validity, sum);
 				}
 				firstComplexChildren.addChildren(secondComplexChildren);
@@ -301,6 +321,9 @@ public class PidCouponsService {
 			personsList.add(new StudentObject(month, data.getStudents()));
 		}
 
+		if (isPersonTypeRequested(personTypes, PersonType.CHILDREN.getValue())) {
+			personsList.add(new StudentObject(month, data.getChildren()));
+		}
 		return personsList;
 	}
 }
