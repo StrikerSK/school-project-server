@@ -3,7 +3,8 @@ package com.javapid.entity.enums;
 public enum SellType implements GetterValue {
 
 	CARD("Čipová karta"),
-	COUPON("Papierový kupón");
+	COUPON("Papierový kupón"),
+	ESHOP("EShop");
 
 	private String value;
 

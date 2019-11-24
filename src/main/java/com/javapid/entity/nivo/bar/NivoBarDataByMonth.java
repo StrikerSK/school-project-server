@@ -4,8 +4,8 @@ public class NivoBarDataByMonth extends NivoBarDataAbstract {
 
 	private String month;
 
-	public NivoBarDataByMonth(String month, Long adults, Long seniors, Long juniors, Long students, Long portable) {
-		super(adults, seniors, juniors, students, portable);
+	public NivoBarDataByMonth(String month, Long adults, Long seniors, Long juniors, Long students, Long portable, Long children) {
+		super(adults, seniors, juniors, students, portable, children);
 		this.month = month;
 	}
 

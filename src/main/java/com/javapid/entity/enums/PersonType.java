@@ -6,7 +6,8 @@ public enum PersonType implements GetterValue, GetterColumn {
 	SENIOR("Dôchodcovia", "dochodcovia"),
 	JUNIOR("Juniori", "junior"),
 	PORTABLE("Prenosná", "prenosna"),
-	STUDENT("Študenti", "studenti");
+	STUDENT("Študenti", "studenti"),
+	CHILDREN("Deti", "dieta");
 
 	public final String value;
 	public final String column;
@@ -22,7 +23,7 @@ public enum PersonType implements GetterValue, GetterColumn {
 	}
 
 	@Override
-	public String getColumn(){
+	public String getColumn() {
 		return column;
 	}
 }
