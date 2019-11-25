@@ -203,7 +203,7 @@ public class PidCouponsService {
 		}
 
 		if (isPersonTypeRequested(parameters.getPerson(), PersonType.CHILDREN.getValue())) {
-			outputData.add(new NivoPiePortableData(pieData.getChildren()));
+			outputData.add(new NivoGeneralPieData(PersonType.CHILDREN.getValue(), pieData.getChildren()));
 		}
 		return outputData;
 	}
@@ -322,7 +322,7 @@ public class PidCouponsService {
 		}
 
 		if (isPersonTypeRequested(personTypes, PersonType.CHILDREN.getValue())) {
-			personsList.add(new StudentObject(month, data.getChildren()));
+			personsList.add(new ChildrenObject(month, data.getChildren()));
 		}
 		return personsList;
 	}

@@ -1,10 +1,10 @@
 package com.javapid.objects.recharts;
 
+import com.javapid.entity.enums.PersonType;
+
 public class AdultObject extends PersonAbstractClass {
 
 	public AdultObject(String month, Long ticketCount) {
-		setName("Dospelý");
-		setMonth(month);
-		setValue(ticketCount);
+		super(PersonType.ADULT.value, month, ticketCount);
 	}
 }
