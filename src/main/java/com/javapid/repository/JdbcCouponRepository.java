@@ -30,6 +30,19 @@ public class JdbcCouponRepository extends JdbcAbstractRepository {
 		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2)));
 	}
 
+	public List<Long> fetchCouponAreaData(String summedColumn, PidCouponsParameters parameters) {
+
+		String query = String.format(SQL_QUERY,
+				summedColumn,
+				generateSqlByColumnQuery(VALIDITY_COLUMN, parameters.getValidity()),
+				generateSqlByColumnQuery(SELL_TYPE_COLUMN, parameters.getSellType()),
+				generateSqlByColumnQuery(MONTH_COLUMN, parameters.getMonth()),
+				generateSqlByColumnQuery(YEAR_COLUMN, parameters.getYear())
+		);
+
+		return jdbcTemplate.query(query, (rs, rowNum) -> rs.getLong(2));
+	}
+
 	//TODO add setters methods to Parameter object
 	//TODO set parameter to single element array
 	public Long fetchBubbleData(String summedColumn, String validityColumn, PidCouponsParameters parameters) {
