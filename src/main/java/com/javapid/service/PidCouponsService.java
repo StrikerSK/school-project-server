@@ -297,7 +297,7 @@ public class PidCouponsService {
 		return outputData;
 	}
 
-	private String findColumnByValue(String lookedPerson) {
+	String findColumnByValue(String lookedPerson) {
 		for (PersonType personType : PersonType.values()) {
 			if (personType.getValue().equals(lookedPerson)) {
 				return personType.getColumn();
