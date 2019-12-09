@@ -1,7 +1,7 @@
 package com.javapid.service;
 
 import com.javapid.entity.PidCouponsParameters;
-import com.javapid.entity.apexcharts.ApexchartsAreaData;
+import com.javapid.entity.ApexchartsData;
 import com.javapid.entity.enums.PersonType;
 import com.javapid.repository.JdbcCouponRepository;
 import org.springframework.stereotype.Service;
@@ -19,9 +19,9 @@ public class ApexchartsService {
 		this.jdbcCouponRepository = jdbcCouponRepository;
 	}
 
-	public List<ApexchartsAreaData> getAreaData(final PidCouponsParameters parameters) {
+	public List<ApexchartsData> getApexData(final PidCouponsParameters parameters) {
 		return Arrays.stream(PersonType.values())
-				.map(e -> new ApexchartsAreaData(e.value, jdbcCouponRepository.fetchCouponAreaData(e.column, parameters)))
+				.map(e -> new ApexchartsData(e.value, jdbcCouponRepository.fetchCouponAreaData(e.column, parameters)))
 				.collect(Collectors.toList());
 	}
 }

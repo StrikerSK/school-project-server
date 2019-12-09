@@ -1,7 +1,9 @@
 package com.javapid.service;
 
+import com.javapid.entity.ApexchartsData;
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.enums.PersonType;
+import com.javapid.entity.enums.Validity;
 import com.javapid.entity.nivo.DataXY;
 import com.javapid.entity.nivo.bar.*;
 import com.javapid.entity.nivo.bubble.BubbleChartData;
@@ -53,6 +55,12 @@ public class PidCouponsService {
 		return outputValidityData;
 	}
 
+	/**
+	 * Method sums data row of provided line
+	 * @param element - represents line of retrieved data
+	 * @param personTypes - represents requested person types
+	 * @return sum of all values needed
+	 */
 	private Long getDataSum(NivoBarDataAbstract element, List<String> personTypes) {
 		Long dataSum = 0L;
 
@@ -291,13 +299,17 @@ public class PidCouponsService {
 		return null;
 	}
 
-	public List<List<PersonAbstractClass>> getPersonData(PidCouponsParameters parameters) {
+	/**
+	 * Method fetches and adjust data to Recharts module
+	 * @return data adapted to Recharts module
+	 */
+	public List<List<PersonAbstractClass>> getRechartsData(PidCouponsParameters parameters) {
 		return repository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger()).stream()
-				.map(element -> createPeronList(element, parameters.getPerson()))
+				.map(element -> createPersonList(element, parameters.getPerson()))
 				.collect(Collectors.toList());
 	}
 
-	private List<PersonAbstractClass> createPeronList(NivoBarDataByMonth data, List<String> personTypes) {
+	private List<PersonAbstractClass> createPersonList(NivoBarDataByMonth data, List<String> personTypes) {
 		List<PersonAbstractClass> personsList = new ArrayList<>();
 		String month = data.getMonth();
 
@@ -325,5 +337,19 @@ public class PidCouponsService {
 			personsList.add(new ChildrenObject(month, data.getChildren()));
 		}
 		return personsList;
+	}
+
+	/**
+	 * Method retrieves Apex data by validity
+	 */
+	public List<ApexchartsData> getApexDataByValidity(PidCouponsParameters parameters){
+		List<ApexchartsData> outputData = new ArrayList<>();
+		for (Validity validity : Validity.values()) {
+			List<NivoBarDataByMonth> data = repository.getNivoBarDataByValidity(validity.getValue(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+			List<Long> dataSum = data.stream().map(e -> getDataSum(e, parameters.getPerson())).collect(Collectors.toList());
+			ApexchartsData newDataLine = new ApexchartsData(validity.getValue(), dataSum);
+			outputData.add(newDataLine);
+		}
+		return outputData;
 	}
 }

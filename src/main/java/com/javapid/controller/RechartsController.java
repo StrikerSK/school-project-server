@@ -19,12 +19,12 @@ public class RechartsController {
 		this.pidCouponsService = pidCouponsService;
 	}
 
-	@RequestMapping({"/bar", "/pie", "/line"})
+	@RequestMapping({"/bar", "/pie", "/line", "/data"})
 	public List<List<PersonAbstractClass>> getBarData(@RequestParam(required = false) List<String> validity,
 	                                                  @RequestParam(required = false) List<String> type,
 	                                                  @RequestParam(required = false) List<String> month,
 	                                                  @RequestParam(required = false) List<String> year,
 	                                                  @RequestParam(required = false) List<String> person) {
-		return pidCouponsService.getPersonData(new PidCouponsParameters(validity, type, month, year, person));
+		return pidCouponsService.getRechartsData(new PidCouponsParameters(validity, type, month, year, person));
 	}
 }

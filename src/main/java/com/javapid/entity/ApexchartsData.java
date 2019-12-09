@@ -1,20 +1,20 @@
-package com.javapid.entity.apexcharts;
+package com.javapid.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class ApexchartsAreaData {
+public class ApexchartsData {
 
 	private String name;
 
 	@JsonProperty("data")
 	private List<Long> values;
 
-	public ApexchartsAreaData() {
+	public ApexchartsData() {
 	}
 
-	public ApexchartsAreaData(String name, List<Long> values) {
+	public ApexchartsData(String name, List<Long> values) {
 		this.name = name;
 		this.values = values;
 	}
