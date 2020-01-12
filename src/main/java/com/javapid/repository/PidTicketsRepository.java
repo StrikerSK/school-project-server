@@ -3,7 +3,7 @@ package com.javapid.repository;
 import com.javapid.entity.TicketEntity;
 import com.javapid.entity.nivo.DataAbstractJizdenky;
 import com.javapid.entity.nivo.DataXY;
-import com.javapid.entity.nivo.NivoJizdenkyBarData;
+import com.javapid.entity.nivo.NivoBarJizdenkyDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -78,10 +78,10 @@ public interface PidTicketsRepository extends JpaRepository<TicketEntity, Long> 
 	                           @Param("months") Collection<String> months,
 	                           @Param("year") Collection<Integer> year);
 
-	@Query("SELECT new com.javapid.entity.nivo.NivoJizdenkyBarData(month,SUM(fifteenMinutes),SUM(oneDay),SUM(oneDayAll),SUM(twoZones),SUM(threeZones),SUM(fourZones),SUM(fiveZones),SUM(sixZones),SUM(sevenZones),SUM(eightZones),SUM(nineZones),SUM(tenZones),SUM(elevenZones)) FROM TicketEntity WHERE discounted IN :discounted AND month IN :months AND year IN :year GROUP BY code,month ORDER by code ASC")
-	List<NivoJizdenkyBarData> getTicketsBarData(@Param("discounted") Collection<Boolean> discounted,
-	                                            @Param("months") Collection<String> months,
-	                                            @Param("year") Collection<Integer> year);
+	@Query("SELECT new com.javapid.entity.nivo.NivoBarJizdenkyDAO(month,SUM(fifteenMinutes),SUM(oneDay),SUM(oneDayAll),SUM(twoZones),SUM(threeZones),SUM(fourZones),SUM(fiveZones),SUM(sixZones),SUM(sevenZones),SUM(eightZones),SUM(nineZones),SUM(tenZones),SUM(elevenZones)) FROM TicketEntity WHERE discounted IN :discounted AND month IN :months AND year IN :year GROUP BY code,month ORDER by code ASC")
+	List<NivoBarJizdenkyDAO> getTicketsBarData(@Param("discounted") Collection<Boolean> discounted,
+	                                           @Param("months") Collection<String> months,
+	                                           @Param("year") Collection<Integer> year);
 
 	@Query("SELECT new com.javapid.entity.nivo.DataAbstractJizdenky(SUM(fifteenMinutes),SUM(oneDay),SUM(oneDayAll),SUM(twoZones),SUM(threeZones),SUM(fourZones),SUM(fiveZones),SUM(sixZones),SUM(sevenZones),SUM(eightZones),SUM(nineZones),SUM(tenZones),SUM(elevenZones)) FROM TicketEntity WHERE discounted IN :discounted AND month IN :months AND year IN :year GROUP BY year")
 	DataAbstractJizdenky getTicketsPieData(@Param("discounted") Collection<Boolean> discounted,

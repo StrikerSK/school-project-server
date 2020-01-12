@@ -3,7 +3,7 @@ package com.javapid.entity.nivo.bar;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.javapid.entity.enums.Months;
 
-public class NivoBarDataMonthsByValidity {
+public class NivoBarDAOMonthsByValidity {
 
 	private String validity;
 
@@ -43,7 +43,7 @@ public class NivoBarDataMonthsByValidity {
 	@JsonProperty("December")
 	private Long december = 0L;
 
-	public NivoBarDataMonthsByValidity(String validity) {
+	public NivoBarDAOMonthsByValidity(String validity) {
 		this.validity = validity;
 	}
 

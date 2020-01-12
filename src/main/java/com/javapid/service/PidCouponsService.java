@@ -1,6 +1,6 @@
 package com.javapid.service;
 
-import com.javapid.entity.ApexchartsData;
+import com.javapid.entity.ApexchartsObject;
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.enums.PersonType;
 import com.javapid.entity.nivo.DataXY;
@@ -8,10 +8,9 @@ import com.javapid.entity.nivo.bar.*;
 import com.javapid.entity.nivo.bubble.BubbleChartData;
 import com.javapid.entity.nivo.bubble.NivoBubbleAbstract;
 import com.javapid.entity.nivo.bubble.NivoBubbleData;
-import com.javapid.entity.nivo.line.NivoGeneralLineData;
-import com.javapid.entity.nivo.line.NivoLineAbstractData;
-import com.javapid.entity.nivo.pie.NivoGeneralPieData;
-import com.javapid.entity.nivo.pie.NivoPieAbstractData;
+import com.javapid.entity.nivo.line.NivoLineCouponDAO;
+import com.javapid.entity.nivo.pie.NivoPieCouponDAOExtended;
+import com.javapid.entity.nivo.pie.NivoPieCouponDAO;
 import com.javapid.objects.recharts.PersonAbstractClass;
 import com.javapid.repository.JdbcCouponRepository;
 import com.javapid.repository.PidCouponsRepository;
@@ -37,9 +36,9 @@ public class PidCouponsService {
 		this.jdbcCouponRepository = jdbcCouponRepository;
 	}
 
-	public List<NivoLineAbstractData> getNivoLineData(PidCouponsParameters parameters) {
+	public List<NivoLineCouponDAO> getNivoLineData(PidCouponsParameters parameters) {
 		return verifyPersonList(parameters.getPerson()).stream()
-				.map(element -> new NivoGeneralLineData(element, jdbcCouponRepository.fetchCouponLineData(findColumnByValue(element), parameters)))
+				.map(element -> new NivoLineCouponDAO(element, jdbcCouponRepository.fetchCouponLineData(findColumnByValue(element), parameters)))
 				.collect(Collectors.toList());
 	}
 
@@ -49,10 +48,10 @@ public class PidCouponsService {
 	 * @param parameters all requested parameters
 	 * @return data for displaying line chart by validity
 	 */
-	public List<NivoLineAbstractData> getNivoLineDataByValidity(PidCouponsParameters parameters) {
-		List<NivoLineAbstractData> outputValidityData = new ArrayList<>();
+	public List<NivoLineCouponDAO> getNivoLineDataByValidity(PidCouponsParameters parameters) {
+		List<NivoLineCouponDAO> outputValidityData = new ArrayList<>();
 		for (String validity : parameters.getValidity()) {
-			NivoGeneralLineData singleElement = new NivoGeneralLineData(validity);
+			NivoLineCouponDAO singleElement = new NivoLineCouponDAO(validity);
 			List<DataXY> outputBarData = getAllSumsRow(parameters, validity).stream()
 					.map(element -> new DataXY(element.getMonth(), getDataSum(element, parameters.getPerson())))
 					.collect(Collectors.toList());
@@ -69,7 +68,7 @@ public class PidCouponsService {
 	 * @param personTypes - represents requested person types
 	 * @return sum of all values needed
 	 */
-	private Long getDataSum(NivoBarDataAbstract element, List<String> personTypes) {
+	private Long getDataSum(NivoBarCouponDAO element, List<String> personTypes) {
 		Long dataSum = 0L;
 		String person = "";
 
@@ -88,8 +87,8 @@ public class PidCouponsService {
 		return dataSum;
 	}
 
-	public List<NivoBarDataByMonth> getNivoBarData(PidCouponsParameters parameters) {
-		List<NivoBarDataByMonth> dataList = getAllSumsRow(parameters);
+	public List<NivoBarCouponDAOByMonth> getNivoBarData(PidCouponsParameters parameters) {
+		List<NivoBarCouponDAOByMonth> dataList = getAllSumsRow(parameters);
 		dataList.forEach(element -> {
 			for (PersonType personType : PersonType.values()) {
 				try {
@@ -105,18 +104,18 @@ public class PidCouponsService {
 		return dataList;
 	}
 
-	public List<NivoBarDataByValidity> getNivoBarDataByValidity(PidCouponsParameters parameters) {
+	public List<NivoBarCouponDAOByValidity> getNivoBarDataByValidity(PidCouponsParameters parameters) {
 		return verifyValidityList(Collections.emptyList()).stream()
 				.map(validity -> getBarDataFromRepository(validity, parameters))
 				.collect(Collectors.toList());
 	}
 
-	public List<NivoBarDataMonthsByValidity> getMonthsByValidity(PidCouponsParameters parameters) {
-		List<NivoBarDataMonthsByValidity> outputData = new ArrayList<>();
+	public List<NivoBarDAOMonthsByValidity> getMonthsByValidity(PidCouponsParameters parameters) {
+		List<NivoBarDAOMonthsByValidity> outputData = new ArrayList<>();
 		for (String validity : parameters.getValidity()) {
-			NivoBarDataMonthsByValidity outputObject = new NivoBarDataMonthsByValidity(validity);
+			NivoBarDAOMonthsByValidity outputObject = new NivoBarDAOMonthsByValidity(validity);
 			for (String month : parameters.getMonth()) {
-				NivoBarDataByMonth currentBarData = getAllSumsRow(parameters, Collections.singletonList(validity), null, Collections.singletonList(month), null).get(0);
+				NivoBarCouponDAOByMonth currentBarData = getAllSumsRow(parameters, Collections.singletonList(validity), null, Collections.singletonList(month), null).get(0);
 				outputObject.setData(month, getDataSum(currentBarData, parameters.getPerson()));
 			}
 			outputData.add(outputObject);
@@ -129,7 +128,7 @@ public class PidCouponsService {
 		for (String month : parameters.getMonth()) {
 			NivoBarDataValidityByMonth validityBarData = new NivoBarDataValidityByMonth(month);
 			for (String validity : parameters.getValidity()) {
-				NivoBarDataByMonth monthData = getAllSumsRow(parameters, Collections.singletonList(validity), null, Collections.singletonList(month), null).get(0);
+				NivoBarCouponDAOByMonth monthData = getAllSumsRow(parameters, Collections.singletonList(validity), null, Collections.singletonList(month), null).get(0);
 				validityBarData.setData(validity, getDataSum(monthData, parameters.getPerson()));
 			}
 			outputList.add(validityBarData);
@@ -137,10 +136,10 @@ public class PidCouponsService {
 		return outputList;
 	}
 
-	private NivoBarDataByValidity getBarDataFromRepository(String validity, PidCouponsParameters parameters) {
-		NivoBarDataByValidity outputData = new NivoBarDataByValidity(validity);
+	private NivoBarCouponDAOByValidity getBarDataFromRepository(String validity, PidCouponsParameters parameters) {
+		NivoBarCouponDAOByValidity outputData = new NivoBarCouponDAOByValidity(validity);
 
-		for (NivoBarDataAbstract element : getAllSumsRow(parameters, validity)) {
+		for (NivoBarCouponDAO element : getAllSumsRow(parameters, validity)) {
 			for (PersonType personType : PersonType.values()) {
 				try {
 					if (isPersonTypeRequested(parameters.getPerson(), personType.value)) {
@@ -157,9 +156,9 @@ public class PidCouponsService {
 	}
 
 
-	public List<NivoPieAbstractData> getNivoPieData(PidCouponsParameters parameters) {
-		NivoBarDataSumDTO pieData = repository.getNivoPieData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
-		List<NivoPieAbstractData> outputData = new ArrayList<>();
+	public List<NivoPieCouponDAO> getNivoPieData(PidCouponsParameters parameters) {
+		NivoBarCouponDAO pieData = repository.getNivoPieData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+		List<NivoPieCouponDAO> outputData = new ArrayList<>();
 
 		for (PersonType personType : PersonType.values()) {
 			try {
@@ -167,7 +166,7 @@ public class PidCouponsService {
 					String person = personType.methodValue;
 					Long receivedValue = (Long) pieData.getClass().getMethod("get" + person).invoke(pieData);
 
-					NivoPieAbstractData newData = new NivoPieAbstractData(personType.value, receivedValue);
+					NivoPieCouponDAO newData = new NivoPieCouponDAO(personType.value, receivedValue);
 					outputData.add(newData);
 				}
 			} catch (Exception e) {
@@ -177,8 +176,8 @@ public class PidCouponsService {
 		return outputData;
 	}
 
-	public List<NivoGeneralPieData> getNivoPieDataByValidity(PidCouponsParameters parameters) {
-		List<NivoGeneralPieData> outputData = verifyValidityList(Collections.emptyList()).stream().map(NivoGeneralPieData::new).collect(Collectors.toList());
+	public List<NivoPieCouponDAOExtended> getNivoPieDataByValidity(PidCouponsParameters parameters) {
+		List<NivoPieCouponDAOExtended> outputData = verifyValidityList(Collections.emptyList()).stream().map(NivoPieCouponDAOExtended::new).collect(Collectors.toList());
 		outputData.forEach(element -> element.setValue(setPieValidityValue(element.getId(), parameters)));
 		return outputData;
 	}
@@ -206,7 +205,7 @@ public class PidCouponsService {
 		BubbleChartData outputData = new BubbleChartData("Predaj kupónov");
 		for (String couponType : parameters.getValidity()) {
 			BubbleChartData.FirstChildren children = new BubbleChartData.FirstChildren(couponType);
-			NivoBarDataSumDTO data = repository.getNivoPieData(Collections.singletonList(couponType), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+			NivoBarCouponDAO data = repository.getNivoPieData(Collections.singletonList(couponType), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 			for (PersonType personType : PersonType.values()) {
 				try {
 					if (isPersonTypeRequested(parameters.getPerson(), personType.value)) {
@@ -260,7 +259,7 @@ public class PidCouponsService {
 				.collect(Collectors.toList());
 	}
 
-	private List<PersonAbstractClass> createPersonList(NivoBarDataByMonth data, List<String> personTypes) {
+	private List<PersonAbstractClass> createPersonList(NivoBarCouponDAOByMonth data, List<String> personTypes) {
 		List<PersonAbstractClass> personsList = new ArrayList<>();
 		String month = data.getMonth();
 
@@ -281,25 +280,25 @@ public class PidCouponsService {
 	/**
 	 * Method retrieves Apex data by validity
 	 */
-	public List<ApexchartsData> getApexDataByValidity(PidCouponsParameters parameters) {
-		List<ApexchartsData> outputData = new ArrayList<>();
+	public List<ApexchartsObject> getApexDataByValidity(PidCouponsParameters parameters) {
+		List<ApexchartsObject> outputData = new ArrayList<>();
 		for (String validity : parameters.getValidity()) {
 			List<Long> dataSum = getAllSumsRow(parameters, validity).stream().map(e -> getDataSum(e, parameters.getPerson())).collect(Collectors.toList());
-			ApexchartsData newDataLine = new ApexchartsData(validity, dataSum);
+			ApexchartsObject newDataLine = new ApexchartsObject(validity, dataSum);
 			outputData.add(newDataLine);
 		}
 		return outputData;
 	}
 
-	private List<NivoBarDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, String value) {
+	private List<NivoBarCouponDAOByMonth> getAllSumsRow(final PidCouponsParameters parameters, String value) {
 		return repository.getNivoBarDataByValidity(value, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 	}
 
-	private List<NivoBarDataByMonth> getAllSumsRow(final PidCouponsParameters parameters) {
+	private List<NivoBarCouponDAOByMonth> getAllSumsRow(final PidCouponsParameters parameters) {
 		return repository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 	}
 
-	private List<NivoBarDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, List<String> validity, List<String> sellType, List<String> month, List<Integer> year) {
+	private List<NivoBarCouponDAOByMonth> getAllSumsRow(final PidCouponsParameters parameters, List<String> validity, List<String> sellType, List<String> month, List<Integer> year) {
 
 		if (validity == null) {
 			validity = parameters.getValidity();

@@ -16,7 +16,7 @@ public class BubbleChartData extends NivoBubbleAbstract {
 		return children;
 	}
 
-	public void addFirstChildren(FirstChildren children){
+	public void addFirstChildren(FirstChildren children) {
 		this.children.add(children);
 	}
 
@@ -37,7 +37,7 @@ public class BubbleChartData extends NivoBubbleAbstract {
 			return children;
 		}
 
-		public void addSecondChildren(String name, Long value){
+		public void addSecondChildren(String name, Long value) {
 			this.children.add(new BubbleFinalChildren(name, value));
 		}
 	}

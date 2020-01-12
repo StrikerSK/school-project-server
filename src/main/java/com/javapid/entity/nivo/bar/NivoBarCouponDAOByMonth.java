@@ -1,10 +1,10 @@
 package com.javapid.entity.nivo.bar;
 
-public class NivoBarDataByMonth extends NivoBarDataAbstract {
+public class NivoBarCouponDAOByMonth extends NivoBarCouponDAO {
 
 	private String month;
 
-	public NivoBarDataByMonth(String month, Long adults, Long seniors, Long juniors, Long students, Long portable, Long children) {
+	public NivoBarCouponDAOByMonth(String month, Long adults, Long seniors, Long juniors, Long students, Long portable, Long children) {
 		super(adults, seniors, juniors, students, portable, children);
 		this.month = month;
 	}

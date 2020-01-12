@@ -2,7 +2,7 @@ package com.javapid.entity.nivo.bar;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class NivoBarDataAbstract {
+public class NivoBarCouponDAO {
 
 	@JsonProperty("Dospelý")
 	private Long adults = 0L;
@@ -22,10 +22,10 @@ public abstract class NivoBarDataAbstract {
 	@JsonProperty("Deti")
 	private Long children = 0L;
 
-	public NivoBarDataAbstract() {
+	public NivoBarCouponDAO() {
 	}
 
-	public NivoBarDataAbstract(Long adults, Long seniors, Long juniors, Long students, Long portable, Long children) {
+	public NivoBarCouponDAO(Long adults, Long seniors, Long juniors, Long students, Long portable, Long children) {
 		this.adults = adults;
 		this.seniors = seniors;
 		this.juniors = juniors;

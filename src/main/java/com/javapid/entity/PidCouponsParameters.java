@@ -11,7 +11,7 @@ public class PidCouponsParameters extends PidAbstractParameters {
 	private List<String> person;
 
 	public PidCouponsParameters(List<String> validity, List<String> sellType, List<String> month, List<String> year, List<String> person) {
-		super(month,year);
+		super(month, year);
 		this.validity = validity;
 		this.sellType = sellType;
 		this.person = person;

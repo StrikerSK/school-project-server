@@ -1,10 +1,10 @@
 package com.javapid.entity.nivo.bar;
 
-public class NivoBarDataByValidity extends NivoBarDataAbstract {
+public class NivoBarCouponDAOByValidity extends NivoBarCouponDAO {
 
 	private String validity;
 
-	public NivoBarDataByValidity(String validity) {
+	public NivoBarCouponDAOByValidity(String validity) {
 		this.validity = validity;
 	}
 

@@ -1,6 +1,6 @@
 package com.javapid.service;
 
-import com.javapid.entity.ApexchartsData;
+import com.javapid.entity.ApexchartsObject;
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.PidTicketsParameters;
 import com.javapid.entity.enums.PersonType;
@@ -23,9 +23,15 @@ public class ApexchartsService extends ServiceAbstract {
 		this.jdbcTicketRepository = jdbcTicketRepository;
 	}
 
-	public List<ApexchartsData> getApexData(final PidCouponsParameters parameters) {
+	public List<ApexchartsObject> getApexData(final PidCouponsParameters parameters) {
 		return parameters.getPerson().stream()
-				.map(e -> new ApexchartsData(e, jdbcCouponRepository.fetchCouponAreaData(getColumnName(e, PersonType.values()), parameters)))
+				.map(e -> new ApexchartsObject(e, jdbcCouponRepository.fetchCouponAreaData(getColumnName(e, PersonType.values()), parameters)))
+				.collect(Collectors.toList());
+	}
+
+	public List<ApexchartsObject> getApexTicketData(final PidTicketsParameters parameters) {
+		return parameters.getTicketType().stream()
+				.map(e -> new ApexchartsObject(e, jdbcTicketRepository.getApexTicketLongData(getColumnName(e, TicketTypes.values()), parameters)))
 				.collect(Collectors.toList());
 	}
 

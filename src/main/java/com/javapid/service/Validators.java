@@ -11,6 +11,7 @@ public class Validators {
 
 	/**
 	 * Method verifies if provided parameters are included in Validity enum
+	 *
 	 * @param validities all validities requested by user
 	 * @return verified validities of request
 	 */
@@ -20,6 +21,7 @@ public class Validators {
 
 	/**
 	 * Method verifies if provided parameters are included in SellType enum
+	 *
 	 * @param sellTypes all sell types requested by user
 	 * @return verified sellTypes of request
 	 */
@@ -29,6 +31,7 @@ public class Validators {
 
 	/**
 	 * Method verifies if provided parameters are included in Month enum
+	 *
 	 * @param months all months requested by user
 	 * @return verified months of request
 	 */
@@ -50,7 +53,7 @@ public class Validators {
 				.collect(Collectors.toList());
 	}
 
-	public static List<String> verifyTicketType(List<String> ticketTypes){
+	public static List<String> verifyTicketType(List<String> ticketTypes) {
 		return verifyList(ticketTypes, getEnumList(TicketTypes.values()));
 	}
 
@@ -76,6 +79,7 @@ public class Validators {
 
 	/**
 	 * Method converts enum class array to list of strings
+	 *
 	 * @param enumValues array of enum class values
 	 * @return values array changed to list
 	 */
@@ -101,9 +105,10 @@ public class Validators {
 
 	/**
 	 * Method verifies if provided parameter is empty or not
-	 * @param inputArray verified parameter for empty list
+	 *
+	 * @param inputArray  verified parameter for empty list
 	 * @param defaultList list of default provided values
-	 * @param <G> interface for enum classes
+	 * @param <G>         interface for enum classes
 	 * @return list of requested values
 	 */
 	private static <G extends GetterValue> List<String> isEmptyList(List<String> inputArray, G[] defaultList) {

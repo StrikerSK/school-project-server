@@ -2,14 +2,14 @@ package com.javapid.controller;
 
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.PidTicketsParameters;
-import com.javapid.entity.nivo.NivoJizdenkyBarData;
-import com.javapid.entity.nivo.bar.NivoBarDataByMonth;
-import com.javapid.entity.nivo.bar.NivoBarDataByValidity;
+import com.javapid.entity.nivo.NivoBarJizdenkyDAO;
+import com.javapid.entity.nivo.bar.NivoBarCouponDAOByMonth;
+import com.javapid.entity.nivo.bar.NivoBarCouponDAOByValidity;
 import com.javapid.entity.nivo.bar.NivoBarDataValidityByMonth;
 import com.javapid.entity.nivo.bubble.NivoBubbleAbstract;
-import com.javapid.entity.nivo.line.NivoLineAbstractData;
-import com.javapid.entity.nivo.pie.NivoGeneralPieData;
-import com.javapid.entity.nivo.pie.NivoPieAbstractData;
+import com.javapid.entity.nivo.line.NivoLineCouponDAO;
+import com.javapid.entity.nivo.pie.NivoPieCouponDAO;
+import com.javapid.entity.nivo.pie.NivoPieCouponDAOExtended;
 import com.javapid.service.PidCouponsService;
 import com.javapid.service.PidTicketsService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +32,12 @@ public class NivoRestController {
 	}
 
 	@RequestMapping("/line")
-	public List<NivoLineAbstractData> getData(@RequestParam(required = false) List<String> validity,
-	                                          @RequestParam(required = false) List<String> type,
-	                                          @RequestParam(required = false) List<String> month,
-	                                          @RequestParam(required = false) List<String> year,
-	                                          @RequestParam(required = false) List<String> person,
-	                                          @RequestParam(required = false) String data) {
+	public List<NivoLineCouponDAO> getData(@RequestParam(required = false) List<String> validity,
+	                                       @RequestParam(required = false) List<String> type,
+	                                       @RequestParam(required = false) List<String> month,
+	                                       @RequestParam(required = false) List<String> year,
+	                                       @RequestParam(required = false) List<String> person,
+	                                       @RequestParam(required = false) String data) {
 		PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
 		try {
 			if ("sell".equals(data.toLowerCase())) {
@@ -50,19 +50,19 @@ public class NivoRestController {
 	}
 
 	@RequestMapping("/line/sell")
-	public List<NivoLineAbstractData> getDataBySell(@RequestParam(required = false) List<String> type,
-	                                                @RequestParam(required = false) List<String> month,
-	                                                @RequestParam(required = false) List<String> year,
-	                                                @RequestParam(required = false) List<String> person) {
+	public List<NivoLineCouponDAO> getDataBySell(@RequestParam(required = false) List<String> type,
+	                                             @RequestParam(required = false) List<String> month,
+	                                             @RequestParam(required = false) List<String> year,
+	                                             @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getNivoLineDataByValidity(new PidCouponsParameters(Collections.emptyList(), type, month, year, person));
 	}
 
 	@RequestMapping("/bar")
-	public List<NivoBarDataByMonth> getGeneralBarData(@RequestParam(required = false) List<String> validity,
-	                                                  @RequestParam(required = false) List<String> type,
-	                                                  @RequestParam(required = false) List<String> month,
-	                                                  @RequestParam(required = false) List<String> year,
-	                                                  @RequestParam(required = false) List<String> person) {
+	public List<NivoBarCouponDAOByMonth> getGeneralBarData(@RequestParam(required = false) List<String> validity,
+	                                                       @RequestParam(required = false) List<String> type,
+	                                                       @RequestParam(required = false) List<String> month,
+	                                                       @RequestParam(required = false) List<String> year,
+	                                                       @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getNivoBarData(new PidCouponsParameters(validity, type, month, year, person));
 	}
 
@@ -96,50 +96,50 @@ public class NivoRestController {
 	}
 
 	@RequestMapping("/bar/sell")
-	public List<NivoBarDataByValidity> retrieveBarDataByValidity(@RequestParam(required = false) List<String> type,
-	                                                             @RequestParam(required = false) List<String> month,
-	                                                             @RequestParam(required = false) List<String> year,
-	                                                             @RequestParam(required = false) List<String> person) {
+	public List<NivoBarCouponDAOByValidity> retrieveBarDataByValidity(@RequestParam(required = false) List<String> type,
+	                                                                  @RequestParam(required = false) List<String> month,
+	                                                                  @RequestParam(required = false) List<String> year,
+	                                                                  @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getNivoBarDataByValidity(new PidCouponsParameters(Collections.emptyList(), type, month, year, person));
 	}
 
 	@RequestMapping({"/pie", "/waffle"})
-	public List<NivoPieAbstractData> retrievePieData(@RequestParam(required = false) List<String> validity,
-	                                                 @RequestParam(required = false) List<String> type,
-	                                                 @RequestParam(required = false) List<String> month,
-	                                                 @RequestParam(required = false) List<String> year,
-	                                                 @RequestParam(required = false) List<String> person) {
+	public List<NivoPieCouponDAO> retrievePieData(@RequestParam(required = false) List<String> validity,
+	                                              @RequestParam(required = false) List<String> type,
+	                                              @RequestParam(required = false) List<String> month,
+	                                              @RequestParam(required = false) List<String> year,
+	                                              @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getNivoPieData(new PidCouponsParameters(validity, type, month, year, person));
 	}
 
 	@RequestMapping({"/pie/sell", "/waffle/sell"})
-	public List<NivoGeneralPieData> retrievePieDataByValidity(@RequestParam(required = false) List<String> type,
-	                                                          @RequestParam(required = false) List<String> month,
-	                                                          @RequestParam(required = false) List<String> year,
-	                                                          @RequestParam(required = false) List<String> person) {
+	public List<NivoPieCouponDAOExtended> retrievePieDataByValidity(@RequestParam(required = false) List<String> type,
+	                                                                @RequestParam(required = false) List<String> month,
+	                                                                @RequestParam(required = false) List<String> year,
+	                                                                @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getNivoPieDataByValidity(new PidCouponsParameters(Collections.emptyList(), type, month, year, person));
 	}
 
 	@RequestMapping("/tickets/line")
-	public List<NivoLineAbstractData> getData(@RequestParam(required = false) List<Boolean> discounted,
-	                                          @RequestParam(required = false) List<String> month,
-	                                          @RequestParam(required = false) List<String> year,
-	                                          @RequestParam(required = false) List<String> ticket) {
+	public List<NivoLineCouponDAO> getData(@RequestParam(required = false) List<Boolean> discounted,
+	                                       @RequestParam(required = false) List<String> month,
+	                                       @RequestParam(required = false) List<String> year,
+	                                       @RequestParam(required = false) List<String> ticket) {
 		return pidTicketsService.getTicketsLineData(new PidTicketsParameters(month, year, discounted, ticket));
 	}
 
 	@RequestMapping("/tickets/bar")
-	public List<NivoJizdenkyBarData> retrieveBarData(@RequestParam(required = false) List<Boolean> discounted,
-	                                                 @RequestParam(required = false) List<String> month,
-	                                                 @RequestParam(required = false) List<String> year) {
+	public List<NivoBarJizdenkyDAO> retrieveBarData(@RequestParam(required = false) List<Boolean> discounted,
+	                                                @RequestParam(required = false) List<String> month,
+	                                                @RequestParam(required = false) List<String> year) {
 		return pidTicketsService.getTicketBarData(new PidTicketsParameters(month, year, discounted, Collections.emptyList()));
 	}
 
 	@RequestMapping({"/tickets/pie", "/tickets/waffle"})
-	public List<NivoPieAbstractData> retrievePieData(@RequestParam(required = false) List<Boolean> discounted,
-	                                                 @RequestParam(required = false) List<String> month,
-	                                                 @RequestParam(required = false) List<String> year,
-	                                                 @RequestParam(required = false) List<String> ticket) {
+	public List<NivoPieCouponDAO> retrievePieData(@RequestParam(required = false) List<Boolean> discounted,
+	                                              @RequestParam(required = false) List<String> month,
+	                                              @RequestParam(required = false) List<String> year,
+	                                              @RequestParam(required = false) List<String> ticket) {
 		return pidTicketsService.getTicketsPieData(new PidTicketsParameters(month, year, discounted, ticket));
 	}
 }
