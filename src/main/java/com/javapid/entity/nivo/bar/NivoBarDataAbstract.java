@@ -101,4 +101,8 @@ public abstract class NivoBarDataAbstract {
 	public void setChildren(Long children) {
 		this.children = children;
 	}
+
+	public void addToChildren(Long children) {
+		this.children += children;
+	}
 }

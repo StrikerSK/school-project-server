@@ -3,14 +3,11 @@ package com.javapid.entity.nivo.pie;
 public class NivoGeneralPieData extends NivoPieAbstractData {
 
 	public NivoGeneralPieData(String name) {
-		setId(name);
-		setLabel(name);
+		super(name);
 	}
 
 	public NivoGeneralPieData(String name, Long count) {
-		setId(name);
-		setLabel(name);
-		setValue(count);
+		super(name, count);
 	}
 
 }

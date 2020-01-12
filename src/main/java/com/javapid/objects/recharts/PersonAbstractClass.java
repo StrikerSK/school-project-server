@@ -1,6 +1,6 @@
 package com.javapid.objects.recharts;
 
-public abstract class PersonAbstractClass {
+public class PersonAbstractClass {
 
     private String name;
     private String month;

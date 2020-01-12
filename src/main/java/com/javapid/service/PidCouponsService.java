@@ -43,6 +43,7 @@ public class PidCouponsService {
 
 	/**
 	 * Method gets line data by validity
+	 *
 	 * @param parameters all requested parameters
 	 * @return data for displaying line chart by validity
 	 */
@@ -69,58 +70,31 @@ public class PidCouponsService {
 	private Long getDataSum(NivoBarDataAbstract element, List<String> personTypes) {
 		Long dataSum = 0L;
 
-		if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
-			dataSum += element.getAdults();
+		for (PersonType personType : PersonType.values()) {
+			try {
+				if (isPersonTypeRequested(personTypes, personType.value)) {
+					String person = personType.methodValue;
+					dataSum += (Long) element.getClass().getMethod("get" + person).invoke(element);
+				}
+			} catch (Exception e) {
+				System.out.println("There was an error");
+			}
 		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
-			dataSum += element.getJuniors();
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
-			dataSum += element.getSeniors();
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
-			dataSum += element.getStudents();
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
-			dataSum += element.getPortable();
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.CHILDREN.getValue())) {
-			dataSum += element.getChildren();
-		}
-
 		return dataSum;
 	}
 
 	public List<NivoBarDataByMonth> getNivoBarData(PidCouponsParameters parameters) {
 		List<NivoBarDataByMonth> dataList = getAllSumsRow(parameters);
 		dataList.forEach(element -> {
-			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
-				element.setAdults(0L);
-			}
-
-			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
-				element.setSeniors(0L);
-			}
-
-			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
-				element.setJuniors(0L);
-			}
-
-			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
-				element.setStudents(0L);
-			}
-
-			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
-				element.setPortable(0L);
-			}
-
-			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.CHILDREN.getValue())) {
-				element.setChildren(0L);
+			for (PersonType personType : PersonType.values()) {
+				try {
+					if (!isPersonTypeRequested(parameters.getPerson(), personType.value)) {
+						String person = personType.methodValue;
+						element.getClass().getMethod("set" + person, Long.class).invoke(element, 0L);
+					}
+				} catch (Exception e) {
+					System.out.println("There was an error");
+				}
 			}
 		});
 		return dataList;
@@ -162,31 +136,18 @@ public class PidCouponsService {
 		NivoBarDataByValidity outputData = new NivoBarDataByValidity(validity);
 
 		for (NivoBarDataAbstract element : getAllSumsRow(parameters, validity)) {
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
-				outputData.addToAdults(element.getAdults());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
-				outputData.addToJuniors(element.getJuniors());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
-				outputData.addToSeniors(element.getSeniors());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
-				outputData.addToStudents(element.getStudents());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
-				outputData.addToPortable(element.getPortable());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.CHILDREN.getValue())) {
-				outputData.setChildren(element.getChildren());
+			for (PersonType personType : PersonType.values()) {
+				try {
+					if (isPersonTypeRequested(parameters.getPerson(), personType.value)) {
+						String person = personType.methodValue;
+						Long receivedValue = (Long) element.getClass().getMethod("get" + person).invoke(element);
+						outputData.getClass().getMethod("addTo" + person, Long.class).invoke(outputData, receivedValue);
+					}
+				} catch (Exception e) {
+					System.out.println("There was an error");
+				}
 			}
 		}
-
 		return outputData;
 	}
 
@@ -195,28 +156,18 @@ public class PidCouponsService {
 		NivoBarDataSumDTO pieData = repository.getNivoPieData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 		List<NivoPieAbstractData> outputData = new ArrayList<>();
 
-		if (isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
-			outputData.add(new NivoPieAdultData(pieData.getAdults()));
-		}
+		for (PersonType personType : PersonType.values()) {
+			try {
+				if (isPersonTypeRequested(parameters.getPerson(), personType.value)) {
+					String person = personType.methodValue;
+					Long receivedValue = (Long) pieData.getClass().getMethod("get" + person).invoke(pieData);
 
-		if (isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
-			outputData.add(new NivoPieStudentData(pieData.getStudents()));
-		}
-
-		if (isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
-			outputData.add(new NivoPieSeniorData(pieData.getSeniors()));
-		}
-
-		if (isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
-			outputData.add(new NivoPieJuniorData(pieData.getJuniors()));
-		}
-
-		if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
-			outputData.add(new NivoPiePortableData(pieData.getPortable()));
-		}
-
-		if (isPersonTypeRequested(parameters.getPerson(), PersonType.CHILDREN.getValue())) {
-			outputData.add(new NivoGeneralPieData(PersonType.CHILDREN.getValue(), pieData.getChildren()));
+					NivoPieAbstractData newData = new NivoPieAbstractData(personType.value, receivedValue);
+					outputData.add(newData);
+				}
+			} catch (Exception e) {
+				System.out.println("There was an error");
+			}
 		}
 		return outputData;
 	}
@@ -251,28 +202,16 @@ public class PidCouponsService {
 		for (String couponType : parameters.getValidity()) {
 			BubbleChartData.FirstChildren children = new BubbleChartData.FirstChildren(couponType);
 			NivoBarDataSumDTO data = repository.getNivoPieData(Collections.singletonList(couponType), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
-				children.addSecondChildren(PersonType.ADULT.getValue(), data.getAdults());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.SENIOR.getValue())) {
-				children.addSecondChildren(PersonType.SENIOR.getValue(), data.getSeniors());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.JUNIOR.getValue())) {
-				children.addSecondChildren(PersonType.JUNIOR.getValue(), data.getJuniors());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.STUDENT.getValue())) {
-				children.addSecondChildren(PersonType.STUDENT.getValue(), data.getStudents());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.PORTABLE.getValue())) {
-				children.addSecondChildren(PersonType.PORTABLE.getValue(), data.getPortable());
-			}
-
-			if (isPersonTypeRequested(parameters.getPerson(), PersonType.CHILDREN.getValue())) {
-				children.addSecondChildren(PersonType.CHILDREN.getValue(), data.getChildren());
+			for (PersonType personType : PersonType.values()) {
+				try {
+					if (isPersonTypeRequested(parameters.getPerson(), personType.value)) {
+						String person = personType.methodValue;
+						Long receivedValue = (Long) data.getClass().getMethod("get" + person).invoke(data);
+						children.addSecondChildren(personType.getValue(), receivedValue);
+					}
+				} catch (Exception e) {
+					System.out.println("There was an error");
+				}
 			}
 			outputData.addFirstChildren(children);
 		}
@@ -307,6 +246,7 @@ public class PidCouponsService {
 
 	/**
 	 * Method fetches and adjust data to Recharts module
+	 *
 	 * @return data adapted to Recharts module
 	 */
 	public List<List<PersonAbstractClass>> getRechartsData(PidCouponsParameters parameters) {
@@ -319,28 +259,16 @@ public class PidCouponsService {
 		List<PersonAbstractClass> personsList = new ArrayList<>();
 		String month = data.getMonth();
 
-		if (isPersonTypeRequested(personTypes, PersonType.ADULT.getValue())) {
-			personsList.add(new AdultObject(month, data.getAdults()));
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.JUNIOR.getValue())) {
-			personsList.add(new JuniorObject(month, data.getJuniors()));
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.SENIOR.getValue())) {
-			personsList.add(new SeniorObject(month, data.getSeniors()));
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.PORTABLE.getValue())) {
-			personsList.add(new PortableObject(month, data.getPortable()));
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.STUDENT.getValue())) {
-			personsList.add(new StudentObject(month, data.getStudents()));
-		}
-
-		if (isPersonTypeRequested(personTypes, PersonType.CHILDREN.getValue())) {
-			personsList.add(new ChildrenObject(month, data.getChildren()));
+		for (PersonType personType : PersonType.values()) {
+			try {
+				if (isPersonTypeRequested(personTypes, personType.value)) {
+					String person = personType.methodValue;
+					Long receivedValue = (Long) data.getClass().getMethod("get" + person).invoke(data);
+					personsList.add(new PersonAbstractClass(personType.value, month, receivedValue));
+				}
+			} catch (Exception e) {
+				System.out.println("There was an error");
+			}
 		}
 		return personsList;
 	}
