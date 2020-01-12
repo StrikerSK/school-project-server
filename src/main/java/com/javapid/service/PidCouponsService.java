@@ -1,5 +1,6 @@
 package com.javapid.service;
 
+import com.javapid.entity.ApexchartsData;
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.enums.PersonType;
 import com.javapid.entity.nivo.DataXY;
@@ -40,11 +41,16 @@ public class PidCouponsService {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Method gets line data by validity
+	 * @param parameters all requested parameters
+	 * @return data for displaying line chart by validity
+	 */
 	public List<NivoLineAbstractData> getNivoLineDataByValidity(PidCouponsParameters parameters) {
 		List<NivoLineAbstractData> outputValidityData = new ArrayList<>();
 		for (String validity : parameters.getValidity()) {
 			NivoGeneralLineData singleElement = new NivoGeneralLineData(validity);
-			List<DataXY> outputBarData = repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger()).stream()
+			List<DataXY> outputBarData = getAllSumsRow(parameters, validity).stream()
 					.map(element -> new DataXY(element.getMonth(), getDataSum(element, parameters.getPerson())))
 					.collect(Collectors.toList());
 			singleElement.setData(outputBarData);
@@ -53,6 +59,13 @@ public class PidCouponsService {
 		return outputValidityData;
 	}
 
+	/**
+	 * Method sums data row of provided line
+	 *
+	 * @param element     - represents line of retrieved data
+	 * @param personTypes - represents requested person types
+	 * @return sum of all values needed
+	 */
 	private Long getDataSum(NivoBarDataAbstract element, List<String> personTypes) {
 		Long dataSum = 0L;
 
@@ -84,7 +97,7 @@ public class PidCouponsService {
 	}
 
 	public List<NivoBarDataByMonth> getNivoBarData(PidCouponsParameters parameters) {
-		List<NivoBarDataByMonth> dataList = repository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+		List<NivoBarDataByMonth> dataList = getAllSumsRow(parameters);
 		dataList.forEach(element -> {
 			if (!isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
 				element.setAdults(0L);
@@ -124,7 +137,7 @@ public class PidCouponsService {
 		for (String validity : parameters.getValidity()) {
 			NivoBarDataMonthsByValidity outputObject = new NivoBarDataMonthsByValidity(validity);
 			for (String month : parameters.getMonth()) {
-				NivoBarDataByMonth currentBarData = repository.getNivoBarData(Collections.singletonList(validity), parameters.getSellType(), Collections.singletonList(month), parameters.getYearInteger()).get(0);
+				NivoBarDataByMonth currentBarData = getAllSumsRow(parameters, Collections.singletonList(validity), null, Collections.singletonList(month), null).get(0);
 				outputObject.setData(month, getDataSum(currentBarData, parameters.getPerson()));
 			}
 			outputData.add(outputObject);
@@ -137,7 +150,7 @@ public class PidCouponsService {
 		for (String month : parameters.getMonth()) {
 			NivoBarDataValidityByMonth validityBarData = new NivoBarDataValidityByMonth(month);
 			for (String validity : parameters.getValidity()) {
-				NivoBarDataByMonth monthData = repository.getNivoBarData(Collections.singletonList(validity), parameters.getSellType(), Collections.singletonList(month), parameters.getYearInteger()).get(0);
+				NivoBarDataByMonth monthData = getAllSumsRow(parameters, Collections.singletonList(validity), null, Collections.singletonList(month), null).get(0);
 				validityBarData.setData(validity, getDataSum(monthData, parameters.getPerson()));
 			}
 			outputList.add(validityBarData);
@@ -148,7 +161,7 @@ public class PidCouponsService {
 	private NivoBarDataByValidity getBarDataFromRepository(String validity, PidCouponsParameters parameters) {
 		NivoBarDataByValidity outputData = new NivoBarDataByValidity(validity);
 
-		for (NivoBarDataAbstract element : repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger())) {
+		for (NivoBarDataAbstract element : getAllSumsRow(parameters, validity)) {
 			if (isPersonTypeRequested(parameters.getPerson(), PersonType.ADULT.getValue())) {
 				outputData.addToAdults(element.getAdults());
 			}
@@ -215,8 +228,9 @@ public class PidCouponsService {
 	}
 
 	private Long setPieValidityValue(String validity, PidCouponsParameters parameters) {
-		return repository.getNivoBarDataByValidity(validity, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger()).stream()
-				.mapToLong(element -> getDataSum(element, parameters.getPerson())).sum();
+		return getAllSumsRow(parameters, validity).stream()
+				.mapToLong(element -> getDataSum(element, parameters.getPerson()))
+				.sum();
 	}
 
 	public BubbleChartData getNivoBubbleChart(PidCouponsParameters parameters) {
@@ -282,7 +296,7 @@ public class PidCouponsService {
 		return outputData;
 	}
 
-	private String findColumnByValue(String lookedPerson) {
+	String findColumnByValue(String lookedPerson) {
 		for (PersonType personType : PersonType.values()) {
 			if (personType.getValue().equals(lookedPerson)) {
 				return personType.getColumn();
@@ -291,13 +305,17 @@ public class PidCouponsService {
 		return null;
 	}
 
-	public List<List<PersonAbstractClass>> getPersonData(PidCouponsParameters parameters) {
-		return repository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger()).stream()
-				.map(element -> createPeronList(element, parameters.getPerson()))
+	/**
+	 * Method fetches and adjust data to Recharts module
+	 * @return data adapted to Recharts module
+	 */
+	public List<List<PersonAbstractClass>> getRechartsData(PidCouponsParameters parameters) {
+		return getAllSumsRow(parameters).stream()
+				.map(element -> createPersonList(element, parameters.getPerson()))
 				.collect(Collectors.toList());
 	}
 
-	private List<PersonAbstractClass> createPeronList(NivoBarDataByMonth data, List<String> personTypes) {
+	private List<PersonAbstractClass> createPersonList(NivoBarDataByMonth data, List<String> personTypes) {
 		List<PersonAbstractClass> personsList = new ArrayList<>();
 		String month = data.getMonth();
 
@@ -325,5 +343,47 @@ public class PidCouponsService {
 			personsList.add(new ChildrenObject(month, data.getChildren()));
 		}
 		return personsList;
+	}
+
+	/**
+	 * Method retrieves Apex data by validity
+	 */
+	public List<ApexchartsData> getApexDataByValidity(PidCouponsParameters parameters) {
+		List<ApexchartsData> outputData = new ArrayList<>();
+		for (String validity : parameters.getValidity()) {
+			List<Long> dataSum = getAllSumsRow(parameters, validity).stream().map(e -> getDataSum(e, parameters.getPerson())).collect(Collectors.toList());
+			ApexchartsData newDataLine = new ApexchartsData(validity, dataSum);
+			outputData.add(newDataLine);
+		}
+		return outputData;
+	}
+
+	private List<NivoBarDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, String value) {
+		return repository.getNivoBarDataByValidity(value, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+	}
+
+	private List<NivoBarDataByMonth> getAllSumsRow(final PidCouponsParameters parameters) {
+		return repository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+	}
+
+	private List<NivoBarDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, List<String> validity, List<String> sellType, List<String> month, List<Integer> year) {
+
+		if (validity == null) {
+			validity = parameters.getValidity();
+		}
+
+		if (sellType == null) {
+			sellType = parameters.getSellType();
+		}
+
+		if (month == null) {
+			month = parameters.getMonth();
+		}
+
+		if (year == null) {
+			year = parameters.getYearInteger();
+		}
+
+		return repository.getNivoBarData(validity, sellType, month, year);
 	}
 }

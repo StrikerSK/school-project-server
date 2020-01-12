@@ -15,7 +15,7 @@ public abstract class JdbcAbstractRepository {
 	final String DISCOUNTED_COLUMN = "zlavneny";
 
 	<T> String generateSqlByColumnQuery(String columnName, List<T> inputStrings) {
-		if(inputStrings.size() == 1){
+		if (inputStrings.size() == 1) {
 			return generateSqlByColumnQuery(columnName, inputStrings.get(0));
 		}
 
@@ -27,7 +27,7 @@ public abstract class JdbcAbstractRepository {
 	}
 
 	<T> String generateSqlByColumnQuery(String columnName, T inputStrings) {
-		return columnName + "='" + inputStrings + "\'";
+		return columnName + "='" + inputStrings + "'";
 	}
 
 }

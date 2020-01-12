@@ -93,7 +93,6 @@ public class NivoRestController {
 		} catch (NullPointerException e) {
 			return pidCouponsService.getNivoBubbleChart(parameters);
 		}
-
 	}
 
 	@RequestMapping("/bar/sell")
