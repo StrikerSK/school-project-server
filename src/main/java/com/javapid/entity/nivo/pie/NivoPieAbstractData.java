@@ -1,10 +1,21 @@
 package com.javapid.entity.nivo.pie;
 
-public abstract class NivoPieAbstractData {
+public class NivoPieAbstractData {
 
 	private String id;
 	private String label;
 	private Long value;
+
+	public NivoPieAbstractData(String label) {
+		this.id = label;
+		this.label = label;
+	}
+
+	public NivoPieAbstractData(String label, Long value) {
+		this.id = label;
+		this.label = label;
+		this.value = value;
+	}
 
 	public String getId() {
 		return id;
