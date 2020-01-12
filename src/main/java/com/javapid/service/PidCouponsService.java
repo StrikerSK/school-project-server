@@ -82,7 +82,7 @@ public class PidCouponsService {
 			} catch (NoSuchMethodException e) {
 				LOGGER.warning(String.format("There is no such method get%s()", person));
 			} catch (Exception e) {
-				LOGGER.warning("There was an error");
+				LOGGER.warning("There was an error!");
 			}
 		}
 		return dataSum;
@@ -98,7 +98,7 @@ public class PidCouponsService {
 						element.getClass().getMethod("set" + person, Long.class).invoke(element, 0L);
 					}
 				} catch (Exception e) {
-					LOGGER.warning("There was an error");
+					LOGGER.warning("There was an error!");
 				}
 			}
 		});
@@ -149,7 +149,7 @@ public class PidCouponsService {
 						outputData.getClass().getMethod("addTo" + person, Long.class).invoke(outputData, receivedValue);
 					}
 				} catch (Exception e) {
-					LOGGER.warning("There was an error");
+					LOGGER.warning("There was an error!");
 				}
 			}
 		}
@@ -171,7 +171,7 @@ public class PidCouponsService {
 					outputData.add(newData);
 				}
 			} catch (Exception e) {
-				LOGGER.warning("There was an error");
+				LOGGER.warning("There was an error!");
 			}
 		}
 		return outputData;
@@ -215,7 +215,7 @@ public class PidCouponsService {
 						children.addSecondChildren(personType.getValue(), receivedValue);
 					}
 				} catch (Exception e) {
-					LOGGER.warning("There was an error");
+					LOGGER.warning("There was an error!");
 				}
 			}
 			outputData.addFirstChildren(children);
@@ -272,7 +272,7 @@ public class PidCouponsService {
 					personsList.add(new PersonAbstractClass(personType.value, month, receivedValue));
 				}
 			} catch (Exception e) {
-				LOGGER.warning("There was an error");
+				LOGGER.warning("There was an error!");
 			}
 		}
 		return personsList;
