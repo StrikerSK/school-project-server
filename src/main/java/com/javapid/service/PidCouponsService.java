@@ -3,7 +3,6 @@ package com.javapid.service;
 import com.javapid.entity.ApexchartsData;
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.enums.PersonType;
-import com.javapid.entity.enums.Validity;
 import com.javapid.entity.nivo.DataXY;
 import com.javapid.entity.nivo.bar.*;
 import com.javapid.entity.nivo.bubble.BubbleChartData;
@@ -351,9 +350,9 @@ public class PidCouponsService {
 	 */
 	public List<ApexchartsData> getApexDataByValidity(PidCouponsParameters parameters) {
 		List<ApexchartsData> outputData = new ArrayList<>();
-		for (Validity validity : Validity.values()) {
-			List<Long> dataSum = getAllSumsRow(parameters, validity.getValue()).stream().map(e -> getDataSum(e, parameters.getPerson())).collect(Collectors.toList());
-			ApexchartsData newDataLine = new ApexchartsData(validity.getValue(), dataSum);
+		for (String validity : parameters.getValidity()) {
+			List<Long> dataSum = getAllSumsRow(parameters, validity).stream().map(e -> getDataSum(e, parameters.getPerson())).collect(Collectors.toList());
+			ApexchartsData newDataLine = new ApexchartsData(validity, dataSum);
 			outputData.add(newDataLine);
 		}
 		return outputData;
