@@ -10,8 +10,9 @@ import com.javapid.entity.nivo.bubble.NivoBubbleAbstract;
 import com.javapid.entity.nivo.bubble.NivoBubbleData;
 import com.javapid.entity.nivo.line.NivoGeneralLineData;
 import com.javapid.entity.nivo.line.NivoLineAbstractData;
-import com.javapid.entity.nivo.pie.*;
-import com.javapid.objects.recharts.*;
+import com.javapid.entity.nivo.pie.NivoGeneralPieData;
+import com.javapid.entity.nivo.pie.NivoPieAbstractData;
+import com.javapid.objects.recharts.PersonAbstractClass;
 import com.javapid.repository.JdbcCouponRepository;
 import com.javapid.repository.PidCouponsRepository;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static com.javapid.service.Validators.*;
@@ -27,8 +29,8 @@ import static com.javapid.service.Validators.*;
 public class PidCouponsService {
 
 	private final PidCouponsRepository repository;
-
 	private final JdbcCouponRepository jdbcCouponRepository;
+	private static final Logger LOGGER = Logger.getLogger("Coupon service");
 
 	public PidCouponsService(PidCouponsRepository repository, JdbcCouponRepository jdbcCouponRepository) {
 		this.repository = repository;
@@ -69,15 +71,18 @@ public class PidCouponsService {
 	 */
 	private Long getDataSum(NivoBarDataAbstract element, List<String> personTypes) {
 		Long dataSum = 0L;
+		String person = "";
 
 		for (PersonType personType : PersonType.values()) {
 			try {
 				if (isPersonTypeRequested(personTypes, personType.value)) {
-					String person = personType.methodValue;
+					person = personType.methodValue;
 					dataSum += (Long) element.getClass().getMethod("get" + person).invoke(element);
 				}
+			} catch (NoSuchMethodException e) {
+				LOGGER.warning(String.format("There is no such method get%s()", person));
 			} catch (Exception e) {
-				System.out.println("There was an error");
+				LOGGER.warning("There was an error");
 			}
 		}
 		return dataSum;
@@ -93,7 +98,7 @@ public class PidCouponsService {
 						element.getClass().getMethod("set" + person, Long.class).invoke(element, 0L);
 					}
 				} catch (Exception e) {
-					System.out.println("There was an error");
+					LOGGER.warning("There was an error");
 				}
 			}
 		});
@@ -144,7 +149,7 @@ public class PidCouponsService {
 						outputData.getClass().getMethod("addTo" + person, Long.class).invoke(outputData, receivedValue);
 					}
 				} catch (Exception e) {
-					System.out.println("There was an error");
+					LOGGER.warning("There was an error");
 				}
 			}
 		}
@@ -166,7 +171,7 @@ public class PidCouponsService {
 					outputData.add(newData);
 				}
 			} catch (Exception e) {
-				System.out.println("There was an error");
+				LOGGER.warning("There was an error");
 			}
 		}
 		return outputData;
@@ -210,7 +215,7 @@ public class PidCouponsService {
 						children.addSecondChildren(personType.getValue(), receivedValue);
 					}
 				} catch (Exception e) {
-					System.out.println("There was an error");
+					LOGGER.warning("There was an error");
 				}
 			}
 			outputData.addFirstChildren(children);
@@ -267,7 +272,7 @@ public class PidCouponsService {
 					personsList.add(new PersonAbstractClass(personType.value, month, receivedValue));
 				}
 			} catch (Exception e) {
-				System.out.println("There was an error");
+				LOGGER.warning("There was an error");
 			}
 		}
 		return personsList;
