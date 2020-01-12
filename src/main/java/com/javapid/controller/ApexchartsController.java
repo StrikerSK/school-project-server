@@ -1,6 +1,6 @@
 package com.javapid.controller;
 
-import com.javapid.entity.ApexchartsData;
+import com.javapid.entity.ApexchartsObject;
 import com.javapid.entity.PidCouponsParameters;
 import com.javapid.entity.PidTicketsParameters;
 import com.javapid.service.ApexchartsService;
@@ -24,12 +24,12 @@ public class ApexchartsController {
 	}
 
 	@RequestMapping(value = "/data")
-	public List<ApexchartsData> getApexDataByPerson(@RequestParam(required = false) List<String> validity,
-	                                                @RequestParam(required = false) List<String> type,
-	                                                @RequestParam(required = false) List<String> month,
-	                                                @RequestParam(required = false) List<String> year,
-	                                                @RequestParam(required = false) List<String> person,
-	                                                @RequestParam(required = false) String getBy) {
+	public List<ApexchartsObject> getApexDataByPerson(@RequestParam(required = false) List<String> validity,
+	                                                  @RequestParam(required = false) List<String> type,
+	                                                  @RequestParam(required = false) List<String> month,
+	                                                  @RequestParam(required = false) List<String> year,
+	                                                  @RequestParam(required = false) List<String> person,
+	                                                  @RequestParam(required = false) String getBy) {
 		PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
 		try {
 			if ("person".equals(getBy.toLowerCase())) {
@@ -44,19 +44,19 @@ public class ApexchartsController {
 	}
 
 	@RequestMapping(value = "/data/validity")
-	public List<ApexchartsData> getApexDataByValidity(@RequestParam(required = false) List<String> validity,
-	                                                  @RequestParam(required = false) List<String> type,
-	                                                  @RequestParam(required = false) List<String> month,
-	                                                  @RequestParam(required = false) List<String> year,
-	                                                  @RequestParam(required = false) List<String> person) {
+	public List<ApexchartsObject> getApexDataByValidity(@RequestParam(required = false) List<String> validity,
+	                                                    @RequestParam(required = false) List<String> type,
+	                                                    @RequestParam(required = false) List<String> month,
+	                                                    @RequestParam(required = false) List<String> year,
+	                                                    @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getApexDataByValidity(new PidCouponsParameters(validity, type, month, year, person));
 	}
 
 	@RequestMapping(value = "/tickets/data")
-	public List<ApexchartsData> getApexTicketData(@RequestParam(required = false) List<Boolean> discounted,
-	                                              @RequestParam(required = false) List<String> month,
-	                                              @RequestParam(required = false) List<String> year,
-	                                              @RequestParam(required = false) List<String> ticket) {
+	public List<ApexchartsObject> getApexTicketData(@RequestParam(required = false) List<Boolean> discounted,
+	                                                @RequestParam(required = false) List<String> month,
+	                                                @RequestParam(required = false) List<String> year,
+	                                                @RequestParam(required = false) List<String> ticket) {
 		return apexchartsService.getApexTicketData(new PidTicketsParameters(month, year, discounted, ticket));
 	}
 }

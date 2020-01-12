@@ -17,7 +17,7 @@ public class JdbcTicketRepository extends JdbcAbstractRepository {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public List<DataXY> getTicketLineData(String columnName, PidTicketsParameters parameters){
+	public List<DataXY> getTicketLineData(String columnName, PidTicketsParameters parameters) {
 		String query = String.format("SELECT " + MONTH_COLUMN + ", SUM(%s) FROM " + TICKET_TABLE + " WHERE %s AND %s AND %s GROUP BY " + CODE_COLUMN + "," + MONTH_COLUMN + " ORDER BY " + CODE_COLUMN + " ASC",
 				columnName,
 				generateSqlByColumnQuery(DISCOUNTED_COLUMN, parameters.getDiscounted()),
@@ -28,7 +28,7 @@ public class JdbcTicketRepository extends JdbcAbstractRepository {
 		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2)));
 	}
 
-	public List<Long> getApexTicketLongData(String columnName, PidTicketsParameters parameters){
+	public List<Long> getApexTicketLongData(String columnName, PidTicketsParameters parameters) {
 		return getTicketLineData(columnName, parameters).stream()
 				.map(DataXY::getY)
 				.collect(Collectors.toList());

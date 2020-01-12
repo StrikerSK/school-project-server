@@ -23,23 +23,23 @@ public class NivoBarDataValidityByMonth {
 		this.month = month;
 	}
 
-	public void setData(String validity, Long value){
+	public void setData(String validity, Long value) {
 
-		if(Validity.MONTHLY.getValue().equals(validity)){
+		if (Validity.MONTHLY.getValue().equals(validity)) {
 			this.monthly = value;
 		}
 
-		if(Validity.THREE_MONTHS.getValue().equals(validity)){
+		if (Validity.THREE_MONTHS.getValue().equals(validity)) {
 			this.threeMonths = value;
 		}
 
 
-		if(Validity.FIVE_MONTHS.getValue().equals(validity)){
+		if (Validity.FIVE_MONTHS.getValue().equals(validity)) {
 			this.fiveMonths = value;
 		}
 
 
-		if(Validity.YEARLY.getValue().equals(validity)){
+		if (Validity.YEARLY.getValue().equals(validity)) {
 			this.yearly = value;
 		}
 	}

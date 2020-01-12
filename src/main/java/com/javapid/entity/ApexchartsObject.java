@@ -4,17 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class ApexchartsData {
+public class ApexchartsObject {
 
 	private String name;
 
 	@JsonProperty("data")
 	private List<Long> values;
 
-	public ApexchartsData() {
+	public ApexchartsObject() {
 	}
 
-	public ApexchartsData(String name, List<Long> values) {
+	public ApexchartsObject(String name, List<Long> values) {
 		this.name = name;
 		this.values = values;
 	}
