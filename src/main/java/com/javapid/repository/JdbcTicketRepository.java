@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class JdbcTicketRepository extends JdbcAbstractRepository {
@@ -25,5 +26,11 @@ public class JdbcTicketRepository extends JdbcAbstractRepository {
 		);
 
 		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2)));
+	}
+
+	public List<Long> getApexTicketLongData(String columnName, PidTicketsParameters parameters){
+		return getTicketLineData(columnName, parameters).stream()
+				.map(DataXY::getY)
+				.collect(Collectors.toList());
 	}
 }
