@@ -2,6 +2,7 @@ package com.javapid.controller;
 
 import com.javapid.entity.ApexchartsData;
 import com.javapid.entity.PidCouponsParameters;
+import com.javapid.entity.PidTicketsParameters;
 import com.javapid.service.ApexchartsService;
 import com.javapid.service.PidCouponsService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,6 @@ import java.util.List;
 public class ApexchartsController {
 
 	private final ApexchartsService apexchartsService;
-
 	private final PidCouponsService pidCouponsService;
 
 	public ApexchartsController(ApexchartsService apexchartsService, PidCouponsService pidCouponsService) {
@@ -50,5 +50,13 @@ public class ApexchartsController {
 	                                                  @RequestParam(required = false) List<String> year,
 	                                                  @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getApexDataByValidity(new PidCouponsParameters(validity, type, month, year, person));
+	}
+
+	@RequestMapping(value = "/tickets/data")
+	public List<ApexchartsData> getApexTicketData(@RequestParam(required = false) List<Boolean> discounted,
+	                                              @RequestParam(required = false) List<String> month,
+	                                              @RequestParam(required = false) List<String> year,
+	                                              @RequestParam(required = false) List<String> ticket) {
+		return apexchartsService.getApexTicketData(new PidTicketsParameters(month, year, discounted, ticket));
 	}
 }
