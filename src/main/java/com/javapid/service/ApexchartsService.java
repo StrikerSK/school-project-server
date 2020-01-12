@@ -34,10 +34,4 @@ public class ApexchartsService extends ServiceAbstract {
 				.map(e -> new ApexchartsObject(e, jdbcTicketRepository.getApexTicketLongData(getColumnName(e, TicketTypes.values()), parameters)))
 				.collect(Collectors.toList());
 	}
-
-	public List<ApexchartsData> getApexTicketData(final PidTicketsParameters parameters) {
-		return parameters.getTicketType().stream()
-				.map(e -> new ApexchartsData(e, jdbcTicketRepository.getApexTicketLongData(getColumnName(e, TicketTypes.values()), parameters)))
-				.collect(Collectors.toList());
-	}
 }
