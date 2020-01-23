@@ -1,6 +1,6 @@
 package com.javapid.entity.nivo;
 
-public class DataAbstractJizdenky {
+public class TicketMainDAO {
 
 	private Long fifteenMinutes;
 	private Long oneDay;
@@ -16,7 +16,7 @@ public class DataAbstractJizdenky {
 	private Long tenZones;
 	private Long elevenZones;
 
-	public DataAbstractJizdenky(Long fifteenMinutes, Long oneDay, Long oneDayAll, Long twoZones, Long threeZones, Long fourZones, Long fiveZones, Long sixZones, Long sevenZones, Long eightZones, Long nineZones, Long tenZones, Long elevenZones) {
+	public TicketMainDAO(Long fifteenMinutes, Long oneDay, Long oneDayAll, Long twoZones, Long threeZones, Long fourZones, Long fiveZones, Long sixZones, Long sevenZones, Long eightZones, Long nineZones, Long tenZones, Long elevenZones) {
 		this.fifteenMinutes = fifteenMinutes;
 		this.oneDay = oneDay;
 		this.oneDayAll = oneDayAll;

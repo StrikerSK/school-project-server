@@ -1,22 +1,20 @@
-package com.javapid.entity.nivo.line;
-
-import com.javapid.entity.nivo.DataXY;
+package com.javapid.entity.nivo;
 
 import java.util.List;
 
-public class NivoLineCouponDAO {
+public class NivoLineData {
 
 	private String id;
 	private List<DataXY> data;
 
-	NivoLineCouponDAO() {
+	NivoLineData() {
 	}
 
-	public NivoLineCouponDAO(String id) {
+	public NivoLineData(String id) {
 		this.id = id;
 	}
 
-	public NivoLineCouponDAO(String id, List<DataXY> data) {
+	public NivoLineData(String id, List<DataXY> data) {
 		this.id = id;
 		this.data = data;
 	}
