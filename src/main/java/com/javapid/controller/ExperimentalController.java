@@ -1,7 +1,7 @@
 package com.javapid.controller;
 
 import com.javapid.entity.PidCouponsParameters;
-import com.javapid.entity.nivo.bar.NivoBarDAOMonthsByValidity;
+import com.javapid.entity.nivo.bar.NivoBarMonthsDataByValidity;
 import com.javapid.service.PidCouponsService;
 import com.javapid.service.PidTicketsService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,6 @@ import java.util.List;
 public class ExperimentalController {
 
 	private final PidTicketsService ticketsService;
-
 	private final PidCouponsService couponsService;
 
 	public ExperimentalController(PidTicketsService ticketsService, PidCouponsService couponsService) {
@@ -24,11 +23,11 @@ public class ExperimentalController {
 	}
 
 	@RequestMapping("/validity/month")
-	public List<NivoBarDAOMonthsByValidity> getMonthDataByValidity(@RequestParam(required = false) List<String> validity,
-	                                                               @RequestParam(required = false) List<String> type,
-	                                                               @RequestParam(required = false) List<String> month,
-	                                                               @RequestParam(required = false) List<String> year,
-	                                                               @RequestParam(required = false) List<String> person) {
+	public List<NivoBarMonthsDataByValidity> getMonthDataByValidity(@RequestParam(required = false) List<String> validity,
+	                                                                @RequestParam(required = false) List<String> type,
+	                                                                @RequestParam(required = false) List<String> month,
+	                                                                @RequestParam(required = false) List<String> year,
+	                                                                @RequestParam(required = false) List<String> person) {
 		return couponsService.getMonthsByValidity(new PidCouponsParameters(validity, type, month, year, person));
 	}
 

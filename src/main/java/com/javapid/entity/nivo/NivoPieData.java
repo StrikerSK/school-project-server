@@ -1,17 +1,17 @@
-package com.javapid.entity.nivo.pie;
+package com.javapid.entity.nivo;
 
-public class NivoPieCouponDAO {
+public class NivoPieData {
 
 	private String id;
 	private String label;
 	private Long value;
 
-	public NivoPieCouponDAO(String label) {
+	public NivoPieData(String label) {
 		this.id = label;
 		this.label = label;
 	}
 
-	public NivoPieCouponDAO(String label, Long value) {
+	public NivoPieData(String label, Long value) {
 		this.id = label;
 		this.label = label;
 		this.value = value;
