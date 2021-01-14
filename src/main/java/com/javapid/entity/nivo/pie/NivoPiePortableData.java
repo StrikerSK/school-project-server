@@ -5,8 +5,6 @@ import com.javapid.entity.enums.PersonType;
 public class NivoPiePortableData extends NivoPieAbstractData {
 
 	public NivoPiePortableData(Long value) {
-		setId(PersonType.PORTABLE.getValue());
-		setLabel(PersonType.PORTABLE.getValue());
-		setValue(value);
+		super(PersonType.PORTABLE.getValue(), value);
 	}
 }

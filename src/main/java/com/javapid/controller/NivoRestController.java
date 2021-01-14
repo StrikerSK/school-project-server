@@ -40,7 +40,7 @@ public class NivoRestController {
 	                                          @RequestParam(required = false) String data) {
 		PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
 		try {
-			if ("sell".equals(data.toLowerCase())) {
+			if ("sell".equalsIgnoreCase(data)) {
 				return pidCouponsService.getNivoLineDataByValidity(parameters);
 			}
 			return pidCouponsService.getNivoLineData(parameters);
@@ -84,9 +84,9 @@ public class NivoRestController {
 	                                        @RequestParam(required = false) String data) {
 		PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
 		try {
-			if ("validity".equals(data.toLowerCase())) {
+			if ("validity".equalsIgnoreCase(data)) {
 				return pidCouponsService.getNivoBubbleChartByValidity(parameters);
-			} else if ("complex".equals(data.toLowerCase())) {
+			} else if ("complex".equalsIgnoreCase(data)) {
 				return pidCouponsService.getNivoBubbleChartExperimental(parameters);
 			}
 			return pidCouponsService.getNivoBubbleChart(parameters);

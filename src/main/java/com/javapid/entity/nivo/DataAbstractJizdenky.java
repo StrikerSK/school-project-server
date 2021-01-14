@@ -16,6 +16,22 @@ public abstract class DataAbstractJizdenky {
 	private Long tenZones;
 	private Long elevenZones;
 
+	public DataAbstractJizdenky(Long fifteenMinutes, Long oneDay, Long oneDayAll, Long twoZones, Long threeZones, Long fourZones, Long fiveZones, Long sixZones, Long sevenZones, Long eightZones, Long nineZones, Long tenZones, Long elevenZones) {
+		this.fifteenMinutes = fifteenMinutes;
+		this.oneDay = oneDay;
+		this.oneDayAll = oneDayAll;
+		this.twoZones = twoZones;
+		this.threeZones = threeZones;
+		this.fourZones = fourZones;
+		this.fiveZones = fiveZones;
+		this.sixZones = sixZones;
+		this.sevenZones = sevenZones;
+		this.eightZones = eightZones;
+		this.nineZones = nineZones;
+		this.tenZones = tenZones;
+		this.elevenZones = elevenZones;
+	}
+
 	public Long getFifteenMinutes() {
 		return fifteenMinutes;
 	}

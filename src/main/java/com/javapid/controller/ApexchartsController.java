@@ -32,9 +32,9 @@ public class ApexchartsController {
 	                                                @RequestParam(required = false) String getBy) {
 		PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
 		try {
-			if ("person".equals(getBy.toLowerCase())) {
+			if ("person".equalsIgnoreCase(getBy)) {
 				return apexchartsService.getApexData(parameters);
-			} else if ("validity".equals(getBy.toLowerCase())) {
+			} else if ("validity".equalsIgnoreCase(getBy)) {
 				return pidCouponsService.getApexDataByValidity(parameters);
 			}
 			return apexchartsService.getApexData(parameters);

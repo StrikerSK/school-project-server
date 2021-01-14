@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BubbleChartData extends NivoBubbleAbstract {
 
-	private List<FirstChildren> children;
+	private final List<FirstChildren> children;
 
 	public BubbleChartData(String name) {
 		super(name);
@@ -21,8 +21,8 @@ public class BubbleChartData extends NivoBubbleAbstract {
 	}
 
 	public static class FirstChildren {
-		private String name;
-		private List<BubbleFinalChildren> children;
+		private final String name;
+		private final List<BubbleFinalChildren> children;
 
 		public FirstChildren(String name) {
 			this.name = name;
