@@ -1,0 +1,73 @@
+package com.charts.general.repository;
+
+import com.charts.general.entity.PidCouponsParameters;
+import com.charts.general.entity.nivo.DataXY;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Repository
+public class JdbcCouponRepository extends JdbcAbstractRepository {
+
+	private final JdbcTemplate jdbcTemplate;
+	private final String SQL_QUERY = "SELECT " + MONTH_COLUMN + ", SUM(%s) from " + COUPON_TABLE + " WHERE %s AND %s AND %s AND %s GROUP BY " + CODE_COLUMN + "," + MONTH_COLUMN + " ORDER BY " + CODE_COLUMN + " ASC";
+
+	public JdbcCouponRepository(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	public List<DataXY> fetchCouponLineData(String summedColumn, PidCouponsParameters parameters) {
+
+		String query = String.format(SQL_QUERY,
+				summedColumn,
+				createColumnQuery(VALIDITY_COLUMN, parameters.getValidity()),
+				createColumnQuery(SELL_TYPE_COLUMN, parameters.getSellType()),
+				createColumnQuery(MONTH_COLUMN, parameters.getMonth()),
+				createColumnQuery(YEAR_COLUMN, parameters.getYear())
+		);
+
+		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2)));
+	}
+
+	public List<Long> fetchCouponAreaData(String summedColumn, PidCouponsParameters parameters) {
+
+		return fetchCouponLineData(summedColumn, parameters).stream()
+				.map(DataXY::getY)
+				.collect(Collectors.toList());
+	}
+
+	//TODO add setters methods to Parameter object
+	//TODO set parameter to single element array
+	public Long fetchBubbleData(String summedColumn, String validityColumn, PidCouponsParameters parameters) {
+
+		String query = String.format(SQL_QUERY,
+				summedColumn,
+				createColumnQuery(VALIDITY_COLUMN, Collections.singletonList(validityColumn)),
+				createColumnQuery(SELL_TYPE_COLUMN, parameters.getSellType()),
+				createColumnQuery(MONTH_COLUMN, parameters.getMonth()),
+				createColumnQuery(YEAR_COLUMN, parameters.getYear())
+		);
+
+		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2))).stream()
+				.map(DataXY::getY)
+				.reduce(0L, Long::sum);
+	}
+
+	public Long fetchBubbleData(String summedColumn, String validityColumn, String monthColumn, PidCouponsParameters parameters) {
+
+		String query = String.format(SQL_QUERY,
+				summedColumn,
+				createColumnQuery(VALIDITY_COLUMN, Collections.singletonList(validityColumn)),
+				createColumnQuery(SELL_TYPE_COLUMN, parameters.getSellType()),
+				createColumnQuery(MONTH_COLUMN, Collections.singletonList(monthColumn)),
+				createColumnQuery(YEAR_COLUMN, parameters.getYear())
+		);
+
+		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2))).stream()
+				.map(DataXY::getY)
+				.reduce(0L, Long::sum);
+	}
+}
