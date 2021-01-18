@@ -248,35 +248,6 @@ public class PidCouponsService {
 		return null;
 	}
 
-	/**
-	 * Method fetches and adjust data to Recharts module
-	 *
-	 * @return data adapted to Recharts module
-	 */
-	public List<List<PersonAbstractClass>> getRechartsData(PidCouponsParameters parameters) {
-		return getAllSumsRow(parameters).stream()
-				.map(element -> createPersonList(element, parameters.getPerson()))
-				.collect(Collectors.toList());
-	}
-
-	private List<PersonAbstractClass> createPersonList(NivoBarCouponDataByMonth data, List<String> personTypes) {
-		List<PersonAbstractClass> personsList = new ArrayList<>();
-		String month = data.getMonth();
-
-		for (PersonType personType : PersonType.values()) {
-			try {
-				if (Validators.isPersonTypeRequested(personTypes, personType.value)) {
-					String person = personType.methodValue;
-					Long receivedValue = (Long) data.getClass().getMethod("get" + person).invoke(data);
-					personsList.add(new PersonAbstractClass(personType.value, month, receivedValue));
-				}
-			} catch (Exception e) {
-				LOGGER.warning("There was an error!");
-			}
-		}
-		return personsList;
-	}
-
 	public List<NivoBarCouponDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, String value) {
 		return pidCouponsRepository.getNivoBarDataByValidity(value, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 	}

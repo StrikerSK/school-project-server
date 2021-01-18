@@ -1,5 +1,6 @@
-package com.charts.files;
+package com.charts.files.controller;
 
+import com.charts.files.service.FileService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

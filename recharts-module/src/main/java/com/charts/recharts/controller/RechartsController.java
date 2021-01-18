@@ -1,10 +1,10 @@
-package com.charts.general.controller;
+package com.charts.recharts.controller;
 
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.PidTicketsParameters;
 import com.charts.general.objects.recharts.PersonAbstractClass;
-import com.charts.general.service.PidCouponsService;
-import com.charts.general.service.PidTicketsService;
+import com.charts.recharts.service.RechartsCouponService;
+import com.charts.recharts.service.RechartsTicketService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,12 +15,12 @@ import java.util.List;
 @RequestMapping("/recharts")
 public class RechartsController {
 
-	private final PidCouponsService pidCouponsService;
-	private final PidTicketsService pidTicketsService;
+	private final RechartsCouponService couponService;
+	private final RechartsTicketService ticketService;
 
-	public RechartsController(PidCouponsService pidCouponsService, PidTicketsService pidTicketsService) {
-		this.pidCouponsService = pidCouponsService;
-		this.pidTicketsService = pidTicketsService;
+	public RechartsController(RechartsCouponService couponService, RechartsTicketService ticketService) {
+		this.couponService = couponService;
+		this.ticketService = ticketService;
 	}
 
 	@RequestMapping({"/bar", "/pie", "/line", "/data"})
@@ -29,7 +29,7 @@ public class RechartsController {
 	                                                  @RequestParam(required = false) List<String> month,
 	                                                  @RequestParam(required = false) List<String> year,
 	                                                  @RequestParam(required = false) List<String> person) {
-		return pidCouponsService.getRechartsData(new PidCouponsParameters(validity, type, month, year, person));
+		return couponService.getRechartsData(new PidCouponsParameters(validity, type, month, year, person));
 	}
 
 	@RequestMapping({"/tickets/bar", "/tickets/pie", "/tickets/line", "/tickets/data"})
@@ -37,6 +37,6 @@ public class RechartsController {
 	                                                             @RequestParam(required = false) List<String> month,
 	                                                             @RequestParam(required = false) List<String> year,
 	                                                             @RequestParam(required = false) List<String> ticket) {
-		return pidTicketsService.getRechartsTicketsData(new PidTicketsParameters(month, year, discounted, ticket));
+		return ticketService.getRechartsTicketsData(new PidTicketsParameters(month, year, discounted, ticket));
 	}
 }
