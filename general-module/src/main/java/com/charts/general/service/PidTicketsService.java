@@ -6,7 +6,6 @@ import com.charts.general.entity.nivo.NivoLineData;
 import com.charts.general.entity.nivo.NivoPieData;
 import com.charts.general.entity.nivo.TicketMainDAO;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
-import com.charts.general.objects.recharts.PersonAbstractClass;
 import com.charts.general.repository.JdbcTicketRepository;
 import com.charts.general.repository.PidTicketsRepository;
 import org.springframework.stereotype.Service;
@@ -56,29 +55,5 @@ public class PidTicketsService extends ServiceAbstract {
 			}
 		}
 		return outputData;
-	}
-
-	public List<List<PersonAbstractClass>> getRechartsTicketsData(PidTicketsParameters parameters) {
-		return pidTicketsRepository.getTicketsBarData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger()).stream()
-				.map(element -> createTicketsList(element, parameters.getTicketType()))
-				.collect(Collectors.toList());
-	}
-
-	private List<PersonAbstractClass> createTicketsList(NivoBarTicketsDAOByMonth data, List<String> ticketTypes) {
-		List<PersonAbstractClass> ticketList = new ArrayList<>();
-		String month = data.getMonth();
-
-		for (TicketTypes ticketType : TicketTypes.values()) {
-			try {
-				if (isPersonTypeRequested(ticketTypes, ticketType.value)) {
-					String ticket = ticketType.methodName;
-					Long receivedValue = (Long) data.getClass().getMethod("get" + ticket).invoke(data);
-					ticketList.add(new PersonAbstractClass(ticketType.value, month, receivedValue));
-				}
-			} catch (Exception e) {
-				LOGGER.warning("There was an error!");
-			}
-		}
-		return ticketList;
 	}
 }
