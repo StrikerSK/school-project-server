@@ -3,7 +3,7 @@ package com.charts.recharts.service;
 import com.charts.general.entity.PidTicketsParameters;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
-import com.charts.general.objects.recharts.PersonAbstractClass;
+import com.charts.recharts.entity.PersonAbstractClass;
 import com.charts.general.repository.PidTicketsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

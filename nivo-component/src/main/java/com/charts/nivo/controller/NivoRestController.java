@@ -1,16 +1,13 @@
-package com.charts.general.controller;
+package com.charts.nivo.controller;
 
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByValidity;
-import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.general.entity.nivo.bar.NivoBarValidityDataByMonth;
 import com.charts.general.entity.nivo.bubble.NivoBubbleAbstract;
 import com.charts.general.entity.PidCouponsParameters;
-import com.charts.general.entity.PidTicketsParameters;
 import com.charts.general.entity.nivo.NivoLineData;
 import com.charts.general.entity.nivo.NivoPieData;
-import com.charts.general.service.PidCouponsService;
-import com.charts.general.service.PidTicketsService;
+import com.charts.nivo.service.NivoCouponService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,12 +19,10 @@ import java.util.List;
 @RequestMapping("/nivo")
 public class NivoRestController {
 
-	private final PidCouponsService pidCouponsService;
-	private final PidTicketsService pidTicketsService;
+	private final NivoCouponService pidCouponsService;
 
-	public NivoRestController(PidCouponsService pidCouponsService, PidTicketsService pidTicketsService) {
+	public NivoRestController(NivoCouponService pidCouponsService) {
 		this.pidCouponsService = pidCouponsService;
-		this.pidTicketsService = pidTicketsService;
 	}
 
 	@RequestMapping("/line")
@@ -56,7 +51,7 @@ public class NivoRestController {
 		return pidCouponsService.getNivoLineDataByValidity(new PidCouponsParameters(Collections.emptyList(), type, month, year, person));
 	}
 
-	@RequestMapping("/bar")
+	@RequestMapping({"/bar","/general"})
 	public List<NivoBarCouponDataByMonth> getGeneralBarData(@RequestParam(required = false) List<String> validity,
 	                                                        @RequestParam(required = false) List<String> type,
 	                                                        @RequestParam(required = false) List<String> month,
@@ -117,28 +112,5 @@ public class NivoRestController {
 	                                                   @RequestParam(required = false) List<String> year,
 	                                                   @RequestParam(required = false) List<String> person) {
 		return pidCouponsService.getNivoPieDataByValidity(new PidCouponsParameters(Collections.emptyList(), type, month, year, person));
-	}
-
-	@RequestMapping("/tickets/line")
-	public List<NivoLineData> getData(@RequestParam(required = false) List<Boolean> discounted,
-	                                  @RequestParam(required = false) List<String> month,
-	                                  @RequestParam(required = false) List<String> year,
-	                                  @RequestParam(required = false) List<String> ticket) {
-		return pidTicketsService.getTicketsLineData(new PidTicketsParameters(month, year, discounted, ticket));
-	}
-
-	@RequestMapping("/tickets/bar")
-	public List<NivoBarTicketsDAOByMonth> retrieveBarData(@RequestParam(required = false) List<Boolean> discounted,
-	                                                      @RequestParam(required = false) List<String> month,
-	                                                      @RequestParam(required = false) List<String> year) {
-		return pidTicketsService.getTicketBarData(new PidTicketsParameters(month, year, discounted, Collections.emptyList()));
-	}
-
-	@RequestMapping({"/tickets/pie", "/tickets/waffle"})
-	public List<NivoPieData> retrievePieData(@RequestParam(required = false) List<Boolean> discounted,
-	                                         @RequestParam(required = false) List<String> month,
-	                                         @RequestParam(required = false) List<String> year,
-	                                         @RequestParam(required = false) List<String> ticket) {
-		return pidTicketsService.getTicketsPieData(new PidTicketsParameters(month, year, discounted, ticket));
 	}
 }

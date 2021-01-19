@@ -11,9 +11,6 @@ public class ApexchartsObject {
 	@JsonProperty("data")
 	private List<Long> values;
 
-	public ApexchartsObject() {
-	}
-
 	public ApexchartsObject(String name, List<Long> values) {
 		this.name = name;
 		this.values = values;

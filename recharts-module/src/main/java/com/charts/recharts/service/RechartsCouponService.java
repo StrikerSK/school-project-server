@@ -3,7 +3,7 @@ package com.charts.recharts.service;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
-import com.charts.general.objects.recharts.PersonAbstractClass;
+import com.charts.recharts.entity.PersonAbstractClass;
 import com.charts.general.service.PidCouponsService;
 import com.charts.general.service.Validators;
 import org.slf4j.Logger;

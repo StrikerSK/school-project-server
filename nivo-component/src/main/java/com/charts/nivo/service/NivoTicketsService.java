@@ -1,4 +1,4 @@
-package com.charts.general.service;
+package com.charts.nivo.service;
 
 import com.charts.general.entity.PidTicketsParameters;
 import com.charts.general.entity.enums.TicketTypes;
@@ -8,6 +8,7 @@ import com.charts.general.entity.nivo.TicketMainDAO;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.general.repository.JdbcTicketRepository;
 import com.charts.general.repository.PidTicketsRepository;
+import com.charts.general.service.ServiceAbstract;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,13 +19,13 @@ import java.util.stream.Collectors;
 import static com.charts.general.service.Validators.*;
 
 @Service
-public class PidTicketsService extends ServiceAbstract {
+public class NivoTicketsService extends ServiceAbstract {
 
 	private final PidTicketsRepository pidTicketsRepository;
 	private final JdbcTicketRepository jdbcTicketRepository;
 	private static final Logger LOGGER = Logger.getLogger("Ticket service");
 
-	public PidTicketsService(PidTicketsRepository pidTicketsRepository, JdbcTicketRepository jdbcTicketRepository) {
+	public NivoTicketsService(PidTicketsRepository pidTicketsRepository, JdbcTicketRepository jdbcTicketRepository) {
 		this.pidTicketsRepository = pidTicketsRepository;
 		this.jdbcTicketRepository = jdbcTicketRepository;
 	}

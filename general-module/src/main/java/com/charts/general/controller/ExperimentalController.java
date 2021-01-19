@@ -3,7 +3,6 @@ package com.charts.general.controller;
 import com.charts.general.entity.nivo.bar.NivoBarMonthsDataByValidity;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.service.PidCouponsService;
-import com.charts.general.service.PidTicketsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,12 +12,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/test")
 public class ExperimentalController {
-
-	private final PidTicketsService ticketsService;
 	private final PidCouponsService couponsService;
 
-	public ExperimentalController(PidTicketsService ticketsService, PidCouponsService couponsService) {
-		this.ticketsService = ticketsService;
+	public ExperimentalController(PidCouponsService couponsService) {
 		this.couponsService = couponsService;
 	}
 

@@ -1,4 +1,4 @@
-package com.charts.general.objects.recharts;
+package com.charts.recharts.entity;
 
 public class PersonAbstractClass {
 
