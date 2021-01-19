@@ -1,34 +1,19 @@
 package com.charts.general.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "pid_jizdenky")
 @Getter
 @Setter
 @NoArgsConstructor
-public class TicketEntity {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	@JsonIgnore
-	private Long id;
-
-	@Column(name = "kod")
-	@JsonProperty("kod")
-	private String code;
-
-	@Column(name = "mesiac")
-	private String month;
-
-	@Column(name = "rok")
-	private Integer year;
+public class TicketEntity extends AbstractDataEntity {
 
 	@Column(name = "zlavneny")
 	private Boolean discounted;
@@ -73,9 +58,7 @@ public class TicketEntity {
 	private Long elevenZones;
 
 	public TicketEntity(String code, String month, Integer year, Boolean discounted, Long fifteenMinutes, Long oneDay, Long oneDayAll, Long twoZones, Long threeZones, Long fourZones, Long fiveZones, Long sixZones, Long sevenZones, Long eightZones, Long nineZones, Long tenZones, Long elevenZones) {
-		this.code = code;
-		this.month = month;
-		this.year = year;
+		super(code, month, year);
 		this.discounted = discounted;
 		this.fifteenMinutes = fifteenMinutes;
 		this.oneDay = oneDay;

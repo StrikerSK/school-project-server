@@ -2,13 +2,15 @@ package com.charts.general.entity;
 
 import java.util.List;
 
-import static com.charts.general.service.Validators.*;
+import static com.charts.general.service.Validators.verifyPersonList;
+import static com.charts.general.service.Validators.verifySellTypeList;
+import static com.charts.general.service.Validators.verifyValidityList;
 
 public class PidCouponsParameters extends PidAbstractParameters {
 
-	private List<String> validity;
-	private List<String> sellType;
-	private List<String> person;
+	private final List<String> validity;
+	private final List<String> sellType;
+	private final List<String> person;
 
 	public PidCouponsParameters(List<String> validity, List<String> sellType, List<String> month, List<String> year, List<String> person) {
 		super(month, year);

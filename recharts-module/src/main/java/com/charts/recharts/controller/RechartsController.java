@@ -2,7 +2,7 @@ package com.charts.recharts.controller;
 
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.PidTicketsParameters;
-import com.charts.general.objects.recharts.PersonAbstractClass;
+import com.charts.recharts.entity.PersonAbstractClass;
 import com.charts.recharts.service.RechartsCouponService;
 import com.charts.recharts.service.RechartsTicketService;
 import org.springframework.web.bind.annotation.RequestMapping;

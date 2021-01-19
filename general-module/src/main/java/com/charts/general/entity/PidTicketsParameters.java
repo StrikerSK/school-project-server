@@ -7,8 +7,8 @@ import static com.charts.general.service.Validators.verifyTicketType;
 
 public class PidTicketsParameters extends PidAbstractParameters {
 
-	private List<Boolean> discounted;
-	private List<String> ticketType;
+	private final List<Boolean> discounted;
+	private final List<String> ticketType;
 
 	public PidTicketsParameters(List<String> month, List<String> year, List<Boolean> discounted, List<String> ticketType) {
 		super(month, year);

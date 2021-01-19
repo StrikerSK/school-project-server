@@ -2,12 +2,14 @@ package com.charts.general.entity;
 
 import java.util.List;
 
-import static com.charts.general.service.Validators.*;
+import static com.charts.general.service.Validators.verifyMonthsList;
+import static com.charts.general.service.Validators.verifyYears;
+import static com.charts.general.service.Validators.verifyYearsList;
 
 abstract class PidAbstractParameters {
 
-	private List<String> month;
-	private List<String> year;
+	private final List<String> month;
+	private final List<String> year;
 
 	PidAbstractParameters(List<String> month, List<String> year) {
 		this.month = month;
