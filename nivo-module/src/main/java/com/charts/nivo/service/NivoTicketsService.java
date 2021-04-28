@@ -1,6 +1,8 @@
 package com.charts.nivo.service;
 
 import com.charts.general.entity.PidTicketsParameters;
+import com.charts.general.entity.enums.GetterColumn;
+import com.charts.general.entity.enums.GetterValue;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.nivo.NivoLineData;
 import com.charts.general.entity.nivo.NivoPieData;
@@ -8,10 +10,10 @@ import com.charts.general.entity.nivo.TicketMainDAO;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.general.repository.JdbcTicketRepository;
 import com.charts.general.repository.PidTicketsRepository;
-import com.charts.general.service.ServiceAbstract;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
 import static com.charts.general.service.Validators.*;
 
 @Service
-public class NivoTicketsService extends ServiceAbstract {
+public class NivoTicketsService {
 
 	private final PidTicketsRepository pidTicketsRepository;
 	private final JdbcTicketRepository jdbcTicketRepository;
@@ -34,6 +36,12 @@ public class NivoTicketsService extends ServiceAbstract {
 		return verifyTicketType(parameters.getTicketType()).stream()
 				.map(element -> new NivoLineData(element, jdbcTicketRepository.getTicketLineData(getColumnName(element, TicketTypes.values()), parameters)))
 				.collect(Collectors.toList());
+	}
+
+	private <T extends GetterValue & GetterColumn> String getColumnName(String name, T[] enumList) {
+		return Arrays.stream(enumList)
+				.filter(e -> name.equals(e.getValue()))
+				.findAny().get().getColumn();
 	}
 
 	public List<NivoBarTicketsDAOByMonth> getTicketBarData(PidTicketsParameters parameters) {
