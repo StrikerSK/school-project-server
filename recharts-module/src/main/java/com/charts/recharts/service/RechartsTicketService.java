@@ -4,7 +4,7 @@ import com.charts.general.entity.PidTicketsParameters;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.recharts.entity.PersonAbstractClass;
-import com.charts.general.repository.PidTicketsRepository;
+import com.charts.general.repository.ticket.TicketRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,11 +16,11 @@ import static com.charts.general.service.Validators.isPersonTypeRequested;
 
 public class RechartsTicketService {
 
-	private final PidTicketsRepository ticketsRepository;
+	private final TicketRepository ticketsRepository;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RechartsTicketService.class);
 
-	public RechartsTicketService(PidTicketsRepository ticketsRepository){
+	public RechartsTicketService(TicketRepository ticketsRepository){
 		this.ticketsRepository = ticketsRepository;
 	}
 

@@ -3,8 +3,8 @@ package com.charts.recharts.service;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
+import com.charts.general.service.ICouponService;
 import com.charts.recharts.entity.PersonAbstractClass;
-import com.charts.general.service.PidCouponsService;
 import com.charts.general.service.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 @Service
 public class RechartsCouponService {
 
-	private final PidCouponsService pidCouponsService;
+	private final ICouponService couponService;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RechartsCouponService.class);
 
-	public RechartsCouponService(PidCouponsService pidCouponsService) {
-		this.pidCouponsService = pidCouponsService;
+	public RechartsCouponService(ICouponService couponService) {
+		this.couponService = couponService;
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class RechartsCouponService {
 	 * @return data adapted to Recharts module
 	 */
 	public List<List<PersonAbstractClass>> getRechartsData(PidCouponsParameters parameters) {
-		return pidCouponsService.getAllSumsRow(parameters).stream()
+		return couponService.getAllSumsRow(parameters).stream()
 				.map(element -> createPersonList(element, parameters.getPerson()))
 				.collect(Collectors.toList());
 	}

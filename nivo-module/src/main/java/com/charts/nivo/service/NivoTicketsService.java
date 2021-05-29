@@ -8,8 +8,8 @@ import com.charts.general.entity.nivo.NivoLineData;
 import com.charts.general.entity.nivo.NivoPieData;
 import com.charts.general.entity.nivo.TicketMainDAO;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
-import com.charts.general.repository.JdbcTicketRepository;
-import com.charts.general.repository.PidTicketsRepository;
+import com.charts.general.repository.ticket.TicketQueryTemplates;
+import com.charts.general.repository.ticket.TicketRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,18 +23,18 @@ import static com.charts.general.service.Validators.*;
 @Service
 public class NivoTicketsService {
 
-	private final PidTicketsRepository pidTicketsRepository;
-	private final JdbcTicketRepository jdbcTicketRepository;
+	private final TicketRepository ticketRepository;
+	private final TicketQueryTemplates ticketQueryTemplates;
 	private static final Logger LOGGER = Logger.getLogger("Ticket service");
 
-	public NivoTicketsService(PidTicketsRepository pidTicketsRepository, JdbcTicketRepository jdbcTicketRepository) {
-		this.pidTicketsRepository = pidTicketsRepository;
-		this.jdbcTicketRepository = jdbcTicketRepository;
+	public NivoTicketsService(TicketRepository ticketRepository, TicketQueryTemplates ticketQueryTemplates) {
+		this.ticketRepository = ticketRepository;
+		this.ticketQueryTemplates = ticketQueryTemplates;
 	}
 
 	public List<NivoLineData> getTicketsLineData(PidTicketsParameters parameters) {
 		return verifyTicketType(parameters.getTicketType()).stream()
-				.map(element -> new NivoLineData(element, jdbcTicketRepository.getTicketLineData(getColumnName(element, TicketTypes.values()), parameters)))
+				.map(element -> new NivoLineData(element, ticketQueryTemplates.getTicketLineData(getColumnName(element, TicketTypes.values()), parameters)))
 				.collect(Collectors.toList());
 	}
 
@@ -45,11 +45,11 @@ public class NivoTicketsService {
 	}
 
 	public List<NivoBarTicketsDAOByMonth> getTicketBarData(PidTicketsParameters parameters) {
-		return pidTicketsRepository.getTicketsBarData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
+		return ticketRepository.getTicketsBarData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
 	}
 
 	public List<NivoPieData> getTicketsPieData(PidTicketsParameters parameters) {
-		TicketMainDAO pieData = pidTicketsRepository.getTicketsPieData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
+		TicketMainDAO pieData = ticketRepository.getTicketsPieData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
 		List<NivoPieData> outputData = new ArrayList<>();
 		List<String> ticketTypes = parameters.getTicketType();
 

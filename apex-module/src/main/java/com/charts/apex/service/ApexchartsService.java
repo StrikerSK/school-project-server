@@ -3,39 +3,41 @@ package com.charts.apex.service;
 import com.charts.apex.entity.ApexchartsObject;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.PidTicketsParameters;
+import com.charts.general.entity.enums.GetterColumn;
+import com.charts.general.entity.enums.GetterValue;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.repository.JdbcCouponRepository;
-import com.charts.general.repository.JdbcTicketRepository;
-import com.charts.general.service.PidCouponsService;
-import com.charts.general.service.ServiceAbstract;
+import com.charts.general.repository.coupon.CouponQueryTemplate;
+import com.charts.general.repository.ticket.TicketQueryTemplates;
+import com.charts.general.service.ICouponService;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ApexchartsService extends ServiceAbstract {
+public class ApexchartsService {
 
-	private final JdbcCouponRepository jdbcCouponRepository;
-	private final JdbcTicketRepository jdbcTicketRepository;
-	private final PidCouponsService pidCouponsService;
+	private final CouponQueryTemplate couponQueryTemplate;
+	private final TicketQueryTemplates ticketQueryTemplates;
+	private final ICouponService couponService;
 
-	public ApexchartsService(JdbcCouponRepository jdbcCouponRepository, JdbcTicketRepository jdbcTicketRepository, PidCouponsService pidCouponsService) {
-		this.jdbcCouponRepository = jdbcCouponRepository;
-		this.jdbcTicketRepository = jdbcTicketRepository;
-		this.pidCouponsService = pidCouponsService;
+	public ApexchartsService(CouponQueryTemplate couponQueryTemplate, TicketQueryTemplates ticketQueryTemplates, ICouponService couponService) {
+		this.couponQueryTemplate = couponQueryTemplate;
+		this.ticketQueryTemplates = ticketQueryTemplates;
+		this.couponService = couponService;
 	}
 
 	public List<ApexchartsObject> getApexData(final PidCouponsParameters parameters) {
 		return parameters.getPerson().stream()
-				.map(e -> new ApexchartsObject(e, jdbcCouponRepository.fetchCouponAreaData(getColumnName(e, PersonType.values()), parameters)))
+				.map(e -> new ApexchartsObject(e, couponQueryTemplate.fetchCouponAreaData(getColumnName(e, PersonType.values()), parameters)))
 				.collect(Collectors.toList());
 	}
 
 	public List<ApexchartsObject> getApexTicketData(final PidTicketsParameters parameters) {
 		return parameters.getTicketType().stream()
-				.map(e -> new ApexchartsObject(e, jdbcTicketRepository.getApexTicketLongData(getColumnName(e, TicketTypes.values()), parameters)))
+				.map(e -> new ApexchartsObject(e, ticketQueryTemplates.getApexTicketLongData(getColumnName(e, TicketTypes.values()), parameters)))
 				.collect(Collectors.toList());
 	}
 
@@ -49,9 +51,15 @@ public class ApexchartsService extends ServiceAbstract {
 	}
 
 	private ApexchartsObject getValues(String validity, PidCouponsParameters parameters) {
-		List<Long> dataSum = pidCouponsService.getAllSumsRow(parameters, validity).stream()
-				.map(e -> pidCouponsService.getDataSum(e, parameters.getPerson()))
+		List<Long> dataSum = couponService.getAllSumsRow(parameters, validity).stream()
+				.map(e -> couponService.getDataSum(e, parameters.getPerson()))
 				.collect(Collectors.toList());
 		return new ApexchartsObject(validity, dataSum);
+	}
+
+	private <T extends GetterValue & GetterColumn> String getColumnName(String name, T[] enumList) {
+		return Arrays.stream(enumList)
+				.filter(e -> name.equals(e.getValue()))
+				.findAny().get().getColumn();
 	}
 }
