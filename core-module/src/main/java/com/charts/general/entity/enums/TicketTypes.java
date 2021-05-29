@@ -20,9 +20,9 @@ public enum TicketTypes {
 	TEN_ZONES("10 Pásiem", "desat_pasem", "TenZones"),
 	ELEVEN_ZONES("11 Pásiem", "jedenast_pasem", "ElevenZones");
 
-	public final String value;
-	public final String column;
-	public final String methodName;
+	private final String value;
+	private final String column;
+	private final String methodName;
 
 	private TicketTypes(String value, String column, String methodName) {
 		this.value = value;
@@ -36,6 +36,10 @@ public enum TicketTypes {
 
 	public String getColumn() {
 		return column;
+	}
+
+	public String getMethodName() {
+		return methodName;
 	}
 
 	public static List<String> ticketTypeValues() {
@@ -53,5 +57,13 @@ public enum TicketTypes {
 
 	public static String getTicketColumn(String value) {
 		return ticketTypeValue(value).getColumn();
+	}
+
+	public static String getTicketMethodName(String value) {
+		return ticketTypeValue(value).getMethodName();
+	}
+
+	public static List<TicketTypes> getList() {
+		return Arrays.asList(TicketTypes.values());
 	}
 }

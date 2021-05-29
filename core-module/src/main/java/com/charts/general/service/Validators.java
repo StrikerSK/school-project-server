@@ -76,10 +76,6 @@ public class Validators {
 		return isEmptyList(personList, PersonType.personValues()).contains(personType);
 	}
 
-	public static Boolean isTicketTypeRequested(List<String> ticketList, String personType) {
-		return isEmptyList(ticketList, TicketTypes.ticketTypeValues()).contains(personType);
-	}
-
 	/**
 	 * Method verifies if provided parameter is empty or not
 	 *
@@ -87,7 +83,7 @@ public class Validators {
 	 * @param defaultList list of default provided values
 	 * @return list of requested values
 	 */
-	private static List<String> isEmptyList(List<String> inputArray, List<String> defaultList) {
+	public static List<String> isEmptyList(List<String> inputArray, List<String> defaultList) {
 		if(CollectionUtils.isEmpty(inputArray)) {
 			return defaultList;
 		} else {
