@@ -2,24 +2,26 @@ package com.charts.general.entity.nivo.bar;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import static com.charts.general.constants.PersonType.*;
+
 public class NivoBarCouponData {
 
-	@JsonProperty("Dospelý")
+	@JsonProperty(ADULT_VALUE)
 	private Long adults = 0L;
 
-	@JsonProperty("Dôchodcovia")
+	@JsonProperty(SENIOR_VALUE)
 	private Long seniors = 0L;
 
-	@JsonProperty("Juniori")
+	@JsonProperty(JUNIOR_VALUE)
 	private Long juniors = 0L;
 
-	@JsonProperty("Študenti")
+	@JsonProperty(STUDENT_VALUE)
 	private Long students = 0L;
 
-	@JsonProperty("Prenosné")
+	@JsonProperty(PORTABLE_VALUE)
 	private Long portable = 0L;
 
-	@JsonProperty("Deti")
+	@JsonProperty(CHILDREN_VALUE)
 	private Long children = 0L;
 
 	public NivoBarCouponData() {

@@ -4,14 +4,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.charts.general.constants.PersonType.*;
+
 public enum PersonType {
 
-	ADULT("Dospelý", "dospeli", "Adults"),
-	SENIOR("Dôchodcovia", "dochodcovia", "Seniors"),
-	JUNIOR("Juniori", "junior", "Juniors"),
-	PORTABLE("Prenosná", "prenosna", "Portable"),
-	STUDENT("Študenti", "studenti", "Students"),
-	CHILDREN("Deti", "dieta", "Children");
+	ADULT(ADULT_VALUE, "dospeli", "Adults"),
+	SENIOR(SENIOR_VALUE, "dochodcovia", "Seniors"),
+	JUNIOR(JUNIOR_VALUE, "junior", "Juniors"),
+	PORTABLE(PORTABLE_VALUE, "prenosna", "Portable"),
+	STUDENT(STUDENT_VALUE, "studenti", "Students"),
+	CHILDREN(CHILDREN_VALUE, "dieta", "Children");
 
 	public final String value;
 	public final String column;

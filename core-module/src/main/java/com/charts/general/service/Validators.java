@@ -63,17 +63,11 @@ public class Validators {
 	}
 
 	private static <T> List<T> verifyList(List<T> checkedArray, List<T> enumList) {
-		try {
-			checkedArray = checkedArray.stream()
+		if(CollectionUtils.isEmpty(checkedArray)) {
+			return checkedArray.stream()
 					.filter(enumList::contains)
 					.collect(Collectors.toList());
-
-			if (checkedArray.isEmpty()) {
-				checkedArray = enumList;
-			}
-
-			return checkedArray;
-		} catch (NullPointerException e) {
+		} else {
 			return enumList;
 		}
 	}

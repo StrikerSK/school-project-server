@@ -2,52 +2,51 @@ package com.charts.general.entity.nivo.bar;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 
+import static com.charts.general.constants.MonthConstant.*;
 import static com.charts.general.entity.enums.Months.monthValue;
 
 @Data
-@Slf4j
 public class NivoBarMonthsDataByValidity {
 
 	private String validity;
 
-	@JsonProperty("Január")
+	@JsonProperty(JANUARY_VALUE)
 	private Long january = 0L;
 
-	@JsonProperty("Február")
+	@JsonProperty(FEBRUARY_VALUE)
 	private Long february = 0L;
 
-	@JsonProperty("Marec")
+	@JsonProperty(MARCH_VALUE)
 	private Long march = 0L;
 
-	@JsonProperty("Apríl")
+	@JsonProperty(APRIL_VALUE)
 	private Long april = 0L;
 
-	@JsonProperty("Máj")
+	@JsonProperty(MAY_VALUE)
 	private Long may = 0L;
 
-	@JsonProperty("Jún")
+	@JsonProperty(JUNE_VALUE)
 	private Long june = 0L;
 
-	@JsonProperty("Júl")
+	@JsonProperty(JULY_VALUE)
 	private Long july = 0L;
 
-	@JsonProperty("August")
+	@JsonProperty(AUGUST_VALUE)
 	private Long august = 0L;
 
-	@JsonProperty("September")
+	@JsonProperty(SEPTEMBER_VALUE)
 	private Long september = 0L;
 
-	@JsonProperty("Október")
+	@JsonProperty(OCTOBER_VALUE)
 	private Long october = 0L;
 
-	@JsonProperty("November")
+	@JsonProperty(NOVEMBER_VALUE)
 	private Long november = 0L;
 
-	@JsonProperty("December")
+	@JsonProperty(DECEMBER_VALUE)
 	private Long december = 0L;
 
 	public NivoBarMonthsDataByValidity(String validity) {
@@ -94,7 +93,6 @@ public class NivoBarMonthsDataByValidity {
 				setDecember(value);
 				break;
 			default:
-				log.info("Value cannot be assigned to any month!");
 				break;
 		}
 	};
