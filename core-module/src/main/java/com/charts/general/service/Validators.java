@@ -2,6 +2,7 @@ package com.charts.general.service;
 
 import com.charts.general.entity.enums.*;
 import org.springframework.lang.Nullable;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Validators {
 	 * @return verified validities of request
 	 */
 	public static List<String> verifyValidityList(@Nullable List<String> validities) {
-		return verifyList(validities, getEnumList(Validity.values()));
+		return verifyList(validities, Validity.validityValues());
 	}
 
 	/**
@@ -26,7 +27,7 @@ public class Validators {
 	 * @return verified sellTypes of request
 	 */
 	public static List<String> verifySellTypeList(List<String> sellTypes) {
-		return verifyList(sellTypes, getEnumList(SellType.values()));
+		return verifyList(sellTypes, SellType.sellTypeValues());
 	}
 
 	/**
@@ -36,25 +37,25 @@ public class Validators {
 	 * @return verified months of request
 	 */
 	public static List<String> verifyMonthsList(List<String> months) {
-		return verifyList(months, getEnumList(Months.values()));
+		return verifyList(months, Months.monthsValues());
 	}
 
 	public static List<String> verifyYearsList(List<String> years) {
-		return verifyList(years, getEnumList(YearOptions.values()));
+		return verifyList(years, YearOptions.yearValues());
 	}
 
 	public static List<String> verifyPersonList(List<String> personList) {
-		return verifyList(personList, getEnumList(PersonType.values()));
+		return verifyList(personList, PersonType.personValues());
 	}
 
 	public static List<Integer> verifyYears(List<String> year) {
-		return verifyList(year, getEnumList(YearOptions.values())).stream()
+		return verifyList(year, YearOptions.yearValues()).stream()
 				.map(Integer::parseInt)
 				.collect(Collectors.toList());
 	}
 
 	public static List<String> verifyTicketType(List<String> ticketTypes) {
-		return verifyList(ticketTypes, getEnumList(TicketTypes.values()));
+		return verifyList(ticketTypes, TicketTypes.ticketTypeValues());
 	}
 
 	public static List<Boolean> verifyDiscountedList(List<Boolean> discounted) {
@@ -77,30 +78,12 @@ public class Validators {
 		}
 	}
 
-	/**
-	 * Method converts enum class array to list of strings
-	 *
-	 * @param enumValues array of enum class values
-	 * @return values array changed to list
-	 */
-	private static <T extends GetterValue> List<String> getEnumList(T[] enumValues) {
-		return Arrays.stream(enumValues).map(T::getValue).collect(Collectors.toList());
-	}
-
 	public static Boolean isPersonTypeRequested(List<String> personList, String personType) {
-		try {
-			return isEmptyList(personList, PersonType.values()).contains(personType);
-		} catch (NullPointerException e) {
-			return true;
-		}
+		return isEmptyList(personList, PersonType.personValues()).contains(personType);
 	}
 
 	public static Boolean isTicketTypeRequested(List<String> ticketList, String personType) {
-		try {
-			return isEmptyList(ticketList, TicketTypes.values()).contains(personType);
-		} catch (NullPointerException e) {
-			return true;
-		}
+		return isEmptyList(ticketList, TicketTypes.ticketTypeValues()).contains(personType);
 	}
 
 	/**
@@ -108,13 +91,13 @@ public class Validators {
 	 *
 	 * @param inputArray  verified parameter for empty list
 	 * @param defaultList list of default provided values
-	 * @param <G>         interface for enum classes
 	 * @return list of requested values
 	 */
-	private static <G extends GetterValue> List<String> isEmptyList(List<String> inputArray, G[] defaultList) {
-		if (inputArray.isEmpty()) {
-			return getEnumList(defaultList);
+	private static List<String> isEmptyList(List<String> inputArray, List<String> defaultList) {
+		if(CollectionUtils.isEmpty(inputArray)) {
+			return defaultList;
+		} else {
+			return inputArray;
 		}
-		return inputArray;
 	}
 }

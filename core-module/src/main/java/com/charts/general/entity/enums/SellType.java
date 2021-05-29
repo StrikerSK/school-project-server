@@ -1,6 +1,10 @@
 package com.charts.general.entity.enums;
 
-public enum SellType implements GetterValue {
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public enum SellType {
 
 	CARD("Čipová karta"),
 	COUPON("Papierový kupón"),
@@ -12,8 +16,14 @@ public enum SellType implements GetterValue {
 		this.value = value;
 	}
 
-	@Override
 	public String getValue() {
 		return value;
 	}
+
+	public static List<String> sellTypeValues() {
+		return Arrays.stream(values())
+				.map(SellType::getValue)
+				.collect(Collectors.toList());
+	}
+
 }

@@ -1,6 +1,10 @@
 package com.charts.general.entity.enums;
 
-public enum Months implements GetterValue {
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public enum Months {
 
 	JANUARY("Január"),
 	FEBRUARY("Február"),
@@ -15,15 +19,28 @@ public enum Months implements GetterValue {
 	NOVEMBER("November"),
 	DECEMBER("December");
 
-	private String value;
+	public final String value;
 
 	private Months(String value) {
 		this.value = value;
 	}
 
-	@Override
 	public String getValue() {
 		return value;
 	}
+
+	public static Months monthValue(String label) {
+		return Arrays.stream(values())
+				.filter(e -> e.value.equals(label))
+				.findFirst()
+				.orElse(null);
+	}
+
+	public static List<String> monthsValues() {
+		return Arrays.stream(values())
+				.map(Months::getValue)
+				.collect(Collectors.toList());
+	}
+
 
 }
