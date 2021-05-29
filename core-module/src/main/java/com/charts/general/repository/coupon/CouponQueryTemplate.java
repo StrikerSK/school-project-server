@@ -20,7 +20,7 @@ public class CouponQueryTemplate extends JdbcAbstractRepository {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public List<DataXY> fetchCouponLineData(String summedColumn, PidCouponsParameters parameters) {
+	public List<DataXY> getLineData(String summedColumn, PidCouponsParameters parameters) {
 
 		String query = String.format(SQL_QUERY,
 				summedColumn,
@@ -33,16 +33,16 @@ public class CouponQueryTemplate extends JdbcAbstractRepository {
 		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2)));
 	}
 
-	public List<Long> fetchCouponAreaData(String summedColumn, PidCouponsParameters parameters) {
+	public List<Long> getAreaData(String summedColumn, PidCouponsParameters parameters) {
 
-		return fetchCouponLineData(summedColumn, parameters).stream()
+		return getLineData(summedColumn, parameters).stream()
 				.map(DataXY::getY)
 				.collect(Collectors.toList());
 	}
 
 	//TODO add setters methods to Parameter object
 	//TODO set parameter to single element array
-	public Long fetchBubbleData(String summedColumn, String validityColumn, PidCouponsParameters parameters) {
+	public Long getBubbleData(String summedColumn, String validityColumn, PidCouponsParameters parameters) {
 
 		String query = String.format(SQL_QUERY,
 				summedColumn,
@@ -57,7 +57,7 @@ public class CouponQueryTemplate extends JdbcAbstractRepository {
 				.reduce(0L, Long::sum);
 	}
 
-	public Long fetchBubbleData(String summedColumn, String validityColumn, String monthColumn, PidCouponsParameters parameters) {
+	public Long getBubbleData(String summedColumn, String validityColumn, String monthColumn, PidCouponsParameters parameters) {
 
 		String query = String.format(SQL_QUERY,
 				summedColumn,

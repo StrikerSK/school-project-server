@@ -18,7 +18,6 @@ import com.charts.general.service.ICouponService;
 import com.charts.general.service.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,20 +30,19 @@ public class NivoCouponService {
 
 	private final CouponQueryTemplate couponQueryTemplate;
 	private final ICouponService couponService;
-
-	@Autowired
-	private CouponRepository couponRepository;
+	private final CouponRepository couponRepository;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NivoCouponService.class);
 
-	public NivoCouponService(CouponQueryTemplate couponQueryTemplate, ICouponService couponService) {
+	public NivoCouponService(CouponQueryTemplate couponQueryTemplate, ICouponService couponService, CouponRepository couponRepository) {
 		this.couponQueryTemplate = couponQueryTemplate;
 		this.couponService = couponService;
+		this.couponRepository = couponRepository;
 	}
 
 	public List<NivoLineData> getNivoLineData(PidCouponsParameters parameters) {
 		return Validators.verifyPersonList(parameters.getPerson()).stream()
-				.map(element -> new NivoLineData(element, couponQueryTemplate.fetchCouponLineData(findColumnByValue(element), parameters)))
+				.map(element -> new NivoLineData(element, couponQueryTemplate.getLineData(findColumnByValue(element), parameters)))
 				.collect(Collectors.toList());
 	}
 
@@ -124,7 +122,7 @@ public class NivoCouponService {
 			for (String person : parameters.getPerson()) {
 				NivoBubbleData.FirstComplexChildren.SecondComplexChildren secondComplexChildren = new NivoBubbleData.FirstComplexChildren.SecondComplexChildren(person);
 				for (String validity : parameters.getValidity()) {
-					Long sum = couponQueryTemplate.fetchBubbleData(findColumnByValue(person), validity, month, parameters);
+					Long sum = couponQueryTemplate.getBubbleData(findColumnByValue(person), validity, month, parameters);
 					secondComplexChildren.addToList(validity, sum);
 				}
 				firstComplexChildren.addChildren(secondComplexChildren);
@@ -140,7 +138,7 @@ public class NivoCouponService {
 			BubbleChartData.FirstChildren firstChildren = new BubbleChartData.FirstChildren(personType);
 			String personColumn = findColumnByValue(personType);
 			for (String couponType : parameters.getValidity()) {
-				firstChildren.addSecondChildren(couponType, couponQueryTemplate.fetchBubbleData(personColumn, couponType, parameters));
+				firstChildren.addSecondChildren(couponType, couponQueryTemplate.getBubbleData(personColumn, couponType, parameters));
 			}
 			outputData.addFirstChildren(firstChildren);
 		}

@@ -1,6 +1,10 @@
 package com.charts.general.entity.enums;
 
-public enum TicketTypes implements GetterValue, GetterColumn {
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public enum TicketTypes {
 
 	FIFTEEN_MINUTES("15 Minútové", "stvrt_minut", "FifteenMinutes"),
 	ONE_DAY("24 Hodinový - Pásmo P", "jeden_den", "OneDay"),
@@ -26,13 +30,28 @@ public enum TicketTypes implements GetterValue, GetterColumn {
 		this.methodName = methodName;
 	}
 
-	@Override
 	public String getValue() {
 		return value;
 	}
 
-	@Override
 	public String getColumn() {
 		return column;
+	}
+
+	public static List<String> ticketTypeValues() {
+		return Arrays.stream(values())
+				.map(TicketTypes::getValue)
+				.collect(Collectors.toList());
+	}
+
+	public static TicketTypes ticketTypeValue(String label) {
+		return Arrays.stream(values())
+				.filter(e -> e.value.equals(label))
+				.findFirst()
+				.orElse(null);
+	}
+
+	public static String getTicketColumn(String value) {
+		return ticketTypeValue(value).getColumn();
 	}
 }

@@ -2,7 +2,9 @@ package com.charts.general.entity.nivo.bar;
 
 import com.charts.general.entity.enums.Validity;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class NivoBarValidityDataByMonth {
 
 	private String month;
@@ -25,42 +27,21 @@ public class NivoBarValidityDataByMonth {
 
 	public void setData(String validity, Long value) {
 
-		if (Validity.MONTHLY.getValue().equals(validity)) {
-			this.monthly = value;
+		switch (Validity.validityValue(validity)) {
+			case MONTHLY:
+				setMonthly(value);
+				break;
+			case THREE_MONTHS:
+				setThreeMonths(value);
+				break;
+			case FIVE_MONTHS:
+				setFiveMonths(value);
+				break;
+			case YEARLY:
+				setYearly(value);
+				break;
+			default:
+				break;
 		}
-
-		if (Validity.THREE_MONTHS.getValue().equals(validity)) {
-			this.threeMonths = value;
-		}
-
-
-		if (Validity.FIVE_MONTHS.getValue().equals(validity)) {
-			this.fiveMonths = value;
-		}
-
-
-		if (Validity.YEARLY.getValue().equals(validity)) {
-			this.yearly = value;
-		}
-	}
-
-	public String getMonth() {
-		return month;
-	}
-
-	public Long getMonthly() {
-		return monthly;
-	}
-
-	public Long getThreeMonths() {
-		return threeMonths;
-	}
-
-	public Long getFiveMonths() {
-		return fiveMonths;
-	}
-
-	public Long getYearly() {
-		return yearly;
 	}
 }

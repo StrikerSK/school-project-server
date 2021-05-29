@@ -1,6 +1,10 @@
 package com.charts.general.entity.enums;
 
-public enum PersonType implements GetterValue, GetterColumn {
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public enum PersonType {
 
 	ADULT("Dospelý", "dospeli", "Adults"),
 	SENIOR("Dôchodcovia", "dochodcovia", "Seniors"),
@@ -19,13 +23,28 @@ public enum PersonType implements GetterValue, GetterColumn {
 		this.methodValue = methodValue;
 	}
 
-	@Override
 	public String getValue() {
 		return value;
 	}
 
-	@Override
 	public String getColumn() {
 		return column;
+	}
+
+	public static List<String> personValues() {
+		return Arrays.stream(values())
+				.map(PersonType::getValue)
+				.collect(Collectors.toList());
+	}
+
+	public static PersonType personTypeValue(String label) {
+		return Arrays.stream(values())
+				.filter(e -> e.value.equals(label))
+				.findFirst()
+				.orElse(null);
+	}
+
+	public static String getPersonColumn(String value) {
+		return personTypeValue(value).getColumn();
 	}
 }
