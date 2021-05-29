@@ -45,8 +45,8 @@ public class CouponServiceImpl implements ICouponService {
 
 		for (PersonType personType : PersonType.values()) {
 			try {
-				if (Validators.isPersonTypeRequested(personTypes, personType.value)) {
-					person = personType.methodValue;
+				if (Validators.isPersonTypeRequested(personTypes, personType.getValue())) {
+					person = personType.getMethodValue();
 					dataSum += (Long) element.getClass().getMethod("get" + person).invoke(element);
 				}
 			} catch (NoSuchMethodException e) {

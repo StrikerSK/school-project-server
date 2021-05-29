@@ -82,8 +82,8 @@ public class NivoCouponService {
 		dataList.forEach(element -> {
 			for (PersonType personType : PersonType.values()) {
 				try {
-					if (!Validators.isPersonTypeRequested(parameters.getPerson(), personType.value)) {
-						String person = personType.methodValue;
+					if (!Validators.isPersonTypeRequested(parameters.getPerson(), personType.getValue())) {
+						String person = personType.getMethodValue();
 						element.getClass().getMethod("set" + person, Long.class).invoke(element, 0L);
 					}
 				} catch (Exception e) {
@@ -101,8 +101,8 @@ public class NivoCouponService {
 			NivoBarCouponData data = couponRepository.getNivoPieData(Collections.singletonList(couponType), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 			for (PersonType personType : PersonType.values()) {
 				try {
-					if (Validators.isPersonTypeRequested(parameters.getPerson(), personType.value)) {
-						String person = personType.methodValue;
+					if (Validators.isPersonTypeRequested(parameters.getPerson(), personType.getValue())) {
+						String person = personType.getMethodValue();
 						Long receivedValue = (Long) data.getClass().getMethod("get" + person).invoke(data);
 						children.addSecondChildren(personType.getValue(), receivedValue);
 					}
@@ -179,8 +179,8 @@ public class NivoCouponService {
 		for (NivoBarCouponData element : couponService.getAllSumsRow(parameters, validity)) {
 			for (PersonType personType : PersonType.values()) {
 				try {
-					if (Validators.isPersonTypeRequested(parameters.getPerson(), personType.value)) {
-						String person = personType.methodValue;
+					if (Validators.isPersonTypeRequested(parameters.getPerson(), personType.getValue())) {
+						String person = personType.getMethodValue();
 						Long receivedValue = (Long) element.getClass().getMethod("get" + person).invoke(element);
 						outputData.getClass().getMethod("addTo" + person, Long.class).invoke(outputData, receivedValue);
 					}
@@ -198,11 +198,9 @@ public class NivoCouponService {
 
 		for (PersonType personType : PersonType.values()) {
 			try {
-				if (Validators.isPersonTypeRequested(parameters.getPerson(), personType.value)) {
-					String person = personType.methodValue;
-					Long receivedValue = (Long) pieData.getClass().getMethod("get" + person).invoke(pieData);
-
-					NivoPieData newData = new NivoPieData(personType.value, receivedValue);
+				if (Validators.isPersonTypeRequested(parameters.getPerson(), personType.getValue())) {
+					Long receivedValue = (Long) pieData.getClass().getMethod("get" + personType.getMethodValue()).invoke(pieData);
+					NivoPieData newData = new NivoPieData(personType.getValue(), receivedValue);
 					outputData.add(newData);
 				}
 			} catch (Exception e) {

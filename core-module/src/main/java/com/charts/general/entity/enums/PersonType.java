@@ -15,9 +15,9 @@ public enum PersonType {
 	STUDENT(STUDENT_VALUE, "studenti", "Students"),
 	CHILDREN(CHILDREN_VALUE, "dieta", "Children");
 
-	public final String value;
-	public final String column;
-	public final String methodValue;
+	private final String value;
+	private final String column;
+	private final String methodValue;
 
 	PersonType(String value, String column, String methodValue) {
 		this.value = value;
@@ -31,6 +31,10 @@ public enum PersonType {
 
 	public String getColumn() {
 		return column;
+	}
+
+	public String getMethodValue() {
+		return methodValue;
 	}
 
 	public static List<String> personValues() {
@@ -48,5 +52,9 @@ public enum PersonType {
 
 	public static String getPersonColumn(String value) {
 		return personTypeValue(value).getColumn();
+	}
+
+	public static List<PersonType> getList() {
+		return Arrays.asList(PersonType.values());
 	}
 }

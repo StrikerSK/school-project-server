@@ -8,14 +8,13 @@ import com.charts.general.entity.nivo.TicketMainDAO;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.general.repository.ticket.TicketQueryTemplates;
 import com.charts.general.repository.ticket.TicketRepository;
+import com.charts.general.service.Validators;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.charts.general.service.Validators.isTicketTypeRequested;
 import static com.charts.general.service.Validators.verifyTicketType;
 
 @Service
@@ -23,7 +22,6 @@ public class NivoTicketsService {
 
 	private final TicketRepository ticketRepository;
 	private final TicketQueryTemplates ticketQueryTemplates;
-	private static final Logger LOGGER = Logger.getLogger("Ticket service");
 
 	public NivoTicketsService(TicketRepository ticketRepository, TicketQueryTemplates ticketQueryTemplates) {
 		this.ticketRepository = ticketRepository;
@@ -42,19 +40,18 @@ public class NivoTicketsService {
 
 	public List<NivoPieData> getTicketsPieData(PidTicketsParameters parameters) {
 		TicketMainDAO pieData = ticketRepository.getTicketsPieData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
-		List<NivoPieData> outputData = new ArrayList<>();
-		List<String> ticketTypes = parameters.getTicketType();
+		return TicketTypes.getList().stream()
+				.filter(e -> isTicketTypeRequested(parameters.getTicketType(), e.getValue()))
+				.map(e -> new NivoPieData(e.getValue(), generatePieData(e, pieData)))
+				.collect(Collectors.toList());
+	}
 
-		for (TicketTypes ticketType : TicketTypes.values()) {
-			try {
-				if (isTicketTypeRequested(ticketTypes, ticketType.value)) {
-					Long returnedValue = (Long) pieData.getClass().getMethod("get" + ticketType.methodName).invoke(pieData);
-					outputData.add(new NivoPieData(ticketType.value, returnedValue));
-				}
-			} catch (Exception e) {
-				LOGGER.warning("There was an error!");
-			}
-		}
-		return outputData;
+	@SneakyThrows
+	private Long generatePieData(TicketTypes ticketType, TicketMainDAO data){
+		return (Long) data.getClass().getMethod("get" + ticketType.getMethodName()).invoke(data);
+	}
+
+	private static Boolean isTicketTypeRequested(List<String> ticketList, String personType) {
+		return Validators.isEmptyList(ticketList, TicketTypes.ticketTypeValues()).contains(personType);
 	}
 }

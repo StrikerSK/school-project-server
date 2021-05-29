@@ -6,11 +6,11 @@ import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
 import com.charts.general.service.ICouponService;
 import com.charts.recharts.entity.PersonAbstractClass;
 import com.charts.general.service.Validators;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,22 +36,16 @@ public class RechartsCouponService {
 				.collect(Collectors.toList());
 	}
 
-	public List<PersonAbstractClass> createPersonList(NivoBarCouponDataByMonth data, List<String> personTypes) {
-		List<PersonAbstractClass> personsList = new ArrayList<>();
-		String month = data.getMonth();
+	private List<PersonAbstractClass> createPersonList(NivoBarCouponDataByMonth data, List<String> personTypes) {
+		return PersonType.getList().stream()
+				.filter(e -> Validators.isPersonTypeRequested(personTypes, e.getValue()))
+				.map(e -> new PersonAbstractClass(e.getValue(), data.getMonth(), generateValue(e, data)))
+				.collect(Collectors.toList());
+	}
 
-		for (PersonType personType : PersonType.values()) {
-			try {
-				if (Validators.isPersonTypeRequested(personTypes, personType.value)) {
-					String person = personType.methodValue;
-					Long receivedValue = (Long) data.getClass().getMethod("get" + person).invoke(data);
-					personsList.add(new PersonAbstractClass(personType.value, month, receivedValue));
-				}
-			} catch (Exception e) {
-				LOGGER.error("There was an error!", e);
-			}
-		}
-		return personsList;
+	@SneakyThrows
+	private Long generateValue(PersonType personType, NivoBarCouponDataByMonth data){
+		return (Long) data.getClass().getMethod("get" + personType.getMethodValue()).invoke(data);
 	}
 
 }
