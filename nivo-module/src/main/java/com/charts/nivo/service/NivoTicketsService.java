@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static com.charts.general.service.Validators.*;
+import static com.charts.general.service.Validators.isTicketTypeRequested;
+import static com.charts.general.service.Validators.verifyTicketType;
 
 @Service
 public class NivoTicketsService {

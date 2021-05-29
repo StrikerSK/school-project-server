@@ -4,20 +4,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.charts.general.constants.MonthConstant.*;
+
 public enum Months {
 
-	JANUARY("Január"),
-	FEBRUARY("Február"),
-	MARCH("Marec"),
-	APRIL("Apríl"),
-	MAY("Máj"),
-	JUNE("Jún"),
-	JULY("Júl"),
-	AUGUST("August"),
-	SEPTEMBER("September"),
-	OCTOBER("Október"),
-	NOVEMBER("November"),
-	DECEMBER("December");
+	JANUARY(JANUARY_VALUE),
+	FEBRUARY(FEBRUARY_VALUE),
+	MARCH(MARCH_VALUE),
+	APRIL(APRIL_VALUE),
+	MAY(MAY_VALUE),
+	JUNE(JUNE_VALUE),
+	JULY(JULY_VALUE),
+	AUGUST(AUGUST_VALUE),
+	SEPTEMBER(SEPTEMBER_VALUE),
+	OCTOBER(OCTOBER_VALUE),
+	NOVEMBER(NOVEMBER_VALUE),
+	DECEMBER(DECEMBER_VALUE);
 
 	public final String value;
 
