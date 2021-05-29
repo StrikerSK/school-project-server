@@ -1,26 +1,35 @@
 package com.charts.general.service;
 
+import com.charts.general.entity.CouponEntity;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.nivo.bar.NivoBarCouponData;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
 import com.charts.general.entity.nivo.bar.NivoBarMonthsDataByValidity;
-import com.charts.general.repository.PidCouponsRepository;
+import com.charts.general.repository.coupon.CouponRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
+@Slf4j
 @Service
-public class PidCouponsService {
+public class CouponServiceImpl implements ICouponService {
 
-	private final PidCouponsRepository pidCouponsRepository;
-	private static final Logger LOGGER = Logger.getLogger("Coupon service");
+	private final CouponRepository couponRepository;
 
-	public PidCouponsService(PidCouponsRepository pidCouponsRepository) {
-		this.pidCouponsRepository = pidCouponsRepository;
+	public CouponServiceImpl(CouponRepository couponRepository) {
+		this.couponRepository = couponRepository;
+	}
+
+	public List<CouponEntity> getAllData() {
+		return couponRepository.findAll();
+	}
+
+	public List<CouponEntity> getDataByCode(String code) {
+		return couponRepository.getByCode(code);
 	}
 
 	/**
@@ -41,9 +50,9 @@ public class PidCouponsService {
 					dataSum += (Long) element.getClass().getMethod("get" + person).invoke(element);
 				}
 			} catch (NoSuchMethodException e) {
-				LOGGER.warning(String.format("There is no such method get%s()", person));
+				log.warn(String.format("There is no such method get%s()", person));
 			} catch (Exception e) {
-				LOGGER.warning("There was an error!");
+				log.warn("There was an error!");
 			}
 		}
 		return dataSum;
@@ -63,11 +72,11 @@ public class PidCouponsService {
 	}
 
 	public List<NivoBarCouponDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, String value) {
-		return pidCouponsRepository.getNivoBarDataByValidity(value, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+		return couponRepository.getNivoBarDataByValidity(value, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 	}
 
 	public List<NivoBarCouponDataByMonth> getAllSumsRow(final PidCouponsParameters parameters) {
-		return pidCouponsRepository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+		return couponRepository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 	}
 
 	public List<NivoBarCouponDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, List<String> validity, List<String> sellType, List<String> month, List<Integer> year) {
@@ -88,6 +97,6 @@ public class PidCouponsService {
 			year = parameters.getYearInteger();
 		}
 
-		return pidCouponsRepository.getNivoBarData(validity, sellType, month, year);
+		return couponRepository.getNivoBarData(validity, sellType, month, year);
 	}
 }

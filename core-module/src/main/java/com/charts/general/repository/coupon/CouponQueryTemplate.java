@@ -1,7 +1,8 @@
-package com.charts.general.repository;
+package com.charts.general.repository.coupon;
 
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.nivo.DataXY;
+import com.charts.general.repository.JdbcAbstractRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -10,12 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class JdbcCouponRepository extends JdbcAbstractRepository {
+public class CouponQueryTemplate extends JdbcAbstractRepository {
 
 	private final JdbcTemplate jdbcTemplate;
 	private final String SQL_QUERY = "SELECT " + MONTH_COLUMN + ", SUM(%s) from " + COUPON_TABLE + " WHERE %s AND %s AND %s AND %s GROUP BY " + CODE_COLUMN + "," + MONTH_COLUMN + " ORDER BY " + CODE_COLUMN + " ASC";
 
-	public JdbcCouponRepository(JdbcTemplate jdbcTemplate) {
+	public CouponQueryTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 

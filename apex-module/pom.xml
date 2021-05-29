@@ -19,10 +19,14 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.charts</groupId>
+            <artifactId>core-module</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com</groupId>
             <artifactId>general-module</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

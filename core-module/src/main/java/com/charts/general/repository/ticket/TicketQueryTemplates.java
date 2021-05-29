@@ -1,7 +1,8 @@
-package com.charts.general.repository;
+package com.charts.general.repository.ticket;
 
 import com.charts.general.entity.PidTicketsParameters;
 import com.charts.general.entity.nivo.DataXY;
+import com.charts.general.repository.JdbcAbstractRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -9,11 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class JdbcTicketRepository extends JdbcAbstractRepository {
+public class TicketQueryTemplates extends JdbcAbstractRepository {
 
 	private final JdbcTemplate jdbcTemplate;
 
-	public JdbcTicketRepository(JdbcTemplate jdbcTemplate) {
+	public TicketQueryTemplates(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 

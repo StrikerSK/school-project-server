@@ -1,4 +1,4 @@
-package com.charts.general.repository;
+package com.charts.general.repository.coupon;
 
 import com.charts.general.entity.nivo.bar.NivoBarCouponData;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface PidCouponsRepository extends JpaRepository<CouponEntity, Long> {
+public interface CouponRepository extends JpaRepository<CouponEntity, Long> {
 
 	List<CouponEntity> getByCode(String code);
 

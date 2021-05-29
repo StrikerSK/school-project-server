@@ -1,4 +1,4 @@
-package com.charts.general.repository;
+package com.charts.general.repository.ticket;
 
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.general.entity.TicketEntity;
@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface PidTicketsRepository extends JpaRepository<TicketEntity, Long> {
+public interface TicketRepository extends JpaRepository<TicketEntity, Long> {
 
 	@Query("SELECT new com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth(month, SUM(fifteenMinutes),SUM(oneDay),SUM(oneDayAll),SUM(twoZones),SUM(threeZones),SUM(fourZones),SUM(fiveZones),SUM(sixZones),SUM(sevenZones),SUM(eightZones),SUM(nineZones),SUM(tenZones),SUM(elevenZones)) FROM TicketEntity WHERE discounted IN :discounted AND month IN :months AND year IN :year GROUP BY code,month ORDER by code ASC")
 	List<NivoBarTicketsDAOByMonth> getTicketsBarData(@Param("discounted") Collection<Boolean> discounted,
