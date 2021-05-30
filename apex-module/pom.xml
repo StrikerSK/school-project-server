@@ -23,11 +23,6 @@
             <artifactId>core-module</artifactId>
             <version>${parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com</groupId>
-            <artifactId>general-module</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 </project>

@@ -1,5 +1,6 @@
 package com.charts.nivo.service;
 
+import com.charts.general.ClassMethodInvoker;
 import com.charts.general.entity.PidTicketsParameters;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.nivo.NivoLineData;
@@ -48,7 +49,7 @@ public class NivoTicketsService {
 
 	@SneakyThrows
 	private Long generatePieData(TicketTypes ticketType, TicketMainDAO data){
-		return (Long) data.getClass().getMethod("get" + ticketType.getMethodName()).invoke(data);
+		return (Long) ClassMethodInvoker.invokeClassGetMethod(data, ticketType.getMethodName());
 	}
 
 	private static Boolean isTicketTypeRequested(List<String> ticketList, String personType) {

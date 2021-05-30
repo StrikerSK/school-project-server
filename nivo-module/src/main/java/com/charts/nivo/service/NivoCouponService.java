@@ -1,5 +1,6 @@
 package com.charts.nivo.service;
 
+import com.charts.general.ClassMethodInvoker;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.nivo.DataXY;
@@ -102,8 +103,7 @@ public class NivoCouponService {
 			for (PersonType personType : PersonType.values()) {
 				try {
 					if (Validators.isPersonTypeRequested(parameters.getPerson(), personType.getValue())) {
-						String person = personType.getMethodValue();
-						Long receivedValue = (Long) data.getClass().getMethod("get" + person).invoke(data);
+						Long receivedValue = (Long) ClassMethodInvoker.invokeClassGetMethod(data, personType.getMethodValue());
 						children.addSecondChildren(personType.getValue(), receivedValue);
 					}
 				} catch (Exception e) {
@@ -181,7 +181,7 @@ public class NivoCouponService {
 				try {
 					if (Validators.isPersonTypeRequested(parameters.getPerson(), personType.getValue())) {
 						String person = personType.getMethodValue();
-						Long receivedValue = (Long) element.getClass().getMethod("get" + person).invoke(element);
+						Long receivedValue = (Long) ClassMethodInvoker.invokeClassGetMethod(element, person);
 						outputData.getClass().getMethod("addTo" + person, Long.class).invoke(outputData, receivedValue);
 					}
 				} catch (Exception e) {
@@ -199,7 +199,7 @@ public class NivoCouponService {
 		for (PersonType personType : PersonType.values()) {
 			try {
 				if (Validators.isPersonTypeRequested(parameters.getPerson(), personType.getValue())) {
-					Long receivedValue = (Long) pieData.getClass().getMethod("get" + personType.getMethodValue()).invoke(pieData);
+					Long receivedValue = (Long) ClassMethodInvoker.invokeClassGetMethod(pieData, personType.getMethodValue());
 					NivoPieData newData = new NivoPieData(personType.getValue(), receivedValue);
 					outputData.add(newData);
 				}

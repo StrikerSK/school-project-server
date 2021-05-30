@@ -1,5 +1,6 @@
 package com.charts.recharts.service;
 
+import com.charts.general.ClassMethodInvoker;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
@@ -45,7 +46,7 @@ public class RechartsCouponService {
 
 	@SneakyThrows
 	private Long generateValue(PersonType personType, NivoBarCouponDataByMonth data){
-		return (Long) data.getClass().getMethod("get" + personType.getMethodValue()).invoke(data);
+		return (Long) ClassMethodInvoker.invokeClassGetMethod(data, personType.getMethodValue());
 	}
 
 }

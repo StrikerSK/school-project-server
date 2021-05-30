@@ -1,5 +1,6 @@
 package com.charts.general.service;
 
+import com.charts.general.ClassMethodInvoker;
 import com.charts.general.entity.CouponEntity;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.enums.PersonType;
@@ -47,10 +48,8 @@ public class CouponServiceImpl implements ICouponService {
 			try {
 				if (Validators.isPersonTypeRequested(personTypes, personType.getValue())) {
 					person = personType.getMethodValue();
-					dataSum += (Long) element.getClass().getMethod("get" + person).invoke(element);
+					dataSum += (Long) ClassMethodInvoker.invokeClassGetMethod(element, person);
 				}
-			} catch (NoSuchMethodException e) {
-				log.warn(String.format("There is no such method get%s()", person));
 			} catch (Exception e) {
 				log.warn("There was an error!");
 			}

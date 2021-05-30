@@ -1,11 +1,11 @@
 package com.charts.recharts.service;
 
+import com.charts.general.ClassMethodInvoker;
 import com.charts.general.entity.PidTicketsParameters;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.recharts.entity.PersonAbstractClass;
 import com.charts.general.repository.ticket.TicketRepository;
-import lombok.SneakyThrows;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,9 +33,8 @@ public class RechartsTicketService {
 				.collect(Collectors.toList());
 	}
 
-	@SneakyThrows
 	private Long generateValue(TicketTypes ticketType, NivoBarTicketsDAOByMonth data){
-		return (Long) data.getClass().getMethod("get" + ticketType.getMethodName()).invoke(data);
+		return (Long) ClassMethodInvoker.invokeClassGetMethod(data, ticketType.getMethodName());
 	}
 
 }
