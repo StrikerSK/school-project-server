@@ -6,12 +6,14 @@ import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.recharts.entity.PersonAbstractClass;
 import com.charts.general.repository.ticket.TicketRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.charts.general.service.Validators.isPersonTypeRequested;
 
+@Service
 public class RechartsTicketService {
 
 	private final TicketRepository ticketsRepository;

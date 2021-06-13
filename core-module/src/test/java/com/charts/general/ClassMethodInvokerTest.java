@@ -1,8 +1,8 @@
 package com.charts.general;
 
 import com.charts.general.entity.nivo.DataXY;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ClassMethodInvokerTest {
 
@@ -11,13 +11,13 @@ public class ClassMethodInvokerTest {
 	@Test
 	public void invokeGetMethodOnLong(){
 		Long value = (Long) ClassMethodInvoker.invokeClassGetMethod(data, "Y");
-		Assert.assertEquals(new Long(555), value);
+		Assertions.assertEquals(new Long(555), value);
 	}
 
 	@Test
 	public void invokeGetMethodOnString(){
 		String value = (String) ClassMethodInvoker.invokeClassGetMethod(data, "X");
-		Assert.assertEquals("CustomName", value);
+		Assertions.assertEquals("CustomName", value);
 	}
 
 }

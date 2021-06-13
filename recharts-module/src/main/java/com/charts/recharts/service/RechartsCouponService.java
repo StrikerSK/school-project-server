@@ -8,8 +8,6 @@ import com.charts.general.service.ICouponService;
 import com.charts.recharts.entity.PersonAbstractClass;
 import com.charts.general.service.Validators;
 import lombok.SneakyThrows;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +17,6 @@ import java.util.stream.Collectors;
 public class RechartsCouponService {
 
 	private final ICouponService couponService;
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(RechartsCouponService.class);
 
 	public RechartsCouponService(ICouponService couponService) {
 		this.couponService = couponService;

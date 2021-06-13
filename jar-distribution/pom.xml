@@ -10,6 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jar-distribution</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -37,8 +38,18 @@
 
     <dependencies>
         <dependency>
-            <groupId>com</groupId>
+            <groupId>com.charts</groupId>
             <artifactId>apex-module</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.charts</groupId>
+            <artifactId>nivo-module</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.charts</groupId>
+            <artifactId>recharts-module</artifactId>
             <version>${parent.version}</version>
         </dependency>
     </dependencies>

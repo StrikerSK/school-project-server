@@ -1,8 +1,13 @@
 package com.charts.general.service;
 
-import com.charts.general.entity.enums.*;
+import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.PersonType;
+import com.charts.general.entity.enums.SellType;
+import com.charts.general.entity.enums.TicketTypes;
+import com.charts.general.entity.enums.Validity;
+import com.charts.general.entity.enums.YearOptions;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.lang.Nullable;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,11 +69,11 @@ public class Validators {
 
 	private static <T> List<T> verifyList(List<T> checkedArray, List<T> enumList) {
 		if(CollectionUtils.isEmpty(checkedArray)) {
+			return enumList;
+		} else {
 			return checkedArray.stream()
 					.filter(enumList::contains)
 					.collect(Collectors.toList());
-		} else {
-			return enumList;
 		}
 	}
 

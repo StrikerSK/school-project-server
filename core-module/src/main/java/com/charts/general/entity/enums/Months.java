@@ -21,7 +21,7 @@ public enum Months {
 	NOVEMBER(NOVEMBER_VALUE),
 	DECEMBER(DECEMBER_VALUE);
 
-	public final String value;
+	private final String value;
 
 	private Months(String value) {
 		this.value = value;
