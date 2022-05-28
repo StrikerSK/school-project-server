@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.util.Objects;
 
-import static com.charts.general.constants.MonthConstant.*;
+import static com.charts.general.constants.Months.*;
 import static com.charts.general.entity.enums.Months.monthValue;
 
 @Data

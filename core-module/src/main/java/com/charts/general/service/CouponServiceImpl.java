@@ -1,19 +1,22 @@
 package com.charts.general.service;
 
 import com.charts.general.ClassMethodInvoker;
-import com.charts.general.entity.CouponEntity;
+import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.PidCouponsParameters;
+import com.charts.general.entity.coupon.AbstractCouponMap;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.nivo.bar.NivoBarCouponData;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
 import com.charts.general.entity.nivo.bar.NivoBarMonthsDataByValidity;
 import com.charts.general.repository.coupon.CouponRepository;
+import com.charts.general.repository.coupon.NewCouponRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -21,12 +24,16 @@ public class CouponServiceImpl implements ICouponService {
 
 	private final CouponRepository couponRepository;
 
-	public CouponServiceImpl(CouponRepository couponRepository) {
+	private final NewCouponRepository newCouponRepository;
+
+	public CouponServiceImpl(CouponRepository couponRepository, NewCouponRepository newCouponRepository) {
 		this.couponRepository = couponRepository;
+		this.newCouponRepository = newCouponRepository;
 	}
 
-	public List<CouponEntity> getAllData() {
-		return couponRepository.findAll();
+	public Map<String, Integer> getAllData() {
+		AbstractCouponMap couponMap = newCouponRepository.getCouponMap();
+		return couponMap.calculateValues().getCouponMap();
 	}
 
 	public List<CouponEntity> getDataByCode(String code) {
@@ -95,6 +102,7 @@ public class CouponServiceImpl implements ICouponService {
 		if (year == null) {
 			year = parameters.getYearInteger();
 		}
+
 
 		return couponRepository.getNivoBarData(validity, sellType, month, year);
 	}

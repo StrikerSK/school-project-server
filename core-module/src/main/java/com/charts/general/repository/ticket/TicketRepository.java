@@ -1,7 +1,7 @@
 package com.charts.general.repository.ticket;
 
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
-import com.charts.general.entity.TicketEntity;
+import com.charts.general.entity.ticket.TicketEntity;
 import com.charts.general.entity.nivo.TicketMainDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

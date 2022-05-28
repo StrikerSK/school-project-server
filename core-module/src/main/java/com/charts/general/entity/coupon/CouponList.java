@@ -1,7 +1,6 @@
 package com.charts.general.entity.coupon;
 
 import com.charts.general.entity.AbstractDataEntity;
-import com.charts.general.entity.CouponEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

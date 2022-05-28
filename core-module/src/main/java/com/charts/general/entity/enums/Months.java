@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.charts.general.constants.MonthConstant.*;
+import static com.charts.general.constants.Months.*;
 
 public enum Months {
 

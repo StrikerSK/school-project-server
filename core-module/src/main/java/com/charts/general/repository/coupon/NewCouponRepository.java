@@ -2,14 +2,16 @@ package com.charts.general.repository.coupon;
 
 import com.charts.general.entity.coupon.CouponList;
 import com.charts.general.entity.coupon.CouponPersonTypeMap;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@AllArgsConstructor
+@Repository
 public class NewCouponRepository {
 
-    @Autowired
-    private JpaCouponRepository couponRepository;
+    private final JpaCouponRepository couponRepository;
+
+    public NewCouponRepository(JpaCouponRepository couponRepository) {
+        this.couponRepository = couponRepository;
+    }
 
     public CouponList getCouponList() {
         return new CouponList(couponRepository.findAll());

@@ -1,9 +1,9 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.general.entity.CouponEntity;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static com.charts.general.constants.PersonType.*;
 
@@ -25,54 +25,44 @@ public class CouponPersonTypeMap extends AbstractCouponMap {
     }
 
     public void getSeniors() {
-        couponMap.put(SENIOR_VALUE, couponList.getCoupons()
-                .stream()
-                .map(CouponEntity::getSeniors)
-                .reduce(0, Integer::sum));
+        assignField(SENIOR_VALUE, CouponEntity::getSeniors);
     }
 
     public void getJuniors() {
-        couponMap.put(JUNIOR_VALUE, couponList.getCoupons()
-                .stream()
-                .map(CouponEntity::getJunior)
-                .reduce(0, Integer::sum));
+        assignField(JUNIOR_VALUE, CouponEntity::getJunior);
     }
 
     public void getAdults() {
-        couponMap.put(ADULT_VALUE, couponList.getCoupons()
-                .stream()
-                .map(CouponEntity::getAdults)
-                .reduce(0, Integer::sum));
+        assignField(ADULT_VALUE, CouponEntity::getAdults);
     }
 
     public void getChildren() {
-        couponMap.put(CHILDREN_VALUE, couponList.getCoupons()
-                .stream()
-                .map(CouponEntity::getChildren)
-                .reduce(0, Integer::sum));
+        assignField(CHILDREN_VALUE, CouponEntity::getChildren);
     }
 
     public void getStudents() {
-        couponMap.put(STUDENT_VALUE, couponList.getCoupons()
-                .stream()
-                .map(CouponEntity::getStudents)
-                .reduce(0, Integer::sum));
+        assignField(STUDENT_VALUE, CouponEntity::getStudents);
     }
 
     public void getPortable() {
-        couponMap.put(PORTABLE_VALUE, couponList.getCoupons()
+        assignField(PORTABLE_VALUE, CouponEntity::getPortable);
+    }
+
+    private void assignField(String fieldName, Function<CouponEntity, Integer> function) {
+        couponMap.put(fieldName, couponList.getCoupons()
                 .stream()
-                .map(CouponEntity::getPortable)
+                .map(function)
                 .reduce(0, Integer::sum));
     }
 
-    public void calculateValues() {
+    public AbstractCouponMap calculateValues() {
         this.getPortable();
         this.getSeniors();
         this.getAdults();
         this.getStudents();
         this.getJuniors();
         this.getChildren();
+        return this;
     }
 
 }

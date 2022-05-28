@@ -4,6 +4,8 @@ services:
   db:
     image: postgres
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: Password
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./sql/*.sql:/docker-entrypoint-initdb.d/*.sql

@@ -1,5 +1,6 @@
-package com.charts.general.entity;
+package com.charts.general.entity.ticket;
 
+import com.charts.general.entity.AbstractDataEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -56,22 +57,4 @@ public class TicketEntity extends AbstractDataEntity {
 
 	@Column(name = "jedenast_pasem")
 	private Long elevenZones;
-
-	public TicketEntity(String code, String month, Integer year, Boolean discounted, Long fifteenMinutes, Long oneDay, Long oneDayAll, Long twoZones, Long threeZones, Long fourZones, Long fiveZones, Long sixZones, Long sevenZones, Long eightZones, Long nineZones, Long tenZones, Long elevenZones) {
-		super(code, month, year);
-		this.discounted = discounted;
-		this.fifteenMinutes = fifteenMinutes;
-		this.oneDay = oneDay;
-		this.oneDayAll = oneDayAll;
-		this.twoZones = twoZones;
-		this.threeZones = threeZones;
-		this.fourZones = fourZones;
-		this.fiveZones = fiveZones;
-		this.sixZones = sixZones;
-		this.sevenZones = sevenZones;
-		this.eightZones = eightZones;
-		this.nineZones = nineZones;
-		this.tenZones = tenZones;
-		this.elevenZones = elevenZones;
-	}
 }

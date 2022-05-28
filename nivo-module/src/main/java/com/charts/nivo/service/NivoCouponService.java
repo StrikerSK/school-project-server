@@ -3,7 +3,6 @@ package com.charts.nivo.service;
 import com.charts.general.ClassMethodInvoker;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.enums.PersonType;
-import com.charts.general.entity.enums.Validity;
 import com.charts.general.entity.nivo.DataXY;
 import com.charts.general.entity.nivo.NivoLineData;
 import com.charts.general.entity.nivo.NivoPieData;

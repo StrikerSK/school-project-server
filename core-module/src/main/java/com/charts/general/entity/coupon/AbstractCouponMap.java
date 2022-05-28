@@ -1,6 +1,5 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.general.entity.CouponEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -32,15 +31,17 @@ public abstract class AbstractCouponMap {
         return couponMap.values().stream().reduce(0, Integer::sum);
     }
 
-    abstract void calculateValues();
+    public abstract AbstractCouponMap calculateValues();
 
-    public void calculateValues(CouponList couponList) {
+    public AbstractCouponMap calculateValues(CouponList couponList) {
         this.couponList = couponList;
         this.calculateValues();
+        return this;
     }
 
-    public void calculateValues(List<CouponEntity> couponEntities) {
+    public AbstractCouponMap calculateValues(List<CouponEntity> couponEntities) {
         this.calculateValues(new CouponList(couponEntities));
+        return this;
     }
 
 }

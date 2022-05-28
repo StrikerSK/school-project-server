@@ -1,7 +1,7 @@
 package com.charts.files.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.charts.general.entity.CouponEntity;
+import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.repository.coupon.CouponRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

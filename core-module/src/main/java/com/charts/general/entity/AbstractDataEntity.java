@@ -2,6 +2,7 @@ package com.charts.general.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @NoArgsConstructor
+@Getter
 public abstract class AbstractDataEntity {
 
 	@Id

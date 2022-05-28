@@ -2,7 +2,7 @@ package com.charts.general.repository.coupon;
 
 import com.charts.general.entity.nivo.bar.NivoBarCouponData;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
-import com.charts.general.entity.CouponEntity;
+import com.charts.general.entity.coupon.CouponEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

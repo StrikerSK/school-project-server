@@ -1,6 +1,6 @@
 package com.charts.general.constants;
 
-public class MonthConstant {
+public class Months {
 
 	public static final String JANUARY_VALUE = "Január";
 	public static final String FEBRUARY_VALUE = "Február";

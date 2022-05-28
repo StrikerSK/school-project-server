@@ -1,16 +1,17 @@
 package com.charts.general.service;
 
-import com.charts.general.entity.CouponEntity;
+import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.nivo.bar.NivoBarCouponData;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
 import com.charts.general.entity.nivo.bar.NivoBarMonthsDataByValidity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ICouponService {
 
-	List<CouponEntity> getAllData();
+	Map<String, Integer> getAllData();
 	List<CouponEntity> getDataByCode(String code);
 	Long getDataSum(NivoBarCouponData element, List<String> personTypes);
 	List<NivoBarMonthsDataByValidity> getMonthsByValidity(PidCouponsParameters parameters);

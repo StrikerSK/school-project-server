@@ -1,7 +1,6 @@
 package com.charts.general.constants;
 
 public class PersonType {
-
 	public static final String ADULT_VALUE = "Dospelý";
 	public static final String SENIOR_VALUE = "Dôchodcovia";
 	public static final String JUNIOR_VALUE = "Juniori";
