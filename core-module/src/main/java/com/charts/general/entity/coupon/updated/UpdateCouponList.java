@@ -2,6 +2,7 @@ package com.charts.general.entity.coupon.updated;
 
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
+import com.charts.general.entity.enums.PersonType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class UpdateCouponList {
         output.setValue(function.apply(couponEntity));
         output.setValidity(couponEntity.getValidity());
         output.setSellType(couponEntity.getType());
-        output.setPersonType(personType);
+        output.setPersonType(PersonType.personTypeValue(personType));
 
         // From GeneralEntity class
         output.setMonth(couponEntity.getMonth());

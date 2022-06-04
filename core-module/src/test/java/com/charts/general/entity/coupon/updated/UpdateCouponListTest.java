@@ -2,6 +2,8 @@ package com.charts.general.entity.coupon.updated;
 
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
+import com.charts.general.entity.enums.SellType;
+import com.charts.general.entity.enums.Validity;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -29,8 +31,8 @@ public class UpdateCouponListTest {
         couponEntity.setStudents(400);
         couponEntity.setJunior(500);
         couponEntity.setChildren(600);
-        couponEntity.setType("shop");
-        couponEntity.setValidity("monthly");
+        couponEntity.setType(SellType.ESHOP);
+        couponEntity.setValidity(Validity.MONTHLY);
 
         couponEntity.setCode("032000");
         couponEntity.setMonth("march");
@@ -71,7 +73,7 @@ public class UpdateCouponListTest {
     }
     private void makeAssert(String value, Function<CouponEntity, Integer> function) {
         Optional<UpdateCouponEntity> assertedValue = couponList.stream()
-                .filter(e -> value.equals(e.getPersonType()))
+                .filter(e -> value.equals(e.getPersonType().getValue()))
                 .findFirst();
         Assert.assertTrue(assertedValue.isPresent());
         Assert.assertEquals(assertedValue.get().getValue(), function.apply(couponEntity));

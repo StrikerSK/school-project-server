@@ -3,6 +3,7 @@ package com.charts.general.entity.enums;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.charts.general.constants.PersonType.*;
 
@@ -44,10 +45,14 @@ public enum PersonType {
 	}
 
 	public static PersonType personTypeValue(String label) {
-		return Arrays.stream(values())
-				.filter(e -> e.value.equals(label))
+		if (label == null) {
+			return null;
+		}
+
+		return Stream.of(PersonType.values())
+				.filter(c -> c.getValue().equals(label))
 				.findFirst()
-				.orElse(null);
+				.orElseThrow(IllegalArgumentException::new);
 	}
 
 	public static String getPersonColumn(String value) {

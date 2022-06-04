@@ -3,6 +3,7 @@ package com.charts.general.entity.enums;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.charts.general.constants.Months.*;
 
@@ -31,17 +32,21 @@ public enum Months {
 		return value;
 	}
 
-	public static Months monthValue(String label) {
-		return Arrays.stream(values())
-				.filter(e -> e.value.equals(label))
-				.findFirst()
-				.orElse(null);
-	}
-
 	public static List<String> monthsValues() {
 		return Arrays.stream(values())
 				.map(Months::getValue)
 				.collect(Collectors.toList());
+	}
+
+	public static Months monthValue(String label) {
+		if (label == null) {
+			return null;
+		}
+
+		return Stream.of(Months.values())
+				.filter(c -> c.getValue().equals(label))
+				.findFirst()
+				.orElseThrow(IllegalArgumentException::new);
 	}
 
 

@@ -1,6 +1,9 @@
 package com.charts.general.entity.coupon.updated;
 
 import com.charts.general.entity.GeneralEntity;
+import com.charts.general.entity.enums.PersonType;
+import com.charts.general.entity.enums.SellType;
+import com.charts.general.entity.enums.Validity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,12 +23,12 @@ public class UpdateCouponEntity extends GeneralEntity {
 	private Integer value;
 
 	@Column(name = "platnost")
-	private String validity;
+	private Validity validity;
 
 	@Column(name = "typ_predaja")
-	private String sellType;
+	private SellType sellType;
 
 	@Column(name = "typ_osoby")
-	private String personType;
+	private PersonType personType;
 
 }

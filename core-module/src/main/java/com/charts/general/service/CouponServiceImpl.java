@@ -5,18 +5,18 @@ import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.coupon.AbstractCouponMap;
 import com.charts.general.entity.enums.PersonType;
+import com.charts.general.entity.enums.Validity;
 import com.charts.general.entity.nivo.bar.NivoBarCouponData;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
 import com.charts.general.entity.nivo.bar.NivoBarMonthsDataByValidity;
 import com.charts.general.repository.coupon.CouponRepository;
 import com.charts.general.repository.coupon.NewCouponRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.EnumerationUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -82,14 +82,15 @@ public class CouponServiceImpl implements ICouponService {
 	}
 
 	public List<NivoBarCouponDataByMonth> getAllSumsRow(final PidCouponsParameters parameters) {
-		return couponRepository.getNivoBarData(parameters.getValidity(), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
+		return couponRepository.getNivoBarData(Arrays.asList(Validity.values()), parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 	}
 
 	public List<NivoBarCouponDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, List<String> validity, List<String> sellType, List<String> month, List<Integer> year) {
 
-		if (validity == null) {
-			validity = parameters.getValidity();
-		}
+//		if (validity == null) {
+//			validity = parameters.getValidity();
+//		}
+
 
 		if (sellType == null) {
 			sellType = parameters.getSellType();
@@ -104,6 +105,6 @@ public class CouponServiceImpl implements ICouponService {
 		}
 
 
-		return couponRepository.getNivoBarData(validity, sellType, month, year);
+		return couponRepository.getNivoBarData(Arrays.asList(Validity.values()), sellType, month, year);
 	}
 }

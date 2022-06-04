@@ -2,6 +2,7 @@ package com.charts.general.controller;
 
 import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.nivo.bar.NivoBarMonthsDataByValidity;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.repository.coupon.JpaCouponRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.charts.general.constants.PersonType.PORTABLE_VALUE;
 
@@ -42,8 +44,9 @@ public class ExperimentalController {
 		List<UpdateCouponEntity> couponList = UpdateCouponList.NewCouponList(couponRepository.findAll());
 		Map<String, Integer> customMap = new HashMap<>();
 
-		couponList.stream().filter(e -> PORTABLE_VALUE.equals(e.getPersonType()))
-				.forEach(e -> customMap.put(e.getMonth(), e.getValue()));
+		couponList.stream().filter(e -> SellType.ESHOP == e.getSellType())
+				.collect(Collectors.groupingBy(UpdateCouponEntity::getPersonType, Collectors.summingInt(UpdateCouponEntity::getValue)))
+				.forEach((id, count) -> customMap.put(id.getValue(), count));
 
 		return customMap;
 	}
