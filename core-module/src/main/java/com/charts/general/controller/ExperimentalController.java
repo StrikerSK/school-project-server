@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.charts.general.constants.PersonType.PORTABLE_VALUE;
-
 @RestController
 @RequestMapping("/test")
 public class ExperimentalController {
@@ -41,10 +39,10 @@ public class ExperimentalController {
 
 	@GetMapping
 	public Map<String, Integer> findAll() {
-		List<UpdateCouponEntity> couponList = UpdateCouponList.NewCouponList(couponRepository.findAll());
+		UpdateCouponList couponList = new UpdateCouponList(couponRepository.findAll());
 		Map<String, Integer> customMap = new HashMap<>();
 
-		couponList.stream().filter(e -> SellType.ESHOP == e.getSellType())
+		couponList.getCouponEntityList().stream().filter(e -> SellType.ESHOP == e.getSellType())
 				.collect(Collectors.groupingBy(UpdateCouponEntity::getPersonType, Collectors.summingInt(UpdateCouponEntity::getValue)))
 				.forEach((id, count) -> customMap.put(id.getValue(), count));
 

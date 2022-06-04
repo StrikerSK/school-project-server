@@ -1,6 +1,8 @@
 package com.charts.general.entity.coupon;
 
 import com.charts.general.entity.GeneralEntity;
+import com.charts.general.entity.enums.SellType;
+import com.charts.general.entity.enums.Validity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -25,13 +27,13 @@ public class CouponList {
                 .collect(Collectors.toList()));
     }
 
-    public CouponList filterByValidity(List<String> validities) {
+    public CouponList filterByValidity(List<Validity> validities) {
         return new CouponList(coupons.stream()
                 .filter(e -> validities.contains(e.getValidity()))
                 .collect(Collectors.toList()));
     }
 
-    public CouponList filterByTypes(List<String> types) {
+    public CouponList filterByTypes(List<SellType> types) {
         return new CouponList(coupons.stream()
                 .filter(e -> types.contains(e.getType()))
                 .collect(Collectors.toList()));

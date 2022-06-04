@@ -3,6 +3,10 @@ package com.charts.general.entity.coupon.updated;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
 import com.charts.general.entity.enums.PersonType;
+import com.charts.general.entity.enums.SellType;
+import com.charts.general.entity.enums.Validity;
+import lombok.Getter;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,27 +16,76 @@ import java.util.stream.Collectors;
 import static com.charts.general.constants.PersonType.*;
 import static com.charts.general.constants.PersonType.CHILDREN_VALUE;
 
+@Getter
 public class UpdateCouponList {
 
-    public static List<UpdateCouponEntity> NewCouponList(CouponEntity couponEntity) {
-        List<UpdateCouponEntity> output = new ArrayList<>();
-        output.add(extractData(PORTABLE_VALUE, couponEntity, CouponEntity::getPortable));
-        output.add(extractData(SENIOR_VALUE, couponEntity, CouponEntity::getSeniors));
-        output.add(extractData(ADULT_VALUE, couponEntity, CouponEntity::getAdults));
-        output.add(extractData(STUDENT_VALUE, couponEntity, CouponEntity::getStudents));
-        output.add(extractData(JUNIOR_VALUE, couponEntity, CouponEntity::getJunior));
-        output.add(extractData(CHILDREN_VALUE, couponEntity, CouponEntity::getChildren));
-        return output;
+    private final List<UpdateCouponEntity> couponEntityList;
+
+    public UpdateCouponList(CouponEntity couponEntity) {
+        couponEntityList = new ArrayList<>();
+        this.fillData(couponEntity);
     }
 
-    public static List<UpdateCouponEntity> NewCouponList(List<CouponEntity> couponList) {
-        return couponList.stream()
-                .flatMap(e -> NewCouponList(e).stream())
-                .collect(Collectors.toList());
+    public <T> UpdateCouponList(List<T> couponList) {
+        if (CollectionUtils.isNotEmpty(couponList)) {
+            T listItem = couponList.get(0);
+            if (listItem instanceof  CouponEntity) {
+                this.couponEntityList = new ArrayList<>();
+                couponList.stream()
+                        .map(CouponEntity.class::cast)
+                        .forEach(this::fillData);
+            } else if (listItem instanceof UpdateCouponEntity) {
+                this.couponEntityList = couponList.stream()
+                        .map(UpdateCouponEntity.class::cast)
+                        .collect(Collectors.toList());
+            } else {
+                throw new IllegalArgumentException("Type cannot be determined!");
+            }
+        } else {
+            couponEntityList = new ArrayList<>();
+        }
+    }
+    public UpdateCouponList(CouponList couponList) {
+        this(couponList.getCoupons());
     }
 
-    public static List<UpdateCouponEntity> NewCouponList(CouponList couponList) {
-        return NewCouponList(couponList.getCoupons());
+    public UpdateCouponList filterByMonth(List<String> months) {
+        return new UpdateCouponList(couponEntityList.stream()
+                .filter(e -> months.contains(e.getMonth()))
+                .collect(Collectors.toList()));
+    }
+
+    public UpdateCouponList filterByYear(List<Integer> years) {
+        return new UpdateCouponList(couponEntityList.stream()
+                .filter(e -> years.contains(e.getYear()))
+                .collect(Collectors.toList()));
+    }
+
+    public UpdateCouponList filterByValidity(List<Validity> validityList) {
+        return new UpdateCouponList(couponEntityList.stream()
+                .filter(e -> validityList.contains(e.getValidity()))
+                .collect(Collectors.toList()));
+    }
+
+    public UpdateCouponList filterByPersonType(List<PersonType> personTypes) {
+        return new UpdateCouponList(couponEntityList.stream()
+                .filter(e -> personTypes.contains(e.getPersonType()))
+                .collect(Collectors.toList()));
+    }
+
+    public UpdateCouponList filterBySellType(List<SellType> sellType) {
+        return new UpdateCouponList(couponEntityList.stream()
+                .filter(e -> sellType.contains(e.getSellType()))
+                .collect(Collectors.toList()));
+    }
+
+    private void fillData(CouponEntity couponEntity) {
+        couponEntityList.add(extractData(PORTABLE_VALUE, couponEntity, CouponEntity::getPortable));
+        couponEntityList.add(extractData(SENIOR_VALUE, couponEntity, CouponEntity::getSeniors));
+        couponEntityList.add(extractData(ADULT_VALUE, couponEntity, CouponEntity::getAdults));
+        couponEntityList.add(extractData(STUDENT_VALUE, couponEntity, CouponEntity::getStudents));
+        couponEntityList.add(extractData(JUNIOR_VALUE, couponEntity, CouponEntity::getJunior));
+        couponEntityList.add(extractData(CHILDREN_VALUE, couponEntity, CouponEntity::getChildren));
     }
 
     private static UpdateCouponEntity extractData(String personType, CouponEntity couponEntity, Function<CouponEntity, Integer> function) {

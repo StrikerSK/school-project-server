@@ -1,65 +1,109 @@
 package com.charts.general.entity.coupon.updated;
 
+import com.charts.general.entity.coupon.AbstractCouponClass;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
+import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.charts.general.constants.PersonType.*;
-import static com.charts.general.entity.coupon.updated.UpdateCouponList.NewCouponList;
 
-public class UpdateCouponListTest {
-
-    CouponEntity couponEntity;
-
-    List<UpdateCouponEntity> couponList;
-
-    @BeforeClass
-    public void setUp() {
-        couponEntity = new CouponEntity();
-        couponEntity.setPortable(100);
-        couponEntity.setSeniors(200);
-        couponEntity.setAdults(300);
-        couponEntity.setStudents(400);
-        couponEntity.setJunior(500);
-        couponEntity.setChildren(600);
-        couponEntity.setType(SellType.ESHOP);
-        couponEntity.setValidity(Validity.MONTHLY);
-
-        couponEntity.setCode("032000");
-        couponEntity.setMonth("march");
-        couponEntity.setYear(2000);
-
-        couponList = NewCouponList(couponEntity);
-    }
+public class UpdateCouponListTest extends AbstractCouponClass {
 
     @Test
     public void EntityConversionTest() {
-        Assert.assertEquals(couponList.size(), 6);
+        Assert.assertEquals(updateCouponList.getCouponEntityList().size(), 6);
 
-        couponList.forEach(e -> {
-            Assert.assertEquals(couponEntity.getValidity(), e.getValidity());
-            Assert.assertEquals(couponEntity.getType(), e.getSellType());
-            Assert.assertEquals(couponEntity.getCode(), e.getCode());
-            Assert.assertEquals(couponEntity.getMonth(), e.getMonth());
-            Assert.assertEquals(couponEntity.getYear(), e.getYear());
+        updateCouponList.getCouponEntityList().forEach(e -> {
+            Assert.assertEquals(couponEntity1.getValidity(), e.getValidity());
+            Assert.assertEquals(couponEntity1.getType(), e.getSellType());
+            Assert.assertEquals(couponEntity1.getCode(), e.getCode());
+            Assert.assertEquals(couponEntity1.getMonth(), e.getMonth());
+            Assert.assertEquals(couponEntity1.getYear(), e.getYear());
         });
     }
 
     @Test
     public void MultipleEntitiesTest() {
-        List<CouponEntity> entities = new ArrayList<>();
-        entities.add(couponEntity);
-        entities.add(couponEntity);
-        Assert.assertEquals(NewCouponList(new CouponList(entities)).size(), 12);
+        Assert.assertEquals(new UpdateCouponList(couponEntityList).getCouponEntityList().size(), 18);
+        Assert.assertEquals(new UpdateCouponList(new CouponList(couponEntityList)).getCouponEntityList().size(), 18);
+    }
+
+    @Test
+    public void TestMonthFiltering() {
+        List<String> searchList = Stream.of("March", "December").collect(Collectors.toList());
+        UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByMonth(searchList);
+        Assert.assertEquals(couponList.getCouponEntityList().size(), 12);
+        couponList.getCouponEntityList().forEach(e -> Assert.assertTrue(searchList.contains(e.getMonth())));
+    }
+
+    @Test
+    public void TestMonthFilteringNoResults() {
+        List<String> searchList = Stream.of("January", "September").collect(Collectors.toList());
+        UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByMonth(searchList);
+        Assert.assertEquals(couponList.getCouponEntityList().size(), 0);
+    }
+
+    @Test
+    public void TestPersonFiltering() {
+        List<PersonType> searchList = Stream.of(PersonType.STUDENT, PersonType.ADULT, PersonType.JUNIOR).collect(Collectors.toList());
+        UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByPersonType(searchList);
+        Assert.assertEquals(couponList.getCouponEntityList().size(), 9);
+        couponList.getCouponEntityList().forEach(e -> Assert.assertTrue(searchList.contains(e.getPersonType())));
+    }
+
+    @Test
+    public void TestYearFiltering() {
+        List<Integer> searchList = Stream.of(2015, 2020).collect(Collectors.toList());
+        UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByYear(searchList);
+        Assert.assertEquals(couponList.getCouponEntityList().size(), 12);
+        couponList.getCouponEntityList().forEach(e -> Assert.assertTrue(searchList.contains(e.getYear())));
+    }
+
+    @Test
+    public void TestYearFilteringNoResults() {
+        List<Integer> searchList = Stream.of(1990, 2050).collect(Collectors.toList());
+        UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByYear(searchList);
+        Assert.assertEquals(couponList.getCouponEntityList().size(), 0);
+    }
+
+    @Test
+    public void TestValidityTypeFiltering() {
+        List<Validity> searchList = Stream.of(Validity.MONTHLY).collect(Collectors.toList());
+        UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByValidity(searchList);
+        Assert.assertEquals(couponList.getCouponEntityList().size(), 6);
+        couponList.getCouponEntityList().forEach(e -> Assert.assertTrue(searchList.contains(e.getValidity())));
+    }
+
+    @Test
+    public void TestValidityTypeFilteringNoResults() {
+        List<Validity> searchList = Stream.of(Validity.FIVE_MONTHS).collect(Collectors.toList());
+        UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByValidity(searchList);
+        Assert.assertEquals(couponList.getCouponEntityList().size(), 0);
+    }
+
+    @Test
+    public void TestSellTypeFiltering() {
+        List<SellType> searchList = Stream.of(SellType.CARD).collect(Collectors.toList());
+        UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterBySellType(searchList);
+        Assert.assertEquals(couponList.getCouponEntityList().size(), 12);
+        couponList.getCouponEntityList().forEach(e -> Assert.assertTrue(searchList.contains(e.getSellType())));
+    }
+
+    @Test
+    public void TestSellTypeFilteringNoResults() {
+        List<SellType> searchList = Stream.of(SellType.COUPON).collect(Collectors.toList());
+        UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterBySellType(searchList);
+        Assert.assertEquals(couponList.getCouponEntityList().size(), 0);
     }
 
     @Test
@@ -72,11 +116,11 @@ public class UpdateCouponListTest {
         makeAssert(CHILDREN_VALUE, CouponEntity::getChildren);
     }
     private void makeAssert(String value, Function<CouponEntity, Integer> function) {
-        Optional<UpdateCouponEntity> assertedValue = couponList.stream()
+        Optional<UpdateCouponEntity> assertedValue = updateCouponList.getCouponEntityList().stream()
                 .filter(e -> value.equals(e.getPersonType().getValue()))
                 .findFirst();
         Assert.assertTrue(assertedValue.isPresent());
-        Assert.assertEquals(assertedValue.get().getValue(), function.apply(couponEntity));
+        Assert.assertEquals(assertedValue.get().getValue(), function.apply(couponEntity1));
     }
 
 }
