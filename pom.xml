@@ -4,7 +4,7 @@
 
     <groupId>com.charts</groupId>
     <artifactId>java-pid</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0.-SNAPSHOT</version>
     <name>java-pid</name>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>

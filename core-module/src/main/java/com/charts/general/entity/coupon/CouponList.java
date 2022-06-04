@@ -1,6 +1,6 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.general.entity.AbstractDataEntity;
+import com.charts.general.entity.GeneralEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,53 +13,33 @@ public class CouponList {
 
     private List<CouponEntity> coupons;
 
-    public void filterByYear(List<Integer> years) {
-        this.coupons = coupons.stream()
+    public CouponList filterByYear(List<Integer> years) {
+        return new CouponList(coupons.stream()
                 .filter(e -> years.contains(e.getYear()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
-    public void filterByMonth(List<String> months) {
-        this.coupons = coupons.stream()
+    public CouponList filterByMonth(List<String> months) {
+        return new CouponList(coupons.stream()
                 .filter(e -> months.contains(e.getMonth()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
-    public void filterByValidity(List<String> validities) {
-        this.coupons = coupons.stream()
+    public CouponList filterByValidity(List<String> validities) {
+        return new CouponList(coupons.stream()
                 .filter(e -> validities.contains(e.getValidity()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
-    public void filterByTypes(List<String> types) {
-        this.coupons = coupons.stream()
+    public CouponList filterByTypes(List<String> types) {
+        return new CouponList(coupons.stream()
                 .filter(e -> types.contains(e.getType()))
-                .collect(Collectors.toList());
-    }
-
-    public CouponList withYearFiltered(List<Integer> years) {
-        this.filterByYear(years);
-        return this;
-    }
-
-    public CouponList withMonthFiltered(List<String> months) {
-        this.filterByMonth(months);
-        return this;
-    }
-
-    public CouponList withValidityFiltered(List<String> validities) {
-        this.filterByValidity(validities);
-        return this;
-    }
-
-    public CouponList withTypesFiltered(List<String> types) {
-        this.filterByTypes(types);
-        return this;
+                .collect(Collectors.toList()));
     }
 
     public List<String> getMonthValues() {
         return this.getCoupons().stream()
-                .map(AbstractDataEntity::getMonth)
+                .map(GeneralEntity::getMonth)
                 .distinct()
                 .collect(Collectors.toList());
     }

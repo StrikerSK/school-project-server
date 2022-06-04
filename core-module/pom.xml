@@ -7,7 +7,7 @@
     <parent>
         <artifactId>java-pid</artifactId>
         <groupId>com.charts</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0.-SNAPSHOT</version>
     </parent>
     
     <artifactId>core-module</artifactId>
@@ -31,6 +31,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.5</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
