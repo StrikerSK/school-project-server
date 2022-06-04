@@ -3,20 +3,18 @@ package com.charts.general.service;
 import com.charts.general.ClassMethodInvoker;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.PidCouponsParameters;
-import com.charts.general.entity.coupon.AbstractCouponMap;
+import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.Validity;
 import com.charts.general.entity.nivo.bar.NivoBarCouponData;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
-import com.charts.general.entity.nivo.bar.NivoBarMonthsDataByValidity;
 import com.charts.general.repository.coupon.CouponRepository;
 import com.charts.general.repository.coupon.NewCouponRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.EnumerationUtils;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -32,8 +30,13 @@ public class CouponServiceImpl implements ICouponService {
 	}
 
 	public Map<String, Integer> getAllData() {
-		AbstractCouponMap couponMap = newCouponRepository.getCouponMap();
-		return couponMap.calculateValues().getCouponMap();
+		Map<String, Integer> output = new HashMap<>();
+
+		newCouponRepository.getUpdateCouponList().getCouponEntityList().stream()
+				.collect(Collectors.groupingBy(UpdateCouponEntity::getPersonType, Collectors.summingInt(UpdateCouponEntity::getValue)))
+				.forEach((id, count) -> output.put(id.getValue(), count));
+
+		return output;
 	}
 
 	public List<CouponEntity> getDataByCode(String code) {
@@ -64,17 +67,19 @@ public class CouponServiceImpl implements ICouponService {
 		return dataSum;
 	}
 
-	public List<NivoBarMonthsDataByValidity> getMonthsByValidity(PidCouponsParameters parameters) {
-		List<NivoBarMonthsDataByValidity> outputData = new ArrayList<>();
-		for (String validity : parameters.getValidity()) {
-			NivoBarMonthsDataByValidity outputObject = new NivoBarMonthsDataByValidity(validity);
-			for (String month : parameters.getMonth()) {
-				NivoBarCouponDataByMonth currentBarData = getAllSumsRow(parameters, Collections.singletonList(validity), null, Collections.singletonList(month), null).get(0);
-				outputObject.setData(month, getDataSum(currentBarData, parameters.getPerson()));
-			}
-			outputData.add(outputObject);
-		}
-		return outputData;
+	public Map<String, Integer> getMonthlyDataByValidity(PidCouponsParameters parameters) {
+		List<Validity> validityList = parameters.getValidity().stream()
+				.map(Validity::validityValue)
+				.collect(Collectors.toList());
+
+		Map<String, Integer> output = new HashMap<>();
+		newCouponRepository.getUpdateCouponList()
+				.filterByValidity(validityList)
+				.getCouponEntityList().stream()
+				.collect(Collectors.groupingBy(UpdateCouponEntity::getValidity, Collectors.summingInt(UpdateCouponEntity::getValue)))
+				.forEach((id, count) -> output.put(id.getValue(), count));
+
+		return output;
 	}
 
 	public List<NivoBarCouponDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, String value) {

@@ -3,7 +3,6 @@ package com.charts.general.controller;
 import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
 import com.charts.general.entity.enums.SellType;
-import com.charts.general.entity.nivo.bar.NivoBarMonthsDataByValidity;
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.repository.coupon.JpaCouponRepository;
 import com.charts.general.service.ICouponService;
@@ -29,12 +28,12 @@ public class ExperimentalController {
 	}
 
 	@RequestMapping("/validity/month")
-	public List<NivoBarMonthsDataByValidity> getMonthDataByValidity(@RequestParam(required = false) List<String> validity,
+	public Map<String, Integer> getMonthDataByValidity(@RequestParam(required = false) List<String> validity,
 	                                                                @RequestParam(required = false) List<String> type,
 	                                                                @RequestParam(required = false) List<String> month,
 	                                                                @RequestParam(required = false) List<String> year,
 	                                                                @RequestParam(required = false) List<String> person) {
-		return couponsService.getMonthsByValidity(new PidCouponsParameters(validity, type, month, year, person));
+		return couponsService.getMonthlyDataByValidity(new PidCouponsParameters(validity, type, month, year, person));
 	}
 
 	@GetMapping

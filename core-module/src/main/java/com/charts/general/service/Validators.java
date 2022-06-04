@@ -9,8 +9,10 @@ import com.charts.general.entity.enums.YearOptions;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.lang.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Validators {
@@ -18,11 +20,19 @@ public class Validators {
 	/**
 	 * Method verifies if provided parameters are included in Validity enum
 	 *
-	 * @param validities all validities requested by user
+	 * @param validityList all validities requested by user
 	 * @return verified validities of request
 	 */
-	public static List<String> verifyValidityList(@Nullable List<String> validities) {
-		return verifyList(validities, Validity.validityValues());
+	public static List<String> verifyValidityList(List<String> validityList) {
+		if (CollectionUtils.isEmpty(validityList)) {
+			return new ArrayList<>();
+		}
+
+		return validityList.stream()
+				.map(Validity::validityValue)
+				.filter(Objects::nonNull)
+				.map(Validity::getValue)
+				.collect(Collectors.toList());
 	}
 
 	/**
