@@ -9,14 +9,14 @@ import com.charts.general.entity.nivo.TicketMainDAO;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.general.repository.ticket.TicketQueryTemplates;
 import com.charts.general.repository.ticket.TicketRepository;
-import com.charts.general.service.Validators;
+import com.charts.general.utils.ParameterUtils;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.charts.general.service.Validators.verifyTicketType;
+import static com.charts.general.utils.ParameterUtils.verifyTicketType;
 
 @Service
 public class NivoTicketsService {
@@ -53,6 +53,6 @@ public class NivoTicketsService {
 	}
 
 	private static Boolean isTicketTypeRequested(List<String> ticketList, String personType) {
-		return Validators.isEmptyList(ticketList, TicketTypes.ticketTypeValues()).contains(personType);
+		return ParameterUtils.isEmptyList(ticketList, TicketTypes.ticketTypeValues()).contains(personType);
 	}
 }

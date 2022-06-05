@@ -1,10 +1,15 @@
 package com.charts.general.entity;
 
+import com.charts.general.entity.enums.PersonType;
+import com.charts.general.entity.enums.SellType;
+import com.charts.general.entity.enums.Validity;
+import com.charts.general.utils.ParameterUtils;
+
 import java.util.List;
 
-import static com.charts.general.service.Validators.verifyPersonList;
-import static com.charts.general.service.Validators.verifySellTypeList;
-import static com.charts.general.service.Validators.verifyValidityList;
+import static com.charts.general.utils.ParameterUtils.verifyPersonList;
+import static com.charts.general.utils.ParameterUtils.verifySellTypeList;
+import static com.charts.general.utils.ParameterUtils.verifyValidityList;
 
 public class PidCouponsParameters extends PidAbstractParameters {
 
@@ -23,11 +28,23 @@ public class PidCouponsParameters extends PidAbstractParameters {
 		return verifyValidityList(validity);
 	}
 
+	public List<Validity> getProcessedValidity() {
+		return ParameterUtils.convertValidityList(validity);
+	}
+
 	public List<String> getSellType() {
 		return verifySellTypeList(sellType);
 	}
 
+	public List<SellType> getProcessedSellType() {
+		return ParameterUtils.convertSellTypeList(sellType);
+	}
+
 	public List<String> getPerson() {
 		return verifyPersonList(person);
+	}
+
+	public List<PersonType> getProcessedPersonType() {
+		return ParameterUtils.convertPersonList(person);
 	}
 }

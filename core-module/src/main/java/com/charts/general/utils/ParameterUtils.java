@@ -1,4 +1,4 @@
-package com.charts.general.service;
+package com.charts.general.utils;
 
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
@@ -7,15 +7,13 @@ import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.enums.Validity;
 import com.charts.general.entity.enums.YearOptions;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.lang.Nullable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Validators {
+public class ParameterUtils {
 
 	/**
 	 * Method verifies if provided parameters are included in Validity enum
@@ -25,13 +23,19 @@ public class Validators {
 	 */
 	public static List<String> verifyValidityList(List<String> validityList) {
 		if (CollectionUtils.isEmpty(validityList)) {
-			return new ArrayList<>();
+			return Validity.validityValues();
 		}
 
 		return validityList.stream()
 				.map(Validity::validityValue)
 				.filter(Objects::nonNull)
 				.map(Validity::getValue)
+				.collect(Collectors.toList());
+	}
+
+	public static List<Validity> convertValidityList(List<String> validityList) {
+		return verifyValidityList(validityList).stream()
+				.map(Validity::validityValue)
 				.collect(Collectors.toList());
 	}
 
@@ -43,6 +47,12 @@ public class Validators {
 	 */
 	public static List<String> verifySellTypeList(List<String> sellTypes) {
 		return verifyList(sellTypes, SellType.sellTypeValues());
+	}
+
+	public static List<SellType> convertSellTypeList(List<String> sellTypes) {
+		return verifySellTypeList(sellTypes).stream()
+				.map(SellType::sellTypeValue)
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -60,7 +70,21 @@ public class Validators {
 	}
 
 	public static List<String> verifyPersonList(List<String> personList) {
-		return verifyList(personList, PersonType.personValues());
+		if (CollectionUtils.isEmpty(personList)) {
+			return PersonType.personValues();
+		}
+
+		return personList.stream()
+				.map(PersonType::personTypeValue)
+				.filter(Objects::nonNull)
+				.map(PersonType::getValue)
+				.collect(Collectors.toList());
+	}
+
+	public static List<PersonType> convertPersonList(List<String> personList) {
+		return verifyPersonList(personList).stream()
+				.map(PersonType::personTypeValue)
+				.collect(Collectors.toList());
 	}
 
 	public static List<Integer> verifyYears(List<String> year) {

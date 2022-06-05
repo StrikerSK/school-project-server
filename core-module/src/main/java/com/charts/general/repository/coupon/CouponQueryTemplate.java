@@ -6,7 +6,6 @@ import com.charts.general.repository.JdbcAbstractRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,37 +37,5 @@ public class CouponQueryTemplate extends JdbcAbstractRepository {
 		return getLineData(summedColumn, parameters).stream()
 				.map(DataXY::getY)
 				.collect(Collectors.toList());
-	}
-
-	//TODO add setters methods to Parameter object
-	//TODO set parameter to single element array
-	public Long getBubbleData(String summedColumn, String validityColumn, PidCouponsParameters parameters) {
-
-		String query = String.format(SQL_QUERY,
-				summedColumn,
-				createColumnQuery(VALIDITY_COLUMN, Collections.singletonList(validityColumn)),
-				createColumnQuery(SELL_TYPE_COLUMN, parameters.getSellType()),
-				createColumnQuery(MONTH_COLUMN, parameters.getMonth()),
-				createColumnQuery(YEAR_COLUMN, parameters.getYear())
-		);
-
-		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2))).stream()
-				.map(DataXY::getY)
-				.reduce(0L, Long::sum);
-	}
-
-	public Long getBubbleData(String summedColumn, String validityColumn, String monthColumn, PidCouponsParameters parameters) {
-
-		String query = String.format(SQL_QUERY,
-				summedColumn,
-				createColumnQuery(VALIDITY_COLUMN, Collections.singletonList(validityColumn)),
-				createColumnQuery(SELL_TYPE_COLUMN, parameters.getSellType()),
-				createColumnQuery(MONTH_COLUMN, Collections.singletonList(monthColumn)),
-				createColumnQuery(YEAR_COLUMN, parameters.getYear())
-		);
-
-		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2))).stream()
-				.map(DataXY::getY)
-				.reduce(0L, Long::sum);
 	}
 }

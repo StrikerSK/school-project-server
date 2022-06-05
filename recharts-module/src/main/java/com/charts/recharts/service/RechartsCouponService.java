@@ -6,7 +6,7 @@ import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
 import com.charts.general.service.ICouponService;
 import com.charts.recharts.entity.PersonAbstractClass;
-import com.charts.general.service.Validators;
+import com.charts.general.utils.ParameterUtils;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class RechartsCouponService {
 
 	private List<PersonAbstractClass> createPersonList(NivoBarCouponDataByMonth data, List<String> personTypes) {
 		return PersonType.getList().stream()
-				.filter(e -> Validators.isPersonTypeRequested(personTypes, e.getValue()))
+				.filter(e -> ParameterUtils.isPersonTypeRequested(personTypes, e.getValue()))
 				.map(e -> new PersonAbstractClass(e.getValue(), data.getMonth(), generateValue(e, data)))
 				.collect(Collectors.toList());
 	}

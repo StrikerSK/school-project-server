@@ -2,9 +2,9 @@ package com.charts.general.entity;
 
 import java.util.List;
 
-import static com.charts.general.service.Validators.verifyMonthsList;
-import static com.charts.general.service.Validators.verifyYears;
-import static com.charts.general.service.Validators.verifyYearsList;
+import static com.charts.general.utils.ParameterUtils.verifyMonthsList;
+import static com.charts.general.utils.ParameterUtils.verifyYears;
+import static com.charts.general.utils.ParameterUtils.verifyYearsList;
 
 abstract class PidAbstractParameters {
 

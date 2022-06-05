@@ -2,8 +2,8 @@ package com.charts.general.entity;
 
 import java.util.List;
 
-import static com.charts.general.service.Validators.verifyDiscountedList;
-import static com.charts.general.service.Validators.verifyTicketType;
+import static com.charts.general.utils.ParameterUtils.verifyDiscountedList;
+import static com.charts.general.utils.ParameterUtils.verifyTicketType;
 
 public class PidTicketsParameters extends PidAbstractParameters {
 

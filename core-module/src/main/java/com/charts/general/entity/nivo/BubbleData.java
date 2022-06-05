@@ -1,4 +1,4 @@
-package com.charts.general.entity.nivo.bubble;
+package com.charts.general.entity.nivo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

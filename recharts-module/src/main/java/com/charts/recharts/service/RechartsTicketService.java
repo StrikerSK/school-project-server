@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.charts.general.service.Validators.isPersonTypeRequested;
+import static com.charts.general.utils.ParameterUtils.isPersonTypeRequested;
 
 @Service
 public class RechartsTicketService {
