@@ -48,6 +48,14 @@ public class GroupingUtils {
         return outputMap;
     }
 
+    public static Map<String, Object> groupByAndSumBySellType(List<UpdateCouponEntity> entityList) {
+        Map<String, Object> outputMap = new HashMap<>();
+        entityList.stream()
+                .collect(Collectors.groupingBy(UpdateCouponEntity::getSellType, Collectors.summingInt(UpdateCouponEntity::getValue)))
+                .forEach((sellType, total) -> outputMap.put(sellType.getValue(), total));
+        return outputMap;
+    }
+
     public static Map<String, Object> groupByAndSumByMonth(List<UpdateCouponEntity> entityList) {
         return new HashMap<>(entityList.stream()
                 .collect(Collectors.groupingBy(UpdateCouponEntity::getMonth, Collectors.summingInt(UpdateCouponEntity::getValue))));

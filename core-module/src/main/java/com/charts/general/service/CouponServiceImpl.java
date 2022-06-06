@@ -2,10 +2,7 @@ package com.charts.general.service;
 
 import com.charts.general.entity.PidCouponsParameters;
 import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
-import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.Validity;
-import com.charts.general.entity.nivo.bar.NivoBarCouponData;
 import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
 import com.charts.general.repository.coupon.CouponRepository;
 import com.charts.general.repository.coupon.NewCouponRepository;

@@ -1,4 +1,4 @@
-package com.charts.general.entity.nivo;
+package com.charts.nivo.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -11,27 +11,27 @@ import java.util.stream.Stream;
 
 @Getter
 @Setter
-public class BubbleData {
+public class NivoBubbleData {
 
     private String name;
 
     @JsonInclude(Include.NON_NULL)
-    private List<BubbleData> children;
+    private List<NivoBubbleData> children;
 
     @JsonInclude(Include.NON_NULL)
     private Integer value;
 
-    public BubbleData(String name, List<BubbleData> children) {
+    public NivoBubbleData(String name, List<NivoBubbleData> children) {
         this.name = name;
         this.children = children;
     }
 
-    public BubbleData(String name, BubbleData children) {
+    public NivoBubbleData(String name, NivoBubbleData children) {
         this.name = name;
         this.children = Stream.of(children).collect(Collectors.toList());
     }
 
-    public BubbleData(String name, Integer value) {
+    public NivoBubbleData(String name, Integer value) {
         this.name = name;
         this.value = value;
     }

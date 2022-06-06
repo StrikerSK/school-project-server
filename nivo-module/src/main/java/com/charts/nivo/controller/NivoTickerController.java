@@ -1,8 +1,8 @@
 package com.charts.nivo.controller;
 
 import com.charts.general.entity.PidTicketsParameters;
-import com.charts.general.entity.nivo.NivoLineData;
-import com.charts.general.entity.nivo.NivoPieData;
+import com.charts.nivo.entity.NivoLineData;
+import com.charts.nivo.entity.NivoPieData;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
 import com.charts.nivo.service.NivoTicketsService;
 import org.springframework.web.bind.annotation.RequestMapping;
