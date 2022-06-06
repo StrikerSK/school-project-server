@@ -71,11 +71,11 @@ public class ParameterUtils {
 
 	public static List<String> verifyPersonList(List<String> personList) {
 		if (CollectionUtils.isEmpty(personList)) {
-			return PersonType.personValues();
+			return PersonType.getStringValues();
 		}
 
 		return personList.stream()
-				.map(PersonType::personTypeValue)
+				.map(PersonType::getEnumType)
 				.filter(Objects::nonNull)
 				.map(PersonType::getValue)
 				.collect(Collectors.toList());
@@ -83,7 +83,7 @@ public class ParameterUtils {
 
 	public static List<PersonType> convertPersonList(List<String> personList) {
 		return verifyPersonList(personList).stream()
-				.map(PersonType::personTypeValue)
+				.map(PersonType::getEnumType)
 				.collect(Collectors.toList());
 	}
 
@@ -112,7 +112,7 @@ public class ParameterUtils {
 	}
 
 	public static Boolean isPersonTypeRequested(List<String> personList, String personType) {
-		return isEmptyList(personList, PersonType.personValues()).contains(personType);
+		return isEmptyList(personList, PersonType.getStringValues()).contains(personType);
 	}
 
 	/**

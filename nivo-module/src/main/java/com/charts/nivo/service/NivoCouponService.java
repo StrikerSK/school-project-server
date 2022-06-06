@@ -84,7 +84,7 @@ public class NivoCouponService {
 			List<BubbleData> nestedBubbleDataList = new ArrayList<>();
 			GroupingUtils.groupByAndSumByValidity(entity)
 					.forEach((validity, integer) -> nestedBubbleDataList.add(new BubbleData(validity, (Integer) integer)));
-			middleBubbleDataList.add(new BubbleData(key.getMethodValue(), nestedBubbleDataList));
+			middleBubbleDataList.add(new BubbleData(key.getValue(), nestedBubbleDataList));
 		});
 		return new BubbleData("Predaj kupónov", middleBubbleDataList);
 	}

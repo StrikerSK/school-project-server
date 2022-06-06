@@ -9,57 +9,41 @@ import static com.charts.general.constants.PersonType.*;
 
 public enum PersonType {
 
-	ADULT(ADULT_VALUE, "dospeli", "Adults"),
-	SENIOR(SENIOR_VALUE, "dochodcovia", "Seniors"),
-	JUNIOR(JUNIOR_VALUE, "junior", "Juniors"),
-	PORTABLE(PORTABLE_VALUE, "prenosna", "Portable"),
-	STUDENT(STUDENT_VALUE, "studenti", "Students"),
-	CHILDREN(CHILDREN_VALUE, "dieta", "Children");
+    ADULT(ADULT_VALUE),
+    SENIOR(SENIOR_VALUE),
+    JUNIOR(JUNIOR_VALUE),
+    PORTABLE(PORTABLE_VALUE),
+    STUDENT(STUDENT_VALUE),
+    CHILDREN(CHILDREN_VALUE);
 
-	private final String value;
-	private final String column;
-	private final String methodValue;
+    private final String value;
 
-	PersonType(String value, String column, String methodValue) {
-		this.value = value;
-		this.column = column;
-		this.methodValue = methodValue;
-	}
+    PersonType(String value) {
+        this.value = value;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public String getColumn() {
-		return column;
-	}
+    public static List<String> getStringValues() {
+        return Arrays.stream(values())
+                .map(PersonType::getValue)
+                .collect(Collectors.toList());
+    }
 
-	public String getMethodValue() {
-		return methodValue;
-	}
+    public static PersonType getEnumType(String label) {
+        if (label == null) {
+            return null;
+        }
 
-	public static List<String> personValues() {
-		return Arrays.stream(values())
-				.map(PersonType::getValue)
-				.collect(Collectors.toList());
-	}
+        return Stream.of(PersonType.values())
+                .filter(c -> c.getValue().equals(label))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+    }
 
-	public static PersonType personTypeValue(String label) {
-		if (label == null) {
-			return null;
-		}
-
-		return Stream.of(PersonType.values())
-				.filter(c -> c.getValue().equals(label))
-				.findFirst()
-				.orElseThrow(IllegalArgumentException::new);
-	}
-
-	public static String getPersonColumn(String value) {
-		return personTypeValue(value).getColumn();
-	}
-
-	public static List<PersonType> getList() {
-		return Arrays.asList(PersonType.values());
-	}
+    public static List<PersonType> getEnumList() {
+        return Arrays.asList(PersonType.values());
+    }
 }

@@ -34,7 +34,7 @@ public class RechartsCouponService {
 	}
 
 	private List<PersonAbstractClass> createPersonList(NivoBarCouponDataByMonth data, List<String> personTypes) {
-		return PersonType.getList().stream()
+		return PersonType.getEnumList().stream()
 				.filter(e -> ParameterUtils.isPersonTypeRequested(personTypes, e.getValue()))
 				.map(e -> new PersonAbstractClass(e.getValue(), data.getMonth(), generateValue(e, data)))
 				.collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class RechartsCouponService {
 
 	@SneakyThrows
 	private Long generateValue(PersonType personType, NivoBarCouponDataByMonth data){
-		return (Long) ClassMethodInvoker.invokeClassGetMethod(data, personType.getMethodValue());
+		return (Long) ClassMethodInvoker.invokeClassGetMethod(data, personType.getValue());
 	}
 
 }

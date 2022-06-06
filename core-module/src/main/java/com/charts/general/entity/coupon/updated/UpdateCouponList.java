@@ -88,6 +88,20 @@ public class UpdateCouponList {
                 .filterByMonth(parameters.getMonth());
     }
 
+    public List<PersonType> getPersonTypeValues() {
+        return couponEntityList.stream()
+                .map(UpdateCouponEntity::getPersonType)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public List<SellType> getTicketTypeValues() {
+        return couponEntityList.stream()
+                .map(UpdateCouponEntity::getSellType)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
     private void fillData(CouponEntity couponEntity) {
         couponEntityList.add(extractData(PORTABLE_VALUE, couponEntity, CouponEntity::getPortable));
         couponEntityList.add(extractData(SENIOR_VALUE, couponEntity, CouponEntity::getSeniors));
@@ -104,7 +118,7 @@ public class UpdateCouponList {
         output.setValue(function.apply(couponEntity));
         output.setValidity(couponEntity.getValidity());
         output.setSellType(couponEntity.getType());
-        output.setPersonType(PersonType.personTypeValue(personType));
+        output.setPersonType(PersonType.getEnumType(personType));
 
         // From GeneralEntity class
         output.setMonth(couponEntity.getMonth());

@@ -27,9 +27,4 @@ public interface CouponRepository extends JpaRepository<CouponEntity, Long> {
 	                                                        @Param("months") Collection<String> months,
 	                                                        @Param("year") Collection<Integer> year);
 
-	@Query("SELECT new com.charts.general.entity.nivo.bar.NivoBarCouponData(SUM(adults), SUM(seniors), SUM(junior), SUM(students), SUM(portable), SUM(children)) FROM CouponEntity WHERE type IN :sellType AND validity IN :validity AND month IN :months AND year IN :year GROUP BY year")
-	NivoBarCouponData getNivoPieData(@Param("validity") Collection<String> queryType,
-	                                 @Param("sellType") Collection<String> sellType,
-	                                 @Param("months") Collection<String> months,
-	                                 @Param("year") Collection<Integer> year);
 }

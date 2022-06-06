@@ -39,25 +39,6 @@ public class CouponServiceImpl implements ICouponService {
 		return output;
 	}
 
-	/**
-	 * Method sums data row of provided line
-	 *
-	 * @param element     - represents line of retrieved data
-	 * @param personTypes - represents requested person types
-	 * @return sum of all values needed
-	 */
-	public Long getDataSum(NivoBarCouponData element, List<String> personTypes) {
-		UpdateCouponList couponEntityList = newCouponRepository.getUpdateCouponList();
-
-		List<PersonType> pt = personTypes.stream()
-				.map(PersonType::personTypeValue)
-				.collect(Collectors.toList());
-
-		return couponEntityList.filterByPersonType(pt).getCouponEntityList().stream()
-				.map(e -> e.getValue().longValue())
-				.reduce(0L, Long::sum);
-	}
-
 	public Map<String, Integer> getMonthlyDataByValidity(PidCouponsParameters parameters) {
 		List<Validity> validityList = ParameterUtils.convertValidityList(parameters.getValidity());
 
@@ -69,10 +50,6 @@ public class CouponServiceImpl implements ICouponService {
 				.forEach((id, count) -> output.put(id.getValue(), count));
 
 		return output;
-	}
-
-	public List<NivoBarCouponDataByMonth> getAllSumsRow(final PidCouponsParameters parameters, String value) {
-		return couponRepository.getNivoBarDataByValidity(value, parameters.getSellType(), parameters.getMonth(), parameters.getYearInteger());
 	}
 
 	public List<NivoBarCouponDataByMonth> getAllSumsRow(final PidCouponsParameters parameters) {
