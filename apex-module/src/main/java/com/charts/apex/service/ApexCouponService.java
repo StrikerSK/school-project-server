@@ -1,9 +1,9 @@
 package com.charts.apex.service;
 
 import com.charts.apex.entity.ApexObject;
-import com.charts.general.entity.PidCouponsParameters;
+import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
-import com.charts.general.repository.coupon.NewCouponRepository;
+import com.charts.general.repository.coupon.CouponRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +14,10 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ApexCouponService {
-	private final NewCouponRepository newCouponRepository;
+	private final CouponRepository couponRepository;
 
-	public List<ApexObject> getMonthlyDataByPersonType(final PidCouponsParameters parameters) {
-		UpdateCouponList couponList = newCouponRepository.getUpdateCouponList().filterWithParameters(parameters);
+	public List<ApexObject> getMonthlyDataByPersonType(final CouponsParameters parameters) {
+		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<ApexObject> outputMapList = new ArrayList<>();
 		parameters.getProcessedPersonType().forEach(personType -> {
 			ApexObject apexObject = new ApexObject(personType.getValue());
@@ -37,8 +37,8 @@ public class ApexCouponService {
 	/**
 	 * Method retrieves Apex data by validity
 	 */
-	public List<ApexObject> getMonthlyDataByValidity(PidCouponsParameters parameters) {
-		UpdateCouponList couponList = newCouponRepository.getUpdateCouponList().filterWithParameters(parameters);
+	public List<ApexObject> getMonthlyDataByValidity(CouponsParameters parameters) {
+		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<ApexObject> outputMapList = new ArrayList<>();
 		parameters.getProcessedValidity().forEach(validity -> {
 			ApexObject apexObject = new ApexObject(validity.getValue());
@@ -55,8 +55,8 @@ public class ApexCouponService {
 		return outputMapList;
 	}
 
-	public List<ApexObject> getMonthlyDataBySellType(PidCouponsParameters parameters) {
-		UpdateCouponList couponList = newCouponRepository.getUpdateCouponList().filterWithParameters(parameters);
+	public List<ApexObject> getMonthlyDataBySellType(CouponsParameters parameters) {
+		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<ApexObject> outputMapList = new ArrayList<>();
 		parameters.getProcessedSellType().forEach(sellType -> {
 			ApexObject apexObject = new ApexObject(sellType.getValue());

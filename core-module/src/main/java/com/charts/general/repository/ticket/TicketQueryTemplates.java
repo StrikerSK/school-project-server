@@ -1,6 +1,6 @@
 package com.charts.general.repository.ticket;
 
-import com.charts.general.entity.PidTicketsParameters;
+import com.charts.general.entity.ticket.TicketsParameters;
 import com.charts.general.entity.nivo.DataXY;
 import com.charts.general.repository.JdbcAbstractRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +18,7 @@ public class TicketQueryTemplates extends JdbcAbstractRepository {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public List<DataXY> getTicketLineData(String columnName, PidTicketsParameters parameters) {
+	public List<DataXY> getTicketLineData(String columnName, TicketsParameters parameters) {
 		String query = String.format("SELECT " + MONTH_COLUMN + ", SUM(%s) FROM " + TICKET_TABLE + " WHERE %s AND %s AND %s GROUP BY " + CODE_COLUMN + "," + MONTH_COLUMN + " ORDER BY " + CODE_COLUMN + " ASC",
 				columnName,
 				createColumnQuery(DISCOUNTED_COLUMN, parameters.getDiscounted()),
@@ -29,7 +29,7 @@ public class TicketQueryTemplates extends JdbcAbstractRepository {
 		return jdbcTemplate.query(query, (rs, rowNum) -> new DataXY(rs.getString(1), rs.getLong(2)));
 	}
 
-	public List<Long> getApexTicketLongData(String columnName, PidTicketsParameters parameters) {
+	public List<Long> getApexTicketLongData(String columnName, TicketsParameters parameters) {
 		return getTicketLineData(columnName, parameters).stream()
 				.map(DataXY::getY)
 				.collect(Collectors.toList());

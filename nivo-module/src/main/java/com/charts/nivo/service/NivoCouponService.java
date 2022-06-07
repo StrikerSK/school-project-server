@@ -1,9 +1,9 @@
 package com.charts.nivo.service;
 
-import com.charts.general.entity.PidCouponsParameters;
+import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
 import com.charts.general.entity.nivo.DataXY;
-import com.charts.general.repository.coupon.NewCouponRepository;
+import com.charts.general.repository.coupon.CouponRepository;
 import com.charts.general.utils.GroupingUtils;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoLineData;
@@ -18,13 +18,13 @@ import java.util.Map;
 @Service
 public class NivoCouponService {
 
-    private final NewCouponRepository couponRepository;
+    private final CouponRepository couponRepository;
 
-    public NivoCouponService(NewCouponRepository couponRepository) {
+    public NivoCouponService(CouponRepository couponRepository) {
         this.couponRepository = couponRepository;
     }
 
-    public List<NivoLineData> getMonthlyLineDataByPersonType(PidCouponsParameters parameters) {
+    public List<NivoLineData> getMonthlyLineDataByPersonType(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoLineData> output = new ArrayList<>();
         GroupingUtils.groupByMonth(couponList.getCouponEntityList())
@@ -43,7 +43,7 @@ public class NivoCouponService {
      * @param parameters all requested parameters
      * @return data for displaying line chart by validity
      */
-    public List<NivoLineData> getMonthlyLineDataByValidity(PidCouponsParameters parameters) {
+    public List<NivoLineData> getMonthlyLineDataByValidity(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoLineData> output = new ArrayList<>();
         GroupingUtils.groupByMonth(couponList.getCouponEntityList())
@@ -57,7 +57,7 @@ public class NivoCouponService {
         return output;
     }
 
-    public List<NivoPieData> getValidityPieData(PidCouponsParameters parameters) {
+    public List<NivoPieData> getValidityPieData(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoPieData> pieData = new ArrayList<>();
         GroupingUtils.groupByAndSumByValidity(couponList.getCouponEntityList())
@@ -65,7 +65,7 @@ public class NivoCouponService {
         return pieData;
     }
 
-    public List<NivoPieData> getSellTypePieData(PidCouponsParameters parameters) {
+    public List<NivoPieData> getSellTypePieData(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoPieData> pieData = new ArrayList<>();
         GroupingUtils.groupByAndSumBySellType(couponList.getCouponEntityList())
@@ -73,7 +73,7 @@ public class NivoCouponService {
         return pieData;
     }
 
-    public List<Map<String, Object>> getMonthlyBarDataByPersonType(PidCouponsParameters parameters) {
+    public List<Map<String, Object>> getMonthlyBarDataByPersonType(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<Map<String, Object>> outputMapList = new ArrayList<>();
         GroupingUtils.groupByMonth(couponList.getCouponEntityList())
@@ -85,7 +85,7 @@ public class NivoCouponService {
         return outputMapList;
     }
 
-    public NivoBubbleData getPersonBubbleDataByValidity(PidCouponsParameters parameters) {
+    public NivoBubbleData getPersonBubbleDataByValidity(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoBubbleData> middleNivoBubbleDataList = new ArrayList<>();
         GroupingUtils.groupByPersonType(couponList.getCouponEntityList()).forEach((key, entity) -> {
@@ -97,7 +97,7 @@ public class NivoCouponService {
         return new NivoBubbleData("Predaj kupónov", middleNivoBubbleDataList);
     }
 
-    public NivoBubbleData getPersonBubbleDataBySellType(PidCouponsParameters parameters) {
+    public NivoBubbleData getPersonBubbleDataBySellType(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoBubbleData> middleNivoBubbleDataList = new ArrayList<>();
         GroupingUtils.groupByPersonType(couponList.getCouponEntityList()).forEach((key, entity) -> {
@@ -109,7 +109,7 @@ public class NivoCouponService {
         return new NivoBubbleData("Predaj kupónov", middleNivoBubbleDataList);
     }
 
-    public Map<String, Map<String, Object>> getMonthlyBarDataByValidity(PidCouponsParameters parameters) {
+    public Map<String, Map<String, Object>> getMonthlyBarDataByValidity(CouponsParameters parameters) {
         Map<String, Map<String, Object>> outputMap = new HashMap<>();
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         GroupingUtils.groupByMonth(couponList.getCouponEntityList()).forEach((key, entity) -> {
@@ -119,7 +119,7 @@ public class NivoCouponService {
         return outputMap;
     }
 
-    public List<Map<String, Object>> getYearlyDataByPersonType(PidCouponsParameters parameters) {
+    public List<Map<String, Object>> getYearlyDataByPersonType(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<Map<String, Object>> mapList = new ArrayList<>();
         GroupingUtils.groupByYear(couponList.getCouponEntityList())
@@ -131,7 +131,7 @@ public class NivoCouponService {
         return mapList;
     }
 
-    public List<Map<String, Object>> getYearlyDataByMonth(PidCouponsParameters parameters) {
+    public List<Map<String, Object>> getYearlyDataByMonth(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<Map<String, Object>> mapList = new ArrayList<>();
         GroupingUtils.groupByYear(couponList.getCouponEntityList())

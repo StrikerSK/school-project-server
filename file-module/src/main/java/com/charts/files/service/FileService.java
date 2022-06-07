@@ -1,21 +1,19 @@
 package com.charts.files.service;
 
+import com.charts.general.repository.coupon.JpaCouponRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.charts.general.entity.coupon.CouponEntity;
-import com.charts.general.repository.coupon.CouponRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @Service
+@AllArgsConstructor
 public class FileService {
 
-	private final CouponRepository couponsRepository;
-
-	public FileService(CouponRepository couponsRepository) {
-		this.couponsRepository = couponsRepository;
-	}
+	private final JpaCouponRepository couponsRepository;
 
 	public void saveDataFromFile(MultipartFile file) throws IOException {
 		couponsRepository.save(getEmployeeFromJson(file));

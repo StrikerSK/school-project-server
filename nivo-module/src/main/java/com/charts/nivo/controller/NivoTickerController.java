@@ -1,6 +1,6 @@
 package com.charts.nivo.controller;
 
-import com.charts.general.entity.PidTicketsParameters;
+import com.charts.general.entity.ticket.TicketsParameters;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
@@ -27,14 +27,14 @@ public class NivoTickerController {
 	                                  @RequestParam(required = false) List<String> month,
 	                                  @RequestParam(required = false) List<String> year,
 	                                  @RequestParam(required = false) List<String> ticket) {
-		return nivoTicketsService.getTicketsLineData(new PidTicketsParameters(month, year, discounted, ticket));
+		return nivoTicketsService.getTicketsLineData(new TicketsParameters(month, year, discounted, ticket));
 	}
 
 	@RequestMapping("/tickets/bar")
 	public List<NivoBarTicketsDAOByMonth> retrieveBarData(@RequestParam(required = false) List<Boolean> discounted,
 	                                                      @RequestParam(required = false) List<String> month,
 	                                                      @RequestParam(required = false) List<String> year) {
-		return nivoTicketsService.getTicketBarData(new PidTicketsParameters(month, year, discounted, Collections.emptyList()));
+		return nivoTicketsService.getTicketBarData(new TicketsParameters(month, year, discounted, Collections.emptyList()));
 	}
 
 	@RequestMapping({"/tickets/pie", "/tickets/waffle"})
@@ -42,6 +42,6 @@ public class NivoTickerController {
 	                                         @RequestParam(required = false) List<String> month,
 	                                         @RequestParam(required = false) List<String> year,
 	                                         @RequestParam(required = false) List<String> ticket) {
-		return nivoTicketsService.getTicketsPieData(new PidTicketsParameters(month, year, discounted, ticket));
+		return nivoTicketsService.getTicketsPieData(new TicketsParameters(month, year, discounted, ticket));
 	}
 }

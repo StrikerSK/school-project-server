@@ -12,7 +12,6 @@ import java.util.Map;
 public class PidRestController {
 
 	private final ICouponService couponService;
-
 	public PidRestController(ICouponService couponService) {
 		this.couponService = couponService;
 	}

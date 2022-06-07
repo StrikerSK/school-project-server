@@ -6,12 +6,12 @@ import static com.charts.general.utils.ParameterUtils.verifyMonthsList;
 import static com.charts.general.utils.ParameterUtils.verifyYears;
 import static com.charts.general.utils.ParameterUtils.verifyYearsList;
 
-abstract class PidAbstractParameters {
+public abstract class PidAbstractParameters {
 
 	private final List<String> month;
 	private final List<String> year;
 
-	PidAbstractParameters(List<String> month, List<String> year) {
+	protected PidAbstractParameters(List<String> month, List<String> year) {
 		this.month = month;
 		this.year = year;
 	}

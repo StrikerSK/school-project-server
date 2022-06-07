@@ -1,6 +1,6 @@
 package com.charts.nivo.controller;
 
-import com.charts.general.entity.PidCouponsParameters;
+import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
@@ -14,11 +14,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/nivo")
-public class NivoRestController {
+public class NivoCouponController {
 
     private final NivoCouponService pidCouponsService;
 
-    public NivoRestController(NivoCouponService pidCouponsService) {
+    public NivoCouponController(NivoCouponService pidCouponsService) {
         this.pidCouponsService = pidCouponsService;
     }
 
@@ -28,7 +28,7 @@ public class NivoRestController {
                                                          @RequestParam(required = false) List<String> month,
                                                          @RequestParam(required = false) List<String> year,
                                                          @RequestParam(required = false) List<String> person) {
-        PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
+        CouponsParameters parameters = new CouponsParameters(validity, type, month, year, person);
         return pidCouponsService.getMonthlyLineDataByPersonType(parameters);
     }
 
@@ -38,7 +38,7 @@ public class NivoRestController {
                                                        @RequestParam(required = false) List<String> month,
                                                        @RequestParam(required = false) List<String> year,
                                                        @RequestParam(required = false) List<String> person) {
-        return pidCouponsService.getMonthlyLineDataByValidity(new PidCouponsParameters(validity, type, month, year, person));
+        return pidCouponsService.getMonthlyLineDataByValidity(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/bar", "/general", "/bar/monthly/person"})
@@ -47,7 +47,7 @@ public class NivoRestController {
                                                                    @RequestParam(required = false) List<String> month,
                                                                    @RequestParam(required = false) List<String> year,
                                                                    @RequestParam(required = false) List<String> person) {
-        return pidCouponsService.getMonthlyBarDataByPersonType(new PidCouponsParameters(validity, type, month, year, person));
+        return pidCouponsService.getMonthlyBarDataByPersonType(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/bar/test", "/bar/monthly/validity", "/bar/sell"})
@@ -56,7 +56,7 @@ public class NivoRestController {
                                                                         @RequestParam(required = false) List<String> month,
                                                                         @RequestParam(required = false) List<String> year,
                                                                         @RequestParam(required = false) List<String> person) {
-        return pidCouponsService.getMonthlyBarDataByValidity(new PidCouponsParameters(validity, type, month, year, person));
+        return pidCouponsService.getMonthlyBarDataByValidity(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/bubble", "/bubble/person/validity"})
@@ -65,7 +65,7 @@ public class NivoRestController {
                                                         @RequestParam(required = false) List<String> month,
                                                         @RequestParam(required = false) List<String> year,
                                                         @RequestParam(required = false) List<String> person) {
-        PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
+        CouponsParameters parameters = new CouponsParameters(validity, type, month, year, person);
         return pidCouponsService.getPersonBubbleDataByValidity(parameters);
     }
 
@@ -75,7 +75,7 @@ public class NivoRestController {
                                                         @RequestParam(required = false) List<String> month,
                                                         @RequestParam(required = false) List<String> year,
                                                         @RequestParam(required = false) List<String> person) {
-        PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
+        CouponsParameters parameters = new CouponsParameters(validity, type, month, year, person);
         return pidCouponsService.getPersonBubbleDataBySellType(parameters);
     }
 
@@ -85,7 +85,7 @@ public class NivoRestController {
                                                                @RequestParam(required = false) List<String> month,
                                                                @RequestParam(required = false) List<String> year,
                                                                @RequestParam(required = false) List<String> person) {
-        return pidCouponsService.getYearlyDataByPersonType(new PidCouponsParameters(validity, type, month, year, person));
+        return pidCouponsService.getYearlyDataByPersonType(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/pie/month", "/waffle/month"})
@@ -94,7 +94,7 @@ public class NivoRestController {
                                                                   @RequestParam(required = false) List<String> month,
                                                                   @RequestParam(required = false) List<String> year,
                                                                   @RequestParam(required = false) List<String> person) {
-        return pidCouponsService.getYearlyDataByMonth(new PidCouponsParameters(validity, type, month, year, person));
+        return pidCouponsService.getYearlyDataByMonth(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/pie/validity", "/waffle/validity"})
@@ -103,7 +103,7 @@ public class NivoRestController {
                                                 @RequestParam(required = false) List<String> month,
                                                 @RequestParam(required = false) List<String> year,
                                                 @RequestParam(required = false) List<String> person) {
-        return pidCouponsService.getValidityPieData(new PidCouponsParameters(validity, type, month, year, person));
+        return pidCouponsService.getValidityPieData(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/pie/sell", "/waffle/sell"})
@@ -112,6 +112,6 @@ public class NivoRestController {
                                                 @RequestParam(required = false) List<String> month,
                                                 @RequestParam(required = false) List<String> year,
                                                 @RequestParam(required = false) List<String> person) {
-        return pidCouponsService.getSellTypePieData(new PidCouponsParameters(validity, type, month, year, person));
+        return pidCouponsService.getSellTypePieData(new CouponsParameters(validity, type, month, year, person));
     }
 }

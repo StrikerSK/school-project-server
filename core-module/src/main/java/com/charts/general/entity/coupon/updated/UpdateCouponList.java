@@ -1,6 +1,6 @@
 package com.charts.general.entity.coupon.updated;
 
-import com.charts.general.entity.PidCouponsParameters;
+import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
 import com.charts.general.entity.enums.PersonType;
@@ -80,7 +80,7 @@ public class UpdateCouponList {
                 .collect(Collectors.toList()));
     }
 
-    public UpdateCouponList filterWithParameters(PidCouponsParameters parameters) {
+    public UpdateCouponList filterWithParameters(CouponsParameters parameters) {
         return filterByYear(parameters.getYearInteger())
                 .filterByValidity(parameters.getProcessedValidity())
                 .filterByPersonType(parameters.getProcessedPersonType())

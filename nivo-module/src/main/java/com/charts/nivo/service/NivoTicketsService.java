@@ -1,7 +1,7 @@
 package com.charts.nivo.service;
 
 import com.charts.general.ClassMethodInvoker;
-import com.charts.general.entity.PidTicketsParameters;
+import com.charts.general.entity.ticket.TicketsParameters;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
@@ -29,17 +29,17 @@ public class NivoTicketsService {
 		this.ticketQueryTemplates = ticketQueryTemplates;
 	}
 
-	public List<NivoLineData> getTicketsLineData(PidTicketsParameters parameters) {
+	public List<NivoLineData> getTicketsLineData(TicketsParameters parameters) {
 		return verifyTicketType(parameters.getTicketType()).stream()
 				.map(e -> new NivoLineData(e, ticketQueryTemplates.getTicketLineData(TicketTypes.getTicketColumn(e), parameters)))
 				.collect(Collectors.toList());
 	}
 
-	public List<NivoBarTicketsDAOByMonth> getTicketBarData(PidTicketsParameters parameters) {
+	public List<NivoBarTicketsDAOByMonth> getTicketBarData(TicketsParameters parameters) {
 		return ticketRepository.getTicketsBarData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
 	}
 
-	public List<NivoPieData> getTicketsPieData(PidTicketsParameters parameters) {
+	public List<NivoPieData> getTicketsPieData(TicketsParameters parameters) {
 		TicketMainDAO pieData = ticketRepository.getTicketsPieData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
 		return TicketTypes.getList().stream()
 				.filter(e -> isTicketTypeRequested(parameters.getTicketType(), e.getValue()))

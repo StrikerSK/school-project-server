@@ -1,10 +1,10 @@
 package com.charts.recharts.service;
 
 import com.charts.general.ClassMethodInvoker;
-import com.charts.general.entity.PidTicketsParameters;
+import com.charts.general.entity.ticket.TicketsParameters;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
-import com.charts.recharts.entity.PersonAbstractClass;
+import com.charts.recharts.entity.RechartsDataObject;
 import com.charts.general.repository.ticket.TicketRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +22,16 @@ public class RechartsTicketService {
 		this.ticketsRepository = ticketsRepository;
 	}
 
-	public List<List<PersonAbstractClass>> getRechartsTicketsData(PidTicketsParameters parameters) {
+	public List<List<RechartsDataObject>> getRechartsTicketsData(TicketsParameters parameters) {
 		return ticketsRepository.getTicketsBarData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger()).stream()
 				.map(element -> createTicketsList(element, parameters.getTicketType()))
 				.collect(Collectors.toList());
 	}
 
-	private List<PersonAbstractClass> createTicketsList(NivoBarTicketsDAOByMonth data, List<String> ticketTypes) {
+	private List<RechartsDataObject> createTicketsList(NivoBarTicketsDAOByMonth data, List<String> ticketTypes) {
 		return TicketTypes.getList().stream()
 				.filter(e -> isPersonTypeRequested(ticketTypes, e.getValue()))
-				.map(e -> new PersonAbstractClass(e.getValue(), data.getMonth(), generateValue(e, data)))
+				.map(e -> new RechartsDataObject(e.getValue(), data.getMonth(), generateValue(e, data)))
 				.collect(Collectors.toList());
 	}
 

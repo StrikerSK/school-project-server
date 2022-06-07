@@ -1,48 +1,42 @@
 package com.charts.recharts.service;
 
-import com.charts.general.ClassMethodInvoker;
-import com.charts.general.entity.PidCouponsParameters;
-import com.charts.general.entity.enums.PersonType;
-import com.charts.general.entity.nivo.bar.NivoBarCouponDataByMonth;
-import com.charts.general.service.ICouponService;
-import com.charts.recharts.entity.PersonAbstractClass;
-import com.charts.general.utils.ParameterUtils;
-import lombok.SneakyThrows;
+import com.charts.general.entity.coupon.CouponsParameters;
+import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.general.repository.coupon.CouponRepository;
+import com.charts.recharts.entity.RechartsDataObject;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class RechartsCouponService {
 
-	private final ICouponService couponService;
-
-	public RechartsCouponService(ICouponService couponService) {
-		this.couponService = couponService;
-	}
+	private final CouponRepository couponRepository;
 
 	/**
 	 * Method fetches and adjust data to Recharts module
 	 *
 	 * @return data adapted to Recharts module
 	 */
-	public List<List<PersonAbstractClass>> getRechartsData(PidCouponsParameters parameters) {
-		return couponService.getAllSumsRow(parameters).stream()
-				.map(element -> createPersonList(element, parameters.getPerson()))
-				.collect(Collectors.toList());
-	}
-
-	private List<PersonAbstractClass> createPersonList(NivoBarCouponDataByMonth data, List<String> personTypes) {
-		return PersonType.getEnumList().stream()
-				.filter(e -> ParameterUtils.isPersonTypeRequested(personTypes, e.getValue()))
-				.map(e -> new PersonAbstractClass(e.getValue(), data.getMonth(), generateValue(e, data)))
-				.collect(Collectors.toList());
-	}
-
-	@SneakyThrows
-	private Long generateValue(PersonType personType, NivoBarCouponDataByMonth data){
-		return (Long) ClassMethodInvoker.invokeClassGetMethod(data, personType.getValue());
+	public List<List<RechartsDataObject>> getMonthlyDataByPersonType(CouponsParameters parameters) {
+		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+		List<List<RechartsDataObject>> outputMapList = new ArrayList<>();
+		parameters.getMonth().forEach(month -> {
+			List<RechartsDataObject> nestedList = new ArrayList<>();
+			UpdateCouponList entities = couponList.filterByMonth(Collections.singletonList(month));
+			parameters.getProcessedPersonType().forEach(personType -> {
+				Long monthlyValue = entities.filterByPersonType(Collections.singletonList(personType)).getCouponEntityList().stream()
+						.map(e -> e.getValue().longValue())
+						.reduce(0L, Long::sum);
+				nestedList.add(new RechartsDataObject(month, personType.getValue(), monthlyValue));
+			});
+			outputMapList.add(nestedList);
+		});
+		return outputMapList;
 	}
 
 }

@@ -1,5 +1,6 @@
-package com.charts.general.entity;
+package com.charts.general.entity.coupon;
 
+import com.charts.general.entity.PidAbstractParameters;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
@@ -11,13 +12,13 @@ import static com.charts.general.utils.ParameterUtils.verifyPersonList;
 import static com.charts.general.utils.ParameterUtils.verifySellTypeList;
 import static com.charts.general.utils.ParameterUtils.verifyValidityList;
 
-public class PidCouponsParameters extends PidAbstractParameters {
+public class CouponsParameters extends PidAbstractParameters {
 
 	private final List<String> validity;
 	private final List<String> sellType;
 	private final List<String> person;
 
-	public PidCouponsParameters(List<String> validity, List<String> sellType, List<String> month, List<String> year, List<String> person) {
+	public CouponsParameters(List<String> validity, List<String> sellType, List<String> month, List<String> year, List<String> person) {
 		super(month, year);
 		this.validity = validity;
 		this.sellType = sellType;

@@ -2,7 +2,7 @@ package com.charts.apex.controller;
 
 import com.charts.apex.entity.ApexObject;
 import com.charts.apex.service.ApexCouponService;
-import com.charts.general.entity.PidCouponsParameters;
+import com.charts.general.entity.coupon.CouponsParameters;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +23,7 @@ public class ApexCouponController {
 													   @RequestParam(required = false) List<String> month,
 													   @RequestParam(required = false) List<String> year,
 													   @RequestParam(required = false) List<String> person) {
-		PidCouponsParameters parameters = new PidCouponsParameters(validity, type, month, year, person);
+		CouponsParameters parameters = new CouponsParameters(validity, type, month, year, person);
 		return apexCouponService.getMonthlyDataByPersonType(parameters);
 	}
 
@@ -33,7 +33,7 @@ public class ApexCouponController {
 													 @RequestParam(required = false) List<String> month,
 													 @RequestParam(required = false) List<String> year,
 													 @RequestParam(required = false) List<String> person) {
-		return apexCouponService.getMonthlyDataByValidity(new PidCouponsParameters(validity, type, month, year, person));
+		return apexCouponService.getMonthlyDataByValidity(new CouponsParameters(validity, type, month, year, person));
 	}
 
 	@RequestMapping(value = {"/monthly/sell"})
@@ -42,7 +42,7 @@ public class ApexCouponController {
 													 @RequestParam(required = false) List<String> month,
 													 @RequestParam(required = false) List<String> year,
 													 @RequestParam(required = false) List<String> person) {
-		return apexCouponService.getMonthlyDataBySellType(new PidCouponsParameters(validity, type, month, year, person));
+		return apexCouponService.getMonthlyDataBySellType(new CouponsParameters(validity, type, month, year, person));
 	}
 
 }
