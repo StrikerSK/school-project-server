@@ -14,14 +14,14 @@ import java.util.List;
 @RequestMapping("/apex")
 @AllArgsConstructor
 public class ApexTicketController {
-	private final ApexTicketService apexTicketService;
+    private final ApexTicketService apexTicketService;
 
-	@RequestMapping(value = "/tickets/data")
-	public List<ApexObject> getApexTicketData(@RequestParam(required = false) List<Boolean> discounted,
-											  @RequestParam(required = false) List<String> month,
-											  @RequestParam(required = false) List<String> year,
-											  @RequestParam(required = false) List<String> ticket) {
-		return apexTicketService.getApexTicketData(new TicketsParameters(month, year, discounted, ticket));
-	}
+    @RequestMapping(value = {"/tickets/data", "/tickets/monthly/type"})
+    public List<ApexObject> getTicketTypeDataByMonth(@RequestParam(required = false) List<Boolean> discounted,
+                                                     @RequestParam(required = false) List<String> month,
+                                                     @RequestParam(required = false) List<String> year,
+                                                     @RequestParam(required = false) List<String> ticket) {
+        return apexTicketService.getTicketTypeDataByMonth(new TicketsParameters(month, year, discounted, ticket));
+    }
 
 }

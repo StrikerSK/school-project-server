@@ -1,6 +1,5 @@
 package com.charts.nivo.entity;
 
-import com.charts.general.entity.nivo.DataXY;
 import lombok.Data;
 
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.List;
 public class NivoLineData {
 
 	private String id;
-	private List<DataXY> data;
+	private List<NivoDataXY> data;
 
-	public NivoLineData(String id, List<DataXY> data) {
+	public NivoLineData(String id, List<NivoDataXY> data) {
 		this.id = id;
 		this.data = data;
 	}

@@ -1,6 +1,6 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.general.entity.PidAbstractParameters;
+import com.charts.general.entity.AbstractParameters;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
@@ -12,7 +12,7 @@ import static com.charts.general.utils.ParameterUtils.verifyPersonList;
 import static com.charts.general.utils.ParameterUtils.verifySellTypeList;
 import static com.charts.general.utils.ParameterUtils.verifyValidityList;
 
-public class CouponsParameters extends PidAbstractParameters {
+public class CouponsParameters extends AbstractParameters {
 
 	private final List<String> validity;
 	private final List<String> sellType;

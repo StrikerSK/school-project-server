@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GroupingUtils {
+public class CouponGroupingUtils {
 
     public static Map<String, List<UpdateCouponEntity>> groupByMonth(List<?> couponEntityList) {
         return new UpdateCouponList(couponEntityList).getCouponEntityList().stream()

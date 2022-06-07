@@ -16,7 +16,7 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 @Getter
 @Setter
-public abstract class GeneralEntity {
+public abstract class AbstractEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public abstract class GeneralEntity {
 	@Column(name = "rok")
 	private Integer year;
 
-	public GeneralEntity(String code, String month, Integer year) {
+	public AbstractEntity(String code, String month, Integer year) {
 		this.code = code;
 		this.month = month;
 		this.year = year;

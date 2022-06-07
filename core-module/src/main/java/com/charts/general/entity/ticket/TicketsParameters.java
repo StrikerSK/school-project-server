@@ -1,13 +1,13 @@
 package com.charts.general.entity.ticket;
 
-import com.charts.general.entity.PidAbstractParameters;
+import com.charts.general.entity.AbstractParameters;
 
 import java.util.List;
 
 import static com.charts.general.utils.ParameterUtils.verifyDiscountedList;
 import static com.charts.general.utils.ParameterUtils.verifyTicketType;
 
-public class TicketsParameters extends PidAbstractParameters {
+public class TicketsParameters extends AbstractParameters {
 
 	private final List<Boolean> discounted;
 	private final List<String> ticketType;

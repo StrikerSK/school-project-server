@@ -1,58 +1,59 @@
 package com.charts.nivo.service;
 
-import com.charts.general.ClassMethodInvoker;
+import com.charts.nivo.entity.NivoDataXY;
 import com.charts.general.entity.ticket.TicketsParameters;
-import com.charts.general.entity.enums.TicketTypes;
+import com.charts.general.entity.ticket.updated.UpdateTicketList;
+import com.charts.general.repository.ticket.TicketRepository;
+import com.charts.general.utils.TicketGroupingUtils;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
-import com.charts.general.entity.nivo.TicketMainDAO;
-import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
-import com.charts.general.repository.ticket.TicketQueryTemplates;
-import com.charts.general.repository.ticket.TicketRepository;
-import com.charts.general.utils.ParameterUtils;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static com.charts.general.utils.ParameterUtils.verifyTicketType;
+import java.util.Map;
 
 @Service
 public class NivoTicketsService {
 
 	private final TicketRepository ticketRepository;
-	private final TicketQueryTemplates ticketQueryTemplates;
 
-	public NivoTicketsService(TicketRepository ticketRepository, TicketQueryTemplates ticketQueryTemplates) {
+	public NivoTicketsService(TicketRepository ticketRepository) {
 		this.ticketRepository = ticketRepository;
-		this.ticketQueryTemplates = ticketQueryTemplates;
 	}
 
-	public List<NivoLineData> getTicketsLineData(TicketsParameters parameters) {
-		return verifyTicketType(parameters.getTicketType()).stream()
-				.map(e -> new NivoLineData(e, ticketQueryTemplates.getTicketLineData(TicketTypes.getTicketColumn(e), parameters)))
-				.collect(Collectors.toList());
+	public List<NivoLineData> getTicketTypesByMonth(TicketsParameters parameters) {
+		UpdateTicketList couponList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
+		List<NivoLineData> output = new ArrayList<>();
+		TicketGroupingUtils.groupByTicketType(couponList.getTicketEntities())
+				.forEach((month, entity) -> {
+					List<NivoDataXY> nestedData = new ArrayList<>();
+					TicketGroupingUtils.groupByAndSumByMonth(entity)
+							.forEach((validity, integer) -> nestedData.add(new NivoDataXY(validity, (Long) integer)));
+					output.add(new NivoLineData(month, nestedData));
+				});
+		return output;
 	}
 
-	public List<NivoBarTicketsDAOByMonth> getTicketBarData(TicketsParameters parameters) {
-		return ticketRepository.getTicketsBarData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
+	public List<Map<String, Object>> getTicketBarData(TicketsParameters parameters) {
+		UpdateTicketList ticketList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
+		List<Map<String, Object>> outputMapList = new ArrayList<>();
+		TicketGroupingUtils.groupByMonth(ticketList.getTicketEntities())
+				.forEach((month, entities) -> {
+					Map<String, Object> tmpMap = new HashMap<>(TicketGroupingUtils.groupByAndSumByTicketType(entities));
+					tmpMap.put("month", month);
+					outputMapList.add(tmpMap);
+				});
+		return outputMapList;
 	}
 
-	public List<NivoPieData> getTicketsPieData(TicketsParameters parameters) {
-		TicketMainDAO pieData = ticketRepository.getTicketsPieData(parameters.getDiscounted(), parameters.getMonth(), parameters.getYearInteger());
-		return TicketTypes.getList().stream()
-				.filter(e -> isTicketTypeRequested(parameters.getTicketType(), e.getValue()))
-				.map(e -> new NivoPieData(e.getValue(), generatePieData(e, pieData)))
-				.collect(Collectors.toList());
+	public List<NivoPieData> getTicketTypePieData(TicketsParameters parameters) {
+		UpdateTicketList couponList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
+		List<NivoPieData> pieData = new ArrayList<>();
+		TicketGroupingUtils.groupByAndSumByTicketType(couponList.getTicketEntities())
+				.forEach((validity, total) -> pieData.add(new NivoPieData(validity, (Long) total)));
+		return pieData;
 	}
 
-	@SneakyThrows
-	private Long generatePieData(TicketTypes ticketType, TicketMainDAO data){
-		return (Long) ClassMethodInvoker.invokeClassGetMethod(data, ticketType.getMethodName());
-	}
-
-	private static Boolean isTicketTypeRequested(List<String> ticketList, String personType) {
-		return ParameterUtils.isEmptyList(ticketList, TicketTypes.ticketTypeValues()).contains(personType);
-	}
 }

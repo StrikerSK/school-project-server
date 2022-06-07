@@ -1,6 +1,6 @@
 package com.charts.general.entity.ticket;
 
-import com.charts.general.entity.GeneralEntity;
+import com.charts.general.entity.AbstractEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TicketEntity extends GeneralEntity {
+public class TicketEntity extends AbstractEntity {
 
 	@Column(name = "zlavneny")
 	private Boolean discounted;

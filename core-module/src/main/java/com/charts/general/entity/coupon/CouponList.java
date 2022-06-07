@@ -1,6 +1,6 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.general.entity.GeneralEntity;
+import com.charts.general.entity.AbstractEntity;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
 import lombok.AllArgsConstructor;
@@ -41,7 +41,7 @@ public class CouponList {
 
     public List<String> getMonthValues() {
         return this.getCoupons().stream()
-                .map(GeneralEntity::getMonth)
+                .map(AbstractEntity::getMonth)
                 .distinct()
                 .collect(Collectors.toList());
     }

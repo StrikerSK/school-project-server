@@ -15,14 +15,14 @@ import java.util.List;
 @AllArgsConstructor
 public class RechartsTicketController {
 
-	private final RechartsTicketService ticketService;
+    private final RechartsTicketService ticketService;
 
-	@RequestMapping({"/tickets/bar", "/tickets/pie", "/tickets/line", "/tickets/data"})
-	public List<List<RechartsDataObject>> getRechartsTicketData(@RequestParam(required = false) List<Boolean> discounted,
-																@RequestParam(required = false) List<String> month,
-																@RequestParam(required = false) List<String> year,
-																@RequestParam(required = false) List<String> ticket) {
-		return ticketService.getRechartsTicketsData(new TicketsParameters(month, year, discounted, ticket));
-	}
+    @RequestMapping({"/tickets/bar", "/tickets/pie", "/tickets/line", "/tickets/data"})
+    public List<List<RechartsDataObject>> getMonthlyDataByTicketType(@RequestParam(required = false) List<Boolean> discounted,
+                                                                     @RequestParam(required = false) List<String> month,
+                                                                     @RequestParam(required = false) List<String> year,
+                                                                     @RequestParam(required = false) List<String> ticket) {
+        return ticketService.getMonthlyDataByTicketType(new TicketsParameters(month, year, discounted, ticket));
+    }
 
 }

@@ -1,46 +1,36 @@
 package com.charts.general.entity.enums;
 
+import com.charts.general.constants.TicketConstants;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public enum TicketTypes {
 
-	FIFTEEN_MINUTES("15 Minútové", "stvrt_minut", "FifteenMinutes"),
-	ONE_DAY("24 Hodinový - Pásmo P", "jeden_den", "OneDay"),
-	ONE_DAY_ALL("24 Hodinový - Všetky pásma", "jeden_den_vsetky", "OneDayAll"),
-	TWO_ZONES("2 Pásma", "dve_pasma", "TwoZones"),
-	THREE_ZONES("3 Pásma", "tri_pasma", "ThreeZones"),
-	FOUR_ZONES("4 Pásma", "styri_pasma", "FourZones"),
-	FIVE_ZONES("5 Pásiem", "pat_pasem", "FiveZones"),
-	SIX_ZONES("6 Pásiem", "sest_pasem", "SixZones"),
-	SEVEN_ZONES("7 Pásiem", "sedem_pasem", "SevenZones"),
-	EIGHT_ZONES("8 Pásiem", "osem_pasem", "EightZones"),
-	NINE_ZONES("9 Pásiem", "devat_pasem", "NineZones"),
-	TEN_ZONES("10 Pásiem", "desat_pasem", "TenZones"),
-	ELEVEN_ZONES("11 Pásiem", "jedenast_pasem", "ElevenZones");
+	FIFTEEN_MINUTES(TicketConstants.FIFTEEN_MINUTES),
+	ONE_DAY(TicketConstants.ONE_DAY),
+	ONE_DAY_ALL(TicketConstants.ONE_DAY_ALL),
+	TWO_ZONES(TicketConstants.TWO_ZONES),
+	THREE_ZONES(TicketConstants.THREE_ZONES),
+	FOUR_ZONES(TicketConstants.FOUR_ZONES),
+	FIVE_ZONES(TicketConstants.FIVE_ZONES),
+	SIX_ZONES(TicketConstants.SIX_ZONES),
+	SEVEN_ZONES(TicketConstants.SEVEN_ZONES),
+	EIGHT_ZONES(TicketConstants.EIGHT_ZONES),
+	NINE_ZONES(TicketConstants.NINE_ZONES),
+	TEN_ZONES(TicketConstants.TEN_ZONES),
+	ELEVEN_ZONES(TicketConstants.ELEVEN_ZONES);
 
 	private final String value;
-	private final String column;
-	private final String methodName;
-
-	private TicketTypes(String value, String column, String methodName) {
+	TicketTypes(String value) {
 		this.value = value;
-		this.column = column;
-		this.methodName = methodName;
 	}
 
 	public String getValue() {
 		return value;
 	}
 
-	public String getColumn() {
-		return column;
-	}
-
-	public String getMethodName() {
-		return methodName;
-	}
 
 	public static List<String> ticketTypeValues() {
 		return Arrays.stream(values())
@@ -53,14 +43,6 @@ public enum TicketTypes {
 				.filter(e -> e.value.equals(label))
 				.findFirst()
 				.orElse(null);
-	}
-
-	public static String getTicketColumn(String value) {
-		return ticketTypeValue(value).getColumn();
-	}
-
-	public static String getTicketMethodName(String value) {
-		return ticketTypeValue(value).getMethodName();
 	}
 
 	public static List<TicketTypes> getList() {

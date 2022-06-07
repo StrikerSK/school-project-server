@@ -1,26 +1,19 @@
 package com.charts.general.repository.ticket;
 
-import com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth;
-import com.charts.general.entity.ticket.TicketEntity;
-import com.charts.general.entity.nivo.TicketMainDAO;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import com.charts.general.entity.ticket.updated.UpdateTicketList;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.List;
-
 @Repository
-public interface TicketRepository extends JpaRepository<TicketEntity, Long> {
+public class TicketRepository {
 
-	@Query("SELECT new com.charts.general.entity.nivo.bar.NivoBarTicketsDAOByMonth(month, SUM(fifteenMinutes),SUM(oneDay),SUM(oneDayAll),SUM(twoZones),SUM(threeZones),SUM(fourZones),SUM(fiveZones),SUM(sixZones),SUM(sevenZones),SUM(eightZones),SUM(nineZones),SUM(tenZones),SUM(elevenZones)) FROM TicketEntity WHERE discounted IN :discounted AND month IN :months AND year IN :year GROUP BY code,month ORDER by code ASC")
-	List<NivoBarTicketsDAOByMonth> getTicketsBarData(@Param("discounted") Collection<Boolean> discounted,
-	                                                 @Param("months") Collection<String> months,
-	                                                 @Param("year") Collection<Integer> year);
+    private final JpaTicketRepository jpaTicketRepository;
 
-	@Query("SELECT new com.charts.general.entity.nivo.TicketMainDAO(SUM(fifteenMinutes),SUM(oneDay),SUM(oneDayAll),SUM(twoZones),SUM(threeZones),SUM(fourZones),SUM(fiveZones),SUM(sixZones),SUM(sevenZones),SUM(eightZones),SUM(nineZones),SUM(tenZones),SUM(elevenZones)) FROM TicketEntity WHERE discounted IN :discounted AND month IN :months AND year IN :year")
-	TicketMainDAO getTicketsPieData(@Param("discounted") Collection<Boolean> discounted,
-	                                @Param("months") Collection<String> months,
-	                                @Param("year") Collection<Integer> year);
+    public TicketRepository(JpaTicketRepository jpaTicketRepository) {
+        this.jpaTicketRepository = jpaTicketRepository;
+    }
+
+    public UpdateTicketList getUpdatedTicketList() {
+        return new UpdateTicketList(jpaTicketRepository.findAll());
+    }
+
 }
