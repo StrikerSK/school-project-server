@@ -31,7 +31,7 @@ public abstract class AbstractCouponClass {
         couponEntity1.setValidity(Validity.YEARLY);
 
         couponEntity1.setCode("032000");
-        couponEntity1.setMonth("March");
+        couponEntity1.setMonth("Marec");
         couponEntity1.setYear(2000);
 
         couponEntity2 = new CouponEntity();

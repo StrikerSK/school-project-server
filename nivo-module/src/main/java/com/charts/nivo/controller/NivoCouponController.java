@@ -32,13 +32,22 @@ public class NivoCouponController {
         return pidCouponsService.getMonthlyLineDataByPersonType(parameters);
     }
 
-    @RequestMapping({"/line/sell", "/line/monthly/validity"})
+    @RequestMapping({"/line/monthly/validity"})
     public List<NivoLineData> getMonthlyDataByValidity(@RequestParam(required = false) List<String> validity,
                                                        @RequestParam(required = false) List<String> type,
                                                        @RequestParam(required = false) List<String> month,
                                                        @RequestParam(required = false) List<String> year,
                                                        @RequestParam(required = false) List<String> person) {
         return pidCouponsService.getMonthlyLineDataByValidity(new CouponsParameters(validity, type, month, year, person));
+    }
+
+    @RequestMapping({"/line/sell", "/line/monthly/sell"})
+    public List<NivoLineData> getMonthlyLineDataBySellType(@RequestParam(required = false) List<String> validity,
+                                                           @RequestParam(required = false) List<String> type,
+                                                           @RequestParam(required = false) List<String> month,
+                                                           @RequestParam(required = false) List<String> year,
+                                                           @RequestParam(required = false) List<String> person) {
+        return pidCouponsService.getMonthlyLineDataBySellType(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/bar", "/general", "/bar/monthly/person"})
@@ -50,13 +59,22 @@ public class NivoCouponController {
         return pidCouponsService.getMonthlyBarDataByPersonType(new CouponsParameters(validity, type, month, year, person));
     }
 
-    @RequestMapping({"/bar/test", "/bar/monthly/validity", "/bar/sell"})
-    public Map<String, Map<String, Object>> getMonthlyBarDataByValidity(@RequestParam(required = false) List<String> validity,
-                                                                        @RequestParam(required = false) List<String> type,
-                                                                        @RequestParam(required = false) List<String> month,
-                                                                        @RequestParam(required = false) List<String> year,
-                                                                        @RequestParam(required = false) List<String> person) {
+    @RequestMapping({"/bar/test", "/bar/monthly/validity"})
+    public List<Map<String, Object>> getMonthlyBarDataByValidity(@RequestParam(required = false) List<String> validity,
+                                                                 @RequestParam(required = false) List<String> type,
+                                                                 @RequestParam(required = false) List<String> month,
+                                                                 @RequestParam(required = false) List<String> year,
+                                                                 @RequestParam(required = false) List<String> person) {
         return pidCouponsService.getMonthlyBarDataByValidity(new CouponsParameters(validity, type, month, year, person));
+    }
+
+    @RequestMapping({"/bar/sell", "/bar/monthly/sell"})
+    public List<Map<String, Object>> getMonthlyBarDataBySellType(@RequestParam(required = false) List<String> validity,
+                                                                 @RequestParam(required = false) List<String> type,
+                                                                 @RequestParam(required = false) List<String> month,
+                                                                 @RequestParam(required = false) List<String> year,
+                                                                 @RequestParam(required = false) List<String> person) {
+        return pidCouponsService.getMonthlyBarDataBySellType(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/bubble", "/bubble/person/validity"})
@@ -80,21 +98,21 @@ public class NivoCouponController {
     }
 
     @RequestMapping({"/pie/person", "/waffle/person"})
-    public List<Map<String, Object>> getYearlyDataByPersonType(@RequestParam(required = false) List<String> validity,
-                                                               @RequestParam(required = false) List<String> type,
-                                                               @RequestParam(required = false) List<String> month,
-                                                               @RequestParam(required = false) List<String> year,
-                                                               @RequestParam(required = false) List<String> person) {
-        return pidCouponsService.getYearlyDataByPersonType(new CouponsParameters(validity, type, month, year, person));
+    public List<NivoPieData> getPersonTypePieData(@RequestParam(required = false) List<String> validity,
+                                                  @RequestParam(required = false) List<String> type,
+                                                  @RequestParam(required = false) List<String> month,
+                                                  @RequestParam(required = false) List<String> year,
+                                                  @RequestParam(required = false) List<String> person) {
+        return pidCouponsService.getPersonTypePieData(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/pie/month", "/waffle/month"})
-    public List<Map<String, Object>> getDataByYearAndValidityType(@RequestParam(required = false) List<String> validity,
-                                                                  @RequestParam(required = false) List<String> type,
-                                                                  @RequestParam(required = false) List<String> month,
-                                                                  @RequestParam(required = false) List<String> year,
-                                                                  @RequestParam(required = false) List<String> person) {
-        return pidCouponsService.getYearlyDataByMonth(new CouponsParameters(validity, type, month, year, person));
+    public List<NivoPieData> getMonthlyPieData(@RequestParam(required = false) List<String> validity,
+                                               @RequestParam(required = false) List<String> type,
+                                               @RequestParam(required = false) List<String> month,
+                                               @RequestParam(required = false) List<String> year,
+                                               @RequestParam(required = false) List<String> person) {
+        return pidCouponsService.getMonthlyPieData(new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/pie/validity", "/waffle/validity"})
