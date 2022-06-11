@@ -34,9 +34,4 @@ public abstract class AbstractEntity {
 	@Column(name = "rok")
 	private Integer year;
 
-	public AbstractEntity(String code, String month, Integer year) {
-		this.code = code;
-		this.month = month;
-		this.year = year;
-	}
 }

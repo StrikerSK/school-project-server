@@ -23,12 +23,12 @@ public class ApexTicketService {
 		List<ApexObject> outputMapList = new ArrayList<>();
 		parameters.getTicketType().forEach(ticketType -> {
 			ApexObject apexObject = new ApexObject(ticketType);
-			List<Long> values = new ArrayList<>();
+			List<Integer> values = new ArrayList<>();
 			UpdateTicketList entities = ticketList.filterByTicketType(Collections.singletonList(ticketType));
 			parameters.getMonth().forEach(month -> {
-				Long monthlyValue = entities.filterByMonth(Collections.singletonList(month)).getTicketEntities().stream()
+				Integer monthlyValue = entities.filterByMonth(Collections.singletonList(month)).getTicketEntities().stream()
 						.map(UpdateTicketEntity::getValue)
-						.reduce(0L, Long::sum);
+						.reduce(0, Integer::sum);
 				values.add(monthlyValue);
 			});
 			outputMapList.add(apexObject.withList(values));

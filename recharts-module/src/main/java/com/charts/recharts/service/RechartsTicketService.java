@@ -27,9 +27,9 @@ public class RechartsTicketService {
             List<RechartsDataObject> nestedList = new ArrayList<>();
             UpdateTicketList entities = couponList.filterByMonth(Collections.singletonList(month));
             parameters.getTicketType().forEach(ticketType -> {
-                Long monthlyValue = entities.filterByTicketType(Collections.singletonList(ticketType)).getTicketEntities().stream()
+                Integer monthlyValue = entities.filterByTicketType(Collections.singletonList(ticketType)).getTicketEntities().stream()
                         .map(UpdateTicketEntity::getValue)
-                        .reduce(0L, Long::sum);
+                        .reduce(0, Integer::sum);
                 nestedList.add(new RechartsDataObject(month, ticketType, monthlyValue));
             });
             outputMapList.add(nestedList);

@@ -1,6 +1,7 @@
 package com.charts.apex.service;
 
 import com.charts.apex.entity.ApexObject;
+import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
 import com.charts.general.repository.coupon.CouponRepository;
@@ -22,7 +23,7 @@ public class ApexCouponService {
 		parameters.getPersonTypeList().forEach(personType -> {
 			ApexObject apexObject = new ApexObject(personType.getValue());
 			UpdateCouponList filteredList = couponList.filterByPersonType(Collections.singletonList(personType));
-			List<Long> values = mapMonth(filteredList, parameters.getMonth());
+			List<Integer> values = mapMonth(filteredList, parameters.getMonth());
 			outputMapList.add(apexObject.withList(values));
 		});
 		return outputMapList;
@@ -37,7 +38,7 @@ public class ApexCouponService {
 		parameters.getValidity().forEach(validity -> {
 			ApexObject apexObject = new ApexObject(validity.getValue());
 			UpdateCouponList filteredList = couponList.filterByValidity(Collections.singletonList(validity));
-			List<Long> values = mapMonth(filteredList, parameters.getMonth());
+			List<Integer> values = mapMonth(filteredList, parameters.getMonth());
 			outputMapList.add(apexObject.withList(values));
 		});
 		return outputMapList;
@@ -49,18 +50,18 @@ public class ApexCouponService {
 		parameters.getSellTypes().forEach(sellType -> {
 			ApexObject apexObject = new ApexObject(sellType.getValue());
 			UpdateCouponList filteredList = couponList.filterBySellType(Collections.singletonList(sellType));
-			List<Long> values = mapMonth(filteredList, parameters.getMonth());
+			List<Integer> values = mapMonth(filteredList, parameters.getMonth());
 			outputMapList.add(apexObject.withList(values));
 		});
 		return outputMapList;
 	}
 
-	private List<Long> mapMonth(UpdateCouponList couponList, List<String> months) {
-		List<Long> values = new ArrayList<>();
+	private List<Integer> mapMonth(UpdateCouponList couponList, List<String> months) {
+		List<Integer> values = new ArrayList<>();
 		months.forEach(month -> {
-			Long monthlyValue = couponList.filterByMonth(Collections.singletonList(month)).getCouponEntityList().stream()
-					.map(e -> e.getValue().longValue())
-					.reduce(0L, Long::sum);
+			Integer monthlyValue = couponList.filterByMonth(Collections.singletonList(month)).getCouponEntityList().stream()
+					.map(AbstractUpdateEntity::getValue)
+					.reduce(0, Integer::sum);
 			values.add(monthlyValue);
 		});
 		return values;

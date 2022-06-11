@@ -61,7 +61,7 @@ public class UpdateTicketList {
 
     public UpdateTicketList filterByTicketType(List<String> ticketTypes) {
         return new UpdateTicketList(ticketEntities.stream()
-                .filter(e -> ticketTypes.contains(e.getName()))
+                .filter(e -> ticketTypes.contains(e.getTicketType()))
                 .collect(Collectors.toList()));
     }
 
@@ -92,9 +92,9 @@ public class UpdateTicketList {
         UpdateTicketEntity output = new UpdateTicketEntity();
 
         //From UpdateCouponEntity class
-        output.setValue(function.apply(ticketEntity));
+        output.setValue(function.apply(ticketEntity).intValue());
         output.setDiscounted(ticketEntity.getDiscounted());
-        output.setName(personType);
+        output.setTicketType(personType);
 
         // From GeneralEntity class
         output.setMonth(ticketEntity.getMonth());

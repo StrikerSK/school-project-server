@@ -1,5 +1,6 @@
 package com.charts.recharts.service;
 
+import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
 import com.charts.general.repository.coupon.CouponRepository;
@@ -29,9 +30,9 @@ public class RechartsCouponService {
 			List<RechartsDataObject> nestedList = new ArrayList<>();
 			UpdateCouponList entities = couponList.filterByMonth(Collections.singletonList(month));
 			parameters.getPersonTypeList().forEach(personType -> {
-				Long monthlyValue = entities.filterByPersonType(Collections.singletonList(personType)).getCouponEntityList().stream()
-						.map(e -> e.getValue().longValue())
-						.reduce(0L, Long::sum);
+				Integer monthlyValue = entities.filterByPersonType(Collections.singletonList(personType)).getCouponEntityList().stream()
+						.map(AbstractUpdateEntity::getValue)
+						.reduce(0, Integer::sum);
 				nestedList.add(new RechartsDataObject(month, personType.getValue(), monthlyValue));
 			});
 			outputMapList.add(nestedList);
