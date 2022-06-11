@@ -8,12 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class TicketGroupingUtils {
-
-    public static Map<String, List<UpdateTicketEntity>> groupByMonth(List<UpdateTicketEntity> ticketList) {
-        return new UpdateTicketList(ticketList).getTicketEntities().stream()
-                .collect(Collectors.groupingBy(UpdateTicketEntity::getMonth));
-    }
+public class TicketGroupingUtils extends AbstractGroupingUtils{
 
     public static Map<String, List<UpdateTicketEntity>> groupByTicketType(List<UpdateTicketEntity> couponEntityList) {
         return new UpdateTicketList(couponEntityList).getTicketEntities().stream()
@@ -22,12 +17,17 @@ public class TicketGroupingUtils {
 
     public static Map<String, Object> groupByAndSumByTicketType(List<UpdateTicketEntity> entityList) {
         return new HashMap<>(entityList.stream()
-                .collect(Collectors.groupingBy(UpdateTicketEntity::getTicketType, Collectors.summingLong(UpdateTicketEntity::getValue))));
+                .collect(Collectors.groupingBy(UpdateTicketEntity::getTicketType, Collectors.summingInt(UpdateTicketEntity::getValue))));
     }
 
-    public static Map<String, Object> groupByAndSumByMonth(List<UpdateTicketEntity> entityList) {
+    public static Map<Boolean, List<UpdateTicketEntity>> groupByDiscounted(List<UpdateTicketEntity> couponEntityList) {
+        return new UpdateTicketList(couponEntityList).getTicketEntities().stream()
+                .collect(Collectors.groupingBy(UpdateTicketEntity::getDiscounted));
+    }
+
+    public static Map<Boolean, Object> groupAndSumByDiscounted(List<UpdateTicketEntity> entityList) {
         return new HashMap<>(entityList.stream()
-                .collect(Collectors.groupingBy(UpdateTicketEntity::getMonth, Collectors.summingLong(UpdateTicketEntity::getValue))));
+                .collect(Collectors.groupingBy(UpdateTicketEntity::getDiscounted, Collectors.summingInt(UpdateTicketEntity::getValue))));
     }
 
 }

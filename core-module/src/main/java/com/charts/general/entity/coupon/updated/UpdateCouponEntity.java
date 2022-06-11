@@ -1,6 +1,5 @@
 package com.charts.general.entity.coupon.updated;
 
-import com.charts.general.entity.AbstractEntity;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;

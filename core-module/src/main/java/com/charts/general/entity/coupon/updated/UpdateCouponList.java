@@ -3,7 +3,6 @@ package com.charts.general.entity.coupon.updated;
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
-import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
@@ -96,7 +95,7 @@ public class UpdateCouponList {
                 .collect(Collectors.toList());
     }
 
-    public List<SellType> getTicketTypeValues() {
+    public List<SellType> getSellTypeValues() {
         return couponEntityList.stream()
                 .map(UpdateCouponEntity::getSellType)
                 .distinct()

@@ -7,9 +7,9 @@ public class NivoPieData {
 
 	private String id;
 	private String label;
-	private Long value;
+	private Integer value;
 
-	public NivoPieData(String label, Long value) {
+	public NivoPieData(String label, Integer value) {
 		this.id = label;
 		this.label = label;
 		this.value = value;

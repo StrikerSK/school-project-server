@@ -135,15 +135,15 @@ public class NivoCouponService {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoPieData> pieData = new ArrayList<>();
         CouponGroupingUtils.groupByAndSumByPerson(couponList.getCouponEntityList())
-                .forEach((personType, total) -> pieData.add(new NivoPieData(personType, ((Integer) total).longValue())));
+                .forEach((personType, total) -> pieData.add(new NivoPieData(personType, (Integer) total)));
         return pieData;
     }
 
     public List<NivoPieData> getMonthlyPieData(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoPieData> pieData = new ArrayList<>();
-        CouponGroupingUtils.groupByAndSumByMonth(couponList.getCouponEntityList())
-                .forEach((month, total) -> pieData.add(new NivoPieData(month, ((Integer) total).longValue())));
+        CouponGroupingUtils.groupAndSumByMonth(couponList.getCouponEntityList())
+                .forEach((month, total) -> pieData.add(new NivoPieData(month, ((Integer) total))));
         return pieData;
     }
 
@@ -151,7 +151,7 @@ public class NivoCouponService {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoPieData> pieData = new ArrayList<>();
         CouponGroupingUtils.groupByAndSumByValidity(couponList.getCouponEntityList())
-                .forEach((validity, total) -> pieData.add(new NivoPieData(validity, ((Integer) total).longValue())));
+                .forEach((validity, total) -> pieData.add(new NivoPieData(validity, ((Integer) total))));
         return pieData;
     }
 
@@ -159,7 +159,7 @@ public class NivoCouponService {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoPieData> pieData = new ArrayList<>();
         CouponGroupingUtils.groupByAndSumBySellType(couponList.getCouponEntityList())
-                .forEach((sellType, total) -> pieData.add(new NivoPieData(sellType, ((Integer) total).longValue())));
+                .forEach((sellType, total) -> pieData.add(new NivoPieData(sellType, ((Integer) total))));
         return pieData;
     }
 
