@@ -19,7 +19,7 @@ public class ApexTicketController {
     @RequestMapping(value = {"/tickets/data", "/tickets/monthly/type"})
     public List<ApexObject> getTicketTypeDataByMonth(@RequestParam(required = false) List<Boolean> discounted,
                                                      @RequestParam(required = false) List<String> month,
-                                                     @RequestParam(required = false) List<String> year,
+                                                     @RequestParam(required = false) List<Integer> year,
                                                      @RequestParam(required = false) List<String> ticket) {
         return apexTicketService.getTicketTypeDataByMonth(new TicketsParameters(month, year, discounted, ticket));
     }

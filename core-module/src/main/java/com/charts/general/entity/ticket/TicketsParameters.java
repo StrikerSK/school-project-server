@@ -12,7 +12,7 @@ public class TicketsParameters extends AbstractParameters {
 	private final List<Boolean> discounted;
 	private final List<String> ticketType;
 
-	public TicketsParameters(List<String> month, List<String> year, List<Boolean> discounted, List<String> ticketType) {
+	public TicketsParameters(List<String> month, List<Integer> year, List<Boolean> discounted, List<String> ticketType) {
 		super(month, year);
 		this.discounted = discounted;
 		this.ticketType = ticketType;

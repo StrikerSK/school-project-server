@@ -21,7 +21,7 @@ public class RechartsCouponController {
 	public List<List<RechartsDataObject>> getMonthlyDataByPersonType(@RequestParam(required = false) List<String> validity,
 																	 @RequestParam(required = false) List<String> type,
 																	 @RequestParam(required = false) List<String> month,
-																	 @RequestParam(required = false) List<String> year,
+																	 @RequestParam(required = false) List<Integer> year,
 																	 @RequestParam(required = false) List<String> person) {
 		return couponService.getMonthlyDataByPersonType(new CouponsParameters(validity, type, month, year, person));
 	}

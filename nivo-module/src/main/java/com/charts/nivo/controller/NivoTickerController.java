@@ -25,7 +25,7 @@ public class NivoTickerController {
     @RequestMapping({"/tickets/line", "/tickets/line/monthly/type"})
     public List<NivoLineData> getTicketTypesByMonth(@RequestParam(required = false) List<Boolean> discounted,
                                                     @RequestParam(required = false) List<String> month,
-                                                    @RequestParam(required = false) List<String> year,
+                                                    @RequestParam(required = false) List<Integer> year,
                                                     @RequestParam(required = false) List<String> ticket) {
         return nivoTicketsService.getTicketTypesByMonth(new TicketsParameters(month, year, discounted, ticket));
     }
@@ -33,14 +33,14 @@ public class NivoTickerController {
     @RequestMapping("/tickets/bar")
     public List<Map<String, Object>> retrieveBarData(@RequestParam(required = false) List<Boolean> discounted,
                                                      @RequestParam(required = false) List<String> month,
-                                                     @RequestParam(required = false) List<String> year) {
+                                                     @RequestParam(required = false) List<Integer> year) {
         return nivoTicketsService.getTicketBarData(new TicketsParameters(month, year, discounted, Collections.emptyList()));
     }
 
     @RequestMapping({"/tickets/pie", "/tickets/waffle"})
     public List<NivoPieData> retrievePieData(@RequestParam(required = false) List<Boolean> discounted,
                                              @RequestParam(required = false) List<String> month,
-                                             @RequestParam(required = false) List<String> year,
+                                             @RequestParam(required = false) List<Integer> year,
                                              @RequestParam(required = false) List<String> ticket) {
         return nivoTicketsService.getTicketTypePieData(new TicketsParameters(month, year, discounted, ticket));
     }

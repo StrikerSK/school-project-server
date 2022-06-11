@@ -3,12 +3,9 @@ package com.charts.general.entity.enums;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public enum Validity {
+public enum Validity implements IEnum {
 
 	@JsonProperty("Mesačná")
 	MONTHLY("Mesačná"),
@@ -24,7 +21,7 @@ public enum Validity {
 
 	private final String value;
 
-	private Validity(String value) {
+	Validity(String value) {
 		this.value = value;
 	}
 
@@ -33,15 +30,9 @@ public enum Validity {
 	}
 
 	public static Optional<Validity> validityValue(String label) {
-		return Stream.of(Validity.values())
+		return Arrays.stream(Validity.values())
 				.filter(c -> c.getValue().equals(label))
 				.findFirst();
-	}
-
-	public static List<String> validityValues() {
-		return Arrays.stream(values())
-				.map(Validity::getValue)
-				.collect(Collectors.toList());
 	}
 
 }

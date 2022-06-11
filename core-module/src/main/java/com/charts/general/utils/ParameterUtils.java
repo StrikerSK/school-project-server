@@ -2,7 +2,6 @@ package com.charts.general.utils;
 
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.entity.enums.YearOptions;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.*;
@@ -18,16 +17,6 @@ public class ParameterUtils {
 	 */
 	public static List<String> verifyMonthsList(List<String> months) {
 		return verifyList(months, Months.monthsValues());
-	}
-
-	public static List<String> verifyYearsList(List<String> years) {
-		return verifyList(years, YearOptions.yearValues());
-	}
-
-	public static List<Integer> verifyYears(List<String> year) {
-		return verifyList(year, YearOptions.yearValues()).stream()
-				.map(Integer::parseInt)
-				.collect(Collectors.toList());
 	}
 
 	public static List<String> verifyTicketType(List<String> ticketTypes) {

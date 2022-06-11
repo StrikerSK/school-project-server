@@ -2,12 +2,13 @@ package com.charts.general.entity.enums;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.charts.general.constants.Months.*;
 
-public enum Months {
+public enum Months implements IEnum {
 
 	JANUARY(JANUARY_VALUE),
 	FEBRUARY(FEBRUARY_VALUE),
@@ -24,7 +25,7 @@ public enum Months {
 
 	private final String value;
 
-	private Months(String value) {
+	Months(String value) {
 		this.value = value;
 	}
 
@@ -37,17 +38,5 @@ public enum Months {
 				.map(Months::getValue)
 				.collect(Collectors.toList());
 	}
-
-	public static Months monthValue(String label) {
-		if (label == null) {
-			return null;
-		}
-
-		return Stream.of(Months.values())
-				.filter(c -> c.getValue().equals(label))
-				.findFirst()
-				.orElseThrow(IllegalArgumentException::new);
-	}
-
 
 }

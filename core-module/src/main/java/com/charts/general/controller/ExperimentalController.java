@@ -31,7 +31,7 @@ public class ExperimentalController {
 	public Map<String, Integer> getMonthDataByValidity(@RequestParam(required = false) List<String> validity,
 	                                                                @RequestParam(required = false) List<String> type,
 	                                                                @RequestParam(required = false) List<String> month,
-	                                                                @RequestParam(required = false) List<String> year,
+	                                                                @RequestParam(required = false) List<Integer> year,
 	                                                                @RequestParam(required = false) List<String> person) {
 		return couponsService.getMonthlyDataByValidity(new CouponsParameters(validity, type, month, year, person));
 	}

@@ -4,9 +4,10 @@ import com.charts.general.constants.TicketConstants;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public enum TicketTypes {
+public enum TicketTypes implements IEnum {
 
 	FIFTEEN_MINUTES(TicketConstants.FIFTEEN_MINUTES),
 	ONE_DAY(TicketConstants.ONE_DAY),
@@ -38,14 +39,10 @@ public enum TicketTypes {
 				.collect(Collectors.toList());
 	}
 
-	public static TicketTypes ticketTypeValue(String label) {
-		return Arrays.stream(values())
+	public static Optional<TicketTypes> ticketTypeValue(String label) {
+		return Arrays.stream(TicketTypes.values())
 				.filter(e -> e.value.equals(label))
-				.findFirst()
-				.orElse(null);
+				.findFirst();
 	}
 
-	public static List<TicketTypes> getList() {
-		return Arrays.asList(TicketTypes.values());
-	}
 }

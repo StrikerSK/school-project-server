@@ -21,7 +21,7 @@ public class ApexCouponController {
 	public List<ApexObject> getMonthlyDataByPersonType(@RequestParam(required = false) List<String> validity,
 													   @RequestParam(required = false) List<String> type,
 													   @RequestParam(required = false) List<String> month,
-													   @RequestParam(required = false) List<String> year,
+													   @RequestParam(required = false) List<Integer> year,
 													   @RequestParam(required = false) List<String> person) {
 		CouponsParameters parameters = new CouponsParameters(validity, type, month, year, person);
 		return apexCouponService.getMonthlyDataByPersonType(parameters);
@@ -31,7 +31,7 @@ public class ApexCouponController {
 	public List<ApexObject> getMonthlyDataByValidity(@RequestParam(required = false) List<String> validity,
 													 @RequestParam(required = false) List<String> type,
 													 @RequestParam(required = false) List<String> month,
-													 @RequestParam(required = false) List<String> year,
+													 @RequestParam(required = false) List<Integer> year,
 													 @RequestParam(required = false) List<String> person) {
 		return apexCouponService.getMonthlyDataByValidity(new CouponsParameters(validity, type, month, year, person));
 	}
@@ -40,7 +40,7 @@ public class ApexCouponController {
 	public List<ApexObject> getMonthlyDataBySellType(@RequestParam(required = false) List<String> validity,
 													 @RequestParam(required = false) List<String> type,
 													 @RequestParam(required = false) List<String> month,
-													 @RequestParam(required = false) List<String> year,
+													 @RequestParam(required = false) List<Integer> year,
 													 @RequestParam(required = false) List<String> person) {
 		return apexCouponService.getMonthlyDataBySellType(new CouponsParameters(validity, type, month, year, person));
 	}

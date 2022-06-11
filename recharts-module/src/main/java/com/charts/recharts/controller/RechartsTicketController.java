@@ -20,7 +20,7 @@ public class RechartsTicketController {
     @RequestMapping({"/tickets/bar", "/tickets/pie", "/tickets/line", "/tickets/data"})
     public List<List<RechartsDataObject>> getMonthlyDataByTicketType(@RequestParam(required = false) List<Boolean> discounted,
                                                                      @RequestParam(required = false) List<String> month,
-                                                                     @RequestParam(required = false) List<String> year,
+                                                                     @RequestParam(required = false) List<Integer> year,
                                                                      @RequestParam(required = false) List<String> ticket) {
         return ticketService.getMonthlyDataByTicketType(new TicketsParameters(month, year, discounted, ticket));
     }
