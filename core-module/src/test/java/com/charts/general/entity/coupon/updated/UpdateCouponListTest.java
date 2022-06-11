@@ -1,6 +1,6 @@
 package com.charts.general.entity.coupon.updated;
 
-import com.charts.general.entity.coupon.AbstractCouponClass;
+import com.charts.general.entity.coupon.AbstractCouponTest;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
 import com.charts.general.entity.enums.PersonType;
@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 
 import static com.charts.general.constants.PersonType.*;
 
-public class UpdateCouponListTest extends AbstractCouponClass {
+public class UpdateCouponListTest extends AbstractCouponTest {
 
     @Test
     public void EntityConversionTest() {

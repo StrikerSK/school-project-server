@@ -30,7 +30,7 @@ public class CouponServiceImpl implements ICouponService {
 	}
 
 	public Map<String, Integer> getMonthlyDataByValidity(CouponsParameters parameters) {
-		List<IEnum> validityList = parameters.getValidity();
+		List<Validity> validityList = parameters.getValidity();
 
 		Map<String, Integer> output = new HashMap<>();
 		couponRepository.getUpdateCouponList()

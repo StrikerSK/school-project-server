@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.charts.general.entity.enums.EnumTypes.*;
-
 public class CouponsParameters extends AbstractParameters {
 
     private final List<String> validity;
@@ -23,9 +21,9 @@ public class CouponsParameters extends AbstractParameters {
         this.person = person;
     }
 
-    public List<IEnum> getValidity() {
+    public List<Validity> getValidity() {
         if (CollectionUtils.isEmpty(validity)) {
-            return EnumUtils.getValueList(VALIDITY_ENUM);
+            return EnumUtils.getValueList(Validity.class);
         } else {
             return validity.stream()
                     .map(Validity::validityValue)
@@ -35,9 +33,9 @@ public class CouponsParameters extends AbstractParameters {
         }
     }
 
-    public List<IEnum> getSellTypes() {
+    public List<SellType> getSellTypes() {
         if (CollectionUtils.isEmpty(sellType)) {
-            return EnumUtils.getValueList(SELL_TYPE_ENUM);
+            return EnumUtils.getValueList(SellType.class);
         } else {
             return sellType.stream()
                     .map(SellType::sellTypeValue)
@@ -47,9 +45,9 @@ public class CouponsParameters extends AbstractParameters {
         }
     }
 
-    public List<IEnum> getPersonTypeList() {
+    public List<PersonType> getPersonTypeList() {
         if (CollectionUtils.isEmpty(person)) {
-            return EnumUtils.getValueList(PERSON_TYPE_ENUM);
+            return EnumUtils.getValueList(PersonType.class);
         } else {
             return person.stream()
                     .map(PersonType::getPersonType)

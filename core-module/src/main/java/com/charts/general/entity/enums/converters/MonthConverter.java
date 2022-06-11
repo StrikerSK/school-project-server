@@ -6,8 +6,6 @@ import com.charts.general.entity.enums.Months;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import static com.charts.general.entity.enums.EnumTypes.MONTH_ENUM;
-
 @Converter(autoApply = true)
 public class MonthConverter implements AttributeConverter<Months, String> {
 
@@ -22,7 +20,7 @@ public class MonthConverter implements AttributeConverter<Months, String> {
 
     @Override
     public Months convertToEntityAttribute(String personType) {
-        return (Months) EnumUtils.getValue(MONTH_ENUM, personType).orElseThrow(IllegalArgumentException::new);
+        return EnumUtils.getValue(Months.class, personType).orElseThrow(IllegalArgumentException::new);
     }
 
 }

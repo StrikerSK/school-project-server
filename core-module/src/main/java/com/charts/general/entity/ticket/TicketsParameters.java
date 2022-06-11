@@ -3,6 +3,7 @@ package com.charts.general.entity.ticket;
 import com.charts.general.entity.AbstractParameters;
 import com.charts.general.entity.enums.EnumTypes;
 import com.charts.general.entity.enums.EnumUtils;
+import com.charts.general.entity.enums.TicketTypes;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class TicketsParameters extends AbstractParameters {
 	}
 
 	public List<String> getTicketType() {
-		List<String> ticketTypeList = EnumUtils.getStringValues(EnumTypes.TICKET_TYPE_ENUM);
+		List<String> ticketTypeList = EnumUtils.getStringValues(TicketTypes.class);
 
 		if (CollectionUtils.isEmpty(ticketType)) {
 			return ticketTypeList;

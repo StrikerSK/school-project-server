@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class CouponListTest extends AbstractCouponClass {
+public class CouponListTest extends AbstractCouponTest {
 
     @Test
     public void TestMonthFiltering() {

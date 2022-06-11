@@ -63,19 +63,19 @@ public class UpdateCouponList {
                 .collect(Collectors.toList()));
     }
 
-    public UpdateCouponList filterByValidity(List<IEnum> validityList) {
+    public UpdateCouponList filterByValidity(List<Validity> validityList) {
         return new UpdateCouponList(couponEntityList.stream()
                 .filter(e -> validityList.contains(e.getValidity()))
                 .collect(Collectors.toList()));
     }
 
-    public UpdateCouponList filterByPersonType(List<IEnum> personTypes) {
+    public UpdateCouponList filterByPersonType(List<PersonType> personTypes) {
         return new UpdateCouponList(couponEntityList.stream()
                 .filter(e -> personTypes.contains(e.getPersonType()))
                 .collect(Collectors.toList()));
     }
 
-    public UpdateCouponList filterBySellType(List<IEnum> sellType) {
+    public UpdateCouponList filterBySellType(List<SellType> sellType) {
         return new UpdateCouponList(couponEntityList.stream()
                 .filter(e -> sellType.contains(e.getSellType()))
                 .collect(Collectors.toList()));

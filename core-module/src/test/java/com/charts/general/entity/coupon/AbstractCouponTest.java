@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class AbstractCouponClass {
+public abstract class AbstractCouponTest {
 
     protected CouponEntity couponEntity1;
     protected CouponEntity couponEntity2;

@@ -1,13 +1,12 @@
 package com.charts.general.entity;
 
 import com.charts.general.entity.enums.EnumUtils;
+import com.charts.general.entity.enums.Months;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.charts.general.entity.enums.EnumTypes.MONTH_ENUM;
 
 public abstract class AbstractParameters {
 
@@ -20,7 +19,7 @@ public abstract class AbstractParameters {
     }
 
     public List<String> getMonth() {
-        List<String> monthList = EnumUtils.getStringValues(MONTH_ENUM);
+        List<String> monthList = EnumUtils.getStringValues(Months.class);
 
         if (CollectionUtils.isEmpty(month)) {
             return monthList;

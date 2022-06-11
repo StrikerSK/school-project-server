@@ -6,8 +6,6 @@ import com.charts.general.entity.enums.Validity;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import static com.charts.general.entity.enums.EnumTypes.VALIDITY_ENUM;
-
 @Converter(autoApply = true)
 public class ValidityTypeConverter implements AttributeConverter<Validity, String> {
 
@@ -22,7 +20,7 @@ public class ValidityTypeConverter implements AttributeConverter<Validity, Strin
 
     @Override
     public Validity convertToEntityAttribute(String validity) {
-        return (Validity) EnumUtils.getValue(VALIDITY_ENUM, validity).orElseThrow(IllegalArgumentException::new);
+        return EnumUtils.getValue(Validity.class, validity).orElseThrow(IllegalArgumentException::new);
     }
 
 }
