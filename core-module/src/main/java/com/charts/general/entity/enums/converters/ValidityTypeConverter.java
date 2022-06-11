@@ -19,7 +19,7 @@ public class ValidityTypeConverter implements AttributeConverter<Validity, Strin
 
     @Override
     public Validity convertToEntityAttribute(String validity) {
-        return Validity.validityValue(validity);
+        return Validity.validityValue(validity).orElseThrow(IllegalArgumentException::new);
     }
 
 }

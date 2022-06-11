@@ -4,7 +4,6 @@ import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
 import com.charts.general.entity.enums.Validity;
 import com.charts.general.repository.coupon.CouponRepository;
-import com.charts.general.utils.ParameterUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class CouponServiceImpl implements ICouponService {
 	}
 
 	public Map<String, Integer> getMonthlyDataByValidity(CouponsParameters parameters) {
-		List<Validity> validityList = ParameterUtils.convertValidityList(parameters.getValidity());
+		List<Validity> validityList = parameters.getValidity();
 
 		Map<String, Integer> output = new HashMap<>();
 		couponRepository.getUpdateCouponList()

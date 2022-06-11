@@ -28,7 +28,7 @@ public class RechartsCouponService {
 		parameters.getMonth().forEach(month -> {
 			List<RechartsDataObject> nestedList = new ArrayList<>();
 			UpdateCouponList entities = couponList.filterByMonth(Collections.singletonList(month));
-			parameters.getProcessedPersonType().forEach(personType -> {
+			parameters.getPersonTypeList().forEach(personType -> {
 				Long monthlyValue = entities.filterByPersonType(Collections.singletonList(personType)).getCouponEntityList().stream()
 						.map(e -> e.getValue().longValue())
 						.reduce(0L, Long::sum);

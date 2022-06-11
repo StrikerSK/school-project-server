@@ -2,6 +2,7 @@ package com.charts.general.entity.enums;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,15 +28,10 @@ public enum SellType {
 				.collect(Collectors.toList());
 	}
 
-	public static SellType sellTypeValue(String label) {
-		if (label == null) {
-			return null;
-		}
-
+	public static Optional<SellType> sellTypeValue(String label) {
 		return Stream.of(SellType.values())
 				.filter(c -> c.getValue().equals(label))
-				.findFirst()
-				.orElseThrow(IllegalArgumentException::new);
+				.findFirst();
 	}
 
 }

@@ -10,7 +10,6 @@ import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -83,9 +82,9 @@ public class UpdateCouponList {
 
     public UpdateCouponList filterWithParameters(CouponsParameters parameters) {
         return filterByYear(parameters.getYearInteger())
-                .filterByValidity(parameters.getProcessedValidity())
-                .filterByPersonType(parameters.getProcessedPersonType())
-                .filterBySellType(parameters.getProcessedSellType())
+                .filterByValidity(parameters.getValidity())
+                .filterByPersonType(parameters.getPersonTypeList())
+                .filterBySellType(parameters.getSellTypes())
                 .filterByMonth(parameters.getMonth());
     }
 
@@ -119,7 +118,7 @@ public class UpdateCouponList {
         output.setValue(function.apply(couponEntity));
         output.setValidity(couponEntity.getValidity());
         output.setSellType(couponEntity.getType());
-        output.setPersonType(PersonType.getEnumType(personType));
+        output.setPersonType(PersonType.getPersonType(personType).get());
 
         // From GeneralEntity class
         output.setMonth(couponEntity.getMonth());

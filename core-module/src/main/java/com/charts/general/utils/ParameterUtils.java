@@ -1,59 +1,14 @@
 package com.charts.general.utils;
 
 import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.PersonType;
-import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.entity.enums.Validity;
 import com.charts.general.entity.enums.YearOptions;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ParameterUtils {
-
-	/**
-	 * Method verifies if provided parameters are included in Validity enum
-	 *
-	 * @param validityList all validities requested by user
-	 * @return verified validities of request
-	 */
-	public static List<String> verifyValidityList(List<String> validityList) {
-		if (CollectionUtils.isEmpty(validityList)) {
-			return Validity.validityValues();
-		}
-
-		return validityList.stream()
-				.map(Validity::validityValue)
-				.filter(Objects::nonNull)
-				.map(Validity::getValue)
-				.collect(Collectors.toList());
-	}
-
-	public static List<Validity> convertValidityList(List<String> validityList) {
-		return verifyValidityList(validityList).stream()
-				.map(Validity::validityValue)
-				.collect(Collectors.toList());
-	}
-
-	/**
-	 * Method verifies if provided parameters are included in SellType enum
-	 *
-	 * @param sellTypes all sell types requested by user
-	 * @return verified sellTypes of request
-	 */
-	public static List<String> verifySellTypeList(List<String> sellTypes) {
-		return verifyList(sellTypes, SellType.sellTypeValues());
-	}
-
-	public static List<SellType> convertSellTypeList(List<String> sellTypes) {
-		return verifySellTypeList(sellTypes).stream()
-				.map(SellType::sellTypeValue)
-				.collect(Collectors.toList());
-	}
 
 	/**
 	 * Method verifies if provided parameters are included in Month enum
@@ -67,24 +22,6 @@ public class ParameterUtils {
 
 	public static List<String> verifyYearsList(List<String> years) {
 		return verifyList(years, YearOptions.yearValues());
-	}
-
-	public static List<String> verifyPersonList(List<String> personList) {
-		if (CollectionUtils.isEmpty(personList)) {
-			return PersonType.getStringValues();
-		}
-
-		return personList.stream()
-				.map(PersonType::getEnumType)
-				.filter(Objects::nonNull)
-				.map(PersonType::getValue)
-				.collect(Collectors.toList());
-	}
-
-	public static List<PersonType> convertPersonList(List<String> personList) {
-		return verifyPersonList(personList).stream()
-				.map(PersonType::getEnumType)
-				.collect(Collectors.toList());
 	}
 
 	public static List<Integer> verifyYears(List<String> year) {
@@ -108,25 +45,6 @@ public class ParameterUtils {
 			return checkedArray.stream()
 					.filter(enumList::contains)
 					.collect(Collectors.toList());
-		}
-	}
-
-	public static Boolean isPersonTypeRequested(List<String> personList, String personType) {
-		return isEmptyList(personList, PersonType.getStringValues()).contains(personType);
-	}
-
-	/**
-	 * Method verifies if provided parameter is empty or not
-	 *
-	 * @param inputArray  verified parameter for empty list
-	 * @param defaultList list of default provided values
-	 * @return list of requested values
-	 */
-	public static List<String> isEmptyList(List<String> inputArray, List<String> defaultList) {
-		if(CollectionUtils.isEmpty(inputArray)) {
-			return defaultList;
-		} else {
-			return inputArray;
 		}
 	}
 }

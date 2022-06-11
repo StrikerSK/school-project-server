@@ -2,6 +2,7 @@ package com.charts.general.entity.enums;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,24 +27,13 @@ public enum PersonType {
         return value;
     }
 
-    public static List<String> getStringValues() {
-        return Arrays.stream(values())
-                .map(PersonType::getValue)
-                .collect(Collectors.toList());
-    }
-
-    public static PersonType getEnumType(String label) {
-        if (label == null) {
-            return null;
-        }
-
-        return Stream.of(PersonType.values())
+    public static Optional<PersonType> getPersonType(String label) {
+        return getPersonTypeList().stream()
                 .filter(c -> c.getValue().equals(label))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .findFirst();
     }
 
-    public static List<PersonType> getEnumList() {
+    public static List<PersonType> getPersonTypeList() {
         return Arrays.asList(PersonType.values());
     }
 }

@@ -19,7 +19,7 @@ public class ApexCouponService {
 	public List<ApexObject> getMonthlyDataByPersonType(final CouponsParameters parameters) {
 		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<ApexObject> outputMapList = new ArrayList<>();
-		parameters.getProcessedPersonType().forEach(personType -> {
+		parameters.getPersonTypeList().forEach(personType -> {
 			ApexObject apexObject = new ApexObject(personType.getValue());
 			UpdateCouponList filteredList = couponList.filterByPersonType(Collections.singletonList(personType));
 			List<Long> values = mapMonth(filteredList, parameters.getMonth());
@@ -34,7 +34,7 @@ public class ApexCouponService {
 	public List<ApexObject> getMonthlyDataByValidity(CouponsParameters parameters) {
 		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<ApexObject> outputMapList = new ArrayList<>();
-		parameters.getProcessedValidity().forEach(validity -> {
+		parameters.getValidity().forEach(validity -> {
 			ApexObject apexObject = new ApexObject(validity.getValue());
 			UpdateCouponList filteredList = couponList.filterByValidity(Collections.singletonList(validity));
 			List<Long> values = mapMonth(filteredList, parameters.getMonth());
@@ -46,7 +46,7 @@ public class ApexCouponService {
 	public List<ApexObject> getMonthlyDataBySellType(CouponsParameters parameters) {
 		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<ApexObject> outputMapList = new ArrayList<>();
-		parameters.getProcessedSellType().forEach(sellType -> {
+		parameters.getSellTypes().forEach(sellType -> {
 			ApexObject apexObject = new ApexObject(sellType.getValue());
 			UpdateCouponList filteredList = couponList.filterBySellType(Collections.singletonList(sellType));
 			List<Long> values = mapMonth(filteredList, parameters.getMonth());

@@ -4,48 +4,59 @@ import com.charts.general.entity.AbstractParameters;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
-import com.charts.general.utils.ParameterUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
-
-import static com.charts.general.utils.ParameterUtils.verifyPersonList;
-import static com.charts.general.utils.ParameterUtils.verifySellTypeList;
-import static com.charts.general.utils.ParameterUtils.verifyValidityList;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CouponsParameters extends AbstractParameters {
 
-	private final List<String> validity;
-	private final List<String> sellType;
-	private final List<String> person;
+    private final List<String> validity;
+    private final List<String> sellType;
+    private final List<String> person;
 
-	public CouponsParameters(List<String> validity, List<String> sellType, List<String> month, List<String> year, List<String> person) {
-		super(month, year);
-		this.validity = validity;
-		this.sellType = sellType;
-		this.person = person;
-	}
+    public CouponsParameters(List<String> validity, List<String> sellType, List<String> month, List<String> year, List<String> person) {
+        super(month, year);
+        this.validity = validity;
+        this.sellType = sellType;
+        this.person = person;
+    }
 
-	public List<String> getValidity() {
-		return verifyValidityList(validity);
-	}
+    public List<Validity> getValidity() {
+        if (CollectionUtils.isEmpty(validity)) {
+            return Stream.of(Validity.values()).collect(Collectors.toList());
+        } else {
+            return validity.stream()
+                    .map(Validity::validityValue)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList());
+        }
+    }
 
-	public List<Validity> getProcessedValidity() {
-		return ParameterUtils.convertValidityList(validity);
-	}
+    public List<SellType> getSellTypes() {
+        if (CollectionUtils.isEmpty(sellType)) {
+            return Stream.of(SellType.values()).collect(Collectors.toList());
+        } else {
+            return sellType.stream()
+                    .map(SellType::sellTypeValue)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList());
+        }
+    }
 
-	public List<String> getSellType() {
-		return verifySellTypeList(sellType);
-	}
-
-	public List<SellType> getProcessedSellType() {
-		return ParameterUtils.convertSellTypeList(sellType);
-	}
-
-	public List<String> getPerson() {
-		return verifyPersonList(person);
-	}
-
-	public List<PersonType> getProcessedPersonType() {
-		return ParameterUtils.convertPersonList(person);
-	}
+    public List<PersonType> getPersonTypeList() {
+        if (CollectionUtils.isEmpty(person)) {
+            return Stream.of(PersonType.values()).collect(Collectors.toList());
+        } else {
+            return person.stream()
+                    .map(PersonType::getPersonType)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList());
+        }
+    }
 }

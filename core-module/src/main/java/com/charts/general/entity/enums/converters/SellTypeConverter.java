@@ -19,7 +19,7 @@ public class SellTypeConverter implements AttributeConverter<SellType, String> {
 
     @Override
     public SellType convertToEntityAttribute(String sellType) {
-        return SellType.sellTypeValue(sellType);
+        return SellType.sellTypeValue(sellType).orElseThrow(IllegalArgumentException::new);
     }
 
 }

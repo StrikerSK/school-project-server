@@ -22,7 +22,7 @@ public class PersonTypeConverter implements AttributeConverter<PersonType, Strin
 
     @Override
     public PersonType convertToEntityAttribute(String personType) {
-        return PersonType.getEnumType(personType);
+        return PersonType.getPersonType(personType).orElseThrow(IllegalArgumentException::new);
     }
 
 }

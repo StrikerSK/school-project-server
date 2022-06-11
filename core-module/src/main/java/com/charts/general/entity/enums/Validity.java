@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,7 +22,7 @@ public enum Validity {
 	@JsonProperty("Ročná")
 	YEARLY("Ročná");
 
-	public final String value;
+	private final String value;
 
 	private Validity(String value) {
 		this.value = value;
@@ -31,15 +32,10 @@ public enum Validity {
 		return value;
 	}
 
-	public static Validity validityValue(String label) {
-		if (label == null) {
-			return null;
-		}
-
+	public static Optional<Validity> validityValue(String label) {
 		return Stream.of(Validity.values())
 				.filter(c -> c.getValue().equals(label))
-				.findFirst()
-				.orElseThrow(IllegalArgumentException::new);
+				.findFirst();
 	}
 
 	public static List<String> validityValues() {
