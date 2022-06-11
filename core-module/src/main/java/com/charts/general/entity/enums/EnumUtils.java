@@ -3,6 +3,7 @@ package com.charts.general.entity.enums;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.charts.general.entity.enums.EnumTypes.*;
 
@@ -30,6 +31,12 @@ public class EnumUtils {
         return getValueList(enumType).stream()
                 .filter(c -> c.getValue().equals(label))
                 .findFirst();
+    }
+
+    public static List<String> getStringValues(EnumTypes enumType) {
+        return getValueList(enumType).stream()
+                .map(IEnum::getValue)
+                .collect(Collectors.toList());
     }
 
 }

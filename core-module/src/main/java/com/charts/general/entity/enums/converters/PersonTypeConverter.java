@@ -1,9 +1,12 @@
 package com.charts.general.entity.enums.converters;
 
+import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.PersonType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+
+import static com.charts.general.entity.enums.EnumTypes.PERSON_TYPE_ENUM;
 
 /**
  * To make sure that enum type is converted to database value
@@ -22,7 +25,7 @@ public class PersonTypeConverter implements AttributeConverter<PersonType, Strin
 
     @Override
     public PersonType convertToEntityAttribute(String personType) {
-        return PersonType.getPersonType(personType).orElseThrow(IllegalArgumentException::new);
+        return (PersonType) EnumUtils.getValue(PERSON_TYPE_ENUM, personType).orElseThrow(IllegalArgumentException::new);
     }
 
 }

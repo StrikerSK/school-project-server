@@ -1,11 +1,13 @@
 package com.charts.general.entity.ticket;
 
 import com.charts.general.entity.AbstractParameters;
+import com.charts.general.entity.enums.EnumTypes;
+import com.charts.general.entity.enums.EnumUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
-
-import static com.charts.general.utils.ParameterUtils.verifyDiscountedList;
-import static com.charts.general.utils.ParameterUtils.verifyTicketType;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TicketsParameters extends AbstractParameters {
 
@@ -19,10 +21,20 @@ public class TicketsParameters extends AbstractParameters {
 	}
 
 	public List<Boolean> getDiscounted() {
-		return verifyDiscountedList(discounted);
+		if (CollectionUtils.isEmpty(ticketType)) {
+			return Stream.of(true, false).collect(Collectors.toList());
+		}
+
+		return discounted;
 	}
 
 	public List<String> getTicketType() {
-		return verifyTicketType(ticketType);
+		List<String> ticketTypeList = EnumUtils.getStringValues(EnumTypes.TICKET_TYPE_ENUM);
+
+		if (CollectionUtils.isEmpty(ticketType)) {
+			return ticketTypeList;
+		}
+
+		return ticketType.stream().filter(ticketTypeList::contains).collect(Collectors.toList());
 	}
 }

@@ -1,9 +1,12 @@
 package com.charts.general.entity.enums.converters;
 
+import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.TicketTypes;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+
+import static com.charts.general.entity.enums.EnumTypes.TICKET_TYPE_ENUM;
 
 @Converter(autoApply = true)
 public class TicketTypeConverter implements AttributeConverter<TicketTypes, String> {
@@ -19,7 +22,7 @@ public class TicketTypeConverter implements AttributeConverter<TicketTypes, Stri
 
     @Override
     public TicketTypes convertToEntityAttribute(String personType) {
-        return TicketTypes.ticketTypeValue(personType).orElseThrow(IllegalArgumentException::new);
+        return (TicketTypes) EnumUtils.getValue(TICKET_TYPE_ENUM, personType).orElseThrow(IllegalArgumentException::new);
     }
 
 }

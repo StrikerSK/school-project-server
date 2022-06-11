@@ -1,15 +1,14 @@
 package com.charts.general.entity.coupon;
 
 import com.charts.general.entity.AbstractParameters;
-import com.charts.general.entity.enums.PersonType;
-import com.charts.general.entity.enums.SellType;
-import com.charts.general.entity.enums.Validity;
+import com.charts.general.entity.enums.*;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static com.charts.general.entity.enums.EnumTypes.*;
 
 public class CouponsParameters extends AbstractParameters {
 
@@ -24,9 +23,9 @@ public class CouponsParameters extends AbstractParameters {
         this.person = person;
     }
 
-    public List<Validity> getValidity() {
+    public List<IEnum> getValidity() {
         if (CollectionUtils.isEmpty(validity)) {
-            return Stream.of(Validity.values()).collect(Collectors.toList());
+            return EnumUtils.getValueList(VALIDITY_ENUM);
         } else {
             return validity.stream()
                     .map(Validity::validityValue)
@@ -36,9 +35,9 @@ public class CouponsParameters extends AbstractParameters {
         }
     }
 
-    public List<SellType> getSellTypes() {
+    public List<IEnum> getSellTypes() {
         if (CollectionUtils.isEmpty(sellType)) {
-            return Stream.of(SellType.values()).collect(Collectors.toList());
+            return EnumUtils.getValueList(SELL_TYPE_ENUM);
         } else {
             return sellType.stream()
                     .map(SellType::sellTypeValue)
@@ -48,9 +47,9 @@ public class CouponsParameters extends AbstractParameters {
         }
     }
 
-    public List<PersonType> getPersonTypeList() {
+    public List<IEnum> getPersonTypeList() {
         if (CollectionUtils.isEmpty(person)) {
-            return Stream.of(PersonType.values()).collect(Collectors.toList());
+            return EnumUtils.getValueList(PERSON_TYPE_ENUM);
         } else {
             return person.stream()
                     .map(PersonType::getPersonType)

@@ -3,6 +3,7 @@ package com.charts.general.entity.coupon.updated;
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
+import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
@@ -62,19 +63,19 @@ public class UpdateCouponList {
                 .collect(Collectors.toList()));
     }
 
-    public UpdateCouponList filterByValidity(List<Validity> validityList) {
+    public UpdateCouponList filterByValidity(List<IEnum> validityList) {
         return new UpdateCouponList(couponEntityList.stream()
                 .filter(e -> validityList.contains(e.getValidity()))
                 .collect(Collectors.toList()));
     }
 
-    public UpdateCouponList filterByPersonType(List<PersonType> personTypes) {
+    public UpdateCouponList filterByPersonType(List<IEnum> personTypes) {
         return new UpdateCouponList(couponEntityList.stream()
                 .filter(e -> personTypes.contains(e.getPersonType()))
                 .collect(Collectors.toList()));
     }
 
-    public UpdateCouponList filterBySellType(List<SellType> sellType) {
+    public UpdateCouponList filterBySellType(List<IEnum> sellType) {
         return new UpdateCouponList(couponEntityList.stream()
                 .filter(e -> sellType.contains(e.getSellType()))
                 .collect(Collectors.toList()));

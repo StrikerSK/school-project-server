@@ -2,6 +2,7 @@ package com.charts.general.service;
 
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
+import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.Validity;
 import com.charts.general.repository.coupon.CouponRepository;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class CouponServiceImpl implements ICouponService {
 	}
 
 	public Map<String, Integer> getMonthlyDataByValidity(CouponsParameters parameters) {
-		List<Validity> validityList = parameters.getValidity();
+		List<IEnum> validityList = parameters.getValidity();
 
 		Map<String, Integer> output = new HashMap<>();
 		couponRepository.getUpdateCouponList()
