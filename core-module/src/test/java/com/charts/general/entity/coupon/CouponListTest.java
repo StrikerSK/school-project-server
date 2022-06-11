@@ -15,7 +15,7 @@ public class CouponListTest extends AbstractCouponTest {
 
     @Test
     public void TestMonthFiltering() {
-        List<String> searchList = Stream.of("March", "December").collect(Collectors.toList());
+        List<String> searchList = Stream.of("Marec", "December").collect(Collectors.toList());
         CouponList couponList = new CouponList(couponEntityList).filterByMonth(searchList);
         Assert.assertEquals(couponList.getCoupons().size(), 2);
         couponList.getCoupons().forEach(e -> Assert.assertTrue(searchList.contains(e.getMonth())));

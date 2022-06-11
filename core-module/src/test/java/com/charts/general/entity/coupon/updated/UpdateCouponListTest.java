@@ -40,7 +40,7 @@ public class UpdateCouponListTest extends AbstractCouponTest {
 
     @Test
     public void TestMonthFiltering() {
-        List<String> searchList = Stream.of("March", "December").collect(Collectors.toList());
+        List<String> searchList = Stream.of("Marec", "December").collect(Collectors.toList());
         UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByMonth(searchList);
         Assert.assertEquals(couponList.getCouponEntityList().size(), 12);
         couponList.getCouponEntityList().forEach(e -> Assert.assertTrue(searchList.contains(e.getMonth())));
