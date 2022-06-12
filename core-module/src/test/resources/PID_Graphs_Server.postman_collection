@@ -1,0 +1,777 @@
+{
+	"info": {
+		"_postman_id": "24d05caf-d1ac-44a7-9049-1e2f69d0b379",
+		"name": "PID Graphs Server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4310016"
+	},
+	"item": [
+		{
+			"name": "Nivo",
+			"item": [
+				{
+					"name": "Coupons",
+					"item": [
+						{
+							"name": "Nivo Line Data - Monthly & Person Type",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/line/monthly/person",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"line",
+										"monthly",
+										"person"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Deti",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Line Data - Monthly & Validity",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/line/monthly/validity",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"line",
+										"monthly",
+										"validity"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Deti",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Line Data - Monthly & Sell Type",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/line/monthly/sell",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"line",
+										"monthly",
+										"sell"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Deti",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Bar Data - Monthly & Person Type",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/bar/monthly/person",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"bar",
+										"monthly",
+										"person"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Deti",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Bar Data - Monthly & Validity",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/bar/monthly/validity",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"bar",
+										"monthly",
+										"validity"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Deti",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Bar Data - Monthly & Sell Type",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/bar/monthly/sell",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"bar",
+										"monthly",
+										"sell"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Deti",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Bubble Data - Person & Sell Type",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/bubble/person/sell",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"bubble",
+										"person",
+										"sell"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Juniori",
+											"disabled": true
+										},
+										{
+											"key": "validity",
+											"value": "Mesačná",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Bubble Data - Person & Validity",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/bubble/person/validity",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"bubble",
+										"person",
+										"validity"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Juniori",
+											"disabled": true
+										},
+										{
+											"key": "validity",
+											"value": "Mesačná",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Pie Data - Month",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/pie",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"pie"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Pie Data - Person Type",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/pie/person",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"pie",
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Pie Data - Validity",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/pie/validity",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"pie",
+										"validity"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Pie Data - Sell type",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/pie/sell",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"pie",
+										"sell"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tickets",
+					"item": [
+						{
+							"name": "Nivo Bar Tickets Data",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/tickets/bar",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"tickets",
+										"bar"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Deti",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Line Ticekts Data",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/tickets/line",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"tickets",
+										"line"
+									],
+									"query": [
+										{
+											"key": "person",
+											"value": "Deti",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nivo Pie Tickets Data",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/nivo/tickets/pie",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"nivo",
+										"tickets",
+										"pie"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Recharts",
+			"item": [
+				{
+					"name": "Recharts Data",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{HOST_URL}}/recharts/pie",
+							"host": [
+								"{{HOST_URL}}"
+							],
+							"path": [
+								"recharts",
+								"pie"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recharts Data - Bar",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{HOST_URL}}/recharts/bar",
+							"host": [
+								"{{HOST_URL}}"
+							],
+							"path": [
+								"recharts",
+								"bar"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recharts Data Pie",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{HOST_URL}}/nivo/tickets/pie",
+							"host": [
+								"{{HOST_URL}}"
+							],
+							"path": [
+								"nivo",
+								"tickets",
+								"pie"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Apex",
+			"item": [
+				{
+					"name": "Coupons",
+					"item": [
+						{
+							"name": "Apex Coupon Data - Monthly & Sell Type",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/apex/monthly/sell",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"apex",
+										"monthly",
+										"sell"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apex Coupon Data - Monthly & Person",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/apex/monthly/person",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"apex",
+										"monthly",
+										"person"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apex Coupon Data - Monthly & Validity",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/apex/monthly/validity",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"apex",
+										"monthly",
+										"validity"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tickets",
+					"item": [
+						{
+							"name": "Apex Tickets Data",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{HOST_URL}}/apex/tickets/data",
+									"host": [
+										"{{HOST_URL}}"
+									],
+									"path": [
+										"apex",
+										"tickets",
+										"data"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GraphQL Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    nivoBarData{\n        adults\n        portable\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST_URL}}/graphql",
+					"host": [
+						"{{HOST_URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST_URL",
+			"value": "localhost:8080",
+			"type": "string"
+		}
+	]
+}
