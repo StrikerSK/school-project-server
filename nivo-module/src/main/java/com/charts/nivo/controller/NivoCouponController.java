@@ -106,7 +106,7 @@ public class NivoCouponController {
         return pidCouponsService.getPersonTypePieData(new CouponsParameters(validity, type, month, year, person));
     }
 
-    @RequestMapping({"/pie/month", "/waffle/month"})
+    @RequestMapping({"/pie","/pie/month", "/waffle/month"})
     public List<NivoPieData> getMonthlyPieData(@RequestParam(required = false) List<String> validity,
                                                @RequestParam(required = false) List<String> type,
                                                @RequestParam(required = false) List<String> month,

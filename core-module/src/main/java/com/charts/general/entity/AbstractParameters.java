@@ -2,9 +2,12 @@ package com.charts.general.entity;
 
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.Validity;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.time.Month;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,14 +21,16 @@ public abstract class AbstractParameters {
         this.year = year;
     }
 
-    public List<String> getMonth() {
-        List<String> monthList = EnumUtils.getStringValues(Months.class);
-
+    public List<Months> getMonths() {
         if (CollectionUtils.isEmpty(month)) {
-            return monthList;
+            return EnumUtils.getValueList(Months.class);
+        } else {
+            return month.stream()
+                    .map(Months::getType)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList());
         }
-
-        return month.stream().filter(monthList::contains).collect(Collectors.toList());
     }
 
     public List<Integer> getYearInteger() {

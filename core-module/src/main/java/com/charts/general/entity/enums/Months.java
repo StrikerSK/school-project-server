@@ -1,7 +1,9 @@
 package com.charts.general.entity.enums;
 
+import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.charts.general.constants.Months.*;
@@ -31,6 +33,12 @@ public enum Months implements IEnum {
 
     public String getValue() {
         return value;
+    }
+
+    public static Optional<Months> getType(String label) {
+        return Arrays.stream(Months.values())
+                .filter(c -> c.getValue().equals(label))
+                .findFirst();
     }
 
     public Integer getOrderValue() {return orderValue; }

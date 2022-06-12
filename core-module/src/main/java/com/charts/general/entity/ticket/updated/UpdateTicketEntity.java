@@ -1,6 +1,7 @@
 package com.charts.general.entity.ticket.updated;
 
 import com.charts.general.entity.AbstractUpdateEntity;
+import com.charts.general.entity.enums.TicketTypes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 public class UpdateTicketEntity extends AbstractUpdateEntity {
 
 	@Column(name = "typ_listka")
-	private String ticketType;
+	private TicketTypes ticketType;
 
 	@Column(name = "zlavneny")
 	private Boolean discounted;

@@ -33,8 +33,9 @@ public class NivoTickerController {
     @RequestMapping("/tickets/bar")
     public List<Map<String, Object>> retrieveBarData(@RequestParam(required = false) List<Boolean> discounted,
                                                      @RequestParam(required = false) List<String> month,
-                                                     @RequestParam(required = false) List<Integer> year) {
-        return nivoTicketsService.getTicketBarData(new TicketsParameters(month, year, discounted, Collections.emptyList()));
+                                                     @RequestParam(required = false) List<Integer> year,
+                                                     @RequestParam(required = false) List<String> ticket) {
+        return nivoTicketsService.getTicketBarData(new TicketsParameters(month, year, discounted, ticket));
     }
 
     @RequestMapping({"/tickets/pie", "/tickets/waffle"})

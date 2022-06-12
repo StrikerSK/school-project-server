@@ -2,6 +2,9 @@ package com.charts.general.entity.enums;
 
 import com.charts.general.constants.TicketConstants;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum TicketTypes implements IEnum {
 
     FIFTEEN_MINUTES(TicketConstants.FIFTEEN_MINUTES, 1),
@@ -33,6 +36,12 @@ public enum TicketTypes implements IEnum {
 
     public Integer getOrderValue() {
         return orderValue;
+    }
+
+    public static Optional<TicketTypes> getType(String label) {
+        return Arrays.stream(TicketTypes.values())
+                .filter(c -> c.getValue().equals(label))
+                .findFirst();
     }
 
 }

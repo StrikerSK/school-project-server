@@ -1,5 +1,6 @@
 package com.charts.apex.entity;
 
+import com.charts.general.entity.enums.IEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -15,6 +16,10 @@ public class ApexObject {
 
 	public ApexObject(String name) {
 		this.name = name;
+	}
+
+	public ApexObject(IEnum name) {
+		this.name = name.getValue();
 	}
 
 	public ApexObject(String name, List<Integer> values) {

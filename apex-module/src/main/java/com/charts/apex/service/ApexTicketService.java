@@ -25,7 +25,7 @@ public class ApexTicketService {
 			ApexObject apexObject = new ApexObject(ticketType);
 			List<Integer> values = new ArrayList<>();
 			UpdateTicketList entities = ticketList.filterByTicketType(Collections.singletonList(ticketType));
-			parameters.getMonth().forEach(month -> {
+			parameters.getMonths().forEach(month -> {
 				Integer monthlyValue = entities.filterByMonth(Collections.singletonList(month)).getTicketEntities().stream()
 						.map(UpdateTicketEntity::getValue)
 						.reduce(0, Integer::sum);

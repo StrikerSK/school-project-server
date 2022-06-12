@@ -23,14 +23,14 @@ public class RechartsTicketService {
     public List<List<RechartsDataObject>> getMonthlyDataByTicketType(TicketsParameters parameters) {
         UpdateTicketList couponList = ticketsRepository.getUpdatedTicketList().filterWithParameters(parameters);
         List<List<RechartsDataObject>> outputMapList = new ArrayList<>();
-        parameters.getMonth().forEach(month -> {
+        parameters.getMonths().forEach(month -> {
             List<RechartsDataObject> nestedList = new ArrayList<>();
             UpdateTicketList entities = couponList.filterByMonth(Collections.singletonList(month));
             parameters.getTicketType().forEach(ticketType -> {
                 Integer monthlyValue = entities.filterByTicketType(Collections.singletonList(ticketType)).getTicketEntities().stream()
                         .map(UpdateTicketEntity::getValue)
                         .reduce(0, Integer::sum);
-                nestedList.add(new RechartsDataObject(month, ticketType, monthlyValue));
+                nestedList.add(new RechartsDataObject(ticketType, month, monthlyValue));
             });
             outputMapList.add(nestedList);
         });

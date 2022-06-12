@@ -1,5 +1,6 @@
 package com.charts.nivo.service;
 
+import com.charts.general.utils.CouponGroupingUtils;
 import com.charts.nivo.entity.NivoDataXY;
 import com.charts.general.entity.ticket.TicketsParameters;
 import com.charts.general.entity.ticket.updated.UpdateTicketList;
@@ -30,7 +31,7 @@ public class NivoTicketsService {
 				.forEach((ticketType, entity) -> {
 					List<NivoDataXY> nestedData = new ArrayList<>();
 					TicketGroupingUtils.groupAndSumByMonth(entity)
-							.forEach((month, integer) -> nestedData.add(new NivoDataXY(month, (Long) integer)));
+							.forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
 					output.add(new NivoLineData(ticketType, nestedData));
 				});
 		return output;
@@ -41,8 +42,8 @@ public class NivoTicketsService {
 		List<Map<String, Object>> outputMapList = new ArrayList<>();
 		TicketGroupingUtils.groupByMonth(ticketList.getTicketEntities())
 				.forEach((month, entities) -> {
-					Map<String, Object> tmpMap = new HashMap<>(TicketGroupingUtils.groupByAndSumByTicketType(entities));
-					tmpMap.put("month", month);
+					Map<String, Object> tmpMap = CouponGroupingUtils.convertMapKeysToString(TicketGroupingUtils.groupByAndSumByTicketType(entities));
+					tmpMap.put("month", month.getValue());
 					outputMapList.add(tmpMap);
 				});
 		return outputMapList;

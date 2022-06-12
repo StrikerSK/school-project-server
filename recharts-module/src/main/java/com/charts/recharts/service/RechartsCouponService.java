@@ -26,14 +26,14 @@ public class RechartsCouponService {
 	public List<List<RechartsDataObject>> getMonthlyDataByPersonType(CouponsParameters parameters) {
 		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<List<RechartsDataObject>> outputMapList = new ArrayList<>();
-		parameters.getMonth().forEach(month -> {
+		parameters.getMonths().forEach(month -> {
 			List<RechartsDataObject> nestedList = new ArrayList<>();
 			UpdateCouponList entities = couponList.filterByMonth(Collections.singletonList(month));
 			parameters.getPersonTypeList().forEach(personType -> {
 				Integer monthlyValue = entities.filterByPersonType(Collections.singletonList(personType)).getCouponEntityList().stream()
 						.map(AbstractUpdateEntity::getValue)
 						.reduce(0, Integer::sum);
-				nestedList.add(new RechartsDataObject(month, personType.getValue(), monthlyValue));
+				nestedList.add(new RechartsDataObject(personType, month, monthlyValue));
 			});
 			outputMapList.add(nestedList);
 		});

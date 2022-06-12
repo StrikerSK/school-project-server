@@ -3,6 +3,7 @@ package com.charts.general.entity.coupon.updated;
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
+import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
@@ -50,9 +51,9 @@ public class UpdateCouponList {
         this(couponList.getCoupons());
     }
 
-    public UpdateCouponList filterByMonth(List<String> months) {
+    public UpdateCouponList filterByMonth(List<Months> months) {
         return new UpdateCouponList(couponEntityList.stream()
-                .filter(e -> months.contains(e.getMonth().getValue()))
+                .filter(e -> months.contains(e.getMonth()))
                 .collect(Collectors.toList()));
     }
 
@@ -85,7 +86,7 @@ public class UpdateCouponList {
                 .filterByValidity(parameters.getValidity())
                 .filterByPersonType(parameters.getPersonTypeList())
                 .filterBySellType(parameters.getSellTypes())
-                .filterByMonth(parameters.getMonth());
+                .filterByMonth(parameters.getMonths());
     }
 
     public List<PersonType> getPersonTypeValues() {

@@ -1,5 +1,7 @@
 package com.charts.general.entity.ticket.updated;
 
+import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.ticket.TicketEntity;
 import com.charts.general.entity.ticket.TicketsParameters;
 import lombok.Getter;
@@ -41,9 +43,9 @@ public class UpdateTicketList {
             ticketEntities = new ArrayList<>();
         }
     }
-    public UpdateTicketList filterByMonth(List<String> months) {
+    public UpdateTicketList filterByMonth(List<Months> months) {
         return new UpdateTicketList(ticketEntities.stream()
-                .filter(e -> months.contains(e.getMonth().getValue()))
+                .filter(e -> months.contains(e.getMonth()))
                 .collect(Collectors.toList()));
     }
 
@@ -59,7 +61,7 @@ public class UpdateTicketList {
                 .collect(Collectors.toList()));
     }
 
-    public UpdateTicketList filterByTicketType(List<String> ticketTypes) {
+    public UpdateTicketList filterByTicketType(List<TicketTypes> ticketTypes) {
         return new UpdateTicketList(ticketEntities.stream()
                 .filter(e -> ticketTypes.contains(e.getTicketType()))
                 .collect(Collectors.toList()));
@@ -69,7 +71,7 @@ public class UpdateTicketList {
         return filterByYear(parameters.getYearInteger())
                 .filterByDiscounted(parameters.getDiscounted())
                 .filterByTicketType(parameters.getTicketType())
-                .filterByMonth(parameters.getMonth());
+                .filterByMonth(parameters.getMonths());
     }
 
     private void fillData(TicketEntity ticketEntity) {
@@ -88,13 +90,13 @@ public class UpdateTicketList {
         ticketEntities.add(extractData(ELEVEN_ZONES, ticketEntity, TicketEntity::getElevenZones));
     }
 
-    private static UpdateTicketEntity extractData(String personType, TicketEntity ticketEntity, Function<TicketEntity, Long> function) {
+    private static UpdateTicketEntity extractData(String ticketType, TicketEntity ticketEntity, Function<TicketEntity, Long> function) {
         UpdateTicketEntity output = new UpdateTicketEntity();
 
         //From UpdateCouponEntity class
         output.setValue(function.apply(ticketEntity).intValue());
         output.setDiscounted(ticketEntity.getDiscounted());
-        output.setTicketType(personType);
+        output.setTicketType(TicketTypes.getType(ticketType).get());
 
         // From GeneralEntity class
         output.setMonth(ticketEntity.getMonth());

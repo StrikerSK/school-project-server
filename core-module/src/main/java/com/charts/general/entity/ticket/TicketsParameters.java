@@ -2,10 +2,12 @@ package com.charts.general.entity.ticket;
 
 import com.charts.general.entity.AbstractParameters;
 import com.charts.general.entity.enums.EnumUtils;
+import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,20 +23,22 @@ public class TicketsParameters extends AbstractParameters {
 	}
 
 	public List<Boolean> getDiscounted() {
-		if (CollectionUtils.isEmpty(ticketType)) {
+		if (CollectionUtils.isEmpty(discounted)) {
 			return Stream.of(true, false).collect(Collectors.toList());
 		}
 
 		return discounted;
 	}
 
-	public List<String> getTicketType() {
-		List<String> ticketTypeList = EnumUtils.getStringValues(TicketTypes.class);
-
+	public List<TicketTypes> getTicketType() {
 		if (CollectionUtils.isEmpty(ticketType)) {
-			return ticketTypeList;
+			return EnumUtils.getValueList(TicketTypes.class);
+		} else {
+			return ticketType.stream()
+					.map(TicketTypes::getType)
+					.filter(Optional::isPresent)
+					.map(Optional::get)
+					.collect(Collectors.toList());
 		}
-
-		return ticketType.stream().filter(ticketTypeList::contains).collect(Collectors.toList());
 	}
 }
