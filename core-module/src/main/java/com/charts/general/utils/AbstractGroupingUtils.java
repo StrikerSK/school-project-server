@@ -29,7 +29,7 @@ public abstract class AbstractGroupingUtils {
     }
 
     public static <T extends AbstractUpdateEntity> Map<Months, Object> groupAndSumByMonth(List<T> entityList) {
-        return new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getMonth, Collectors.summingInt(T::getValue))));
+        return sortByOrderValue(new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getMonth, Collectors.summingInt(T::getValue)))));
     }
 
     public static <T extends AbstractUpdateEntity> Map<Integer, List<T>> groupByYear(List<T> entityList) {
@@ -38,6 +38,10 @@ public abstract class AbstractGroupingUtils {
 
     public static <T extends AbstractUpdateEntity> Map<Integer, Object> groupAndSumByYear(List<T> entityList) {
         return new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getYear, Collectors.summingInt(T::getValue))));
+    }
+
+    public static <T extends IEnum> Map<String, Object> convertMapKeysToString(Map<T, Object> map) {
+        return map.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().getValue(), Map.Entry::getValue));
     }
 
     protected static <R extends IEnum, T> Map<R, T> sortByOrderValue(Map<R, T> customMap) {
