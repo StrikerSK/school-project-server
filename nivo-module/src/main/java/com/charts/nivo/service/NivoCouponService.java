@@ -80,7 +80,7 @@ public class NivoCouponService {
         CouponGroupingUtils.groupByMonth(couponList.getCouponEntityList())
                 .forEach((month, entities) -> {
                     Map<String, Object> tmpMap = new HashMap<>(CouponGroupingUtils.groupByAndSumByPerson(entities));
-                    tmpMap.put("month", month);
+                    tmpMap.put("month", month.getValue());
                     outputMapList.add(tmpMap);
                 });
         return outputMapList;
