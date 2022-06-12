@@ -6,5 +6,6 @@ package com.charts.general.entity.enums;
 public interface IEnum {
 
     String getValue();
+    Integer getOrderValue();
 
 }

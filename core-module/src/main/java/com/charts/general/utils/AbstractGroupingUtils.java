@@ -1,56 +1,62 @@
 package com.charts.general.utils;
 
 import com.charts.general.entity.AbstractUpdateEntity;
-import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
-import org.apache.commons.collections4.CollectionUtils;
+import com.charts.general.entity.enums.IEnum;
+import com.charts.general.entity.enums.Months;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public abstract class AbstractGroupingUtils {
 
-    protected static <T extends AbstractUpdateEntity> List<? extends AbstractUpdateEntity> getList(List<T> entityList) {
-        if (CollectionUtils.isNotEmpty(entityList)) {
-            Class<?> clazz = entityList.get(0).getClass();
-            if (clazz == null) {
-                throw new NullPointerException("Class type not provided");
-            } else if (clazz == UpdateCouponEntity.class) {
-                return new UpdateCouponList(entityList).getCouponEntityList();
-            } else if (clazz == UpdateTicketEntity.class) {
-                return new UpdateTicketList(entityList).getTicketEntities();
-            }
-        }
-        return new ArrayList<>();
-    }
-
     public static <T extends AbstractUpdateEntity> Map<String, List<T>> groupByCode(List<T> entityList) {
-        return getList(entityList).stream().map(e -> (T) e).collect(Collectors.groupingBy(T::getCode));
+        return ListFactory.getList(entityList).stream()
+                .map(e -> (T) e)
+                .collect(Collectors.groupingBy(T::getCode));
     }
 
     public static <T extends AbstractUpdateEntity> Map<String, Object> groupAndSumByCode(List<T> entityList) {
         return new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getCode, Collectors.summingInt(T::getValue))));
     }
 
-    public static <T extends AbstractUpdateEntity> Map<String, List<T>> groupByMonth(List<T> entityList) {
-        return getList(entityList).stream().map(e -> (T) e).collect(Collectors.groupingBy(T::getMonth));
+    public static <T extends AbstractUpdateEntity> Map<Months, List<T>> groupByMonth(List<T> entityList) {
+        return sortByOrderValue(ListFactory.getList(entityList).stream()
+                .map(e -> (T) e)
+                .collect(Collectors.groupingBy(T::getMonth)));
     }
 
-    public static <T extends AbstractUpdateEntity> Map<String, Object> groupAndSumByMonth(List<T> entityList) {
+    public static <T extends AbstractUpdateEntity> Map<Months, Object> groupAndSumByMonth(List<T> entityList) {
         return new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getMonth, Collectors.summingInt(T::getValue))));
     }
 
     public static <T extends AbstractUpdateEntity> Map<Integer, List<T>> groupByYear(List<T> entityList) {
-        return getList(entityList).stream().map(e -> (T) e).collect(Collectors.groupingBy(T::getYear));
+        return ListFactory.getList(entityList).stream().map(e -> (T) e).collect(Collectors.groupingBy(T::getYear));
     }
 
     public static <T extends AbstractUpdateEntity> Map<Integer, Object> groupAndSumByYear(List<T> entityList) {
         return new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getYear, Collectors.summingInt(T::getValue))));
+    }
+
+    protected static <R extends IEnum, T> Map<R, T> sortByOrderValue(Map<R, T> customMap) {
+        Map<R, T> sortedMap = new TreeMap<>(
+                (o1, o2) -> {
+                    Integer thisOrderValue = o1.getOrderValue();
+                    Integer nextOrderValue = o2.getOrderValue();
+
+                    if (thisOrderValue.equals(nextOrderValue)) {
+                        return 0;
+                    } else if (thisOrderValue > nextOrderValue) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                });
+
+        sortedMap.putAll(customMap);
+        return sortedMap;
     }
 
 }

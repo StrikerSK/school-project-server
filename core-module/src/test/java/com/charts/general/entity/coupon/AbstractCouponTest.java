@@ -1,15 +1,17 @@
 package com.charts.general.entity.coupon;
 
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class AbstractCouponTest {
+public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTests {
 
     protected CouponEntity couponEntity1;
     protected CouponEntity couponEntity2;
@@ -31,7 +33,7 @@ public abstract class AbstractCouponTest {
         couponEntity1.setValidity(Validity.YEARLY);
 
         couponEntity1.setCode("032000");
-        couponEntity1.setMonth("Marec");
+        couponEntity1.setMonth(Months.MARCH);
         couponEntity1.setYear(2000);
 
         couponEntity2 = new CouponEntity();
@@ -45,7 +47,7 @@ public abstract class AbstractCouponTest {
         couponEntity2.setValidity(Validity.MONTHLY);
 
         couponEntity2.setCode("082020");
-        couponEntity2.setMonth("August");
+        couponEntity2.setMonth(Months.AUGUST);
         couponEntity2.setYear(2020);
 
         couponEntity3 = new CouponEntity();
@@ -59,7 +61,7 @@ public abstract class AbstractCouponTest {
         couponEntity3.setValidity(Validity.YEARLY);
 
         couponEntity3.setCode("122015");
-        couponEntity3.setMonth("December");
+        couponEntity3.setMonth(Months.DECEMBER);
         couponEntity3.setYear(2015);
 
         updateCouponList = new UpdateCouponList(couponEntity1);

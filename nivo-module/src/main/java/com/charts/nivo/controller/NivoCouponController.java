@@ -60,7 +60,7 @@ public class NivoCouponController {
     }
 
     @RequestMapping({"/bar/test", "/bar/monthly/validity"})
-    public List<Map<String, Object>> getMonthlyBarDataByValidity(@RequestParam(required = false) List<String> validity,
+    public List<Map<Object, Object>> getMonthlyBarDataByValidity(@RequestParam(required = false) List<String> validity,
                                                                  @RequestParam(required = false) List<String> type,
                                                                  @RequestParam(required = false) List<String> month,
                                                                  @RequestParam(required = false) List<Integer> year,
@@ -69,7 +69,7 @@ public class NivoCouponController {
     }
 
     @RequestMapping({"/bar/sell", "/bar/monthly/sell"})
-    public List<Map<String, Object>> getMonthlyBarDataBySellType(@RequestParam(required = false) List<String> validity,
+    public List<Map<Object, Object>> getMonthlyBarDataBySellType(@RequestParam(required = false) List<String> validity,
                                                                  @RequestParam(required = false) List<String> type,
                                                                  @RequestParam(required = false) List<String> month,
                                                                  @RequestParam(required = false) List<Integer> year,

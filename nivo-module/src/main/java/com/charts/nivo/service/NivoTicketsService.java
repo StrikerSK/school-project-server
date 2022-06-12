@@ -27,11 +27,11 @@ public class NivoTicketsService {
 		UpdateTicketList couponList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
 		List<NivoLineData> output = new ArrayList<>();
 		TicketGroupingUtils.groupByTicketType(couponList.getTicketEntities())
-				.forEach((month, entity) -> {
+				.forEach((ticketType, entity) -> {
 					List<NivoDataXY> nestedData = new ArrayList<>();
 					TicketGroupingUtils.groupAndSumByMonth(entity)
-							.forEach((validity, integer) -> nestedData.add(new NivoDataXY(validity, (Long) integer)));
-					output.add(new NivoLineData(month, nestedData));
+							.forEach((month, integer) -> nestedData.add(new NivoDataXY(month, (Long) integer)));
+					output.add(new NivoLineData(ticketType, nestedData));
 				});
 		return output;
 	}

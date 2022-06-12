@@ -14,7 +14,6 @@ public class SellTypeConverter implements AttributeConverter<SellType, String> {
         if (sellType == null) {
             return null;
         }
-        ;
 
         return sellType.getValue();
     }

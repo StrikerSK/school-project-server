@@ -1,5 +1,6 @@
 package com.charts.nivo.entity;
 
+import com.charts.general.entity.enums.IEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Getter;
@@ -33,6 +34,11 @@ public class NivoBubbleData {
 
     public NivoBubbleData(String name, Integer value) {
         this.name = name;
+        this.value = value;
+    }
+
+    public NivoBubbleData(IEnum name, Integer value) {
+        this.name = name.getValue();
         this.value = value;
     }
 

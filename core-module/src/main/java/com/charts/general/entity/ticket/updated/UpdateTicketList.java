@@ -43,7 +43,7 @@ public class UpdateTicketList {
     }
     public UpdateTicketList filterByMonth(List<String> months) {
         return new UpdateTicketList(ticketEntities.stream()
-                .filter(e -> months.contains(e.getMonth()))
+                .filter(e -> months.contains(e.getMonth().getValue()))
                 .collect(Collectors.toList()));
     }
 

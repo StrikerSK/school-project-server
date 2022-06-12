@@ -2,6 +2,7 @@ package com.charts.nivo.service;
 
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.general.entity.enums.SellType;
 import com.charts.nivo.entity.NivoDataXY;
 import com.charts.general.repository.coupon.CouponRepository;
 import com.charts.general.utils.CouponGroupingUtils;
@@ -83,24 +84,24 @@ public class NivoCouponService {
         return outputMapList;
     }
 
-    public List<Map<String, Object>> getMonthlyBarDataByValidity(CouponsParameters parameters) {
+    public List<Map<Object, Object>> getMonthlyBarDataByValidity(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
-        List<Map<String, Object>> outputMapList = new ArrayList<>();
+        List<Map<Object, Object>> outputMapList = new ArrayList<>();
         CouponGroupingUtils.groupByMonth(couponList.getCouponEntityList())
                 .forEach((month, entities) -> {
-                    Map<String, Object> tmpMap = new HashMap<>(CouponGroupingUtils.groupByAndSumByValidity(entities));
+                    Map<Object, Object> tmpMap = new HashMap<>(CouponGroupingUtils.groupByAndSumByValidity(entities));
                     tmpMap.put("month", month);
                     outputMapList.add(tmpMap);
                 });
         return outputMapList;
     }
 
-    public List<Map<String, Object>> getMonthlyBarDataBySellType(CouponsParameters parameters) {
+    public List<Map<Object, Object>> getMonthlyBarDataBySellType(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
-        List<Map<String, Object>> outputMapList = new ArrayList<>();
+        List<Map<Object, Object>> outputMapList = new ArrayList<>();
         CouponGroupingUtils.groupByMonth(couponList.getCouponEntityList())
                 .forEach((month, entities) -> {
-                    Map<String, Object> tmpMap = new HashMap<>(CouponGroupingUtils.groupByAndSumBySellType(entities));
+                    Map<Object, Object> tmpMap = new HashMap<>(CouponGroupingUtils.groupByAndSumBySellType(entities));
                     tmpMap.put("month", month);
                     outputMapList.add(tmpMap);
                 });

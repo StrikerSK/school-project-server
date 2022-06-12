@@ -5,18 +5,24 @@ import java.util.stream.Stream;
 
 public enum SellType implements IEnum {
 
-    CARD("Čipová karta"),
-    COUPON("Papierový kupón"),
-    ESHOP("EShop");
+    CARD("Čipová karta", 1),
+    COUPON("Papierový kupón", 2),
+    ESHOP("EShop", 3);
 
-    private String value;
+    private final String value;
+    private final Integer orderValue;
 
-    private SellType(String value) {
+    SellType(String value, Integer orderValue) {
         this.value = value;
+        this.orderValue = orderValue;
     }
 
     public String getValue() {
         return value;
+    }
+
+    public Integer getOrderValue() {
+        return orderValue;
     }
 
     public static Optional<SellType> sellTypeValue(String label) {

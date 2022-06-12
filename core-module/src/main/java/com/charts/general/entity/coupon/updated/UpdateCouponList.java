@@ -52,7 +52,7 @@ public class UpdateCouponList {
 
     public UpdateCouponList filterByMonth(List<String> months) {
         return new UpdateCouponList(couponEntityList.stream()
-                .filter(e -> months.contains(e.getMonth()))
+                .filter(e -> months.contains(e.getMonth().getValue()))
                 .collect(Collectors.toList()));
     }
 

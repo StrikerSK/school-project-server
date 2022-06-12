@@ -1,5 +1,6 @@
 package com.charts.general.entity;
 
+import com.charts.general.entity.enums.Months;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -29,7 +30,7 @@ public abstract class AbstractEntity {
 	private String code;
 
 	@Column(name = "mesiac")
-	private String month;
+	private Months month;
 
 	@Column(name = "rok")
 	private Integer year;

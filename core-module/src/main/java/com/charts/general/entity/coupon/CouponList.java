@@ -23,7 +23,7 @@ public class CouponList {
 
     public CouponList filterByMonth(List<String> months) {
         return new CouponList(coupons.stream()
-                .filter(e -> months.contains(e.getMonth()))
+                .filter(e -> months.contains(e.getMonth().getValue()))
                 .collect(Collectors.toList()));
     }
 
@@ -39,10 +39,4 @@ public class CouponList {
                 .collect(Collectors.toList()));
     }
 
-    public List<String> getMonthValues() {
-        return this.getCoupons().stream()
-                .map(AbstractEntity::getMonth)
-                .distinct()
-                .collect(Collectors.toList());
-    }
 }
