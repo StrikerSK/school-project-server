@@ -3,6 +3,7 @@ package com.charts.general.entity.coupon.updated;
 import com.charts.general.entity.coupon.AbstractCouponTest;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.entity.coupon.CouponList;
+import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
@@ -15,6 +16,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.charts.general.constants.Months.*;
 import static com.charts.general.constants.PersonType.*;
 
 public class UpdateCouponListTest extends AbstractCouponTest {
@@ -40,15 +42,15 @@ public class UpdateCouponListTest extends AbstractCouponTest {
 
     @Test
     public void TestMonthFiltering() {
-        List<String> searchList = Stream.of("Marec", "December").collect(Collectors.toList());
+        List<Months> searchList = Stream.of(Months.MARCH, Months.DECEMBER).collect(Collectors.toList());
         UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByMonth(searchList);
         Assert.assertEquals(couponList.getCouponEntityList().size(), 12);
-        couponList.getCouponEntityList().forEach(e -> Assert.assertTrue(searchList.contains(e.getMonth().getValue())));
+        couponList.getCouponEntityList().forEach(e -> Assert.assertTrue(searchList.contains(e.getMonth())));
     }
 
     @Test
     public void TestMonthFilteringNoResults() {
-        List<String> searchList = Stream.of("January", "September").collect(Collectors.toList());
+        List<Months> searchList = Stream.of(Months.JANUARY, Months.SEPTEMBER).collect(Collectors.toList());
         UpdateCouponList couponList = new UpdateCouponList(couponEntityList).filterByMonth(searchList);
         Assert.assertEquals(couponList.getCouponEntityList().size(), 0);
     }
