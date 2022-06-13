@@ -2,12 +2,10 @@ package com.charts.nivo.service;
 
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
-import com.charts.general.entity.enums.SellType;
-import com.charts.general.entity.enums.Validity;
-import com.charts.nivo.entity.NivoDataXY;
 import com.charts.general.repository.coupon.CouponRepository;
 import com.charts.general.utils.CouponGroupingUtils;
 import com.charts.nivo.entity.NivoBubbleData;
+import com.charts.nivo.entity.NivoDataXY;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class NivoCouponService {
@@ -30,12 +27,12 @@ public class NivoCouponService {
     public List<NivoLineData> getMonthlyLineDataByPersonType(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoLineData> output = new ArrayList<>();
-        CouponGroupingUtils.groupByMonth(couponList.getCouponEntityList())
-                .forEach((month, entity) -> {
+        CouponGroupingUtils.groupByPersonType(couponList.getCouponEntityList())
+                .forEach((personType, entity) -> {
                     List<NivoDataXY> nestedData = new ArrayList<>();
-                    CouponGroupingUtils.groupByAndSumByPerson(entity)
-                            .forEach((validity, integer) -> nestedData.add(new NivoDataXY(validity, ((Integer) integer).longValue())));
-                    output.add(new NivoLineData(month, nestedData));
+                    CouponGroupingUtils.groupAndSumByMonth(entity)
+                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
+                    output.add(new NivoLineData(personType, nestedData));
                 });
         return output;
     }
@@ -49,12 +46,12 @@ public class NivoCouponService {
     public List<NivoLineData> getMonthlyLineDataByValidity(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoLineData> output = new ArrayList<>();
-        CouponGroupingUtils.groupByMonth(couponList.getCouponEntityList())
-                .forEach((month, entity) -> {
+        CouponGroupingUtils.groupByValidity(couponList.getCouponEntityList())
+                .forEach((validity, entity) -> {
                     List<NivoDataXY> nestedData = new ArrayList<>();
-                    CouponGroupingUtils.groupByAndSumByValidity(entity)
-                            .forEach((validity, integer) -> nestedData.add(new NivoDataXY(validity, ((Integer) integer).longValue())));
-                    output.add(new NivoLineData(month, nestedData));
+                    CouponGroupingUtils.groupAndSumByMonth(entity)
+                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
+                    output.add(new NivoLineData(validity, nestedData));
                 });
 
         return output;
@@ -63,12 +60,12 @@ public class NivoCouponService {
     public List<NivoLineData> getMonthlyLineDataBySellType(CouponsParameters parameters) {
         UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoLineData> output = new ArrayList<>();
-        CouponGroupingUtils.groupByMonth(couponList.getCouponEntityList())
-                .forEach((month, entity) -> {
+        CouponGroupingUtils.groupBySellType(couponList.getCouponEntityList())
+                .forEach((sellType, entity) -> {
                     List<NivoDataXY> nestedData = new ArrayList<>();
-                    CouponGroupingUtils.groupByAndSumBySellType(entity)
-                            .forEach((validity, integer) -> nestedData.add(new NivoDataXY(validity, ((Integer) integer).longValue())));
-                    output.add(new NivoLineData(month, nestedData));
+                    CouponGroupingUtils.groupAndSumByMonth(entity)
+                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
+                    output.add(new NivoLineData(sellType, nestedData));
                 });
 
         return output;
