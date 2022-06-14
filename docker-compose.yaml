@@ -1,9 +1,33 @@
 version: '3.5'
 
 services:
-  db:
+  pid-app:
+    container_name: pid-app-server
+    build: .
+    ports:
+      - "8080:8080"
+    #Dependencies name base on other services in compose file
+    depends_on:
+      - pid-db
+    networks:
+      - pid-server
+    environment:
+      - spring.datasource.url=${DATABASE_HOST}/${DATABASE_NAME}
+      - spring.datasource.username=${DATABASE_USER}
+      - spring.datasource.password=${DATABASE_PASSWORD}
+      - spring.jpa.properties.hibernate.dialect=${DATABASE_DIALECT}
+
+  pid-db:
     image: postgres
+    container_name: pid-app-db
     ports:
       - "5432:5432"
+    networks:
+      - pid-server
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+
+networks:
+  pid-server:
+    driver: bridge
