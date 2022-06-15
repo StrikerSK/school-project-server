@@ -6,7 +6,6 @@ services:
     build: .
     ports:
       - "8080:8080"
-    #Dependencies name base on other services in compose file
     depends_on:
       - pid-db
     networks:
@@ -27,6 +26,8 @@ services:
     environment:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - ./sql/create_data.sql:/docker-entrypoint-initdb.d/create_data.sql
 
 networks:
   pid-server:
