@@ -3,7 +3,7 @@ package com.charts.nivo.service;
 import com.charts.general.utils.CouponGroupingUtils;
 import com.charts.nivo.entity.NivoDataXY;
 import com.charts.general.entity.ticket.TicketsParameters;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
+import com.charts.general.entity.ticket.v2.TicketListV2;
 import com.charts.general.repository.ticket.TicketRepository;
 import com.charts.general.utils.TicketGroupingUtils;
 import com.charts.nivo.entity.NivoLineData;
@@ -11,7 +11,6 @@ import com.charts.nivo.entity.NivoPieData;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ public class NivoTicketsService {
 	}
 
 	public List<NivoLineData> getTicketTypesByMonth(TicketsParameters parameters) {
-		UpdateTicketList couponList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
+		TicketListV2 couponList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
 		List<NivoLineData> output = new ArrayList<>();
 		TicketGroupingUtils.groupByTicketType(couponList.getTicketEntities())
 				.forEach((ticketType, entity) -> {
@@ -38,7 +37,7 @@ public class NivoTicketsService {
 	}
 
 	public List<Map<String, Object>> getTicketBarData(TicketsParameters parameters) {
-		UpdateTicketList ticketList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
+		TicketListV2 ticketList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
 		List<Map<String, Object>> outputMapList = new ArrayList<>();
 		TicketGroupingUtils.groupByMonth(ticketList.getTicketEntities())
 				.forEach((month, entities) -> {
@@ -50,7 +49,7 @@ public class NivoTicketsService {
 	}
 
 	public List<NivoPieData> getTicketTypePieData(TicketsParameters parameters) {
-		UpdateTicketList couponList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
+		TicketListV2 couponList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
 		List<NivoPieData> pieData = new ArrayList<>();
 		TicketGroupingUtils.groupByAndSumByTicketType(couponList.getTicketEntities())
 				.forEach((validity, total) -> pieData.add(new NivoPieData(validity, (Integer) total)));

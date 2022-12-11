@@ -1,6 +1,6 @@
 package com.charts.general.repository.ticket;
 
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
+import com.charts.general.entity.ticket.v2.TicketListV2;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +14,8 @@ public class TicketRepository {
     }
 
     @Cacheable("ticketList")
-    public UpdateTicketList getUpdatedTicketList() {
-        return new UpdateTicketList(jpaTicketRepository.findAll());
+    public TicketListV2 getUpdatedTicketList() {
+        return new TicketListV2(jpaTicketRepository.findAll());
     }
 
 }

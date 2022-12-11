@@ -3,8 +3,8 @@ package com.charts.general.utils;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
 import com.charts.general.entity.coupon.updated.UpdateCouponList;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
+import com.charts.general.entity.ticket.v2.TicketEntityV2;
+import com.charts.general.entity.ticket.v2.TicketListV2;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ public class ListFactory {
                 throw new NullPointerException("Class type not provided");
             } else if (clazz == UpdateCouponEntity.class) {
                 return new UpdateCouponList(entityList).getCouponEntityList();
-            } else if (clazz == UpdateTicketEntity.class) {
-                return new UpdateTicketList(entityList).getTicketEntities();
+            } else if (clazz == TicketEntityV2.class) {
+                return new TicketListV2(entityList).getTicketEntities();
             }
         }
         return new ArrayList<>();

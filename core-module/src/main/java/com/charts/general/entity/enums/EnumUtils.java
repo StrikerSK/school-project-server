@@ -1,6 +1,5 @@
 package com.charts.general.entity.enums;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +10,7 @@ import static com.charts.general.entity.enums.EnumTypes.*;
 public class EnumUtils {
 
     public static <T extends IEnum> List<T> getValueList(Class<T> clazz) {
-        List<?> tmpValue = new ArrayList<>();
+        List<?> tmpValue;
 
         if (clazz == null) {
             return null;
@@ -25,6 +24,8 @@ public class EnumUtils {
             tmpValue = Arrays.asList(TicketTypes.values());
         } else if (clazz == Validity.class) {
             tmpValue = Arrays.asList(Validity.values());
+        } else {
+            throw new IllegalArgumentException("No enum type found for " + clazz);
         }
 
         return tmpValue.stream().map(e -> (T) e).collect(Collectors.toList());

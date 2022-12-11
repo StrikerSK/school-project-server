@@ -17,7 +17,6 @@ public class PersonTypeConverter implements AttributeConverter<PersonType, Strin
         if (personType == null) {
             return null;
         }
-        ;
 
         return personType.getValue();
     }

@@ -1,8 +1,8 @@
 package com.charts.recharts.service;
 
 import com.charts.general.entity.ticket.TicketsParameters;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
+import com.charts.general.entity.ticket.v2.TicketEntityV2;
+import com.charts.general.entity.ticket.v2.TicketListV2;
 import com.charts.general.repository.ticket.TicketRepository;
 import com.charts.recharts.entity.RechartsDataObject;
 import org.springframework.stereotype.Service;
@@ -21,14 +21,14 @@ public class RechartsTicketService {
     }
 
     public List<List<RechartsDataObject>> getMonthlyDataByTicketType(TicketsParameters parameters) {
-        UpdateTicketList couponList = ticketsRepository.getUpdatedTicketList().filterWithParameters(parameters);
+        TicketListV2 couponList = ticketsRepository.getUpdatedTicketList().filterWithParameters(parameters);
         List<List<RechartsDataObject>> outputMapList = new ArrayList<>();
         parameters.getMonths().forEach(month -> {
             List<RechartsDataObject> nestedList = new ArrayList<>();
-            UpdateTicketList entities = couponList.filterByMonth(Collections.singletonList(month));
+            TicketListV2 entities = couponList.filterByMonth(Collections.singletonList(month));
             parameters.getTicketType().forEach(ticketType -> {
                 Integer monthlyValue = entities.filterByTicketType(Collections.singletonList(ticketType)).getTicketEntities().stream()
-                        .map(UpdateTicketEntity::getValue)
+                        .map(TicketEntityV2::getValue)
                         .reduce(0, Integer::sum);
                 nestedList.add(new RechartsDataObject(ticketType, month, monthlyValue));
             });

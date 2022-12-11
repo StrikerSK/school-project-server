@@ -8,7 +8,7 @@ public class TicketConstants {
     public static final String TWO_ZONES = "2 Pásma";
     public static final String THREE_ZONES = "3 Pásma";
     public static final String FOUR_ZONES = "4 Pásma";
-    public static final String  FIVE_ZONES = "5 Pásiem";
+    public static final String FIVE_ZONES = "5 Pásiem";
     public static final String SIX_ZONES = "6 Pásiem";
     public static final String SEVEN_ZONES = "7 Pásiem";
     public static final String EIGHT_ZONES = "8 Pásiem";
