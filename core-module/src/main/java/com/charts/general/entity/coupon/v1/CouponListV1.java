@@ -1,6 +1,5 @@
-package com.charts.general.entity.coupon;
+package com.charts.general.entity.coupon.v1;
 
-import com.charts.general.entity.AbstractEntity;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
 import lombok.AllArgsConstructor;
@@ -11,30 +10,30 @@ import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
-public class CouponList {
+public class CouponListV1 {
 
-    private List<CouponEntity> coupons;
+    private List<CouponEntityV1> coupons;
 
-    public CouponList filterByYear(List<Integer> years) {
-        return new CouponList(coupons.stream()
+    public CouponListV1 filterByYear(List<Integer> years) {
+        return new CouponListV1(coupons.stream()
                 .filter(e -> years.contains(e.getYear()))
                 .collect(Collectors.toList()));
     }
 
-    public CouponList filterByMonth(List<String> months) {
-        return new CouponList(coupons.stream()
+    public CouponListV1 filterByMonth(List<String> months) {
+        return new CouponListV1(coupons.stream()
                 .filter(e -> months.contains(e.getMonth().getValue()))
                 .collect(Collectors.toList()));
     }
 
-    public CouponList filterByValidity(List<Validity> validities) {
-        return new CouponList(coupons.stream()
+    public CouponListV1 filterByValidity(List<Validity> validities) {
+        return new CouponListV1(coupons.stream()
                 .filter(e -> validities.contains(e.getValidity()))
                 .collect(Collectors.toList()));
     }
 
-    public CouponList filterByTypes(List<SellType> types) {
-        return new CouponList(coupons.stream()
+    public CouponListV1 filterByTypes(List<SellType> types) {
+        return new CouponListV1(coupons.stream()
                 .filter(e -> types.contains(e.getType()))
                 .collect(Collectors.toList()));
     }

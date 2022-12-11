@@ -1,7 +1,7 @@
 package com.charts.general.repository.coupon;
 
-import com.charts.general.entity.coupon.CouponList;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.general.entity.coupon.v1.CouponListV1;
+import com.charts.general.entity.coupon.v2.CouponListV2;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
@@ -14,13 +14,13 @@ public class CouponRepository {
         this.couponRepository = couponRepository;
     }
 
-    public CouponList getCouponList() {
-        return new CouponList(couponRepository.findAll());
+    public CouponListV1 getCouponList() {
+        return new CouponListV1(couponRepository.findAll());
     }
 
     @Cacheable("couponList")
-    public UpdateCouponList getUpdateCouponList() {
-        return new UpdateCouponList(couponRepository.findAll());
+    public CouponListV2 getUpdateCouponList() {
+        return new CouponListV2(couponRepository.findAll());
     }
 
 }

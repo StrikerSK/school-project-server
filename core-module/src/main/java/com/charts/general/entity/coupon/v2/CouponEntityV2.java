@@ -1,4 +1,4 @@
-package com.charts.general.entity.coupon.updated;
+package com.charts.general.entity.coupon.v2;
 
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.PersonType;
@@ -13,11 +13,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "updated_coupons")
+@Table(name = "coupon_entity_v2")
 @NoArgsConstructor
 @Getter
 @Setter
-public class UpdateCouponEntity extends AbstractUpdateEntity {
+public class CouponEntityV2 extends AbstractUpdateEntity {
 
 	@Column(name = "platnost")
 	private Validity validity;

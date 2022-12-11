@@ -3,7 +3,7 @@ package com.charts.apex.service;
 import com.charts.apex.entity.ApexObject;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.coupon.CouponsParameters;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.general.entity.coupon.v2.CouponListV2;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.repository.coupon.CouponRepository;
 import lombok.AllArgsConstructor;
@@ -19,11 +19,11 @@ public class ApexCouponService {
 	private final CouponRepository couponRepository;
 
 	public List<ApexObject> getMonthlyDataByPersonType(final CouponsParameters parameters) {
-		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+		CouponListV2 couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<ApexObject> outputMapList = new ArrayList<>();
 		parameters.getPersonTypeList().forEach(personType -> {
 			ApexObject apexObject = new ApexObject(personType.getValue());
-			UpdateCouponList filteredList = couponList.filterByPersonType(Collections.singletonList(personType));
+			CouponListV2 filteredList = couponList.filterByPersonType(Collections.singletonList(personType));
 			List<Integer> values = mapMonth(filteredList, parameters.getMonths());
 			outputMapList.add(apexObject.withList(values));
 		});
@@ -34,11 +34,11 @@ public class ApexCouponService {
 	 * Method retrieves Apex data by validity
 	 */
 	public List<ApexObject> getMonthlyDataByValidity(CouponsParameters parameters) {
-		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+		CouponListV2 couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<ApexObject> outputMapList = new ArrayList<>();
 		parameters.getValidity().forEach(validity -> {
 			ApexObject apexObject = new ApexObject(validity.getValue());
-			UpdateCouponList filteredList = couponList.filterByValidity(Collections.singletonList(validity));
+			CouponListV2 filteredList = couponList.filterByValidity(Collections.singletonList(validity));
 			List<Integer> values = mapMonth(filteredList, parameters.getMonths());
 			outputMapList.add(apexObject.withList(values));
 		});
@@ -46,18 +46,18 @@ public class ApexCouponService {
 	}
 
 	public List<ApexObject> getMonthlyDataBySellType(CouponsParameters parameters) {
-		UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+		CouponListV2 couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
 		List<ApexObject> outputMapList = new ArrayList<>();
 		parameters.getSellTypes().forEach(sellType -> {
 			ApexObject apexObject = new ApexObject(sellType.getValue());
-			UpdateCouponList filteredList = couponList.filterBySellType(Collections.singletonList(sellType));
+			CouponListV2 filteredList = couponList.filterBySellType(Collections.singletonList(sellType));
 			List<Integer> values = mapMonth(filteredList, parameters.getMonths());
 			outputMapList.add(apexObject.withList(values));
 		});
 		return outputMapList;
 	}
 
-	private List<Integer> mapMonth(UpdateCouponList couponList, List<Months> months) {
+	private List<Integer> mapMonth(CouponListV2 couponList, List<Months> months) {
 		List<Integer> values = new ArrayList<>();
 		months.forEach(month -> {
 			Integer monthlyValue = couponList.filterByMonth(Collections.singletonList(month)).getCouponEntityList().stream()

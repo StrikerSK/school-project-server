@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "updated_tickets")
+@Table(name = "ticket_entity_v2")
 @Getter
 @Setter
 @NoArgsConstructor

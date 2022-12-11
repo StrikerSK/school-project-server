@@ -6,9 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public abstract class AbstractUpdateEntity extends AbstractEntity{
 
     @Column(name = "hodnota")

@@ -1,6 +1,7 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.general.entity.coupon.v2.CouponListV2;
+import com.charts.general.entity.coupon.v1.CouponEntityV1;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
@@ -13,16 +14,16 @@ import java.util.stream.Stream;
 
 public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTests {
 
-    protected CouponEntity couponEntity1;
-    protected CouponEntity couponEntity2;
-    protected CouponEntity couponEntity3;
+    protected CouponEntityV1 couponEntity1;
+    protected CouponEntityV1 couponEntity2;
+    protected CouponEntityV1 couponEntity3;
 
-    protected UpdateCouponList updateCouponList;
-    protected List<CouponEntity> couponEntityList;
+    protected CouponListV2 updateCouponList;
+    protected List<CouponEntityV1> couponEntityList;
 
     @BeforeClass
     public void setUp() {
-        couponEntity1 = new CouponEntity();
+        couponEntity1 = new CouponEntityV1();
         couponEntity1.setPortable(100);
         couponEntity1.setSeniors(200);
         couponEntity1.setAdults(300);
@@ -36,7 +37,7 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
         couponEntity1.setMonth(Months.MARCH);
         couponEntity1.setYear(2000);
 
-        couponEntity2 = new CouponEntity();
+        couponEntity2 = new CouponEntityV1();
         couponEntity2.setPortable(1000);
         couponEntity2.setSeniors(2000);
         couponEntity2.setAdults(3000);
@@ -50,7 +51,7 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
         couponEntity2.setMonth(Months.AUGUST);
         couponEntity2.setYear(2020);
 
-        couponEntity3 = new CouponEntity();
+        couponEntity3 = new CouponEntityV1();
         couponEntity3.setPortable(10);
         couponEntity3.setSeniors(20);
         couponEntity3.setAdults(30);
@@ -64,7 +65,7 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
         couponEntity3.setMonth(Months.DECEMBER);
         couponEntity3.setYear(2015);
 
-        updateCouponList = new UpdateCouponList(couponEntity1);
+        updateCouponList = new CouponListV2(couponEntity1);
         couponEntityList = Stream.of(couponEntity1, couponEntity2, couponEntity3).collect(Collectors.toList());
     }
 

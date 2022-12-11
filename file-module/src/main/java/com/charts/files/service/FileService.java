@@ -2,7 +2,7 @@ package com.charts.files.service;
 
 import com.charts.general.repository.coupon.JpaCouponRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.charts.general.entity.coupon.CouponEntity;
+import com.charts.general.entity.coupon.v1.CouponEntityV1;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,9 +19,9 @@ public class FileService {
 		couponsRepository.save(getEmployeeFromJson(file));
 	}
 
-	private static CouponEntity getEmployeeFromJson(MultipartFile originalFile) throws IOException {
+	private static CouponEntityV1 getEmployeeFromJson(MultipartFile originalFile) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(new String(originalFile.getBytes()), CouponEntity.class);
+		return mapper.readValue(new String(originalFile.getBytes()), CouponEntityV1.class);
 	}
 
 }
