@@ -24,7 +24,7 @@ public class PersonTypeConverter implements AttributeConverter<PersonType, Strin
 
     @Override
     public PersonType convertToEntityAttribute(String personType) {
-        return EnumUtils.findValue(PersonType.class, personType).orElseThrow(IllegalArgumentException::new);
+        return EnumUtils.getEnumValues(PersonType.class, personType).orElseThrow(IllegalArgumentException::new);
     }
 
 }

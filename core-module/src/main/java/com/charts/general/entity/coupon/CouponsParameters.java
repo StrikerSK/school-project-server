@@ -5,8 +5,6 @@ import com.charts.general.entity.enums.*;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class CouponsParameters extends AbstractParameters {
 
@@ -25,11 +23,7 @@ public class CouponsParameters extends AbstractParameters {
         if (CollectionUtils.isEmpty(validity)) {
             return EnumUtils.getEnumValues(Validity.class);
         } else {
-            return validity.stream()
-                    .map(Validity::validityValue)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList());
+            return EnumUtils.getEnumValues(Validity.class, validity);
         }
     }
 
@@ -37,11 +31,7 @@ public class CouponsParameters extends AbstractParameters {
         if (CollectionUtils.isEmpty(sellType)) {
             return EnumUtils.getEnumValues(SellType.class);
         } else {
-            return sellType.stream()
-                    .map(SellType::sellTypeValue)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList());
+            return EnumUtils.getEnumValues(SellType.class, sellType);
         }
     }
 
@@ -49,11 +39,7 @@ public class CouponsParameters extends AbstractParameters {
         if (CollectionUtils.isEmpty(person)) {
             return EnumUtils.getEnumValues(PersonType.class);
         } else {
-            return person.stream()
-                    .map(PersonType::getPersonType)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList());
+            return EnumUtils.getEnumValues(PersonType.class, person);
         }
     }
 }

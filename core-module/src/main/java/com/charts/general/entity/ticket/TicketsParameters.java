@@ -34,11 +34,7 @@ public class TicketsParameters extends AbstractParameters {
 		if (CollectionUtils.isEmpty(ticketType)) {
 			return EnumUtils.getEnumValues(TicketTypes.class);
 		} else {
-			return ticketType.stream()
-					.map(TicketTypes::getType)
-					.filter(Optional::isPresent)
-					.map(Optional::get)
-					.collect(Collectors.toList());
+			return EnumUtils.getEnumValues(TicketTypes.class, ticketType);
 		}
 	}
 }

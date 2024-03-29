@@ -20,7 +20,7 @@ public class ValidityTypeConverter implements AttributeConverter<Validity, Strin
 
     @Override
     public Validity convertToEntityAttribute(String validity) {
-        return EnumUtils.findValue(Validity.class, validity).orElseThrow(IllegalArgumentException::new);
+        return EnumUtils.getEnumValues(Validity.class, validity).orElseThrow(IllegalArgumentException::new);
     }
 
 }

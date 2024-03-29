@@ -1,5 +1,6 @@
 package com.charts.general.entity.ticket.updated;
 
+import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.ticket.TicketEntity;
@@ -96,7 +97,7 @@ public class UpdateTicketList {
         //From UpdateCouponEntity class
         output.setValue(function.apply(ticketEntity).intValue());
         output.setDiscounted(ticketEntity.getDiscounted());
-        output.setTicketType(TicketTypes.getType(ticketType).get());
+        output.setTicketType(EnumUtils.getEnumValues(TicketTypes.class, ticketType).get());
 
         // From GeneralEntity class
         output.setMonth(ticketEntity.getMonth());

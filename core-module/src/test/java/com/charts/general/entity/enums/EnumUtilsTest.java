@@ -25,7 +25,7 @@ public class EnumUtilsTest {
         labels.add(MONTHLY_LABEL);
         labels.add(YEARLY_LABEL);
 
-        List<String> enums = EnumUtils.findValue(Validity.class, labels).stream().map(IEnum::getValue).collect(Collectors.toList());
+        List<String> enums = EnumUtils.getEnumValues(Validity.class, labels).stream().map(IEnum::getValue).collect(Collectors.toList());
         Assert.assertEquals(enums.size(), 2);
         Assert.assertEquals(enums, labels);
     }
@@ -37,7 +37,7 @@ public class EnumUtilsTest {
         labels.add(YEARLY_LABEL);
         labels.add("Other");
 
-        List<String> enums = EnumUtils.findValue(Validity.class, labels).stream().map(IEnum::getValue).collect(Collectors.toList());
+        List<String> enums = EnumUtils.getEnumValues(Validity.class, labels).stream().map(IEnum::getValue).collect(Collectors.toList());
         Assert.assertEquals(enums.size(), 2);
         Assert.assertListNotContains(enums, i -> i.equals("other"), "Value should not be present");
     }

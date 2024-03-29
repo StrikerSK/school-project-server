@@ -2,9 +2,6 @@ package com.charts.general.entity.enums;
 
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 import static com.charts.general.constants.ValidityConstants.*;
 
 @Getter
@@ -21,17 +18,6 @@ public enum Validity implements IEnum {
     Validity(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
-    }
-
-    @Override
-    public Integer getOrderValue() {
-        return orderValue;
-    }
-
-    public static Optional<Validity> validityValue(String label) {
-        return Arrays.stream(Validity.values())
-                .filter(c -> c.getValue().equals(label))
-                .findFirst();
     }
 
 }

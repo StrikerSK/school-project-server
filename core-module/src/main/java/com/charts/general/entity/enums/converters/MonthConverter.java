@@ -20,7 +20,7 @@ public class MonthConverter implements AttributeConverter<Months, String> {
 
     @Override
     public Months convertToEntityAttribute(String personType) {
-        return EnumUtils.findValue(Months.class, personType).orElseThrow(IllegalArgumentException::new);
+        return EnumUtils.getEnumValues(Months.class, personType).orElseThrow(IllegalArgumentException::new);
     }
 
 }
