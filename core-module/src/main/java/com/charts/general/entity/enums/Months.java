@@ -1,13 +1,13 @@
 package com.charts.general.entity.enums;
 
-import java.time.Month;
+import lombok.Getter;
+
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.charts.general.constants.Months.*;
 
+@Getter
 public enum Months implements IEnum {
 
     JANUARY(JANUARY_VALUE, 1),
@@ -31,22 +31,10 @@ public enum Months implements IEnum {
         this.orderValue = orderValue;
     }
 
-    public String getValue() {
-        return value;
-    }
-
     public static Optional<Months> getType(String label) {
         return Arrays.stream(Months.values())
                 .filter(c -> c.getValue().equals(label))
                 .findFirst();
-    }
-
-    public Integer getOrderValue() {return orderValue; }
-
-    public static List<String> monthsValues() {
-        return Arrays.stream(values())
-                .map(Months::getValue)
-                .collect(Collectors.toList());
     }
 
 }

@@ -32,7 +32,7 @@ public class TicketsParameters extends AbstractParameters {
 
 	public List<TicketTypes> getTicketType() {
 		if (CollectionUtils.isEmpty(ticketType)) {
-			return EnumUtils.getValueList(TicketTypes.class);
+			return EnumUtils.getEnumValues(TicketTypes.class);
 		} else {
 			return ticketType.stream()
 					.map(TicketTypes::getType)

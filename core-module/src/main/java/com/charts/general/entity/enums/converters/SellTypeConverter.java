@@ -20,7 +20,7 @@ public class SellTypeConverter implements AttributeConverter<SellType, String> {
 
     @Override
     public SellType convertToEntityAttribute(String sellType) {
-        return EnumUtils.getValue(SellType.class, sellType).orElseThrow(IllegalArgumentException::new);
+        return EnumUtils.findValue(SellType.class, sellType).orElseThrow(IllegalArgumentException::new);
     }
 
 }

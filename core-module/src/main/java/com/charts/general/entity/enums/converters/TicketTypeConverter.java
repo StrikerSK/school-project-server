@@ -21,7 +21,7 @@ public class TicketTypeConverter implements AttributeConverter<TicketTypes, Stri
 
     @Override
     public TicketTypes convertToEntityAttribute(String personType) {
-        return EnumUtils.getValue(TicketTypes.class, personType).orElseThrow(IllegalArgumentException::new);
+        return EnumUtils.findValue(TicketTypes.class, personType).orElseThrow(IllegalArgumentException::new);
     }
 
 }

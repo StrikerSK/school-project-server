@@ -23,7 +23,7 @@ public abstract class AbstractParameters {
 
     public List<Months> getMonths() {
         if (CollectionUtils.isEmpty(month)) {
-            return EnumUtils.getValueList(Months.class);
+            return EnumUtils.getEnumValues(Months.class);
         } else {
             return month.stream()
                     .map(Months::getType)

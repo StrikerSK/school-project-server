@@ -1,8 +1,11 @@
 package com.charts.general.entity.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Optional;
 
+@Getter
 public enum Validity implements IEnum {
 
     MONTHLY("Mesačná", 1),
@@ -16,10 +19,6 @@ public enum Validity implements IEnum {
     Validity(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
-    }
-
-    public String getValue() {
-        return value;
     }
 
     @Override

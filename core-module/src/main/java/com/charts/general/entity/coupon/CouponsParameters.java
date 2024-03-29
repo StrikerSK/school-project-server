@@ -23,7 +23,7 @@ public class CouponsParameters extends AbstractParameters {
 
     public List<Validity> getValidity() {
         if (CollectionUtils.isEmpty(validity)) {
-            return EnumUtils.getValueList(Validity.class);
+            return EnumUtils.getEnumValues(Validity.class);
         } else {
             return validity.stream()
                     .map(Validity::validityValue)
@@ -35,7 +35,7 @@ public class CouponsParameters extends AbstractParameters {
 
     public List<SellType> getSellTypes() {
         if (CollectionUtils.isEmpty(sellType)) {
-            return EnumUtils.getValueList(SellType.class);
+            return EnumUtils.getEnumValues(SellType.class);
         } else {
             return sellType.stream()
                     .map(SellType::sellTypeValue)
@@ -47,7 +47,7 @@ public class CouponsParameters extends AbstractParameters {
 
     public List<PersonType> getPersonTypeList() {
         if (CollectionUtils.isEmpty(person)) {
-            return EnumUtils.getValueList(PersonType.class);
+            return EnumUtils.getEnumValues(PersonType.class);
         } else {
             return person.stream()
                     .map(PersonType::getPersonType)
