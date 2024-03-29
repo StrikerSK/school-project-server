@@ -3,9 +3,6 @@ package com.charts.general.entity.enums;
 import com.charts.general.constants.TicketConstants;
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 @Getter
 public enum TicketTypes implements IEnum {
 
@@ -30,12 +27,6 @@ public enum TicketTypes implements IEnum {
     TicketTypes(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
-    }
-
-    public static Optional<TicketTypes> getType(String label) {
-        return Arrays.stream(TicketTypes.values())
-                .filter(c -> c.getValue().equals(label))
-                .findFirst();
     }
 
 }

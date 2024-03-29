@@ -2,9 +2,6 @@ package com.charts.general.entity.enums;
 
 import lombok.Getter;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
 @Getter
 public enum SellType implements IEnum {
 
@@ -18,12 +15,6 @@ public enum SellType implements IEnum {
     SellType(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
-    }
-
-    public static Optional<SellType> sellTypeValue(String label) {
-        return Stream.of(SellType.values())
-                .filter(c -> c.getValue().equals(label))
-                .findFirst();
     }
 
 }

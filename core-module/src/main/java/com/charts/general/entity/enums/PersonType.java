@@ -2,9 +2,6 @@ package com.charts.general.entity.enums;
 
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 import static com.charts.general.constants.PersonType.*;
 
 @Getter
@@ -23,12 +20,6 @@ public enum PersonType implements IEnum {
     PersonType(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
-    }
-
-    public static Optional<PersonType> getPersonType(String label) {
-        return Arrays.stream(PersonType.values())
-                .filter(c -> c.getValue().equals(label))
-                .findFirst();
     }
 
 }

@@ -13,7 +13,7 @@ public class MonthConverter implements AttributeConverter<Months, String> {
     public String convertToDatabaseColumn(Months months) {
         if (months == null) {
             return null;
-        };
+        }
 
         return months.getValue();
     }

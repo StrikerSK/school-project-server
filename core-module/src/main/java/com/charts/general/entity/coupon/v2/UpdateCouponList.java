@@ -3,10 +3,7 @@ package com.charts.general.entity.coupon.v2;
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.coupon.v1.CouponEntity;
 import com.charts.general.entity.coupon.v1.CouponList;
-import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.PersonType;
-import com.charts.general.entity.enums.SellType;
-import com.charts.general.entity.enums.Validity;
+import com.charts.general.entity.enums.*;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -119,7 +116,7 @@ public class UpdateCouponList {
         output.setValue(function.apply(couponEntity));
         output.setValidity(couponEntity.getValidity());
         output.setSellType(couponEntity.getType());
-        output.setPersonType(PersonType.getPersonType(personType).get());
+        output.setPersonType(EnumUtils.getEnumValues(PersonType.class, personType).get());
 
         // From GeneralEntity class
         output.setMonth(couponEntity.getMonth());

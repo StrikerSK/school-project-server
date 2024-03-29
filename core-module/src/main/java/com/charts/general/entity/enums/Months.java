@@ -2,9 +2,6 @@ package com.charts.general.entity.enums;
 
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 import static com.charts.general.constants.Months.*;
 
 @Getter
@@ -29,12 +26,6 @@ public enum Months implements IEnum {
     Months(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
-    }
-
-    public static Optional<Months> getType(String label) {
-        return Arrays.stream(Months.values())
-                .filter(c -> c.getValue().equals(label))
-                .findFirst();
     }
 
 }
