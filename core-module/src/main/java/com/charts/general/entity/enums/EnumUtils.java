@@ -18,6 +18,10 @@ public class EnumUtils {
         return getEnumValues(clazz).stream().filter(c -> c.getValue().equals(label)).findFirst();
     }
 
+    public static <T extends Enum<T> & IEnum> List<T> findValue(Class<T> clazz, List<String> labels) {
+        return getEnumValues(clazz).stream().filter(c -> labels.contains(c.getValue())).collect(Collectors.toList());
+    }
+
     public static <T extends Enum<T> & IEnum> List<String> getLabels(Class<T> enumClass) {
         return getEnumValues(enumClass).stream().map(IEnum::getValue).collect(Collectors.toList());
     }
