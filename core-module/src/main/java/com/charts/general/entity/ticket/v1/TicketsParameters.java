@@ -1,4 +1,4 @@
-package com.charts.general.entity.ticket;
+package com.charts.general.entity.ticket.v1;
 
 import com.charts.general.entity.AbstractParameters;
 import com.charts.general.entity.enums.EnumUtils;

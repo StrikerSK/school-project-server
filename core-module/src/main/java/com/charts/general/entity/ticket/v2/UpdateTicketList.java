@@ -1,10 +1,10 @@
-package com.charts.general.entity.ticket.updated;
+package com.charts.general.entity.ticket.v2;
 
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.entity.ticket.TicketEntity;
-import com.charts.general.entity.ticket.TicketsParameters;
+import com.charts.general.entity.ticket.v1.TicketEntity;
+import com.charts.general.entity.ticket.v1.TicketsParameters;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -18,7 +18,7 @@ import static com.charts.general.constants.TicketConstants.*;
 @Getter
 public class UpdateTicketList {
 
-    private final List<UpdateTicketEntity> ticketEntities;
+    private final List<TicketEntityV2> ticketEntities;
 
     public UpdateTicketList(TicketEntity ticketEntity) {
         ticketEntities = new ArrayList<>();
@@ -33,9 +33,9 @@ public class UpdateTicketList {
                 ticketList.stream()
                         .map(TicketEntity.class::cast)
                         .forEach(this::fillData);
-            } else if (listItem instanceof UpdateTicketEntity) {
+            } else if (listItem instanceof TicketEntityV2) {
                 this.ticketEntities = ticketList.stream()
-                        .map(UpdateTicketEntity.class::cast)
+                        .map(TicketEntityV2.class::cast)
                         .collect(Collectors.toList());
             } else {
                 throw new IllegalArgumentException("Type cannot be determined!");
@@ -91,8 +91,8 @@ public class UpdateTicketList {
         ticketEntities.add(extractData(ELEVEN_ZONES, ticketEntity, TicketEntity::getElevenZones));
     }
 
-    private static UpdateTicketEntity extractData(String ticketType, TicketEntity ticketEntity, Function<TicketEntity, Long> function) {
-        UpdateTicketEntity output = new UpdateTicketEntity();
+    private static TicketEntityV2 extractData(String ticketType, TicketEntity ticketEntity, Function<TicketEntity, Long> function) {
+        TicketEntityV2 output = new TicketEntityV2();
 
         //From UpdateCouponEntity class
         output.setValue(function.apply(ticketEntity).intValue());

@@ -1,8 +1,8 @@
 package com.charts.recharts.service;
 
-import com.charts.general.entity.AbstractUpdateEntity;
+import com.charts.general.entity.AbstractEntityV2;
 import com.charts.general.entity.coupon.CouponsParameters;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.general.entity.coupon.v2.UpdateCouponList;
 import com.charts.general.repository.coupon.CouponRepository;
 import com.charts.recharts.entity.RechartsDataObject;
 import lombok.AllArgsConstructor;
@@ -31,7 +31,7 @@ public class RechartsCouponService {
 			UpdateCouponList entities = couponList.filterByMonth(Collections.singletonList(month));
 			parameters.getPersonTypeList().forEach(personType -> {
 				Integer monthlyValue = entities.filterByPersonType(Collections.singletonList(personType)).getCouponEntityList().stream()
-						.map(AbstractUpdateEntity::getValue)
+						.map(AbstractEntityV2::getValue)
 						.reduce(0, Integer::sum);
 				nestedList.add(new RechartsDataObject(personType, month, monthlyValue));
 			});

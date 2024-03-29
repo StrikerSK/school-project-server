@@ -2,7 +2,7 @@ package com.charts.apex.controller;
 
 import com.charts.apex.entity.ApexObject;
 import com.charts.apex.service.ApexTicketService;
-import com.charts.general.entity.ticket.TicketsParameters;
+import com.charts.general.entity.ticket.v1.TicketsParameters;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

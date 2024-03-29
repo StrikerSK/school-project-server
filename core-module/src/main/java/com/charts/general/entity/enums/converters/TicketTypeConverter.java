@@ -14,7 +14,6 @@ public class TicketTypeConverter implements AttributeConverter<TicketTypes, Stri
         if (ticketType == null) {
             return null;
         }
-        ;
 
         return ticketType.getValue();
     }

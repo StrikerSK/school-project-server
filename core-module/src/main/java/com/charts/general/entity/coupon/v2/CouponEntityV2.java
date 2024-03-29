@@ -1,6 +1,6 @@
-package com.charts.general.entity.coupon.updated;
+package com.charts.general.entity.coupon.v2;
 
-import com.charts.general.entity.AbstractUpdateEntity;
+import com.charts.general.entity.AbstractEntityV2;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UpdateCouponEntity extends AbstractUpdateEntity {
+public class CouponEntityV2 extends AbstractEntityV2 {
 
 	@Column(name = "platnost")
 	private Validity validity;

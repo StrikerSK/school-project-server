@@ -1,6 +1,6 @@
-package com.charts.general.entity.ticket.updated;
+package com.charts.general.entity.ticket.v2;
 
-import com.charts.general.entity.AbstractUpdateEntity;
+import com.charts.general.entity.AbstractEntityV2;
 import com.charts.general.entity.enums.TicketTypes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UpdateTicketEntity extends AbstractUpdateEntity {
+public class TicketEntityV2 extends AbstractEntityV2 {
 
 	@Column(name = "typ_listka")
 	private TicketTypes ticketType;

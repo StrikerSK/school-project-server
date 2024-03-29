@@ -9,7 +9,7 @@ import javax.persistence.Column;
 @NoArgsConstructor
 @Getter
 @Setter
-public abstract class AbstractUpdateEntity extends AbstractEntity{
+public abstract class AbstractEntityV2 extends AbstractEntity{
 
     @Column(name = "hodnota")
     private Integer value;

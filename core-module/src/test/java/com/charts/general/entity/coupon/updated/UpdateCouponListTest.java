@@ -1,8 +1,10 @@
 package com.charts.general.entity.coupon.updated;
 
 import com.charts.general.entity.coupon.AbstractCouponTest;
-import com.charts.general.entity.coupon.CouponEntity;
-import com.charts.general.entity.coupon.CouponList;
+import com.charts.general.entity.coupon.v1.CouponEntity;
+import com.charts.general.entity.coupon.v1.CouponList;
+import com.charts.general.entity.coupon.v2.CouponEntityV2;
+import com.charts.general.entity.coupon.v2.UpdateCouponList;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
@@ -16,7 +18,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.charts.general.constants.Months.*;
 import static com.charts.general.constants.PersonType.*;
 
 public class UpdateCouponListTest extends AbstractCouponTest {
@@ -118,7 +119,7 @@ public class UpdateCouponListTest extends AbstractCouponTest {
         makeAssert(CHILDREN_VALUE, CouponEntity::getChildren);
     }
     private void makeAssert(String value, Function<CouponEntity, Integer> function) {
-        Optional<UpdateCouponEntity> assertedValue = updateCouponList.getCouponEntityList().stream()
+        Optional<CouponEntityV2> assertedValue = updateCouponList.getCouponEntityList().stream()
                 .filter(e -> value.equals(e.getPersonType().getValue()))
                 .findFirst();
         Assert.assertTrue(assertedValue.isPresent());

@@ -1,9 +1,9 @@
 package com.charts.apex.service;
 
 import com.charts.apex.entity.ApexObject;
-import com.charts.general.entity.ticket.TicketsParameters;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
+import com.charts.general.entity.ticket.v1.TicketsParameters;
+import com.charts.general.entity.ticket.v2.TicketEntityV2;
+import com.charts.general.entity.ticket.v2.UpdateTicketList;
 import com.charts.general.repository.ticket.TicketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class ApexTicketService {
 			UpdateTicketList entities = ticketList.filterByTicketType(Collections.singletonList(ticketType));
 			parameters.getMonths().forEach(month -> {
 				Integer monthlyValue = entities.filterByMonth(Collections.singletonList(month)).getTicketEntities().stream()
-						.map(UpdateTicketEntity::getValue)
+						.map(TicketEntityV2::getValue)
 						.reduce(0, Integer::sum);
 				values.add(monthlyValue);
 			});

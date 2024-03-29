@@ -1,8 +1,8 @@
-package com.charts.general.entity.coupon.updated;
+package com.charts.general.entity.coupon.v2;
 
 import com.charts.general.entity.coupon.CouponsParameters;
-import com.charts.general.entity.coupon.CouponEntity;
-import com.charts.general.entity.coupon.CouponList;
+import com.charts.general.entity.coupon.v1.CouponEntity;
+import com.charts.general.entity.coupon.v1.CouponList;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
@@ -21,7 +21,7 @@ import static com.charts.general.constants.PersonType.CHILDREN_VALUE;
 @Getter
 public class UpdateCouponList {
 
-    private final List<UpdateCouponEntity> couponEntityList;
+    private final List<CouponEntityV2> couponEntityList;
 
     public UpdateCouponList(CouponEntity couponEntity) {
         couponEntityList = new ArrayList<>();
@@ -36,9 +36,9 @@ public class UpdateCouponList {
                 couponList.stream()
                         .map(CouponEntity.class::cast)
                         .forEach(this::fillData);
-            } else if (listItem instanceof UpdateCouponEntity) {
+            } else if (listItem instanceof CouponEntityV2) {
                 this.couponEntityList = couponList.stream()
-                        .map(UpdateCouponEntity.class::cast)
+                        .map(CouponEntityV2.class::cast)
                         .collect(Collectors.toList());
             } else {
                 throw new IllegalArgumentException("Type cannot be determined!");
@@ -91,14 +91,14 @@ public class UpdateCouponList {
 
     public List<PersonType> getPersonTypeValues() {
         return couponEntityList.stream()
-                .map(UpdateCouponEntity::getPersonType)
+                .map(CouponEntityV2::getPersonType)
                 .distinct()
                 .collect(Collectors.toList());
     }
 
     public List<SellType> getSellTypeValues() {
         return couponEntityList.stream()
-                .map(UpdateCouponEntity::getSellType)
+                .map(CouponEntityV2::getSellType)
                 .distinct()
                 .collect(Collectors.toList());
     }
@@ -112,8 +112,8 @@ public class UpdateCouponList {
         couponEntityList.add(extractData(CHILDREN_VALUE, couponEntity, CouponEntity::getChildren));
     }
 
-    private static UpdateCouponEntity extractData(String personType, CouponEntity couponEntity, Function<CouponEntity, Integer> function) {
-        UpdateCouponEntity output = new UpdateCouponEntity();
+    private static CouponEntityV2 extractData(String personType, CouponEntity couponEntity, Function<CouponEntity, Integer> function) {
+        CouponEntityV2 output = new CouponEntityV2();
 
         //From UpdateCouponEntity class
         output.setValue(function.apply(couponEntity));

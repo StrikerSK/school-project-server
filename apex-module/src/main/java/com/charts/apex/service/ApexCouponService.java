@@ -1,9 +1,9 @@
 package com.charts.apex.service;
 
 import com.charts.apex.entity.ApexObject;
-import com.charts.general.entity.AbstractUpdateEntity;
+import com.charts.general.entity.AbstractEntityV2;
 import com.charts.general.entity.coupon.CouponsParameters;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.general.entity.coupon.v2.UpdateCouponList;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.repository.coupon.CouponRepository;
 import lombok.AllArgsConstructor;
@@ -61,7 +61,7 @@ public class ApexCouponService {
 		List<Integer> values = new ArrayList<>();
 		months.forEach(month -> {
 			Integer monthlyValue = couponList.filterByMonth(Collections.singletonList(month)).getCouponEntityList().stream()
-					.map(AbstractUpdateEntity::getValue)
+					.map(AbstractEntityV2::getValue)
 					.reduce(0, Integer::sum);
 			values.add(monthlyValue);
 		});
