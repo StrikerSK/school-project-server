@@ -8,7 +8,7 @@ services:
       - "8080:8080"
     #Dependencies name base on other services in compose file
     depends_on:
-      - pid-db
+      - db
     networks:
       - pid-server
     environment:
@@ -17,9 +17,9 @@ services:
       - spring.datasource.password=${DATABASE_PASSWORD}
       - spring.jpa.properties.hibernate.dialect=${DATABASE_DIALECT}
 
-  pid-db:
+  db:
     image: postgres
-    container_name: pid-app-db
+    container_name: postgres
     ports:
       - "5432:5432"
     networks:

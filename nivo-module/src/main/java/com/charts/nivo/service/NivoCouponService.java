@@ -1,6 +1,8 @@
 package com.charts.nivo.service;
 
 import com.charts.general.entity.coupon.CouponsParameters;
+import com.charts.general.entity.coupon.v1.CouponEntity;
+import com.charts.general.entity.coupon.v2.CouponEntityV2;
 import com.charts.general.entity.coupon.v2.UpdateCouponList;
 import com.charts.general.repository.coupon.CouponRepository;
 import com.charts.general.utils.CouponGroupingUtils;
@@ -31,7 +33,7 @@ public class NivoCouponService {
                 .forEach((personType, entity) -> {
                     List<NivoDataXY> nestedData = new ArrayList<>();
                     CouponGroupingUtils.groupAndSumByMonth(entity)
-                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
+                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, integer.longValue())));
                     output.add(new NivoLineData(personType, nestedData));
                 });
         return output;
@@ -44,17 +46,26 @@ public class NivoCouponService {
      * @return data for displaying line chart by validity
      */
     public List<NivoLineData> getMonthlyLineDataByValidity(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+        UpdateCouponList updateCouponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoLineData> output = new ArrayList<>();
-        CouponGroupingUtils.groupByValidity(couponList.getCouponEntityList())
-                .forEach((validity, entity) -> {
-                    List<NivoDataXY> nestedData = new ArrayList<>();
-                    CouponGroupingUtils.groupAndSumByMonth(entity)
-                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
-                    output.add(new NivoLineData(validity, nestedData));
-                });
+
+        groupByValidity(updateCouponList.getCouponEntityList()).forEach((validity, entity) -> {
+            output.add(new NivoLineData(validity, groupAndSumByMonth(entity)));
+        });
 
         return output;
+    }
+
+    private Map<String, List<NivoDataXY>> groupByValidity(List<CouponEntityV2> couponEntities) {
+        Map<String, List<NivoDataXY>> result = new HashMap<>();
+        // Logic to group by validity
+        return result;
+    }
+
+    private List<NivoDataXY> groupAndSumByMonth(List<CouponEntityV2> couponEntities) {
+        List<NivoDataXY> result = new ArrayList<>();
+        // Logic to group and sum by month
+        return result;
     }
 
     public List<NivoLineData> getMonthlyLineDataBySellType(CouponsParameters parameters) {
@@ -64,7 +75,7 @@ public class NivoCouponService {
                 .forEach((sellType, entity) -> {
                     List<NivoDataXY> nestedData = new ArrayList<>();
                     CouponGroupingUtils.groupAndSumByMonth(entity)
-                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
+                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, integer.longValue())));
                     output.add(new NivoLineData(sellType, nestedData));
                 });
 

@@ -1,42 +1,29 @@
 package com.charts.general.entity.ticket.v2;
 
-import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.ticket.v1.TicketEntity;
 import com.charts.general.entity.ticket.v1.TicketsParameters;
+import com.charts.general.utils.TicketEntityConvertor;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.charts.general.constants.TicketConstants.*;
 
 @Getter
 public class UpdateTicketList {
 
     private final List<TicketEntityV2> ticketEntities;
 
-    public UpdateTicketList(TicketEntity ticketEntity) {
-        ticketEntities = new ArrayList<>();
-        this.fillData(ticketEntity);
-    }
-
     public <T> UpdateTicketList(List<T> ticketList) {
         if (CollectionUtils.isNotEmpty(ticketList)) {
             T listItem = ticketList.get(0);
             if (listItem instanceof  TicketEntity) {
-                this.ticketEntities = new ArrayList<>();
-                ticketList.stream()
-                        .map(TicketEntity.class::cast)
-                        .forEach(this::fillData);
+                this.ticketEntities = convertList(ticketList);
             } else if (listItem instanceof TicketEntityV2) {
-                this.ticketEntities = ticketList.stream()
-                        .map(TicketEntityV2.class::cast)
-                        .collect(Collectors.toList());
+                this.ticketEntities = castList(ticketList);
             } else {
                 throw new IllegalArgumentException("Type cannot be determined!");
             }
@@ -44,6 +31,7 @@ public class UpdateTicketList {
             ticketEntities = new ArrayList<>();
         }
     }
+
     public UpdateTicketList filterByMonth(List<Months> months) {
         return new UpdateTicketList(ticketEntities.stream()
                 .filter(e -> months.contains(e.getMonth()))
@@ -75,36 +63,17 @@ public class UpdateTicketList {
                 .filterByMonth(parameters.getMonths());
     }
 
-    private void fillData(TicketEntity ticketEntity) {
-        ticketEntities.add(extractData(FIFTEEN_MINUTES, ticketEntity, TicketEntity::getFifteenMinutes));
-        ticketEntities.add(extractData(ONE_DAY, ticketEntity, TicketEntity::getOneDay));
-        ticketEntities.add(extractData(ONE_DAY_ALL, ticketEntity, TicketEntity::getOneDayAll));
-        ticketEntities.add(extractData(TWO_ZONES, ticketEntity, TicketEntity::getTwoZones));
-        ticketEntities.add(extractData(THREE_ZONES, ticketEntity, TicketEntity::getThreeZones));
-        ticketEntities.add(extractData(FOUR_ZONES, ticketEntity, TicketEntity::getFourZones));
-        ticketEntities.add(extractData(FIVE_ZONES, ticketEntity, TicketEntity::getFiveZones));
-        ticketEntities.add(extractData(SIX_ZONES, ticketEntity, TicketEntity::getSixZones));
-        ticketEntities.add(extractData(SEVEN_ZONES, ticketEntity, TicketEntity::getSevenZones));
-        ticketEntities.add(extractData(EIGHT_ZONES, ticketEntity, TicketEntity::getEightZones));
-        ticketEntities.add(extractData(NINE_ZONES, ticketEntity, TicketEntity::getNineZones));
-        ticketEntities.add(extractData(TEN_ZONES, ticketEntity, TicketEntity::getTenZones));
-        ticketEntities.add(extractData(ELEVEN_ZONES, ticketEntity, TicketEntity::getElevenZones));
+    private static <T> List<TicketEntityV2> convertList(List<T> list) {
+        return list.stream()
+                .map(TicketEntity.class::cast)
+                .flatMap(e -> TicketEntityConvertor.fillData(e).stream())
+                .collect(Collectors.toList());
     }
 
-    private static TicketEntityV2 extractData(String ticketType, TicketEntity ticketEntity, Function<TicketEntity, Long> function) {
-        TicketEntityV2 output = new TicketEntityV2();
-
-        //From UpdateCouponEntity class
-        output.setValue(function.apply(ticketEntity).intValue());
-        output.setDiscounted(ticketEntity.getDiscounted());
-        output.setTicketType(EnumUtils.getEnumValues(TicketTypes.class, ticketType).get());
-
-        // From GeneralEntity class
-        output.setMonth(ticketEntity.getMonth());
-        output.setYear(ticketEntity.getYear());
-        output.setCode(ticketEntity.getCode());
-
-        return output;
+    private static <T> List<TicketEntityV2> castList(List<T> list) {
+        return list.stream()
+                .map(TicketEntityV2.class::cast)
+                .collect(Collectors.toList());
     }
 
 }
