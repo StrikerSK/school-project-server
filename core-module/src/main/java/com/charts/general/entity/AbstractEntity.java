@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public abstract class AbstractEntity {
 
 	@Id

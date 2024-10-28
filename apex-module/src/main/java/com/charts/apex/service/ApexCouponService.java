@@ -16,6 +16,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ApexCouponService {
+
 	private final CouponRepository couponRepository;
 
 	public List<ApexObject> getMonthlyDataByPersonType(final CouponsParameters parameters) {
