@@ -5,11 +5,10 @@ import com.charts.general.entity.ticket.TicketEntity;
 import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.charts.general.constants.TicketConstants.*;
 
 public class TicketConverter {
 
@@ -17,7 +16,7 @@ public class TicketConverter {
         return fillData(ticketEntities);
     }
 
-    public static List<UpdateTicketEntity> convertTicketEntity(List<TicketEntity> ticketEntities) {
+    public static List<UpdateTicketEntity> convertTicketEntities(List<TicketEntity> ticketEntities) {
         return ticketEntities.stream()
                 .map(TicketConverter::fillData)
                 .flatMap(List::stream)
@@ -26,20 +25,57 @@ public class TicketConverter {
 
     private static List<UpdateTicketEntity> fillData(TicketEntity ticketEntity) {
         List<UpdateTicketEntity> ticketEntities = new ArrayList<>();
-        ticketEntities.add(extractData(FIFTEEN_MINUTES, ticketEntity, TicketEntity::getFifteenMinutes));
-        ticketEntities.add(extractData(ONE_DAY, ticketEntity, TicketEntity::getOneDay));
-        ticketEntities.add(extractData(ONE_DAY_ALL, ticketEntity, TicketEntity::getOneDayAll));
-        ticketEntities.add(extractData(TWO_ZONES, ticketEntity, TicketEntity::getTwoZones));
-        ticketEntities.add(extractData(THREE_ZONES, ticketEntity, TicketEntity::getThreeZones));
-        ticketEntities.add(extractData(FOUR_ZONES, ticketEntity, TicketEntity::getFourZones));
-        ticketEntities.add(extractData(FIVE_ZONES, ticketEntity, TicketEntity::getFiveZones));
-        ticketEntities.add(extractData(SIX_ZONES, ticketEntity, TicketEntity::getSixZones));
-        ticketEntities.add(extractData(SEVEN_ZONES, ticketEntity, TicketEntity::getSevenZones));
-        ticketEntities.add(extractData(EIGHT_ZONES, ticketEntity, TicketEntity::getEightZones));
-        ticketEntities.add(extractData(NINE_ZONES, ticketEntity, TicketEntity::getNineZones));
-        ticketEntities.add(extractData(TEN_ZONES, ticketEntity, TicketEntity::getTenZones));
-        ticketEntities.add(extractData(ELEVEN_ZONES, ticketEntity, TicketEntity::getElevenZones));
+        List<TicketTypes> ticketTypes = Arrays.asList(
+                TicketTypes.FIFTEEN_MINUTES,
+                TicketTypes.ONE_DAY,
+                TicketTypes.ONE_DAY_ALL,
+                TicketTypes.TWO_ZONES,
+                TicketTypes.THREE_ZONES,
+                TicketTypes.FOUR_ZONES,
+                TicketTypes.FIVE_ZONES,
+                TicketTypes.SIX_ZONES,
+                TicketTypes.SEVEN_ZONES,
+                TicketTypes.EIGHT_ZONES,
+                TicketTypes.NINE_ZONES,
+                TicketTypes.TEN_ZONES,
+                TicketTypes.ELEVEN_ZONES
+        );
+
+        ticketTypes.forEach(ticketType -> ticketEntities.add(extractData(ticketType.getValue(), ticketEntity, getFunction(ticketType))));
         return ticketEntities;
+    }
+
+    private static Function<TicketEntity, Long> getFunction(TicketTypes ticketType) {
+        switch (ticketType) {
+            case FIFTEEN_MINUTES:
+                return TicketEntity::getFifteenMinutes;
+            case ONE_DAY:
+                return TicketEntity::getOneDay;
+            case ONE_DAY_ALL:
+                return TicketEntity::getOneDayAll;
+            case TWO_ZONES:
+                return TicketEntity::getTwoZones;
+            case THREE_ZONES:
+                return TicketEntity::getThreeZones;
+            case FOUR_ZONES:
+                return TicketEntity::getFourZones;
+            case FIVE_ZONES:
+                return TicketEntity::getFiveZones;
+            case SIX_ZONES:
+                return TicketEntity::getSixZones;
+            case SEVEN_ZONES:
+                return TicketEntity::getSevenZones;
+            case EIGHT_ZONES:
+                return TicketEntity::getEightZones;
+            case NINE_ZONES:
+                return TicketEntity::getNineZones;
+            case TEN_ZONES:
+                return TicketEntity::getTenZones;
+            case ELEVEN_ZONES:
+                return TicketEntity::getElevenZones;
+            default:
+                throw new IllegalArgumentException("Invalid ticketType");
+        }
     }
 
     private static UpdateTicketEntity extractData(String ticketType, TicketEntity ticketEntity, Function<TicketEntity, Long> function) {
