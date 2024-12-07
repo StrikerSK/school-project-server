@@ -13,7 +13,7 @@
             </column>
             <column name="code" type="text"/>
             <column name="month" type="text"/>
-            <column name="year" type="text"/>
+            <column name="year" type="int"/>
             <column name="value" type="int"/>
             <column name="sell_type" type="text"/>
             <column name="person_type" type="text"/>

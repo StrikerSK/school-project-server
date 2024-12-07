@@ -41,20 +41,15 @@ public class CouponConvertor {
     }
 
     private static UpdateCouponEntity extractData(String personType, CouponEntity couponEntity, Function<CouponEntity, Integer> function) {
-        UpdateCouponEntity output = new UpdateCouponEntity();
-
-        //From UpdateCouponEntity class
-        output.setValue(function.apply(couponEntity));
-        output.setValidity(couponEntity.getValidity());
-        output.setSellType(couponEntity.getType());
-        output.setPersonType(PersonType.getPersonType(personType).get());
-
-        // From GeneralEntity class
-        output.setMonth(couponEntity.getMonth());
-        output.setYear(couponEntity.getYear());
-        output.setCode(couponEntity.getCode());
-
-        return output;
+        return UpdateCouponEntity.builder()
+                .value(function.apply(couponEntity))
+                .validity(couponEntity.getValidity())
+                .sellType(couponEntity.getType())
+                .personType(PersonType.getPersonType(personType).get())
+                .month(couponEntity.getMonth())
+                .year(couponEntity.getYear())
+                .code(couponEntity.getCode())
+                .build();
     }
 
 }

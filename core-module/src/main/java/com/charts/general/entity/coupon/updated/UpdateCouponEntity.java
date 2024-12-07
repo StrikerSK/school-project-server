@@ -1,6 +1,5 @@
 package com.charts.general.entity.coupon.updated;
 
-import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
@@ -20,7 +19,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @SuperBuilder
-public class UpdateCouponEntity extends AbstractUpdateEntity {
+public class UpdateCouponEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
