@@ -13,6 +13,10 @@ import static com.charts.general.constants.TicketConstants.*;
 
 public class TicketConverter {
 
+    public static List<UpdateTicketEntity> convertTicketEntity(TicketEntity ticketEntities) {
+        return fillData(ticketEntities);
+    }
+
     public static List<UpdateTicketEntity> convertTicketEntity(List<TicketEntity> ticketEntities) {
         return ticketEntities.stream()
                 .map(TicketConverter::fillData)
