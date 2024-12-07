@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
@@ -18,6 +19,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class UpdateCouponEntity extends AbstractUpdateEntity {
 
 	@Id
@@ -42,10 +44,10 @@ public class UpdateCouponEntity extends AbstractUpdateEntity {
 	@Column(name = "validity")
 	private Validity validity;
 
-	@Column(name = "sellType")
+	@Column(name = "sell_type")
 	private SellType sellType;
 
-	@Column(name = "personType")
+	@Column(name = "person_type")
 	private PersonType personType;
 
 }

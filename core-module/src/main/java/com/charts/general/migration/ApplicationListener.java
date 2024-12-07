@@ -3,6 +3,7 @@ package com.charts.general.migration;
 import com.charts.general.entity.coupon.CouponEntity;
 import com.charts.general.repository.coupon.JpaCouponRepository;
 import com.charts.general.repository.coupon.JpaCouponV2Repository;
+import com.charts.general.utils.converter.CouponConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.SpringApplicationEvent;
 import org.springframework.context.event.EventListener;
@@ -22,10 +23,7 @@ public class ApplicationListener {
     @EventListener
     public void onApplicationEvent(SpringApplicationEvent event) {
         List<CouponEntity> coupons = couponRepository.findAll();
-        System.out.println(couponRepository.findAll());
-//        System.out.println(couponList.getCouponEntityList().get(0).getId());
-
-        System.out.println("ApplicationListener");
+        couponV2Repository.saveAll(CouponConvertor.convertCouponEntity(coupons));
     }
 
 }
