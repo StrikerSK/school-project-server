@@ -1,4 +1,4 @@
-package com.charts.general.entity.coupon.updated;
+package com.charts.api.coupon.entity.v2;
 
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.Months;

@@ -1,8 +1,8 @@
-package com.charts.general.entity.coupon.updated;
+package com.charts.api.coupon.entity.v2;
 
 import com.charts.general.entity.coupon.CouponsParameters;
-import com.charts.general.entity.coupon.CouponEntity;
-import com.charts.general.entity.coupon.CouponList;
+import com.charts.api.coupon.entity.v1.CouponEntity;
+import com.charts.api.coupon.entity.v1.CouponList;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
@@ -13,11 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.charts.general.constants.PersonType.*;
-import static com.charts.general.constants.PersonType.CHILDREN_VALUE;
 
 @Getter
 public class UpdateCouponList {

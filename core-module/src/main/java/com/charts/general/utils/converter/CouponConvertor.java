@@ -1,7 +1,7 @@
 package com.charts.general.utils.converter;
 
-import com.charts.general.entity.coupon.CouponEntity;
-import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
+import com.charts.api.coupon.entity.v1.CouponEntity;
+import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.general.entity.enums.PersonType;
 
 import java.util.ArrayList;

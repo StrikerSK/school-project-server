@@ -1,8 +1,8 @@
 package com.charts.nivo.service;
 
 import com.charts.general.entity.coupon.CouponsParameters;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
-import com.charts.general.repository.coupon.CouponRepository;
+import com.charts.api.coupon.entity.v2.UpdateCouponList;
+import com.charts.api.coupon.repository.CouponRepository;
 import com.charts.general.utils.CouponGroupingUtils;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoDataXY;

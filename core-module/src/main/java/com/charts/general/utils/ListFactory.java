@@ -1,8 +1,8 @@
 package com.charts.general.utils;
 
 import com.charts.general.entity.AbstractUpdateEntity;
-import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
+import com.charts.api.coupon.entity.v2.UpdateCouponList;
 import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
 import com.charts.general.entity.ticket.updated.UpdateTicketList;
 import org.apache.commons.collections4.CollectionUtils;

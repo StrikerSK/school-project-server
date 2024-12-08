@@ -1,4 +1,4 @@
-package com.charts.general.entity.coupon;
+package com.charts.api.coupon.entity.v1;
 
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;

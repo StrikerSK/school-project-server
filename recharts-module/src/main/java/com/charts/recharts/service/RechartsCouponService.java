@@ -2,8 +2,8 @@ package com.charts.recharts.service;
 
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.coupon.CouponsParameters;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
-import com.charts.general.repository.coupon.CouponRepository;
+import com.charts.api.coupon.entity.v2.UpdateCouponList;
+import com.charts.api.coupon.repository.CouponRepository;
 import com.charts.recharts.entity.RechartsDataObject;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
-package com.charts.general.repository.coupon;
+package com.charts.api.coupon.repository;
 
-import com.charts.general.entity.coupon.CouponList;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.api.coupon.entity.v1.CouponList;
+import com.charts.api.coupon.entity.v2.UpdateCouponList;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 

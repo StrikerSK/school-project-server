@@ -1,7 +1,7 @@
 package com.charts.general.utils.converter;
 
 import com.charts.general.entity.coupon.AbstractCouponTest;
-import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
+import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import org.testng.Assert;

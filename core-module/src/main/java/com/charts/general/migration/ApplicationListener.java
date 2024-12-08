@@ -1,8 +1,8 @@
 package com.charts.general.migration;
 
-import com.charts.general.entity.coupon.CouponEntity;
-import com.charts.general.repository.coupon.JpaCouponRepository;
-import com.charts.general.repository.coupon.JpaCouponV2Repository;
+import com.charts.api.coupon.entity.v1.CouponEntity;
+import com.charts.api.coupon.repository.JpaCouponRepository;
+import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.general.utils.converter.CouponConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.SpringApplicationEvent;

@@ -1,11 +1,11 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.api.coupon.entity.v1.CouponEntity;
+import com.charts.api.coupon.entity.v2.UpdateCouponList;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
-import com.charts.general.repository.coupon.CouponRepository;
-import com.charts.general.repository.coupon.JpaCouponRepository;
+import com.charts.api.coupon.repository.JpaCouponRepository;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;

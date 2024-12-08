@@ -1,7 +1,7 @@
 package com.charts.general.utils;
 
-import com.charts.general.entity.coupon.updated.UpdateCouponEntity;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
+import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
+import com.charts.api.coupon.entity.v2.UpdateCouponList;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
