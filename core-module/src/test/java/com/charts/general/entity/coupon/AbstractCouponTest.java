@@ -4,12 +4,18 @@ import com.charts.general.entity.coupon.updated.UpdateCouponList;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
+import com.charts.general.repository.coupon.CouponRepository;
+import com.charts.general.repository.coupon.JpaCouponRepository;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.mockito.Mockito.when;
 
 public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTests {
 
@@ -20,21 +26,24 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
     protected UpdateCouponList updateCouponList;
     protected List<CouponEntity> couponEntityList;
 
+    @Mock
+    protected JpaCouponRepository jpaCouponRepository;
+
     @BeforeClass
     public void setUp() {
-        couponEntity1 = new CouponEntity();
-        couponEntity1.setPortable(100);
-        couponEntity1.setSeniors(200);
-        couponEntity1.setAdults(300);
-        couponEntity1.setStudents(400);
-        couponEntity1.setJunior(500);
-        couponEntity1.setChildren(600);
-        couponEntity1.setType(SellType.ESHOP);
-        couponEntity1.setValidity(Validity.YEARLY);
-
-        couponEntity1.setCode("032000");
-        couponEntity1.setMonth(Months.MARCH);
-        couponEntity1.setYear(2000);
+        couponEntity1 = CouponEntity.builder()
+                .portable(100)
+                .seniors(200)
+                .adults(300)
+                .students(400)
+                .junior(500)
+                .children(600)
+                .type(SellType.ESHOP)
+                .validity(Validity.YEARLY)
+                .code("032000")
+                .month(Months.MARCH)
+                .year(2000)
+                .build();
 
         couponEntity2 = new CouponEntity();
         couponEntity2.setPortable(1000);
@@ -66,6 +75,9 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
 
         updateCouponList = new UpdateCouponList(couponEntity1);
         couponEntityList = Stream.of(couponEntity1, couponEntity2, couponEntity3).collect(Collectors.toList());
+
+        this.jpaCouponRepository = Mockito.mock(JpaCouponRepository .class);
+        when(jpaCouponRepository.findAll()).thenReturn(couponEntityList);
     }
 
 }
