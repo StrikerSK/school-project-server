@@ -1,5 +1,6 @@
 package com.charts.general.entity.coupon.updated;
 
+import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
@@ -19,7 +20,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @SuperBuilder
-public class UpdateCouponEntity {
+public class UpdateCouponEntity extends AbstractUpdateEntity implements Comparable<UpdateCouponEntity> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +49,17 @@ public class UpdateCouponEntity {
 
 	@Column(name = "person_type")
 	private PersonType personType;
+
+	@Override
+	public int compareTo(UpdateCouponEntity o) {
+
+		int yearComparison = this.getYear().compareTo(o.getYear());
+		if (yearComparison == 0) {
+			return this.getMonth().getOrderValue().compareTo(o.getMonth().getOrderValue());
+		} else {
+			return yearComparison;
+		}
+
+	}
 
 }

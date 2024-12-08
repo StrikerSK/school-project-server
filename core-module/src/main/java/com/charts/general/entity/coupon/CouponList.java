@@ -1,6 +1,5 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.general.entity.AbstractEntity;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
 import lombok.AllArgsConstructor;

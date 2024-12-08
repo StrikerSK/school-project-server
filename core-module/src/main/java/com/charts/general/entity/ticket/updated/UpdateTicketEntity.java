@@ -15,12 +15,24 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UpdateTicketEntity extends AbstractUpdateEntity {
+public class UpdateTicketEntity extends AbstractUpdateEntity implements Comparable<UpdateTicketEntity> {
 
 	@Column(name = "typ_listka")
 	private TicketTypes ticketType;
 
 	@Column(name = "zlavneny")
 	private Boolean discounted;
+
+	@Override
+	public int compareTo(UpdateTicketEntity o) {
+
+		int yearComparison = this.getYear().compareTo(o.getYear());
+		if (yearComparison == 0) {
+			return this.getMonth().getOrderValue().compareTo(o.getMonth().getOrderValue());
+		} else {
+			return yearComparison;
+		}
+
+	}
 
 }

@@ -7,6 +7,7 @@ import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
+import com.charts.general.utils.converter.CouponConvertor;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -24,18 +25,18 @@ public class UpdateCouponList {
     private final List<UpdateCouponEntity> couponEntityList;
 
     public UpdateCouponList(CouponEntity couponEntity) {
-        couponEntityList = new ArrayList<>();
-        this.fillData(couponEntity);
+        this.couponEntityList = CouponConvertor.convertCouponEntity(couponEntity);
     }
 
     public <T> UpdateCouponList(List<T> couponList) {
         if (CollectionUtils.isNotEmpty(couponList)) {
             T listItem = couponList.get(0);
             if (listItem instanceof  CouponEntity) {
-                this.couponEntityList = new ArrayList<>();
-                couponList.stream()
+                this.couponEntityList = couponList.stream()
                         .map(CouponEntity.class::cast)
-                        .forEach(this::fillData);
+                        .map(CouponConvertor::convertCouponEntity)
+                        .flatMap(List::stream)
+                        .collect(Collectors.toList());
             } else if (listItem instanceof UpdateCouponEntity) {
                 this.couponEntityList = couponList.stream()
                         .map(UpdateCouponEntity.class::cast)
@@ -47,6 +48,7 @@ public class UpdateCouponList {
             couponEntityList = new ArrayList<>();
         }
     }
+
     public UpdateCouponList(CouponList couponList) {
         this(couponList.getCoupons());
     }
@@ -101,32 +103,6 @@ public class UpdateCouponList {
                 .map(UpdateCouponEntity::getSellType)
                 .distinct()
                 .collect(Collectors.toList());
-    }
-
-    private void fillData(CouponEntity couponEntity) {
-        couponEntityList.add(extractData(PORTABLE_VALUE, couponEntity, CouponEntity::getPortable));
-        couponEntityList.add(extractData(SENIOR_VALUE, couponEntity, CouponEntity::getSeniors));
-        couponEntityList.add(extractData(ADULT_VALUE, couponEntity, CouponEntity::getAdults));
-        couponEntityList.add(extractData(STUDENT_VALUE, couponEntity, CouponEntity::getStudents));
-        couponEntityList.add(extractData(JUNIOR_VALUE, couponEntity, CouponEntity::getJunior));
-        couponEntityList.add(extractData(CHILDREN_VALUE, couponEntity, CouponEntity::getChildren));
-    }
-
-    private static UpdateCouponEntity extractData(String personType, CouponEntity couponEntity, Function<CouponEntity, Integer> function) {
-        UpdateCouponEntity output = new UpdateCouponEntity();
-
-        //From UpdateCouponEntity class
-        output.setValue(function.apply(couponEntity));
-        output.setValidity(couponEntity.getValidity());
-        output.setSellType(couponEntity.getType());
-        output.setPersonType(PersonType.getPersonType(personType).get());
-
-        // From GeneralEntity class
-        output.setMonth(couponEntity.getMonth());
-        output.setYear(couponEntity.getYear());
-        output.setCode(couponEntity.getCode());
-
-        return output;
     }
 
 }
