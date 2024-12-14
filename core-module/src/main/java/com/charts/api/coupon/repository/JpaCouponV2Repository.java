@@ -14,7 +14,7 @@ public interface JpaCouponV2Repository extends JpaRepository<UpdateCouponEntity,
 
     List<UpdateCouponEntity> findAllByPersonTypeInAndValidityInAndSellTypeInAndMonthInAndYearIn (
             List<PersonType> personTypes,
-            List<Validity> validities,
+            List<Validity> validityList,
             List<SellType> sellTypes,
             List<Months> months,
             List<Integer> years

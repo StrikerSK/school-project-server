@@ -12,7 +12,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "coupon_entity_v2")
@@ -21,6 +26,10 @@ import javax.persistence.*;
 @Setter
 @SuperBuilder
 public class UpdateCouponEntity extends AbstractUpdateEntity implements Comparable<UpdateCouponEntity> {
+
+	public static final String PERSON_TYPE_COLUMN = "person_type";
+	public static final String SELL_TYPE_COLUMN = "sell_type";
+	public static final String VALIDITY_COLUMN = "validity";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,13 +50,13 @@ public class UpdateCouponEntity extends AbstractUpdateEntity implements Comparab
 	@Column(name = "value")
 	private Integer value;
 
-	@Column(name = "validity")
+	@Column(name = VALIDITY_COLUMN)
 	private Validity validity;
 
-	@Column(name = "sell_type")
+	@Column(name = SELL_TYPE_COLUMN)
 	private SellType sellType;
 
-	@Column(name = "person_type")
+	@Column(name = PERSON_TYPE_COLUMN)
 	private PersonType personType;
 
 	@Override
