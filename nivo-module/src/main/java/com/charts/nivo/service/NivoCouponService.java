@@ -1,5 +1,6 @@
 package com.charts.nivo.service;
 
+import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.api.coupon.entity.v2.UpdateCouponList;
 import com.charts.api.coupon.repository.CouponRepository;
@@ -8,6 +9,7 @@ import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoDataXY;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +21,9 @@ import java.util.Map;
 public class NivoCouponService {
 
     private final CouponRepository couponRepository;
+
+    @Autowired
+    private CouponV2Service couponService;
 
     public NivoCouponService(CouponRepository couponRepository) {
         this.couponRepository = couponRepository;
@@ -140,10 +145,9 @@ public class NivoCouponService {
     }
 
     public List<NivoPieData> getMonthlyPieData(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
         List<NivoPieData> pieData = new ArrayList<>();
-        CouponGroupingUtils.groupAndSumByMonth(couponList.getCouponEntityList())
-                .forEach((month, total) -> pieData.add(new NivoPieData(month, ((Integer) total))));
+        couponService.findByValidityAndGroupedByMonth(parameters)
+                .forEach((month, total) -> pieData.add(new NivoPieData(month, total.intValue())));
         return pieData;
     }
 

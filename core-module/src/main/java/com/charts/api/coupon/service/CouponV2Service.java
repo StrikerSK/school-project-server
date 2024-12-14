@@ -2,6 +2,7 @@ package com.charts.api.coupon.service;
 
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.repository.JpaCouponV2Repository;
+import com.charts.general.entity.coupon.CouponsParameters;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.Validity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.charts.general.entity.enums.Months.MONTHS_LIST;
 import static com.charts.general.entity.enums.PersonType.PERSON_TYPE_LIST;
@@ -49,20 +51,13 @@ public class CouponV2Service {
         );
     }
 
-    public List<UpdateCouponEntity> findByValidityAndGroup(
-            List<Validity> validityList,
-            String group
-    ) {
-        List<Integer> years = new ArrayList<>();
-        years.add(2022);
-
-        return couponRepository.findGroupedValues(
-                PERSON_TYPE_LIST,
-                validityList,
-                SELL_TYPE_LIST,
-                MONTHS_LIST,
-                years,
-                group
+    public Map<String, Long> findByValidityAndGroupedByMonth(CouponsParameters couponsParameters) {
+        return couponRepository.findGroupedByMonthValues(
+                couponsParameters.getPersonTypeList(),
+                couponsParameters.getValidity(),
+                couponsParameters.getSellTypes(),
+                couponsParameters.getMonths(),
+                couponsParameters.getYearInteger()
         );
     }
 
