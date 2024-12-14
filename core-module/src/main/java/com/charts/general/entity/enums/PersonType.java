@@ -1,6 +1,7 @@
 package com.charts.general.entity.enums;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static com.charts.general.constants.PersonType.*;
@@ -13,6 +14,9 @@ public enum PersonType implements IEnum {
     PORTABLE(PORTABLE_VALUE, 6),
     STUDENT(STUDENT_VALUE, 3),
     CHILDREN(CHILDREN_VALUE, 1);
+
+    public static final List<PersonType> PERSON_TYPE_LIST = EnumUtils.getValueList(PersonType.class);
+    public static final List<String> PERSON_TYPE_VALUES = EnumUtils.getStringValues(PersonType.class);
 
     private final String value;
     private final Integer orderValue;

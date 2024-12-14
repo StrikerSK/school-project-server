@@ -23,6 +23,9 @@ public enum Months implements IEnum {
     NOVEMBER(NOVEMBER_VALUE, 11),
     DECEMBER(DECEMBER_VALUE, 12);
 
+    public static final List<Months> MONTHS_LIST = EnumUtils.getValueList(Months.class);
+    public static final List<String> MONTHS_VALUES = EnumUtils.getStringValues(Months.class);
+
     private final String value;
     private final Integer orderValue;
 
