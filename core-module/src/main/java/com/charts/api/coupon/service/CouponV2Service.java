@@ -49,4 +49,21 @@ public class CouponV2Service {
         );
     }
 
+    public List<UpdateCouponEntity> findByValidityAndGroup(
+            List<Validity> validityList,
+            String group
+    ) {
+        List<Integer> years = new ArrayList<>();
+        years.add(2022);
+
+        return couponRepository.findGroupedValues(
+                PERSON_TYPE_LIST,
+                validityList,
+                SELL_TYPE_LIST,
+                MONTHS_LIST,
+                years,
+                group
+        );
+    }
+
 }
