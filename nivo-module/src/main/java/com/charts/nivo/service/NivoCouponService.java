@@ -1,10 +1,11 @@
 package com.charts.nivo.service;
 
+import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
+import com.charts.api.coupon.utils.CouponGroupingUtils;
 import com.charts.general.entity.coupon.CouponsParameters;
-import com.charts.api.coupon.entity.v2.UpdateCouponList;
-import com.charts.api.coupon.repository.CouponRepository;
-import com.charts.general.utils.CouponGroupingUtils;
+import com.charts.general.entity.enums.IEnum;
+import com.charts.general.entity.enums.Months;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoDataXY;
 import com.charts.nivo.entity.NivoLineData;
@@ -12,8 +13,9 @@ import com.charts.nivo.entity.NivoPieData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,26 +23,19 @@ import java.util.stream.Collectors;
 @Service
 public class NivoCouponService {
 
-    private final CouponRepository couponRepository;
-
     @Autowired
     private CouponV2Service couponService;
 
-    public NivoCouponService(CouponRepository couponRepository) {
-        this.couponRepository = couponRepository;
+    public NivoCouponService(CouponV2Service couponService) {
+        this.couponService = couponService;
     }
 
     public List<NivoLineData> getMonthlyLineDataByPersonType(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
-        List<NivoLineData> output = new ArrayList<>();
-        CouponGroupingUtils.groupByPersonType(couponList.getCouponEntityList())
-                .forEach((personType, entity) -> {
-                    List<NivoDataXY> nestedData = new ArrayList<>();
-                    CouponGroupingUtils.groupAndSumByMonth(entity)
-                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
-                    output.add(new NivoLineData(personType, nestedData));
-                });
-        return output;
+        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
+        return CouponGroupingUtils.groupByPersonType(couponList).entrySet()
+                .stream()
+                .map(NivoCouponService::apply)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -50,95 +45,110 @@ public class NivoCouponService {
      * @return data for displaying line chart by validity
      */
     public List<NivoLineData> getMonthlyLineDataByValidity(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
-        List<NivoLineData> output = new ArrayList<>();
-        CouponGroupingUtils.groupByValidity(couponList.getCouponEntityList())
-                .forEach((validity, entity) -> {
-                    List<NivoDataXY> nestedData = new ArrayList<>();
-                    CouponGroupingUtils.groupAndSumByMonth(entity)
-                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
-                    output.add(new NivoLineData(validity, nestedData));
-                });
-
-        return output;
+        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
+        return CouponGroupingUtils.groupByValidity(couponList).entrySet()
+                .stream()
+                .map(NivoCouponService::apply)
+                .collect(Collectors.toList());
     }
 
     public List<NivoLineData> getMonthlyLineDataBySellType(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
-        List<NivoLineData> output = new ArrayList<>();
-        CouponGroupingUtils.groupBySellType(couponList.getCouponEntityList())
-                .forEach((sellType, entity) -> {
-                    List<NivoDataXY> nestedData = new ArrayList<>();
-                    CouponGroupingUtils.groupAndSumByMonth(entity)
-                            .forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
-                    output.add(new NivoLineData(sellType, nestedData));
-                });
+        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
+        return CouponGroupingUtils.groupBySellType(couponList).entrySet()
+                .stream()
+                .map(NivoCouponService::apply)
+                .collect(Collectors.toList());
+    }
 
-        return output;
+    private static <T extends IEnum> NivoLineData apply(Map.Entry<T, List<UpdateCouponEntity>> e) {
+        List<NivoDataXY> summarizedGroups = CouponGroupingUtils.groupByMonth(e.getValue()).entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(Months::getOrderValue)))
+                .map(entry -> new NivoDataXY(entry.getKey(), CouponGroupingUtils.sumGroup(entry.getValue())))
+                .collect(Collectors.toList());
+        return new NivoLineData(e.getKey(), summarizedGroups);
     }
 
     public List<Map<String, Object>> getMonthlyBarDataByPersonType(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
         List<Map<String, Object>> outputMapList = new ArrayList<>();
-        CouponGroupingUtils.groupByMonth(couponList.getCouponEntityList())
+        CouponGroupingUtils.groupByMonth(couponList)
                 .forEach((month, entities) -> {
-                    Map<String, Object> tmpMap = new HashMap<>(CouponGroupingUtils.groupByAndSumByPerson(entities));
-                    tmpMap.put("month", month.getValue());
-                    outputMapList.add(tmpMap);
+                    Map<String, Object> outputMap = CouponGroupingUtils.groupByPersonType(entities)
+                            .entrySet()
+                            .stream()
+                            .map(e -> new AbstractMap.SimpleEntry<>(e.getKey().getValue(), CouponGroupingUtils.sumGroup(e.getValue())))
+                            .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+                    outputMap.put("month", month.getValue());
+                    outputMapList.add(outputMap);
                 });
         return outputMapList;
     }
 
     public List<Map<String, Object>> getMonthlyBarDataByValidity(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
         List<Map<String, Object>> outputMapList = new ArrayList<>();
-        CouponGroupingUtils.groupByMonth(couponList.getCouponEntityList())
+        CouponGroupingUtils.groupByMonth(couponList)
                 .forEach((month, entities) -> {
-                    Map<String, Object> tmpMap = CouponGroupingUtils.convertMapKeysToString(CouponGroupingUtils.groupByAndSumByValidity(entities));
-                    tmpMap.put("month", month.getValue());
-                    outputMapList.add(tmpMap);
+                    Map<String, Object> outputMap = CouponGroupingUtils.groupByValidity(entities)
+                            .entrySet()
+                            .stream()
+                            .map(e -> new AbstractMap.SimpleEntry<>(e.getKey().getValue(), CouponGroupingUtils.sumGroup(e.getValue())))
+                            .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+                    outputMap.put("month", month.getValue());
+                    outputMapList.add(outputMap);
                 });
         return outputMapList;
     }
 
     public List<Map<String, Object>> getMonthlyBarDataBySellType(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
         List<Map<String, Object>> outputMapList = new ArrayList<>();
-        CouponGroupingUtils.groupByMonth(couponList.getCouponEntityList())
+        CouponGroupingUtils.groupByMonth(couponList)
                 .forEach((month, entities) -> {
-                    Map<String, Object> tmpMap = CouponGroupingUtils.convertMapKeysToString(CouponGroupingUtils.groupByAndSumBySellType(entities));
-                    tmpMap.put("month", month.getValue());
-                    outputMapList.add(tmpMap);
+                    Map<String, Object> outputMap = CouponGroupingUtils.groupBySellType(entities)
+                            .entrySet()
+                            .stream()
+                            .map(e -> new AbstractMap.SimpleEntry<>(e.getKey().getValue(), CouponGroupingUtils.sumGroup(e.getValue())))
+                            .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+                    outputMap.put("month", month.getValue());
+                    outputMapList.add(outputMap);
                 });
         return outputMapList;
     }
 
     public NivoBubbleData getPersonBubbleDataByValidity(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
         List<NivoBubbleData> middleNivoBubbleDataList = new ArrayList<>();
-        CouponGroupingUtils.groupByPersonType(couponList.getCouponEntityList()).forEach((key, entity) -> {
-            List<NivoBubbleData> nestedNivoBubbleDataList = new ArrayList<>();
-            CouponGroupingUtils.groupByAndSumByValidity(entity)
-                    .forEach((validity, integer) -> nestedNivoBubbleDataList.add(new NivoBubbleData(validity, (Integer) integer)));
+        CouponGroupingUtils.groupByPersonType(couponList).forEach((key, entity) -> {
+            List<NivoBubbleData> nestedNivoBubbleDataList = CouponGroupingUtils.groupByValidity(entity)
+                    .entrySet()
+                    .stream()
+                    .map(e -> new NivoBubbleData(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue()).intValue()))
+                    .collect(Collectors.toList());
+
             middleNivoBubbleDataList.add(new NivoBubbleData(key.getValue(), nestedNivoBubbleDataList));
         });
         return new NivoBubbleData("Predaj kupónov", middleNivoBubbleDataList);
     }
 
     public NivoBubbleData getPersonBubbleDataBySellType(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
+        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
         List<NivoBubbleData> middleNivoBubbleDataList = new ArrayList<>();
-        CouponGroupingUtils.groupByPersonType(couponList.getCouponEntityList()).forEach((key, entity) -> {
-            List<NivoBubbleData> nestedNivoBubbleDataList = new ArrayList<>();
-            CouponGroupingUtils.groupByAndSumBySellType(entity)
-                    .forEach((validity, integer) -> nestedNivoBubbleDataList.add(new NivoBubbleData(validity, (Integer) integer)));
+        CouponGroupingUtils.groupByPersonType(couponList).forEach((key, entity) -> {
+            List<NivoBubbleData> nestedNivoBubbleDataList = CouponGroupingUtils.groupBySellType(entity)
+                    .entrySet()
+                    .stream()
+                    .map(e -> new NivoBubbleData(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue()).intValue()))
+                    .collect(Collectors.toList());
+
             middleNivoBubbleDataList.add(new NivoBubbleData(key.getValue(), nestedNivoBubbleDataList));
         });
         return new NivoBubbleData("Predaj kupónov", middleNivoBubbleDataList);
     }
 
     public List<NivoPieData> getPersonTypePieData(CouponsParameters parameters) {
-        return couponService.findByValidityAndGroupedByPersoType(parameters)
+        return couponService.findByValidityAndGroupedByPersonType(parameters)
                 .stream()
                 .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
                 .collect(Collectors.toList());
