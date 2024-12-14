@@ -1,21 +1,22 @@
 package com.charts.api.coupon.service;
 
+import com.charts.api.coupon.entity.GroupingEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.general.entity.coupon.CouponsParameters;
+import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
+import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.charts.general.entity.enums.Months.MONTHS_LIST;
 import static com.charts.general.entity.enums.PersonType.PERSON_TYPE_LIST;
 import static com.charts.general.entity.enums.SellType.SELL_TYPE_LIST;
-import static com.charts.general.entity.enums.Validity.VALIDITY_LIST;
 
 @Service
 public class CouponV2Service {
@@ -25,16 +26,13 @@ public class CouponV2Service {
 
     public List<UpdateCouponEntity> getCouponList() { return couponRepository.findAll(); }
 
-    public List<UpdateCouponEntity> findByPersonType(List<PersonType> personTypes) {
-        List<Integer> years = new ArrayList<>();
-        years.add(2022);
-
+    public List<UpdateCouponEntity> findCouponEntities(CouponsParameters couponsParameters) {
         return couponRepository.findAllByPersonTypeInAndValidityInAndSellTypeInAndMonthInAndYearIn(
-                personTypes,
-                VALIDITY_LIST,
-                SELL_TYPE_LIST,
-                MONTHS_LIST,
-                years
+                couponsParameters.getPersonTypeList(),
+                couponsParameters.getValidity(),
+                couponsParameters.getSellTypes(),
+                couponsParameters.getMonths(),
+                couponsParameters.getYearInteger()
         );
     }
 
@@ -51,8 +49,38 @@ public class CouponV2Service {
         );
     }
 
-    public Map<String, Long> findByValidityAndGroupedByMonth(CouponsParameters couponsParameters) {
+    public List<GroupingEntity<Months>> findByValidityAndGroupedByMonth(CouponsParameters couponsParameters) {
         return couponRepository.findGroupedByMonthValues(
+                couponsParameters.getPersonTypeList(),
+                couponsParameters.getValidity(),
+                couponsParameters.getSellTypes(),
+                couponsParameters.getMonths(),
+                couponsParameters.getYearInteger()
+        );
+    }
+
+    public List<GroupingEntity<PersonType>> findByValidityAndGroupedByPersoType(CouponsParameters couponsParameters) {
+        return couponRepository.findGroupedByPersonTypeValues(
+                couponsParameters.getPersonTypeList(),
+                couponsParameters.getValidity(),
+                couponsParameters.getSellTypes(),
+                couponsParameters.getMonths(),
+                couponsParameters.getYearInteger()
+        );
+    }
+
+    public List<GroupingEntity<Validity>> findByValidityAndGroupedByValidity(CouponsParameters couponsParameters) {
+        return couponRepository.findGroupedByValidityValues(
+                couponsParameters.getPersonTypeList(),
+                couponsParameters.getValidity(),
+                couponsParameters.getSellTypes(),
+                couponsParameters.getMonths(),
+                couponsParameters.getYearInteger()
+        );
+    }
+
+    public List<GroupingEntity<SellType>> findByValidityAndGroupedBySellType(CouponsParameters couponsParameters) {
+        return couponRepository.findGroupedBySellTypeValues(
                 couponsParameters.getPersonTypeList(),
                 couponsParameters.getValidity(),
                 couponsParameters.getSellTypes(),

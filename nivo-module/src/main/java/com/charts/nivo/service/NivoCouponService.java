@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class NivoCouponService {
@@ -137,34 +138,31 @@ public class NivoCouponService {
     }
 
     public List<NivoPieData> getPersonTypePieData(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
-        List<NivoPieData> pieData = new ArrayList<>();
-        CouponGroupingUtils.groupByAndSumByPerson(couponList.getCouponEntityList())
-                .forEach((personType, total) -> pieData.add(new NivoPieData(personType, (Integer) total)));
-        return pieData;
+        return couponService.findByValidityAndGroupedByPersoType(parameters)
+                .stream()
+                .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
+                .collect(Collectors.toList());
     }
 
     public List<NivoPieData> getMonthlyPieData(CouponsParameters parameters) {
-        List<NivoPieData> pieData = new ArrayList<>();
-        couponService.findByValidityAndGroupedByMonth(parameters)
-                .forEach((month, total) -> pieData.add(new NivoPieData(month, total.intValue())));
-        return pieData;
+        return couponService.findByValidityAndGroupedByMonth(parameters)
+                .stream()
+                .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
+                .collect(Collectors.toList());
     }
 
     public List<NivoPieData> getValidityPieData(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
-        List<NivoPieData> pieData = new ArrayList<>();
-        CouponGroupingUtils.groupByAndSumByValidity(couponList.getCouponEntityList())
-                .forEach((validity, total) -> pieData.add(new NivoPieData(validity, ((Integer) total))));
-        return pieData;
+        return couponService.findByValidityAndGroupedByValidity(parameters)
+                .stream()
+                .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
+                .collect(Collectors.toList());
     }
 
     public List<NivoPieData> getSellTypePieData(CouponsParameters parameters) {
-        UpdateCouponList couponList = couponRepository.getUpdateCouponList().filterWithParameters(parameters);
-        List<NivoPieData> pieData = new ArrayList<>();
-        CouponGroupingUtils.groupByAndSumBySellType(couponList.getCouponEntityList())
-                .forEach((sellType, total) -> pieData.add(new NivoPieData(sellType, ((Integer) total))));
-        return pieData;
+        return couponService.findByValidityAndGroupedBySellType(parameters)
+                .stream()
+                .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
+                .collect(Collectors.toList());
     }
 
 }
