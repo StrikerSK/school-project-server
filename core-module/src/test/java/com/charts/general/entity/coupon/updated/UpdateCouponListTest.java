@@ -18,7 +18,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.charts.general.constants.PersonType.*;
+import static com.charts.general.constants.EnumerationCouponConstants.*;
 
 public class UpdateCouponListTest extends AbstractCouponTest {
 

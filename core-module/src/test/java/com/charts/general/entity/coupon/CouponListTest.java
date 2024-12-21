@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.charts.general.constants.EnumerationCouponConstants.*;
+
 
 public class CouponListTest extends AbstractCouponTest {
 
     @Test
     public void TestMonthFiltering() {
-        List<String> searchList = Stream.of("Marec", "December").collect(Collectors.toList());
+        List<String> searchList = Stream.of(MARCH_VALUE, DECEMBER_VALUE).collect(Collectors.toList());
         CouponList couponList = new CouponList(couponEntityList).filterByMonth(searchList);
         Assert.assertEquals(couponList.getCoupons().size(), 2);
         couponList.getCoupons().forEach(e -> Assert.assertTrue(searchList.contains(e.getMonth().getValue())));
@@ -23,7 +25,7 @@ public class CouponListTest extends AbstractCouponTest {
 
     @Test
     public void TestMonthFilteringNoResults() {
-        List<String> searchList = Stream.of("October", "September").collect(Collectors.toList());
+        List<String> searchList = Stream.of(OCTOBER_VALUE, SEPTEMBER_VALUE).collect(Collectors.toList());
         CouponList couponList = new CouponList(couponEntityList).filterByMonth(searchList);
         Assert.assertEquals(couponList.getCoupons().size(), 0);
     }
