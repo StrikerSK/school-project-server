@@ -4,15 +4,17 @@ import com.charts.general.constants.EnumerationCouponConstants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static com.charts.general.constants.EnumerationCouponConstants.CHIP_CARD;
+import static com.charts.general.constants.EnumerationCouponConstants.E_SHOP;
 
 public class EnumUtilTest {
 
     @Test
     public void testFromValue_ValidLabel() {
         Class<SellType> enumClass = SellType.class;
-        String label = EnumerationCouponConstants.CHIP_CARD;
+        String label = CHIP_CARD;
         Optional<SellType> result = EnumUtils.getValue(enumClass, label);
 
         Assert.assertTrue(result.isPresent());
@@ -28,7 +30,7 @@ public class EnumUtilTest {
 
     @Test
     public void testFromValue_NullEnumClass() {
-        String label = EnumerationCouponConstants.CHIP_CARD;
+        String label = CHIP_CARD;
         Assert.assertThrows(NullPointerException.class, () -> EnumUtils.fromValue(null, label));
     }
 
@@ -48,5 +50,18 @@ public class EnumUtilTest {
         Assert.assertEquals(sellType, SellType.CARD);
         Assert.assertEquals(sellType.getOrderValue(), 1);
     }
+
+    @Test
+    public void testGetStringValues() {
+        List<String> enums = Arrays.asList(CHIP_CARD, E_SHOP);
+        List<SellType> sellTypes = EnumUtils.convertStringsToEnums(enums, SellType.class);
+
+        Assert.assertEquals(sellTypes.size(), 2);
+        Assert.assertTrue(sellTypes.contains(SellType.CARD));
+        Assert.assertTrue(sellTypes.contains(SellType.ESHOP));
+        Assert.assertFalse(sellTypes.contains(SellType.COUPON));
+    }
+
+
 
 }
