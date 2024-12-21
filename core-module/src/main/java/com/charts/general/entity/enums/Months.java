@@ -1,12 +1,11 @@
 package com.charts.general.entity.enums;
 
-import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.charts.general.constants.Months.*;
+import static com.charts.general.constants.EnumerationCouponConstants.*;
 
 public enum Months implements IEnum {
 
@@ -22,9 +21,6 @@ public enum Months implements IEnum {
     OCTOBER(OCTOBER_VALUE, 10),
     NOVEMBER(NOVEMBER_VALUE, 11),
     DECEMBER(DECEMBER_VALUE, 12);
-
-    public static final List<Months> MONTHS_LIST = EnumUtils.getValueList(Months.class);
-    public static final List<String> MONTHS_VALUES = EnumUtils.getStringValues(Months.class);
 
     private final String value;
     private final Integer orderValue;

@@ -60,6 +60,10 @@ public class EnumUtils {
                 .findFirst();
     }
 
+    public static <T extends IEnum> T fromValue(Class<T> clazz, String label) {
+        return EnumUtils.getValue(clazz, label).orElseThrow(() -> new IllegalArgumentException("Unknown label " + label));
+    }
+
     public static List<String> getStringValues(EnumTypes enumType) {
         return getValueList(enumType).stream()
                 .map(IEnum::getValue)

@@ -9,12 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.charts.general.constants.PersonType.ADULT_VALUE;
-import static com.charts.general.constants.PersonType.CHILDREN_VALUE;
-import static com.charts.general.constants.PersonType.JUNIOR_VALUE;
-import static com.charts.general.constants.PersonType.PORTABLE_VALUE;
-import static com.charts.general.constants.PersonType.SENIOR_VALUE;
-import static com.charts.general.constants.PersonType.STUDENT_VALUE;
+import static com.charts.general.constants.EnumerationCouponConstants.*;
 
 public class CouponConvertor {
 
