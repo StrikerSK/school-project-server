@@ -1,10 +1,18 @@
 package com.charts.general.entity.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Optional;
 
-import static com.charts.general.constants.EnumerationCouponConstants.*;
+import static com.charts.general.constants.EnumerationCouponConstants.ADULT_VALUE;
+import static com.charts.general.constants.EnumerationCouponConstants.CHILDREN_VALUE;
+import static com.charts.general.constants.EnumerationCouponConstants.JUNIOR_VALUE;
+import static com.charts.general.constants.EnumerationCouponConstants.PORTABLE_VALUE;
+import static com.charts.general.constants.EnumerationCouponConstants.SENIOR_VALUE;
+import static com.charts.general.constants.EnumerationCouponConstants.STUDENT_VALUE;
 
+@Getter
 public enum PersonType implements IEnum {
 
     ADULT(ADULT_VALUE, 4),
@@ -20,14 +28,6 @@ public enum PersonType implements IEnum {
     PersonType(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public Integer getOrderValue() {
-        return orderValue;
     }
 
     public static Optional<PersonType> getPersonType(String label) {

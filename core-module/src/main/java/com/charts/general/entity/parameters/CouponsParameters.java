@@ -24,11 +24,7 @@ public class CouponsParameters extends AbstractParameters {
         if (CollectionUtils.isEmpty(validity)) {
             return EnumUtils.getValueList(Validity.class);
         } else {
-            return validity.stream()
-                    .map(Validity::validityValue)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList());
+            return EnumUtils.convertStringsToEnums(validity, Validity.class);
         }
     }
 
@@ -36,11 +32,7 @@ public class CouponsParameters extends AbstractParameters {
         if (CollectionUtils.isEmpty(sellType)) {
             return EnumUtils.getValueList(SellType.class);
         } else {
-            return sellType.stream()
-                    .map(SellType::sellTypeValue)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList());
+            return EnumUtils.convertStringsToEnums(sellType, SellType.class);
         }
     }
 
@@ -48,11 +40,7 @@ public class CouponsParameters extends AbstractParameters {
         if (CollectionUtils.isEmpty(person)) {
             return EnumUtils.getValueList(PersonType.class);
         } else {
-            return person.stream()
-                    .map(PersonType::getPersonType)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList());
+            return EnumUtils.convertStringsToEnums(person, PersonType.class);
         }
     }
 }

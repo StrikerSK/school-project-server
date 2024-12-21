@@ -5,7 +5,6 @@ import com.charts.general.entity.enums.TicketTypes;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,11 +31,7 @@ public class TicketsParameters extends AbstractParameters {
 		if (CollectionUtils.isEmpty(ticketType)) {
 			return EnumUtils.getValueList(TicketTypes.class);
 		} else {
-			return ticketType.stream()
-					.map(TicketTypes::getType)
-					.filter(Optional::isPresent)
-					.map(Optional::get)
-					.collect(Collectors.toList());
+			return EnumUtils.convertStringsToEnums(ticketType, TicketTypes.class);
 		}
 	}
 }

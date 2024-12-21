@@ -30,9 +30,9 @@ public class EnumUtils {
                 .collect(Collectors.toList());
     }
 
-    public static <T extends IEnum> List<T> convertStringsToEnums(List<String> values, Class<T> clazz) {
-        return values.stream()
-                .map(value -> fromValue(clazz, value))
+    public static <T extends IEnum> List<T> convertStringsToEnums(List<String> searchedValues, Class<T> clazz) {
+        return getValueList(clazz).stream()
+                .filter(v -> searchedValues.contains(v.getValue()))
                 .collect(Collectors.toList());
     }
 

@@ -1,10 +1,11 @@
 package com.charts.general.entity.enums;
 
-import com.charts.general.constants.EnumerationCouponConstants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static com.charts.general.constants.EnumerationCouponConstants.CHIP_CARD;
 import static com.charts.general.constants.EnumerationCouponConstants.E_SHOP;

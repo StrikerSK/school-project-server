@@ -1,7 +1,6 @@
 package com.charts.api.coupon.utils;
 
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
-import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
@@ -9,9 +8,6 @@ import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
 
 import java.util.AbstractMap;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,16 +36,6 @@ public class CouponGroupingUtils {
         return couponEntityList
                 .stream()
                 .collect(Collectors.groupingBy(UpdateCouponEntity::getSellType));
-    }
-
-    public static <T extends AbstractUpdateEntity> Map<Months, Object> groupAndSumByMonth(List<T> entityList) {
-        return sortByOrderValue(new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getMonth, Collectors.summingInt(T::getValue)))));
-    }
-
-    protected static <R extends IEnum, T> Map<R, T> sortByOrderValue(Map<R, T> mapToSort) {
-        return mapToSort.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(R::getOrderValue)))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 
     public static <T extends IEnum> Map<T, Long> sumGroup(Map<T, List<UpdateCouponEntity>> entityList) {

@@ -2,18 +2,15 @@ package com.charts.general.entity.enums;
 
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import static com.charts.general.constants.EnumerationCouponConstants.*;
 
+@Getter
 public enum Validity implements IEnum {
 
-    MONTHLY("Mesačná", 1),
-    THREE_MONTHS("3 Mesačná", 2),
-    FIVE_MONTHS("5 Mesačná", 3),
-    YEARLY("Ročná", 4);
-
-    public static final List<Validity> VALIDITY_LIST = EnumUtils.getValueList(Validity.class);
+    MONTHLY(ONE_MONTH, 1),
+    THREE_MONTHS(THREE_MONTH, 2),
+    FIVE_MONTHS(FIVE_MONTH, 3),
+    YEARLY(ONE_YEAR, 4);
 
     @Getter
     private final String value;
@@ -22,17 +19,6 @@ public enum Validity implements IEnum {
     Validity(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
-    }
-
-    @Override
-    public Integer getOrderValue() {
-        return orderValue;
-    }
-
-    public static Optional<Validity> validityValue(String label) {
-        return Arrays.stream(Validity.values())
-                .filter(c -> c.getValue().equals(label))
-                .findFirst();
     }
 
 }

@@ -1,9 +1,6 @@
 package com.charts.general.constants;
 
-import com.charts.general.entity.enums.EnumUtils;
-import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.PersonType;
-import com.charts.general.entity.enums.SellType;
+import com.charts.general.entity.enums.*;
 
 import java.util.List;
 
@@ -47,5 +44,15 @@ public class EnumerationCouponConstants {
     // SellType lists
     public static final List<SellType> SELL_TYPE_LIST = EnumUtils.getValueList(SellType.class);
     public static final List<String> SELL_TYPE_VALUES = EnumUtils.getStringValues(SellType.class);
+
+    // Validity value constants
+    public static final String ONE_MONTH =  "Mesačná";
+    public static final String THREE_MONTH =  "3 Mesačná";
+    public static final String FIVE_MONTH =  "5 Mesačná";
+    public static final String ONE_YEAR =  "Ročná";
+
+    // Validity lists
+    public static final List<Validity> VALIDITY_LIST = EnumUtils.getValueList(Validity.class);
+    public static final List<String> VALIDITY_VALUES = EnumUtils.getStringValues(Validity.class);
 
 }
