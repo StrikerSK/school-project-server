@@ -1,8 +1,6 @@
-package com.charts.general.entity.ticket;
+package com.charts.general.entity.parameters;
 
-import com.charts.general.entity.AbstractParameters;
 import com.charts.general.entity.enums.EnumUtils;
-import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
 import org.apache.commons.collections4.CollectionUtils;
 

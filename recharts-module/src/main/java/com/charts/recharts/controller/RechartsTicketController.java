@@ -1,6 +1,6 @@
 package com.charts.recharts.controller;
 
-import com.charts.general.entity.ticket.TicketsParameters;
+import com.charts.general.entity.parameters.TicketsParameters;
 import com.charts.recharts.entity.RechartsDataObject;
 import com.charts.recharts.service.RechartsTicketService;
 import lombok.AllArgsConstructor;

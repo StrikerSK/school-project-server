@@ -3,7 +3,7 @@ package com.charts.nivo.service;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.coupon.utils.CouponGroupingUtils;
-import com.charts.general.entity.coupon.CouponsParameters;
+import com.charts.general.entity.parameters.CouponsParameters;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.Months;
 import com.charts.nivo.entity.NivoBubbleData;
@@ -52,6 +52,12 @@ public class NivoCouponService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Method gets line data by validity
+     *
+     * @param parameters all requested parameters
+     * @return data for displaying line chart by sell type
+     */
     public List<NivoLineData> getMonthlyLineDataBySellType(CouponsParameters parameters) {
         List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
         return CouponGroupingUtils.groupBySellType(couponList).entrySet()

@@ -1,11 +1,9 @@
-package com.charts.general.entity;
+package com.charts.general.entity.parameters;
 
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.Validity;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

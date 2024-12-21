@@ -3,7 +3,7 @@ package com.charts.general.entity.ticket.updated;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.ticket.TicketEntity;
-import com.charts.general.entity.ticket.TicketsParameters;
+import com.charts.general.entity.parameters.TicketsParameters;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 

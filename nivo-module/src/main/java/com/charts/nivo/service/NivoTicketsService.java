@@ -2,7 +2,7 @@ package com.charts.nivo.service;
 
 import com.charts.general.utils.CouponGroupingUtils;
 import com.charts.nivo.entity.NivoDataXY;
-import com.charts.general.entity.ticket.TicketsParameters;
+import com.charts.general.entity.parameters.TicketsParameters;
 import com.charts.general.entity.ticket.updated.UpdateTicketList;
 import com.charts.general.repository.ticket.TicketRepository;
 import com.charts.general.utils.TicketGroupingUtils;
@@ -11,7 +11,6 @@ import com.charts.nivo.entity.NivoPieData;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

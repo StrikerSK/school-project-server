@@ -1,6 +1,5 @@
-package com.charts.general.entity.coupon;
+package com.charts.general.entity.parameters;
 
-import com.charts.general.entity.AbstractParameters;
 import com.charts.general.entity.enums.*;
 import org.apache.commons.collections4.CollectionUtils;
 

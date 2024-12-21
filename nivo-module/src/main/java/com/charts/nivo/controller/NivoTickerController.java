@@ -1,6 +1,6 @@
 package com.charts.nivo.controller;
 
-import com.charts.general.entity.ticket.TicketsParameters;
+import com.charts.general.entity.parameters.TicketsParameters;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 import com.charts.nivo.service.NivoTicketsService;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 

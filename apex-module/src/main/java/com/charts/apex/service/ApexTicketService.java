@@ -1,7 +1,7 @@
 package com.charts.apex.service;
 
 import com.charts.apex.entity.ApexObject;
-import com.charts.general.entity.ticket.TicketsParameters;
+import com.charts.general.entity.parameters.TicketsParameters;
 import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
 import com.charts.general.entity.ticket.updated.UpdateTicketList;
 import com.charts.general.repository.ticket.TicketRepository;
