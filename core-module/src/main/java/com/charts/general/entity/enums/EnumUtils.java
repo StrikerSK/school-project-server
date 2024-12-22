@@ -14,6 +14,12 @@ public class EnumUtils {
         return Arrays.asList(clazz.getEnumConstants());
     }
 
+    public static <T extends IEnum> List<T> getValueList(List<String> searchedValues, Class<T> clazz) {
+        return getValueList(clazz).stream()
+                .filter(v -> searchedValues.contains(v.getValue()))
+                .collect(Collectors.toList());
+    }
+
     public static <T extends IEnum> Optional<T> getValue(Class<T> clazz, String label) {
         return getValueList(clazz).stream()
                 .filter(c -> c.getValue().equals(label))
@@ -27,12 +33,6 @@ public class EnumUtils {
     public static <T extends IEnum> List<String> getStringValues(Class<T> clazz) {
         return getValueList(clazz).stream()
                 .map(IEnum::getValue)
-                .collect(Collectors.toList());
-    }
-
-    public static <T extends IEnum> List<T> convertStringsToEnums(List<String> searchedValues, Class<T> clazz) {
-        return getValueList(clazz).stream()
-                .filter(v -> searchedValues.contains(v.getValue()))
                 .collect(Collectors.toList());
     }
 

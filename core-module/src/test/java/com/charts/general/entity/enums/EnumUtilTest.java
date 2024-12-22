@@ -55,7 +55,7 @@ public class EnumUtilTest {
     @Test
     public void testGetStringValues() {
         List<String> enums = Arrays.asList(CHIP_CARD, E_SHOP);
-        List<SellType> sellTypes = EnumUtils.convertStringsToEnums(enums, SellType.class);
+        List<SellType> sellTypes = EnumUtils.getValueList(enums, SellType.class);
 
         Assert.assertEquals(sellTypes.size(), 2);
         Assert.assertTrue(sellTypes.contains(SellType.CARD));

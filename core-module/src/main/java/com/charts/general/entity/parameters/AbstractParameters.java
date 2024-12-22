@@ -1,6 +1,7 @@
 package com.charts.general.entity.parameters;
 
 import com.charts.general.entity.enums.EnumUtils;
+import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.Months;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -19,11 +20,7 @@ public abstract class AbstractParameters {
     }
 
     public List<Months> getMonths() {
-        if (CollectionUtils.isEmpty(month)) {
-            return EnumUtils.getValueList(Months.class);
-        } else {
-            return EnumUtils.convertStringsToEnums(month, Months.class);
-        }
+        return getValueList(month, Months.class);
     }
 
     public List<Integer> getYearInteger() {
@@ -32,5 +29,13 @@ public abstract class AbstractParameters {
         }
 
         return year;
+    }
+
+    protected  <T extends IEnum> List<T> getValueList(List<String> searchedValues, Class<T> clazz) {
+        if (CollectionUtils.isEmpty(searchedValues)) {
+            return EnumUtils.getValueList(clazz);
+        } else {
+            return EnumUtils.getValueList(searchedValues, clazz);
+        }
     }
 }

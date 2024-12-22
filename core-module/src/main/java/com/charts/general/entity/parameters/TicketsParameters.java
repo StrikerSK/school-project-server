@@ -21,7 +21,7 @@ public class TicketsParameters extends AbstractParameters {
 
 	public List<Boolean> getDiscounted() {
 		if (CollectionUtils.isEmpty(discounted)) {
-			return Stream.of(true, false).collect(Collectors.toList());
+			return Stream.of(Boolean.TRUE, Boolean.FALSE).collect(Collectors.toList());
 		}
 
 		return discounted;
@@ -31,7 +31,7 @@ public class TicketsParameters extends AbstractParameters {
 		if (CollectionUtils.isEmpty(ticketType)) {
 			return EnumUtils.getValueList(TicketTypes.class);
 		} else {
-			return EnumUtils.convertStringsToEnums(ticketType, TicketTypes.class);
+			return EnumUtils.getValueList(ticketType, TicketTypes.class);
 		}
 	}
 }
