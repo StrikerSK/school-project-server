@@ -36,7 +36,7 @@ public class NivoCouponService {
      * @return data for displaying line chart by validity
      */
     public List<NivoLineData> getMonthlyLineDataByValidity(CouponsParameters parameters) {
-        return composeLineData(parameters, CouponGroupingUtils::groupByMonth, CouponGroupingUtils::groupByValidity);
+        return composeLineData(parameters, CouponGroupingUtils::groupByValidity, CouponGroupingUtils::groupByMonth);
     }
 
     /**
@@ -46,7 +46,7 @@ public class NivoCouponService {
      * @return data for displaying line chart by sell type
      */
     public List<NivoLineData> getMonthlyLineDataBySellType(CouponsParameters parameters) {
-        return composeLineData(parameters, CouponGroupingUtils::groupByMonth, CouponGroupingUtils::groupBySellType);
+        return composeLineData(parameters, CouponGroupingUtils::groupBySellType, CouponGroupingUtils::groupByMonth);
     }
 
     /**

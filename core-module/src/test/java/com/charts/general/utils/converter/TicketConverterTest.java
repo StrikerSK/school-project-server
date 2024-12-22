@@ -4,6 +4,7 @@ import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.general.entity.ticket.TicketEntity;
 import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -11,6 +12,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class TicketConverterTest extends AbstractTestNGSpringContextTests {
 
@@ -50,19 +52,21 @@ public class TicketConverterTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getYear(), 2015)));
         Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getMonth(), Months.JANUARY)));
 
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.FIFTEEN_MINUTES).getValue(), 100);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.ONE_DAY).getValue(), 200);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.ONE_DAY_ALL).getValue(), 300);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.TWO_ZONES).getValue(), 400);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.THREE_ZONES).getValue(), 500);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.FOUR_ZONES).getValue(), 600);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.FIVE_ZONES).getValue(), 700);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.SIX_ZONES).getValue(), 800);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.SEVEN_ZONES).getValue(), 900);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.EIGHT_ZONES).getValue(), 1000);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.NINE_ZONES).getValue(), 1100);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.TEN_ZONES).getValue(), 1200);
-        Assert.assertEquals(findTicketEntity(convertedValues, TicketTypes.ELEVEN_ZONES).getValue(), 1300);
+        Stream.of(
+                Pair.of(TicketTypes.FIFTEEN_MINUTES, 100L),
+                Pair.of(TicketTypes.ONE_DAY, 200L),
+                Pair.of(TicketTypes.ONE_DAY_ALL, 300L),
+                Pair.of(TicketTypes.TWO_ZONES, 400L),
+                Pair.of(TicketTypes.THREE_ZONES, 500L),
+                Pair.of(TicketTypes.FOUR_ZONES, 600L),
+                Pair.of(TicketTypes.FIVE_ZONES, 700L),
+                Pair.of(TicketTypes.SIX_ZONES, 800L),
+                Pair.of(TicketTypes.SEVEN_ZONES, 900L),
+                Pair.of(TicketTypes.EIGHT_ZONES, 1000L),
+                Pair.of(TicketTypes.NINE_ZONES, 1100L),
+                Pair.of(TicketTypes.TEN_ZONES, 1200L),
+                Pair.of(TicketTypes.ELEVEN_ZONES, 1300L)
+        ).forEach(p -> Assert.assertEquals(findTicketEntity(convertedValues, p.getLeft()).getValue().longValue(), p.getRight(), String.format("Test failed for %s", p.getLeft())));
     }
 
     private UpdateTicketEntity findTicketEntity(List<UpdateTicketEntity> entities, TicketTypes ticketType) {

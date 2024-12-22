@@ -14,14 +14,13 @@ public class TicketTypeConverter implements AttributeConverter<TicketTypes, Stri
         if (ticketType == null) {
             return null;
         }
-        ;
 
         return ticketType.getValue();
     }
 
     @Override
-    public TicketTypes convertToEntityAttribute(String personType) {
-        return EnumUtils.getValue(TicketTypes.class, personType).orElseThrow(IllegalArgumentException::new);
+    public TicketTypes convertToEntityAttribute(String ticketType) {
+        return EnumUtils.getValue(TicketTypes.class, ticketType).orElseThrow(IllegalArgumentException::new);
     }
 
 }

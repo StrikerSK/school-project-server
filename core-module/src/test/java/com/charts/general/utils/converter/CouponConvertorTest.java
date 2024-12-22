@@ -4,11 +4,13 @@ import com.charts.general.entity.coupon.AbstractCouponTest;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
+import org.apache.commons.lang3.tuple.Pair;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class CouponConvertorTest extends AbstractCouponTest {
 
@@ -21,12 +23,14 @@ public class CouponConvertorTest extends AbstractCouponTest {
         Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getYear(), 2000)));
         Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getMonth(), Months.MARCH)));
 
-        Assert.assertEquals(findCouponEntity(convertedValues, PersonType.PORTABLE).getValue(), 100);
-        Assert.assertEquals(findCouponEntity(convertedValues, PersonType.SENIOR).getValue(), 200);
-        Assert.assertEquals(findCouponEntity(convertedValues, PersonType.ADULT).getValue(), 300);
-        Assert.assertEquals(findCouponEntity(convertedValues, PersonType.STUDENT).getValue(), 400);
-        Assert.assertEquals(findCouponEntity(convertedValues, PersonType.JUNIOR).getValue(), 500);
-        Assert.assertEquals(findCouponEntity(convertedValues, PersonType.CHILDREN).getValue(), 600);
+        Stream.of(
+                Pair.of(PersonType.PORTABLE, 100L),
+                Pair.of(PersonType.SENIOR, 200L),
+                Pair.of(PersonType.ADULT, 300L),
+                Pair.of(PersonType.STUDENT, 400L),
+                Pair.of(PersonType.JUNIOR, 500L),
+                Pair.of(PersonType.CHILDREN, 600L)
+        ).forEach(p -> Assert.assertEquals(findCouponEntity(convertedValues, p.getLeft()).getValue().longValue(), p.getRight(), String.format("Test failed for %s", p.getLeft())));
     }
 
     private UpdateCouponEntity findCouponEntity(List<UpdateCouponEntity> entities, PersonType personType) {

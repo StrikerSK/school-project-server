@@ -13,14 +13,14 @@ public class MonthConverter implements AttributeConverter<Months, String> {
     public String convertToDatabaseColumn(Months months) {
         if (months == null) {
             return null;
-        };
+        }
 
         return months.getValue();
     }
 
     @Override
-    public Months convertToEntityAttribute(String personType) {
-        return EnumUtils.getValue(Months.class, personType).orElseThrow(IllegalArgumentException::new);
+    public Months convertToEntityAttribute(String month) {
+        return EnumUtils.getValue(Months.class, month).orElseThrow(IllegalArgumentException::new);
     }
 
 }
