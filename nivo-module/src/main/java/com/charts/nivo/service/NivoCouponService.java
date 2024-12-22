@@ -11,11 +11,7 @@ import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 import org.springframework.stereotype.Service;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -125,32 +121,31 @@ public class NivoCouponService {
     }
 
     public NivoBubbleData getPersonBubbleDataByValidity(CouponsParameters parameters) {
-        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
-        List<NivoBubbleData> middleNivoBubbleDataList = new ArrayList<>();
-        CouponGroupingUtils.groupByPersonType(couponList).forEach((key, entity) -> {
-            List<NivoBubbleData> nestedNivoBubbleDataList = CouponGroupingUtils.groupByValidity(entity)
-                    .entrySet()
-                    .stream()
-                    .map(e -> new NivoBubbleData(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue())))
-                    .collect(Collectors.toList());
-
-            middleNivoBubbleDataList.add(new NivoBubbleData(key.getValue(), nestedNivoBubbleDataList));
-        });
-        return new NivoBubbleData("Predaj kupónov", middleNivoBubbleDataList);
+        return createBubbleData(parameters, CouponGroupingUtils::groupByPersonType, CouponGroupingUtils::groupByValidity);
     }
 
     public NivoBubbleData getPersonBubbleDataBySellType(CouponsParameters parameters) {
+        return createBubbleData(parameters, CouponGroupingUtils::groupByPersonType, CouponGroupingUtils::groupBySellType);
+    }
+
+    public <T extends IEnum, R extends IEnum> NivoBubbleData createBubbleData(
+            CouponsParameters parameters,
+            Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGrouping,
+            Function<List<UpdateCouponEntity>, Map<R, List<UpdateCouponEntity>>> lowerGrouping
+    ) {
         List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
         List<NivoBubbleData> middleNivoBubbleDataList = new ArrayList<>();
-        CouponGroupingUtils.groupByPersonType(couponList).forEach((key, entity) -> {
-            List<NivoBubbleData> nestedNivoBubbleDataList = CouponGroupingUtils.groupBySellType(entity)
+        upperGrouping.apply(couponList).forEach((key, entity) -> {
+            List<NivoBubbleData> nestedNivoBubbleDataList = lowerGrouping.apply(entity)
                     .entrySet()
                     .stream()
+                    .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(R::getOrderValue)))
                     .map(e -> new NivoBubbleData(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue())))
                     .collect(Collectors.toList());
 
-            middleNivoBubbleDataList.add(new NivoBubbleData(key.getValue(), nestedNivoBubbleDataList));
+            middleNivoBubbleDataList.add(new NivoBubbleData(key, nestedNivoBubbleDataList));
         });
+        middleNivoBubbleDataList.sort(java.util.Comparator.comparingInt(NivoBubbleData::getOrderValue));
         return new NivoBubbleData("Predaj kupónov", middleNivoBubbleDataList);
     }
 
