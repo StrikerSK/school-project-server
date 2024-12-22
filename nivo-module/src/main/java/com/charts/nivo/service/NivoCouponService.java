@@ -5,7 +5,6 @@ import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.coupon.utils.CouponGroupingUtils;
 import com.charts.general.entity.parameters.CouponsParameters;
 import com.charts.general.entity.enums.IEnum;
-import com.charts.general.entity.enums.Months;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoDataXY;
 import com.charts.nivo.entity.NivoLineData;
@@ -30,11 +29,7 @@ public class NivoCouponService {
     }
 
     public List<NivoLineData> getMonthlyLineDataByPersonType(CouponsParameters parameters) {
-        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
-        return CouponGroupingUtils.groupByPersonType(couponList).entrySet()
-                .stream()
-                .map(NivoCouponService::apply)
-                .collect(Collectors.toList());
+        return composeLineData(parameters, CouponGroupingUtils::groupByPersonType, CouponGroupingUtils::groupByMonth);
     }
 
     /**
@@ -44,11 +39,7 @@ public class NivoCouponService {
      * @return data for displaying line chart by validity
      */
     public List<NivoLineData> getMonthlyLineDataByValidity(CouponsParameters parameters) {
-        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
-        return CouponGroupingUtils.groupByValidity(couponList).entrySet()
-                .stream()
-                .map(NivoCouponService::apply)
-                .collect(Collectors.toList());
+        return composeLineData(parameters, CouponGroupingUtils::groupByMonth, CouponGroupingUtils::groupByValidity);
     }
 
     /**
@@ -58,20 +49,39 @@ public class NivoCouponService {
      * @return data for displaying line chart by sell type
      */
     public List<NivoLineData> getMonthlyLineDataBySellType(CouponsParameters parameters) {
+        return composeLineData(parameters, CouponGroupingUtils::groupByMonth, CouponGroupingUtils::groupBySellType);
+    }
+
+    /**
+     * Method creates two level grouping. Level one grouping contains id and list of data that is composed by level two grouping.
+     *
+     * @param parameters all parameters obtained from request
+     * @param upperGrouping top level grouping of data that which key value is used as 'id' parameter
+     * @param nestedGrouping grouping of listed data in 'data' parameter
+     */
+    private <T extends IEnum, R extends IEnum> List<NivoLineData> composeLineData(
+            CouponsParameters parameters,
+            Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGrouping,
+            Function<List<UpdateCouponEntity>, Map<R, List<UpdateCouponEntity>>> nestedGrouping
+    ) {
         List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
-        return CouponGroupingUtils.groupBySellType(couponList).entrySet()
+        return upperGrouping.apply(couponList).entrySet()
                 .stream()
-                .map(NivoCouponService::apply)
+                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(T::getOrderValue)))
+                .map(e -> calculateLineData(e, nestedGrouping))
                 .collect(Collectors.toList());
     }
 
-    private static <T extends IEnum> NivoLineData apply(Map.Entry<T, List<UpdateCouponEntity>> e) {
-        List<NivoDataXY> summarizedGroups = CouponGroupingUtils.groupByMonth(e.getValue()).entrySet()
+    private  <T extends IEnum, R extends IEnum> NivoLineData calculateLineData(
+            Map.Entry<T, List<UpdateCouponEntity>> mapEntry,
+            Function<List<UpdateCouponEntity>, Map<R, List<UpdateCouponEntity>>> nestedGrouping
+    ) {
+        List<NivoDataXY> summarizedGroups = nestedGrouping.apply(mapEntry.getValue()).entrySet()
                 .stream()
-                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(Months::getOrderValue)))
+                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(R::getOrderValue)))
                 .map(entry -> new NivoDataXY(entry.getKey(), CouponGroupingUtils.sumGroup(entry.getValue()).longValue()))
                 .collect(Collectors.toList());
-        return new NivoLineData(e.getKey(), summarizedGroups);
+        return new NivoLineData(mapEntry.getKey(), summarizedGroups);
     }
 
     public List<Map<String, Object>> getMonthlyBarDataByPersonType(CouponsParameters parameters) {
