@@ -1,5 +1,6 @@
 package com.charts.nivo.service;
 
+import com.charts.api.coupon.entity.GroupingEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.coupon.utils.CouponGroupingUtils;
@@ -93,7 +94,7 @@ public class NivoCouponService {
     }
 
     /**
-    * Method gets data for displaying bubble chart. It is divided by two grouping upper grouping and nested grouping.
+    * Method gets data for displaying bar chart. It is divided by two grouping upper grouping and nested grouping.
     *
     * @param parameters all parameters obtained from request
     * @param upperGrouping top level grouping of data
@@ -128,6 +129,13 @@ public class NivoCouponService {
         return createBubbleData(parameters, CouponGroupingUtils::groupByPersonType, CouponGroupingUtils::groupBySellType);
     }
 
+    /**
+     * Method gets data for displaying bubble chart. It is divided by two grouping upper grouping and nested grouping.
+     *
+     * @param parameters all parameters obtained from request
+     * @param upperGrouping top level grouping of data
+     * @param lowerGrouping nested grouping of withing upper grouping
+     */
     public <T extends IEnum, R extends IEnum> NivoBubbleData createBubbleData(
             CouponsParameters parameters,
             Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGrouping,
@@ -150,28 +158,23 @@ public class NivoCouponService {
     }
 
     public List<NivoPieData> getPersonTypePieData(CouponsParameters parameters) {
-        return couponService.findByValidityAndGroupedByPersonType(parameters)
-                .stream()
-                .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
-                .collect(Collectors.toList());
+        return abstractFetching(couponService.findByValidityAndGroupedByPersonType(parameters));
     }
 
     public List<NivoPieData> getMonthlyPieData(CouponsParameters parameters) {
-        return couponService.findByValidityAndGroupedByMonth(parameters)
-                .stream()
-                .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
-                .collect(Collectors.toList());
+        return abstractFetching(couponService.findByValidityAndGroupedByMonth(parameters));
     }
 
     public List<NivoPieData> getValidityPieData(CouponsParameters parameters) {
-        return couponService.findByValidityAndGroupedByValidity(parameters)
-                .stream()
-                .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
-                .collect(Collectors.toList());
+        return abstractFetching(couponService.findByValidityAndGroupedByValidity(parameters));
     }
 
     public List<NivoPieData> getSellTypePieData(CouponsParameters parameters) {
-        return couponService.findByValidityAndGroupedBySellType(parameters)
+        return abstractFetching(couponService.findByValidityAndGroupedBySellType(parameters));
+    }
+
+    private <T extends IEnum> List<NivoPieData> abstractFetching(List<GroupingEntity<T>> grouping) {
+        return grouping
                 .stream()
                 .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
                 .collect(Collectors.toList());
