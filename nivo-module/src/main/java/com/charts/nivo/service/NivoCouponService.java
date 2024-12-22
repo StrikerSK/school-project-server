@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,48 +75,40 @@ public class NivoCouponService {
     }
 
     public List<Map<String, Object>> getMonthlyBarDataByPersonType(CouponsParameters parameters) {
-        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
-        List<Map<String, Object>> outputMapList = new ArrayList<>();
-        CouponGroupingUtils.groupByMonth(couponList)
-                .forEach((month, entities) -> {
-                    Map<String, Object> outputMap = CouponGroupingUtils.groupByPersonType(entities)
-                            .entrySet()
-                            .stream()
-                            .map(e -> new AbstractMap.SimpleEntry<>(e.getKey().getValue(), CouponGroupingUtils.sumGroup(e.getValue())))
-                            .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-                    outputMap.put("month", month.getValue());
-                    outputMapList.add(outputMap);
-                });
-        return outputMapList;
+        return createTwoLevelGrouping(parameters, CouponGroupingUtils::groupByMonth, CouponGroupingUtils::groupByPersonType);
     }
 
     public List<Map<String, Object>> getMonthlyBarDataByValidity(CouponsParameters parameters) {
-        List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
-        List<Map<String, Object>> outputMapList = new ArrayList<>();
-        CouponGroupingUtils.groupByMonth(couponList)
-                .forEach((month, entities) -> {
-                    Map<String, Object> outputMap = CouponGroupingUtils.groupByValidity(entities)
-                            .entrySet()
-                            .stream()
-                            .map(e -> new AbstractMap.SimpleEntry<>(e.getKey().getValue(), CouponGroupingUtils.sumGroup(e.getValue())))
-                            .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-                    outputMap.put("month", month.getValue());
-                    outputMapList.add(outputMap);
-                });
-        return outputMapList;
+        return createTwoLevelGrouping(parameters, CouponGroupingUtils::groupByMonth, CouponGroupingUtils::groupByValidity);
     }
 
     public List<Map<String, Object>> getMonthlyBarDataBySellType(CouponsParameters parameters) {
+        return createTwoLevelGrouping(parameters, CouponGroupingUtils::groupByMonth, CouponGroupingUtils::groupBySellType);
+    }
+
+    /**
+    * Method gets data for displaying bubble chart. It is divided by two grouping upper grouping and nested grouping.
+    *
+    * @param parameters all parameters obtained from request
+    * @param upperGrouping top level grouping of data
+    * @param nestedGrouping nested grouping of withing upper grouping
+    */
+    private <T extends IEnum, R extends IEnum> List<Map<String, Object>> createTwoLevelGrouping(
+            CouponsParameters parameters,
+            Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGrouping,
+            Function<List<UpdateCouponEntity>, Map<R, List<UpdateCouponEntity>>> nestedGrouping
+    ) {
         List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
         List<Map<String, Object>> outputMapList = new ArrayList<>();
-        CouponGroupingUtils.groupByMonth(couponList)
+        upperGrouping.apply(couponList)
                 .forEach((month, entities) -> {
-                    Map<String, Object> outputMap = CouponGroupingUtils.groupBySellType(entities)
+                    Map<String, Object> outputMap = nestedGrouping.apply(entities)
                             .entrySet()
                             .stream()
                             .map(e -> new AbstractMap.SimpleEntry<>(e.getKey().getValue(), CouponGroupingUtils.sumGroup(e.getValue())))
                             .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
                     outputMap.put("month", month.getValue());
+                    outputMap.put("label", month.getValue());
                     outputMapList.add(outputMap);
                 });
         return outputMapList;
