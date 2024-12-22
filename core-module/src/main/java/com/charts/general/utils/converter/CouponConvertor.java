@@ -3,11 +3,12 @@ package com.charts.general.utils.converter;
 import com.charts.api.coupon.entity.v1.CouponEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.general.entity.enums.PersonType;
+import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.charts.general.constants.EnumerationCouponConstants.*;
 
@@ -25,14 +26,19 @@ public class CouponConvertor {
     }
 
     private static List<UpdateCouponEntity> fillData(CouponEntity couponEntity) {
-        List<UpdateCouponEntity> couponEntityList = new ArrayList<>();
-        couponEntityList.add(extractData(PORTABLE_VALUE, couponEntity, CouponEntity::getPortable));
-        couponEntityList.add(extractData(SENIOR_VALUE, couponEntity, CouponEntity::getSeniors));
-        couponEntityList.add(extractData(ADULT_VALUE, couponEntity, CouponEntity::getAdults));
-        couponEntityList.add(extractData(STUDENT_VALUE, couponEntity, CouponEntity::getStudents));
-        couponEntityList.add(extractData(JUNIOR_VALUE, couponEntity, CouponEntity::getJunior));
-        couponEntityList.add(extractData(CHILDREN_VALUE, couponEntity, CouponEntity::getChildren));
-        return couponEntityList;
+        List<Pair<String, Function<CouponEntity, Integer>>> rawData = Stream.of(
+                Pair.of(PORTABLE_VALUE, (Function<CouponEntity, Integer>) CouponEntity::getPortable),
+                Pair.of(SENIOR_VALUE, (Function<CouponEntity, Integer>) CouponEntity::getSeniors),
+                Pair.of(ADULT_VALUE, (Function<CouponEntity, Integer>) CouponEntity::getAdults),
+                Pair.of(STUDENT_VALUE, (Function<CouponEntity, Integer>) CouponEntity::getStudents),
+                Pair.of(JUNIOR_VALUE, (Function<CouponEntity, Integer>) CouponEntity::getJunior),
+                Pair.of(CHILDREN_VALUE, (Function<CouponEntity, Integer>) CouponEntity::getChildren)
+        ).collect(Collectors.toList());
+
+        return rawData
+                .stream()
+                .map(p -> extractData(p.getLeft(), couponEntity, p.getRight()))
+                .collect(Collectors.toList());
     }
 
     private static UpdateCouponEntity extractData(String personType, CouponEntity couponEntity, Function<CouponEntity, Integer> function) {

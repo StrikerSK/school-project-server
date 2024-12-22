@@ -14,7 +14,7 @@ public class NivoConvertersUtils {
     public static <T extends IEnum> List<NivoDataXY> convertGroupsToDataXY(Map<T, List<UpdateCouponEntity>> groupedEntities) {
         return groupedEntities.entrySet()
                 .stream()
-                .map(e -> new NivoDataXY(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue())))
+                .map(e -> new NivoDataXY(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue()).longValue()))
                 .collect(Collectors.toList());
     }
 

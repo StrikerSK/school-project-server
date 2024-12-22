@@ -68,7 +68,7 @@ public class NivoCouponService {
         List<NivoDataXY> summarizedGroups = CouponGroupingUtils.groupByMonth(e.getValue()).entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(Months::getOrderValue)))
-                .map(entry -> new NivoDataXY(entry.getKey(), CouponGroupingUtils.sumGroup(entry.getValue())))
+                .map(entry -> new NivoDataXY(entry.getKey(), CouponGroupingUtils.sumGroup(entry.getValue()).longValue()))
                 .collect(Collectors.toList());
         return new NivoLineData(e.getKey(), summarizedGroups);
     }
@@ -128,7 +128,7 @@ public class NivoCouponService {
             List<NivoBubbleData> nestedNivoBubbleDataList = CouponGroupingUtils.groupByValidity(entity)
                     .entrySet()
                     .stream()
-                    .map(e -> new NivoBubbleData(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue()).intValue()))
+                    .map(e -> new NivoBubbleData(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue())))
                     .collect(Collectors.toList());
 
             middleNivoBubbleDataList.add(new NivoBubbleData(key.getValue(), nestedNivoBubbleDataList));
@@ -143,7 +143,7 @@ public class NivoCouponService {
             List<NivoBubbleData> nestedNivoBubbleDataList = CouponGroupingUtils.groupBySellType(entity)
                     .entrySet()
                     .stream()
-                    .map(e -> new NivoBubbleData(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue()).intValue()))
+                    .map(e -> new NivoBubbleData(e.getKey(), CouponGroupingUtils.sumGroup(e.getValue())))
                     .collect(Collectors.toList());
 
             middleNivoBubbleDataList.add(new NivoBubbleData(key.getValue(), nestedNivoBubbleDataList));

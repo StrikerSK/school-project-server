@@ -40,13 +40,13 @@ public class CouponGroupingUtils {
     public static <T extends IEnum> Map<T, Long> sumGroup(Map<T, List<UpdateCouponEntity>> entityList) {
         return entityList.entrySet()
                 .stream()
-                .map(e -> new AbstractMap.SimpleEntry<>(e.getKey(), sumGroup(e.getValue())))
+                .map(e -> new AbstractMap.SimpleEntry<>(e.getKey(), sumGroup(e.getValue()).longValue()))
                 .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
 
     }
 
-    public static Long sumGroup(List<UpdateCouponEntity> entityList) {
-        return (long) entityList.stream().mapToInt(UpdateCouponEntity::getValue).sum();
+    public static Integer sumGroup(List<UpdateCouponEntity> entityList) {
+        return entityList.stream().mapToInt(UpdateCouponEntity::getValue).sum();
     }
 
 }
