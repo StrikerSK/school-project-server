@@ -1,5 +1,6 @@
 package com.charts.api.coupon.entity.v2;
 
+import com.charts.api.coupon.utils.CouponFilterUtils;
 import com.charts.general.entity.parameters.CouponsParameters;
 import com.charts.api.coupon.entity.v1.CouponEntity;
 import com.charts.api.coupon.entity.v1.CouponList;
@@ -50,9 +51,8 @@ public class UpdateCouponList {
     }
 
     public UpdateCouponList filterByMonth(List<Months> months) {
-        return new UpdateCouponList(couponEntityList.stream()
-                .filter(e -> months.contains(e.getMonth()))
-                .collect(Collectors.toList()));
+        List<UpdateCouponEntity> filteredList = CouponFilterUtils.filterByMonth(couponEntityList, months);
+        return new UpdateCouponList(filteredList);
     }
 
     public UpdateCouponList filterByYear(List<Integer> years) {
@@ -62,21 +62,18 @@ public class UpdateCouponList {
     }
 
     public UpdateCouponList filterByValidity(List<Validity> validityList) {
-        return new UpdateCouponList(couponEntityList.stream()
-                .filter(e -> validityList.contains(e.getValidity()))
-                .collect(Collectors.toList()));
+        List<UpdateCouponEntity> filteredList = CouponFilterUtils.filterByValidity(couponEntityList, validityList);
+        return new UpdateCouponList(filteredList);
     }
 
     public UpdateCouponList filterByPersonType(List<PersonType> personTypes) {
-        return new UpdateCouponList(couponEntityList.stream()
-                .filter(e -> personTypes.contains(e.getPersonType()))
-                .collect(Collectors.toList()));
+        List<UpdateCouponEntity> filteredList = CouponFilterUtils.filterByPersonType(couponEntityList, personTypes);
+        return new UpdateCouponList(filteredList);
     }
 
     public UpdateCouponList filterBySellType(List<SellType> sellType) {
-        return new UpdateCouponList(couponEntityList.stream()
-                .filter(e -> sellType.contains(e.getSellType()))
-                .collect(Collectors.toList()));
+        List<UpdateCouponEntity> filteredList = CouponFilterUtils.filterBySellType(couponEntityList, sellType);
+        return new UpdateCouponList(filteredList);
     }
 
     public UpdateCouponList filterWithParameters(CouponsParameters parameters) {
@@ -85,20 +82,6 @@ public class UpdateCouponList {
                 .filterByPersonType(parameters.getPersonTypeList())
                 .filterBySellType(parameters.getSellTypes())
                 .filterByMonth(parameters.getMonths());
-    }
-
-    public List<PersonType> getPersonTypeValues() {
-        return couponEntityList.stream()
-                .map(UpdateCouponEntity::getPersonType)
-                .distinct()
-                .collect(Collectors.toList());
-    }
-
-    public List<SellType> getSellTypeValues() {
-        return couponEntityList.stream()
-                .map(UpdateCouponEntity::getSellType)
-                .distinct()
-                .collect(Collectors.toList());
     }
 
 }

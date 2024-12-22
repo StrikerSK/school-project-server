@@ -10,32 +10,31 @@ import com.charts.general.entity.enums.Validity;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CouponGroupingUtils {
 
     public static Map<PersonType, List<UpdateCouponEntity>> groupByPersonType(List<UpdateCouponEntity> couponEntityList) {
-        return couponEntityList
-                .stream()
-                .collect(Collectors.groupingBy(UpdateCouponEntity::getPersonType));
+        return groupValues(couponEntityList, UpdateCouponEntity::getPersonType);
     }
 
     public static Map<Months, List<UpdateCouponEntity>> groupByMonth(List<UpdateCouponEntity> couponEntityList) {
-        return couponEntityList
-                .stream()
-                .collect(Collectors.groupingBy(UpdateCouponEntity::getMonth));
+        return groupValues(couponEntityList, UpdateCouponEntity::getMonth);
     }
 
     public static Map<Validity, List<UpdateCouponEntity>> groupByValidity(List<UpdateCouponEntity> couponEntityList) {
-        return couponEntityList
-                .stream()
-                .collect(Collectors.groupingBy(UpdateCouponEntity::getValidity));
+        return groupValues(couponEntityList, UpdateCouponEntity::getValidity);
     }
 
     public static Map<SellType, List<UpdateCouponEntity>> groupBySellType(List<UpdateCouponEntity> couponEntityList) {
+        return groupValues(couponEntityList, UpdateCouponEntity::getSellType);
+    }
+
+    private static <T extends IEnum> Map<T, List<UpdateCouponEntity>> groupValues(List<UpdateCouponEntity> couponEntityList, Function<UpdateCouponEntity, T> function) {
         return couponEntityList
                 .stream()
-                .collect(Collectors.groupingBy(UpdateCouponEntity::getSellType));
+                .collect(Collectors.groupingBy(function));
     }
 
     public static <T extends IEnum> Map<T, Long> sumGroup(Map<T, List<UpdateCouponEntity>> entityList) {

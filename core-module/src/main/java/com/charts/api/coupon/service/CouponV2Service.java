@@ -8,7 +8,6 @@ import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +15,11 @@ import java.util.List;
 @Service
 public class CouponV2Service {
 
-    @Autowired
-    private JpaCouponV2Repository couponRepository;
+    private final JpaCouponV2Repository couponRepository;
+
+    public CouponV2Service(JpaCouponV2Repository couponRepository) {
+        this.couponRepository = couponRepository;
+    }
 
     public List<UpdateCouponEntity> findCouponEntities(CouponsParameters couponsParameters) {
         return couponRepository.findAllByPersonTypeInAndValidityInAndSellTypeInAndMonthInAndYearIn(

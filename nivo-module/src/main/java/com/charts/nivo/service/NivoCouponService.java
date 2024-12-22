@@ -10,7 +10,6 @@ import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoDataXY;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.AbstractMap;
@@ -23,8 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class NivoCouponService {
 
-    @Autowired
-    private CouponV2Service couponService;
+    private final CouponV2Service couponService;
 
     public NivoCouponService(CouponV2Service couponService) {
         this.couponService = couponService;
