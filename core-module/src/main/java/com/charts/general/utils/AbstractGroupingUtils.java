@@ -4,10 +4,7 @@ import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.Months;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,6 +20,23 @@ public abstract class AbstractGroupingUtils {
 
     /**
      *
+     * @param entityList
+     * @return
+     * @param <T>
+     */
+    protected static <T extends IEnum, R extends AbstractUpdateEntity> Map<T, Object> aggregateGroupsSum(Map<T, List<R>> entityList) {
+        return entityList.entrySet()
+                .stream()
+                .map(e -> new AbstractMap.SimpleEntry<>(e.getKey(), aggregateGroupSum(e.getValue()).longValue()))
+                .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+    }
+
+    protected static <T extends AbstractUpdateEntity> Integer aggregateGroupSum(List<T> entityList) {
+        return entityList.stream().mapToInt(T::getValue).sum();
+    }
+
+    /**
+     * Method creates groups of values based on provided grouping function
      * @param entryList Simple list of value that are supposed to be grouped
      * @param groupingFunction Function that would be used to group values
      *
