@@ -8,19 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class AbstractGroupingUtils {
-
-    public static <T extends AbstractUpdateEntity> Map<String, List<T>> groupByCode(List<T> entityList) {
-        return ListFactory.getList(entityList).stream()
-                .map(e -> (T) e)
-                .collect(Collectors.groupingBy(T::getCode));
-    }
-
-    public static <T extends AbstractUpdateEntity> Map<String, Object> groupAndSumByCode(List<T> entityList) {
-        return new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getCode, Collectors.summingInt(T::getValue))));
-    }
 
     public static <T extends AbstractUpdateEntity> Map<Months, List<T>> groupByMonth(List<T> entityList) {
         return sortByOrderValue(ListFactory.getList(entityList).stream()
@@ -32,16 +23,23 @@ public abstract class AbstractGroupingUtils {
         return sortByOrderValue(new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getMonth, Collectors.summingInt(T::getValue)))));
     }
 
-    public static <T extends AbstractUpdateEntity> Map<Integer, List<T>> groupByYear(List<T> entityList) {
-        return ListFactory.getList(entityList).stream().map(e -> (T) e).collect(Collectors.groupingBy(T::getYear));
-    }
-
-    public static <T extends AbstractUpdateEntity> Map<Integer, Object> groupAndSumByYear(List<T> entityList) {
-        return new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getYear, Collectors.summingInt(T::getValue))));
-    }
-
     public static <T extends IEnum> Map<String, Object> convertMapKeysToString(Map<T, Object> map) {
         return map.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().getValue(), Map.Entry::getValue));
+    }
+
+    /**
+     *
+     * @param entryList Simple list of value that are supposed to be grouped
+     * @param groupingFunction Function that would be used to group values
+     *
+     * @return Map of values that are supposed to be groups per enumeration implementing {@link IEnum} IEnum interface
+     * @param <T> Enumeration implementing {@link IEnum}
+     * @param <R> Type of value that will be implementing {@link AbstractUpdateEntity}
+     */
+    protected static <T extends IEnum, R> Map<T, List<R>> groupValues(List<R> entryList, Function<R, T> groupingFunction) {
+        return entryList
+                .stream()
+                .collect(Collectors.groupingBy(groupingFunction));
     }
 
     protected static <R extends IEnum, T> Map<R, T> sortByOrderValue(Map<R, T> customMap) {
