@@ -1,7 +1,10 @@
 package com.charts.api.ticket.service;
 
+import com.charts.api.coupon.entity.GroupingEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.repository.JpaTicketV2Repository;
+import com.charts.general.entity.enums.TicketTypes;
+import com.charts.general.entity.parameters.TicketsParameters;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,5 +19,23 @@ public class TicketService {
     }
 
     public List<UpdateTicketEntity> getAllTickets() { return ticketRepository.findAll(); }
+
+    public List<UpdateTicketEntity> getAllByFilter(TicketsParameters parameters) {
+        return ticketRepository.findAllByMonthInAndYearInAndTicketTypeInAndDiscountedIn(
+                parameters.getMonths(),
+                parameters.getYearInteger(),
+                parameters.getTicketType(),
+                parameters.getDiscounted()
+        );
+    }
+
+    public List<GroupingEntity<TicketTypes>> getTicketTypesByMonth(TicketsParameters parameters) {
+        return ticketRepository.findGroupedByTicketType(
+                parameters.getMonths(),
+                parameters.getDiscounted(),
+                parameters.getTicketType(),
+                parameters.getYearInteger()
+        );
+    }
 
 }

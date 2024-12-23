@@ -21,13 +21,12 @@ public abstract class AbstractGroupingUtils {
      * @param <T> Enumeration implementing {@link IEnum}
      * @param <R> Values that are implementing implementing {@link AbstractUpdateEntity}
      */
-    protected static <T extends IEnum, R extends AbstractUpdateEntity> Map<T, Object> aggregateGroupsSum(Map<T, List<R>> entityList) {
+    public static <T extends IEnum, R extends AbstractUpdateEntity> Map<T, Object> aggregateGroupsSum(Map<T, List<R>> entityList) {
         return entityList.entrySet()
                 .stream()
                 .map(e -> new AbstractMap.SimpleEntry<>(e.getKey(), aggregateGroupSum(e.getValue()).longValue()))
                 .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
     }
-
 
     /**
      * Method sums all values in list
@@ -35,7 +34,7 @@ public abstract class AbstractGroupingUtils {
      * @return Sum of values
      * @param <T> Type of value that will be implementing {@link AbstractUpdateEntity}
      */
-    protected static <T extends AbstractUpdateEntity> Integer aggregateGroupSum(List<T> entityList) {
+    public static <T extends AbstractUpdateEntity> Integer aggregateGroupSum(List<T> entityList) {
         return entityList.stream().mapToInt(T::getValue).sum();
     }
 
