@@ -2,7 +2,7 @@ package com.charts.general.entity.enums;
 
 import lombok.Getter;
 
-import static com.charts.general.constants.EnumerationCouponConstants.*;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.*;
 
 @Getter
 public enum Validity implements IEnum {

@@ -1,4 +1,4 @@
-package com.charts.general.constants;
+package com.charts.api.coupon.constants;
 
 import com.charts.general.entity.enums.*;
 

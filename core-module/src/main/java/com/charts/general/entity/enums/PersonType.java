@@ -5,12 +5,12 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static com.charts.general.constants.EnumerationCouponConstants.ADULT_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.CHILDREN_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.JUNIOR_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.PORTABLE_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.SENIOR_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.STUDENT_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.ADULT_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.CHILDREN_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.JUNIOR_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.PORTABLE_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.SENIOR_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.STUDENT_VALUE;
 
 @Getter
 public enum PersonType implements IEnum {

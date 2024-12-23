@@ -2,18 +2,18 @@ package com.charts.general.entity.enums;
 
 import lombok.Getter;
 
-import static com.charts.general.constants.EnumerationCouponConstants.APRIL_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.AUGUST_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.DECEMBER_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.FEBRUARY_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.JANUARY_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.JULY_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.JUNE_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.MARCH_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.MAY_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.NOVEMBER_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.OCTOBER_VALUE;
-import static com.charts.general.constants.EnumerationCouponConstants.SEPTEMBER_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.APRIL_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.AUGUST_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.DECEMBER_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.FEBRUARY_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.JANUARY_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.JULY_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.JUNE_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.MARCH_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.MAY_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.NOVEMBER_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.OCTOBER_VALUE;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.SEPTEMBER_VALUE;
 
 @Getter
 public enum Months implements IEnum {

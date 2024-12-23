@@ -2,9 +2,9 @@ package com.charts.general.entity.enums;
 
 import lombok.Getter;
 
-import static com.charts.general.constants.EnumerationCouponConstants.CHIP_CARD;
-import static com.charts.general.constants.EnumerationCouponConstants.E_SHOP;
-import static com.charts.general.constants.EnumerationCouponConstants.PAPER_COUPON;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.CHIP_CARD;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.E_SHOP;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.PAPER_COUPON;
 
 @Getter
 public enum SellType implements IEnum {

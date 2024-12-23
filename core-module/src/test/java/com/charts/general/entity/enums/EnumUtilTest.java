@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.charts.general.constants.EnumerationCouponConstants.CHIP_CARD;
-import static com.charts.general.constants.EnumerationCouponConstants.E_SHOP;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.CHIP_CARD;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.E_SHOP;
 
 public class EnumUtilTest {
 
