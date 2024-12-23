@@ -5,7 +5,7 @@ import com.charts.nivo.entity.NivoDataXY;
 import com.charts.general.entity.parameters.TicketsParameters;
 import com.charts.api.ticket.entity.v2.UpdateTicketList;
 import com.charts.api.ticket.repository.TicketRepository;
-import com.charts.general.utils.TicketGroupingUtils;
+import com.charts.api.ticket.utils.TicketGroupingUtils;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 import org.springframework.stereotype.Service;

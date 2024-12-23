@@ -13,12 +13,6 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractGroupingUtils {
 
-    public static <T extends AbstractUpdateEntity> Map<Months, List<T>> groupByMonth(List<T> entityList) {
-        return sortByOrderValue(ListFactory.getList(entityList).stream()
-                .map(e -> (T) e)
-                .collect(Collectors.groupingBy(T::getMonth)));
-    }
-
     public static <T extends AbstractUpdateEntity> Map<Months, Object> groupAndSumByMonth(List<T> entityList) {
         return sortByOrderValue(new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getMonth, Collectors.summingInt(T::getValue)))));
     }

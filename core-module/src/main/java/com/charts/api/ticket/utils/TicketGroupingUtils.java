@@ -1,7 +1,7 @@
 package com.charts.api.ticket.utils;
 
-import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.general.entity.enums.IEnum;
+import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketList;
@@ -15,13 +15,12 @@ import java.util.stream.Collectors;
 
 public class TicketGroupingUtils extends AbstractGroupingUtils {
 
-    public static Map<TicketTypes, List<UpdateTicketEntity>> groupByTicketType(List<UpdateTicketEntity> couponEntityList) {
-        return groupValues(couponEntityList, UpdateTicketEntity::getTicketType);
+    public static Map<Months, List<UpdateTicketEntity>> groupByMonth(List<UpdateTicketEntity> entityList) {
+        return groupValues(entityList, UpdateTicketEntity::getMonth);
     }
 
-    public static Map<TicketTypes, Object> groupByAndSumByTicketType(List<UpdateTicketEntity> entityList) {
-        return sortByOrderValue(new HashMap<>(entityList.stream()
-                .collect(Collectors.groupingBy(UpdateTicketEntity::getTicketType, Collectors.summingInt(UpdateTicketEntity::getValue)))));
+    public static Map<TicketTypes, List<UpdateTicketEntity>> groupByTicketType(List<UpdateTicketEntity> couponEntityList) {
+        return groupValues(couponEntityList, UpdateTicketEntity::getTicketType);
     }
 
     public static Map<Boolean, List<UpdateTicketEntity>> groupByDiscounted(List<UpdateTicketEntity> couponEntityList) {
@@ -29,9 +28,9 @@ public class TicketGroupingUtils extends AbstractGroupingUtils {
                 .collect(Collectors.groupingBy(UpdateTicketEntity::getDiscounted));
     }
 
-    public static Map<Boolean, Object> groupAndSumByDiscounted(List<UpdateTicketEntity> entityList) {
-        return new HashMap<>(entityList.stream()
-                .collect(Collectors.groupingBy(UpdateTicketEntity::getDiscounted, Collectors.summingInt(UpdateTicketEntity::getValue))));
+    public static Map<TicketTypes, Object> groupByAndSumByTicketType(List<UpdateTicketEntity> entityList) {
+        return sortByOrderValue(new HashMap<>(entityList.stream()
+                .collect(Collectors.groupingBy(UpdateTicketEntity::getTicketType, Collectors.summingInt(UpdateTicketEntity::getValue)))));
     }
 
     public static <T extends IEnum> Map<T, Long> sumGroup(Map<T, List<UpdateTicketEntity>> entityList) {
