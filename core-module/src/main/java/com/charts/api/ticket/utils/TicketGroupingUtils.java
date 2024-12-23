@@ -11,6 +11,11 @@ import java.util.stream.Collectors;
 
 public class TicketGroupingUtils extends AbstractGroupingUtils {
 
+    public static Map<Integer, List<UpdateTicketEntity>> groupByYear(List<UpdateTicketEntity> couponEntityList) {
+        return couponEntityList.stream()
+                .collect(Collectors.groupingBy(UpdateTicketEntity::getYear));
+    }
+
     public static Map<Months, List<UpdateTicketEntity>> groupByMonth(List<UpdateTicketEntity> entityList) {
         return groupValues(entityList, UpdateTicketEntity::getMonth);
     }
@@ -24,10 +29,14 @@ public class TicketGroupingUtils extends AbstractGroupingUtils {
                 .collect(Collectors.groupingBy(UpdateTicketEntity::getDiscounted));
     }
 
+    public static Map<Months, Object> groupAndSumByMonth(List<UpdateTicketEntity> entityList) {
+        Map<Months, List<UpdateTicketEntity>> groupedValues = TicketGroupingUtils.groupByMonth(entityList);
+        return TicketSortingUtils.sortByOrderValue(aggregateGroupsSum(groupedValues));
+    }
+
     public static Map<TicketTypes, Object> groupByAndSumByTicketType(List<UpdateTicketEntity> entityList) {
         Map<TicketTypes, List<UpdateTicketEntity>> groupedValues = TicketGroupingUtils.groupByTicketType(entityList);
         return TicketSortingUtils.sortByOrderValue(aggregateGroupsSum(groupedValues));
-
     }
 
 }

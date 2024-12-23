@@ -2,7 +2,6 @@ package com.charts.general.utils;
 
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
-import com.charts.general.entity.enums.Months;
 
 import java.util.*;
 import java.util.function.Function;
@@ -10,19 +9,17 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractGroupingUtils {
 
-    public static <T extends AbstractUpdateEntity> Map<Months, Object> groupAndSumByMonth(List<T> entityList) {
-        return sortByOrderValue(new HashMap<>(entityList.stream().collect(Collectors.groupingBy(T::getMonth, Collectors.summingInt(T::getValue)))));
-    }
-
     public static <T extends IEnum> Map<String, Object> convertMapKeysToString(Map<T, Object> map) {
         return map.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().getValue(), Map.Entry::getValue));
     }
 
     /**
+     * Method aggregates all groups by sum of values
+     * @param entityList Map of values that are supposed to be groups per enumeration implementing {@link IEnum}
+     * @return Map of values that are supposed to be groups per enumeration implementing {@link IEnum}
      *
-     * @param entityList
-     * @return
-     * @param <T>
+     * @param <T> Enumeration implementing {@link IEnum}
+     * @param <R> Values that are implementing implementing {@link AbstractUpdateEntity}
      */
     protected static <T extends IEnum, R extends AbstractUpdateEntity> Map<T, Object> aggregateGroupsSum(Map<T, List<R>> entityList) {
         return entityList.entrySet()
@@ -31,6 +28,13 @@ public abstract class AbstractGroupingUtils {
                 .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
     }
 
+
+    /**
+     * Method sums all values in list
+     * @param entityList List of values
+     * @return Sum of values
+     * @param <T> Type of value that will be implementing {@link AbstractUpdateEntity}
+     */
     protected static <T extends AbstractUpdateEntity> Integer aggregateGroupSum(List<T> entityList) {
         return entityList.stream().mapToInt(T::getValue).sum();
     }
