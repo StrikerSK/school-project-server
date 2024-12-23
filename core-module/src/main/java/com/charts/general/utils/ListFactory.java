@@ -3,8 +3,8 @@ package com.charts.general.utils;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponList;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.api.ticket.entity.v2.UpdateTicketList;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;

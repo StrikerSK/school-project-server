@@ -1,8 +1,8 @@
-package com.charts.general.utils.converter;
+package com.charts.api.ticket.utils;
 
 import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.entity.ticket.TicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
+import com.charts.api.ticket.entity.v1.TicketEntity;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 
 import java.util.ArrayList;
 import java.util.List;

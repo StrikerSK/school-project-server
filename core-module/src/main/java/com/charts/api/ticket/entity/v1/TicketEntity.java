@@ -1,4 +1,4 @@
-package com.charts.general.entity.ticket;
+package com.charts.api.ticket.entity.v1;
 
 import com.charts.general.entity.AbstractEntity;
 import lombok.AllArgsConstructor;

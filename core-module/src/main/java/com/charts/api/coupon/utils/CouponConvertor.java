@@ -1,4 +1,4 @@
-package com.charts.general.utils.converter;
+package com.charts.api.coupon.utils;
 
 import com.charts.api.coupon.entity.v1.CouponEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;

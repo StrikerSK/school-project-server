@@ -1,6 +1,6 @@
-package com.charts.general.repository.ticket;
+package com.charts.api.ticket.repository;
 
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
+import com.charts.api.ticket.entity.v2.UpdateTicketList;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 

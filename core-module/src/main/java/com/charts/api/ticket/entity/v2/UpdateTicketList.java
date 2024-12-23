@@ -1,10 +1,10 @@
-package com.charts.general.entity.ticket.updated;
+package com.charts.api.ticket.entity.v2;
 
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.entity.ticket.TicketEntity;
+import com.charts.api.ticket.entity.v1.TicketEntity;
 import com.charts.general.entity.parameters.TicketsParameters;
-import com.charts.general.utils.converter.TicketConverter;
+import com.charts.api.ticket.utils.TicketConverter;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 

@@ -1,9 +1,9 @@
 package com.charts.recharts.service;
 
 import com.charts.general.entity.parameters.TicketsParameters;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
-import com.charts.general.repository.ticket.TicketRepository;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.api.ticket.entity.v2.UpdateTicketList;
+import com.charts.api.ticket.repository.TicketRepository;
 import com.charts.recharts.entity.RechartsDataObject;
 import org.springframework.stereotype.Service;
 

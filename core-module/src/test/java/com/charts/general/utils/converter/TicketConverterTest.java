@@ -1,9 +1,10 @@
 package com.charts.general.utils.converter;
 
+import com.charts.api.ticket.utils.TicketConverter;
 import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.entity.ticket.TicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
+import com.charts.api.ticket.entity.v1.TicketEntity;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;

@@ -1,8 +1,8 @@
 package com.charts.general.utils;
 
 import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.api.ticket.entity.v2.UpdateTicketList;
 
 import java.util.HashMap;
 import java.util.List;
