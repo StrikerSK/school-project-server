@@ -107,12 +107,27 @@ public class NivoCouponController {
     }
 
     @RequestMapping({"/pie","/pie/month", "/waffle/month"})
-    public List<NivoPieData> getMonthlyPieData(@RequestParam(required = false) List<String> validity,
-                                               @RequestParam(required = false) List<String> type,
-                                               @RequestParam(required = false) List<String> month,
-                                               @RequestParam(required = false) List<Integer> year,
-                                               @RequestParam(required = false) List<String> person) {
+    public List<NivoPieData> getMonthlyPieData(
+            @RequestParam(required = false) List<String> validity,
+            @RequestParam(required = false) List<String> type,
+            @RequestParam(required = false) List<String> month,
+            @RequestParam(required = false) List<Integer> year,
+            @RequestParam(required = false) List<String> person
+    ) {
         return pidCouponsService.getMonthlyPieData(new CouponsParameters(validity, type, month, year, person));
+    }
+
+    @RequestMapping({"/coupon/pie"})
+    public NivoBubbleData getVariable(
+            @RequestParam(required = false) List<String> validity,
+            @RequestParam(required = false) List<String> type,
+            @RequestParam(required = false) List<String> month,
+            @RequestParam(required = false) List<Integer> year,
+            @RequestParam(required = false) List<String> person,
+            @RequestParam() String upperGroup,
+            @RequestParam() String lowerGroup
+    ) {
+        return pidCouponsService.createDynamicBubbleData(upperGroup, lowerGroup, new CouponsParameters(validity, type, month, year, person));
     }
 
     @RequestMapping({"/pie/validity", "/waffle/validity"})
