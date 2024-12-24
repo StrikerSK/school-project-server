@@ -8,10 +8,6 @@ import java.util.List;
 
 public class CouponFilterUtils extends AbstractFilterUtils {
 
-    public static List<UpdateCouponEntity> filterByMonth(List<UpdateCouponEntity> coupons, List<Months> values) {
-        return filterByValue(coupons, values, UpdateCouponEntity::getMonth);
-    }
-
     public static List<UpdateCouponEntity> filterBySellType(List<UpdateCouponEntity> coupons, List<SellType> values) {
         return filterByValue(coupons, values, UpdateCouponEntity::getSellType);
     }

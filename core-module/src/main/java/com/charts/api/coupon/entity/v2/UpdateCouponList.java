@@ -56,9 +56,8 @@ public class UpdateCouponList {
     }
 
     public UpdateCouponList filterByYear(List<Integer> years) {
-        return new UpdateCouponList(couponEntityList.stream()
-                .filter(e -> years.contains(e.getYear()))
-                .collect(Collectors.toList()));
+        List<UpdateCouponEntity> filteredList = CouponFilterUtils.filterByYear(couponEntityList, years);
+        return new UpdateCouponList(filteredList);
     }
 
     public UpdateCouponList filterByValidity(List<Validity> validityList) {
