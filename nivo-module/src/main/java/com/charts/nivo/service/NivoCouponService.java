@@ -129,12 +129,6 @@ public class NivoCouponService {
         return createBubbleData(parameters, CouponGroupingUtils::groupByPersonType, CouponGroupingUtils::groupBySellType);
     }
 
-    public <T extends IEnum> NivoBubbleData createDynamicBubbleData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
-        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = createGrouping(upperGroup);
-        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerGroupingFunction = createGrouping(lowerGroup);
-        return createBubbleData(parameters, upperGroupingFunction, lowerGroupingFunction);
-    }
-
     /**
      * Method gets data for displaying bubble chart. It is divided by two grouping upper grouping and nested grouping.
      *
@@ -184,6 +178,18 @@ public class NivoCouponService {
                 .stream()
                 .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
                 .collect(Collectors.toList());
+    }
+
+    public <T extends IEnum> List<NivoLineData> createDynamicLineData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
+        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = createGrouping(upperGroup);
+        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerGroupingFunction = createGrouping(lowerGroup);
+        return composeLineData(parameters, upperGroupingFunction, lowerGroupingFunction);
+    }
+
+    public <T extends IEnum> NivoBubbleData createDynamicBubbleData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
+        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = createGrouping(upperGroup);
+        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerGroupingFunction = createGrouping(lowerGroup);
+        return createBubbleData(parameters, upperGroupingFunction, lowerGroupingFunction);
     }
 
     private <T extends IEnum> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {
