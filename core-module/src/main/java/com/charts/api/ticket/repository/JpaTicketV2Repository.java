@@ -3,7 +3,7 @@ package com.charts.api.ticket.repository;
 import com.charts.api.coupon.entity.GroupingEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.TicketTypes;
+import com.charts.api.ticket.enums.TicketType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ public interface JpaTicketV2Repository extends JpaRepository<UpdateTicketEntity,
     List<UpdateTicketEntity> findAllByMonthInAndYearInAndTicketTypeInAndDiscountedIn(
             List<Months> monthList,
             List<Integer> yearList,
-            List<TicketTypes> ticketTypeList,
+            List<TicketType> ticketTypeList,
             List<Boolean> discountedList
     );
 
@@ -26,10 +26,10 @@ public interface JpaTicketV2Repository extends JpaRepository<UpdateTicketEntity,
                     + "WHERE c.month IN ?1 AND c.discounted IN ?2 AND c.ticketType IN ?3 AND c.year IN ?4 "
                     + "GROUP BY c.ticketType"
     )
-    List<GroupingEntity<TicketTypes>> findGroupedByTicketType (
+    List<GroupingEntity<TicketType>> findGroupedByTicketType (
             List<Months> months,
             List<Boolean> discounted,
-            List<TicketTypes> ticketTypes,
+            List<TicketType> ticketTypes,
             List<Integer> years
     );
 

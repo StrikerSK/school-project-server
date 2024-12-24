@@ -1,13 +1,14 @@
-package com.charts.general.entity.enums;
+package com.charts.api.ticket.enums;
 
 import com.charts.general.constants.TicketConstants;
+import com.charts.general.entity.enums.IEnum;
 import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 @Getter
-public enum TicketTypes implements IEnum {
+public enum TicketType implements IEnum {
 
     FIFTEEN_MINUTES(TicketConstants.FIFTEEN_MINUTES, 1),
     ONE_DAY(TicketConstants.ONE_DAY, 2),
@@ -27,13 +28,13 @@ public enum TicketTypes implements IEnum {
 
     private final Integer orderValue;
 
-    TicketTypes(String value, Integer orderValue) {
+    TicketType(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
     }
 
-    public static Optional<TicketTypes> getType(String label) {
-        return Arrays.stream(TicketTypes.values())
+    public static Optional<TicketType> getType(String label) {
+        return Arrays.stream(TicketType.values())
                 .filter(c -> c.getValue().equals(label))
                 .findFirst();
     }

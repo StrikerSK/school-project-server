@@ -2,7 +2,7 @@ package com.charts.nivo.service;
 
 import com.charts.api.coupon.entity.GroupingEntity;
 import com.charts.api.ticket.service.TicketService;
-import com.charts.general.entity.enums.TicketTypes;
+import com.charts.api.ticket.enums.TicketType;
 import com.charts.nivo.Utils.NivoConvertersUtils;
 import com.charts.general.entity.parameters.TicketsParameters;
 import com.charts.api.ticket.utils.TicketGroupingUtils;
@@ -38,7 +38,7 @@ public class NivoTicketsService {
 	}
 
 	public List<NivoPieData> getTicketTypePieData(TicketsParameters parameters) {
-		List<GroupingEntity<TicketTypes>> grouping = ticketService.getTicketTypesByMonth(parameters);
+		List<GroupingEntity<TicketType>> grouping = ticketService.getTicketTypesByMonth(parameters);
 		return NivoConvertersUtils.createPieData(grouping);
 	}
 

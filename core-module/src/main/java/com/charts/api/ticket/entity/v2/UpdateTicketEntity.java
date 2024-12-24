@@ -2,7 +2,7 @@ package com.charts.api.ticket.entity.v2;
 
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.TicketTypes;
+import com.charts.api.ticket.enums.TicketType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -38,7 +38,7 @@ public class UpdateTicketEntity extends AbstractUpdateEntity implements Comparab
 	private Integer value;
 
 	@Column(name = "ticket_type")
-	private TicketTypes ticketType;
+	private TicketType ticketType;
 
 	@Column(name = "discounted")
 	private Boolean discounted;

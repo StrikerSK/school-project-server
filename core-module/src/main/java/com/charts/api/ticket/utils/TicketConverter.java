@@ -1,6 +1,6 @@
 package com.charts.api.ticket.utils;
 
-import com.charts.general.entity.enums.TicketTypes;
+import com.charts.api.ticket.enums.TicketType;
 import com.charts.api.ticket.entity.v1.TicketEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 
@@ -48,7 +48,7 @@ public class TicketConverter {
         //From UpdateCouponEntity class
         output.setValue(function.apply(ticketEntity).intValue());
         output.setDiscounted(ticketEntity.getDiscounted());
-        output.setTicketType(TicketTypes.getType(ticketType).get());
+        output.setTicketType(TicketType.getType(ticketType).get());
 
         // From GeneralEntity class
         output.setMonth(ticketEntity.getMonth());
