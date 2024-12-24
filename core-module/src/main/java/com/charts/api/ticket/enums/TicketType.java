@@ -1,6 +1,6 @@
 package com.charts.api.ticket.enums;
 
-import com.charts.general.constants.TicketConstants;
+import com.charts.api.ticket.constants.TicketConstants;
 import com.charts.general.entity.enums.IEnum;
 import lombok.Getter;
 

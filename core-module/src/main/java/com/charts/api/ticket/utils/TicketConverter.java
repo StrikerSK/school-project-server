@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.charts.general.constants.TicketConstants.*;
+import static com.charts.api.ticket.constants.TicketConstants.*;
 
 public class TicketConverter {
 

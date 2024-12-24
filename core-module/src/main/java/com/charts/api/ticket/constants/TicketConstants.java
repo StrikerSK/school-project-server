@@ -1,4 +1,4 @@
-package com.charts.general.constants;
+package com.charts.api.ticket.constants;
 
 public class TicketConstants {
 
