@@ -4,7 +4,7 @@ import com.charts.api.coupon.entity.GroupingEntity;
 import com.charts.api.ticket.service.TicketService;
 import com.charts.api.ticket.enums.TicketType;
 import com.charts.nivo.Utils.NivoConvertersUtils;
-import com.charts.general.entity.parameters.TicketsParameters;
+import com.charts.api.ticket.entity.TicketsParameters;
 import com.charts.api.ticket.utils.TicketGroupingUtils;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;

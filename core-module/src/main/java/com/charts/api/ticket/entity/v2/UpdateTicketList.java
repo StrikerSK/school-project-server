@@ -4,7 +4,7 @@ import com.charts.api.ticket.utils.TicketFilterUtils;
 import com.charts.general.entity.enums.Months;
 import com.charts.api.ticket.enums.TicketType;
 import com.charts.api.ticket.entity.v1.TicketEntity;
-import com.charts.general.entity.parameters.TicketsParameters;
+import com.charts.api.ticket.entity.TicketsParameters;
 import com.charts.api.ticket.utils.TicketConverter;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;

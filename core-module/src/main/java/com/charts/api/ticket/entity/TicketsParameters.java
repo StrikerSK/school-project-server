@@ -1,6 +1,7 @@
-package com.charts.general.entity.parameters;
+package com.charts.api.ticket.entity;
 
 import com.charts.general.entity.enums.EnumUtils;
+import com.charts.general.entity.parameters.AbstractParameters;
 import com.charts.api.ticket.enums.TicketType;
 import org.apache.commons.collections4.CollectionUtils;
 

@@ -4,7 +4,7 @@ import com.charts.api.coupon.entity.GroupingEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.repository.JpaTicketV2Repository;
 import com.charts.api.ticket.enums.TicketType;
-import com.charts.general.entity.parameters.TicketsParameters;
+import com.charts.api.ticket.entity.TicketsParameters;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

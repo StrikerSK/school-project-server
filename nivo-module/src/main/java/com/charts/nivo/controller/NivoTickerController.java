@@ -1,6 +1,6 @@
 package com.charts.nivo.controller;
 
-import com.charts.general.entity.parameters.TicketsParameters;
+import com.charts.api.ticket.entity.TicketsParameters;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 import com.charts.nivo.service.NivoTicketsService;

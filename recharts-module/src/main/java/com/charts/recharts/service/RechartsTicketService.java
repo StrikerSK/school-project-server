@@ -1,6 +1,6 @@
 package com.charts.recharts.service;
 
-import com.charts.general.entity.parameters.TicketsParameters;
+import com.charts.api.ticket.entity.TicketsParameters;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketList;
 import com.charts.api.ticket.repository.TicketRepository;
