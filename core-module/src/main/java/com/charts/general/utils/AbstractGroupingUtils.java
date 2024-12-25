@@ -1,6 +1,7 @@
 package com.charts.general.utils;
 
 import com.charts.general.entity.AbstractUpdateEntity;
+import com.charts.general.entity.enums.types.EnumProxy;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.types.Months;
 
@@ -10,9 +11,8 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractGroupingUtils {
 
-    public static <T extends AbstractUpdateEntity> Map<Integer, List<T>> groupByYear(List<T> couponEntityList) {
-        return couponEntityList.stream()
-                .collect(Collectors.groupingBy(T::getYear));
+    public static <T extends AbstractUpdateEntity> Map<EnumProxy, List<T>> groupByYear(List<T> couponEntityList) {
+        return couponEntityList.stream().collect(Collectors.groupingBy(t -> new EnumProxy(t.getYear())));
     }
 
     public static <T extends AbstractUpdateEntity> Map<Months, List<T>> groupByMonth(List<T> entityList) {
