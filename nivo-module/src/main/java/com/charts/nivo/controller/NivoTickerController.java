@@ -1,9 +1,11 @@
 package com.charts.nivo.controller;
 
-import com.charts.general.entity.parameters.TicketsParameters;
+import com.charts.api.ticket.entity.TicketsParameters;
+import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 import com.charts.nivo.service.NivoTicketsService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,13 +15,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/nivo")
+@AllArgsConstructor
 public class NivoTickerController {
 
     private final NivoTicketsService nivoTicketsService;
-
-    public NivoTickerController(NivoTicketsService nivoTicketsService) {
-        this.nivoTicketsService = nivoTicketsService;
-    }
 
     @RequestMapping({"/tickets/line", "/tickets/line/monthly/type"})
     public List<NivoLineData> getTicketTypesByMonth(@RequestParam(required = false) List<Boolean> discounted,
@@ -43,5 +42,13 @@ public class NivoTickerController {
                                              @RequestParam(required = false) List<Integer> year,
                                              @RequestParam(required = false) List<String> ticket) {
         return nivoTicketsService.getTicketTypePieData(new TicketsParameters(month, year, discounted, ticket));
+    }
+
+    @RequestMapping({"/tickets/bubble"})
+    public NivoBubbleData retrieveBubbleData(@RequestParam(required = false) List<Boolean> discounted,
+                                             @RequestParam(required = false) List<String> month,
+                                             @RequestParam(required = false) List<Integer> year,
+                                             @RequestParam(required = false) List<String> ticket) {
+        return nivoTicketsService.getTicketTypeBubbleData(new TicketsParameters(month, year, discounted, ticket));
     }
 }

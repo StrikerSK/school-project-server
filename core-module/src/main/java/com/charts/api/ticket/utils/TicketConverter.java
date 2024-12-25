@@ -1,15 +1,15 @@
-package com.charts.general.utils.converter;
+package com.charts.api.ticket.utils;
 
-import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.entity.ticket.TicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
+import com.charts.api.ticket.enums.TicketType;
+import com.charts.api.ticket.entity.v1.TicketEntity;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.charts.general.constants.TicketConstants.*;
+import static com.charts.api.ticket.constants.TicketConstants.*;
 
 public class TicketConverter {
 
@@ -48,7 +48,7 @@ public class TicketConverter {
         //From UpdateCouponEntity class
         output.setValue(function.apply(ticketEntity).intValue());
         output.setDiscounted(ticketEntity.getDiscounted());
-        output.setTicketType(TicketTypes.getType(ticketType).get());
+        output.setTicketType(TicketType.getType(ticketType).get());
 
         // From GeneralEntity class
         output.setMonth(ticketEntity.getMonth());

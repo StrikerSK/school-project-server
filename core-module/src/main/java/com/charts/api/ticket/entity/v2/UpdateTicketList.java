@@ -1,10 +1,11 @@
-package com.charts.general.entity.ticket.updated;
+package com.charts.api.ticket.entity.v2;
 
+import com.charts.api.ticket.utils.TicketFilterUtils;
 import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.TicketTypes;
-import com.charts.general.entity.ticket.TicketEntity;
-import com.charts.general.entity.parameters.TicketsParameters;
-import com.charts.general.utils.converter.TicketConverter;
+import com.charts.api.ticket.enums.TicketType;
+import com.charts.api.ticket.entity.v1.TicketEntity;
+import com.charts.api.ticket.entity.TicketsParameters;
+import com.charts.api.ticket.utils.TicketConverter;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -42,27 +43,19 @@ public class UpdateTicketList {
         }
     }
     public UpdateTicketList filterByMonth(List<Months> months) {
-        return new UpdateTicketList(ticketEntities.stream()
-                .filter(e -> months.contains(e.getMonth()))
-                .collect(Collectors.toList()));
+        return new UpdateTicketList(TicketFilterUtils.filterByMonth(ticketEntities, months));
     }
 
     public UpdateTicketList filterByYear(List<Integer> years) {
-        return new UpdateTicketList(ticketEntities.stream()
-                .filter(e -> years.contains(e.getYear()))
-                .collect(Collectors.toList()));
+        return new UpdateTicketList(TicketFilterUtils.filterByYear(ticketEntities, years));
     }
 
     public UpdateTicketList filterByDiscounted(List<Boolean> discounted) {
-        return new UpdateTicketList(ticketEntities.stream()
-                .filter(e -> discounted.contains(e.getDiscounted()))
-                .collect(Collectors.toList()));
+        return new UpdateTicketList(TicketFilterUtils.filterByDiscounted(ticketEntities, discounted));
     }
 
-    public UpdateTicketList filterByTicketType(List<TicketTypes> ticketTypes) {
-        return new UpdateTicketList(ticketEntities.stream()
-                .filter(e -> ticketTypes.contains(e.getTicketType()))
-                .collect(Collectors.toList()));
+    public UpdateTicketList filterByTicketType(List<TicketType> ticketTypes) {
+        return new UpdateTicketList(TicketFilterUtils.filterByTypes(ticketEntities, ticketTypes));
     }
 
     public UpdateTicketList filterWithParameters(TicketsParameters parameters) {

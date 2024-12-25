@@ -8,7 +8,7 @@ import com.charts.general.entity.enums.Months;
 import com.charts.general.entity.enums.PersonType;
 import com.charts.general.entity.enums.SellType;
 import com.charts.general.entity.enums.Validity;
-import com.charts.general.utils.converter.CouponConvertor;
+import com.charts.api.coupon.utils.CouponConvertor;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -56,9 +56,8 @@ public class UpdateCouponList {
     }
 
     public UpdateCouponList filterByYear(List<Integer> years) {
-        return new UpdateCouponList(couponEntityList.stream()
-                .filter(e -> years.contains(e.getYear()))
-                .collect(Collectors.toList()));
+        List<UpdateCouponEntity> filteredList = CouponFilterUtils.filterByYear(couponEntityList, years);
+        return new UpdateCouponList(filteredList);
     }
 
     public UpdateCouponList filterByValidity(List<Validity> validityList) {

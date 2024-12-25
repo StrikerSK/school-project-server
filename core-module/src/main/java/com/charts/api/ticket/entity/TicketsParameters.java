@@ -1,7 +1,8 @@
-package com.charts.general.entity.parameters;
+package com.charts.api.ticket.entity;
 
 import com.charts.general.entity.enums.EnumUtils;
-import com.charts.general.entity.enums.TicketTypes;
+import com.charts.general.entity.parameters.AbstractParameters;
+import com.charts.api.ticket.enums.TicketType;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
@@ -27,11 +28,11 @@ public class TicketsParameters extends AbstractParameters {
 		return discounted;
 	}
 
-	public List<TicketTypes> getTicketType() {
+	public List<TicketType> getTicketType() {
 		if (CollectionUtils.isEmpty(ticketType)) {
-			return EnumUtils.getValueList(TicketTypes.class);
+			return EnumUtils.getValueList(TicketType.class);
 		} else {
-			return EnumUtils.getValueList(ticketType, TicketTypes.class);
+			return EnumUtils.getValueList(ticketType, TicketType.class);
 		}
 	}
 }
