@@ -24,27 +24,27 @@ public class NivoTicketsService {
 	private final TicketService ticketService;
 
 	public List<NivoPieData> createDynamicPieData(String groupName, TicketsParameters parameters) {
-		List<NivoPieData> groupingFunction;
+		List<NivoPieData> convertedData;
 
 		switch (groupName) {
 			case "ticket":
-				groupingFunction = NivoConvertersUtils.createPieData(ticketService.getTicketsByTicketType(parameters));
+				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByTicketType(parameters));
 				break;
 			case "discounted":
-				groupingFunction = NivoConvertersUtils.createPieData(ticketService.getTicketsByDiscounted(parameters));
+				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByDiscounted(parameters));
 				break;
 			case "month":
-				groupingFunction = NivoConvertersUtils.createPieData(ticketService.getTicketsByMonth(parameters));
+				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByMonth(parameters));
 				break;
 			case "year":
-				groupingFunction = NivoConvertersUtils.createPieData(ticketService.getTicketsByYear(parameters));
+				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByYear(parameters));
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown group name: " + groupName);
 		}
 
-		groupingFunction.sort(Comparator.comparingInt(NivoPieData::getOrderValue));
-		return groupingFunction;
+		convertedData.sort(Comparator.comparingInt(NivoPieData::getOrderValue));
+		return convertedData;
 	}
 
 	public <T extends IEnum> List<NivoLineData> createDynamicLineData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
@@ -78,26 +78,26 @@ public class NivoTicketsService {
 	}
 
 	private <T> Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> createGrouping(String groupName) {
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> groupingFunction;
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> convertedData;
 
 		switch (groupName) {
 			case "ticket":
-				groupingFunction = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByTicketType(e);
+				convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByTicketType(e);
 				break;
 			case "month":
-				groupingFunction = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByMonth(e);
+				convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByMonth(e);
 				break;
 			case "discounted":
-				groupingFunction = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByDiscounted(e);
+				convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByDiscounted(e);
 				break;
 			case "year":
-				groupingFunction = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByYear(e);
+				convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByYear(e);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown group name: " + groupName);
 		}
 
-		return groupingFunction;
+		return convertedData;
 	}
 
 }
