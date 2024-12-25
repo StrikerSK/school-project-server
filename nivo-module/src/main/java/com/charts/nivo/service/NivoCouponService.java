@@ -12,9 +12,13 @@ import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 @Service
 public class NivoCouponService {
@@ -153,7 +157,7 @@ public class NivoCouponService {
 
             middleNivoBubbleDataList.add(new NivoBubbleData(key, nestedNivoBubbleDataList));
         });
-        middleNivoBubbleDataList.sort(java.util.Comparator.comparingInt(NivoBubbleData::getOrderValue));
+        middleNivoBubbleDataList.sort(Comparator.comparingInt(NivoBubbleData::getOrderValue));
         return new NivoBubbleData("Predaj kupónov", middleNivoBubbleDataList);
     }
 
@@ -176,7 +180,7 @@ public class NivoCouponService {
     private <T extends IEnum> List<NivoPieData> abstractFetching(List<GroupingEntity<T>> grouping) {
         return grouping
                 .stream()
-                .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
+                .map(e -> new NivoPieData(e.getKey().getValue(), e.getKey().getOrderValue(), e.getValue().intValue()))
                 .collect(Collectors.toList());
     }
 
@@ -197,6 +201,7 @@ public class NivoCouponService {
             throw new IllegalArgumentException("Unknown group name: " + groupName);
         }
 
+        groupingFunction.sort(Comparator.comparingInt(NivoPieData::getOrderValue));
         return groupingFunction;
     }
 
@@ -223,18 +228,24 @@ public class NivoCouponService {
     private <T> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {
         Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> groupingFunction;
 
-        if ("person".equals(groupName)) {
-            groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByPersonType(e);
-        } else if ("month".equals(groupName)) {
-            groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByMonth(e);
-        } else if ("sell".equals(groupName)) {
-            groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupBySellType(e);
-        } else if ("validity".equals(groupName)) {
-            groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByValidity(e);
-        } else if ("year".equals(groupName)) {
-            groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByYear(e);
-        } else {
-            throw new IllegalArgumentException("Unknown group name: " + groupName);
+        switch (groupName) {
+            case "person":
+                groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByPersonType(e);
+                break;
+            case "month":
+                groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByMonth(e);
+                break;
+            case "sell":
+                groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupBySellType(e);
+                break;
+            case "validity":
+                groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByValidity(e);
+                break;
+            case "year":
+                groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByYear(e);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown group name: " + groupName);
         }
 
         return groupingFunction;
