@@ -24,7 +24,7 @@ public class NivoConvertersUtils {
         groupingList.sort(Comparator.comparingInt(e -> e.getKey().getOrderValue()));
         return groupingList
                 .stream()
-                .map(e -> new NivoPieData(e.getKey().getValue(), e.getValue().intValue()))
+                .map(e -> new NivoPieData(e.getKey().getValue(), e.getKey().getOrderValue(), e.getValue().intValue()))
                 .collect(Collectors.toList());
     }
 

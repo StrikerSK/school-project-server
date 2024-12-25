@@ -1,5 +1,6 @@
 package com.charts.api.ticket.utils;
 
+import com.charts.general.entity.enums.types.EnumProxy;
 import com.charts.general.entity.enums.types.Months;
 import com.charts.api.ticket.enums.TicketType;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
@@ -15,9 +16,9 @@ public class TicketGroupingUtils extends AbstractGroupingUtils {
         return groupValues(couponEntityList, UpdateTicketEntity::getTicketType);
     }
 
-    public static Map<Boolean, List<UpdateTicketEntity>> groupByDiscounted(List<UpdateTicketEntity> couponEntityList) {
+    public static Map<EnumProxy, List<UpdateTicketEntity>> groupByDiscounted(List<UpdateTicketEntity> couponEntityList) {
         return couponEntityList.stream()
-                .collect(Collectors.groupingBy(UpdateTicketEntity::getDiscounted));
+                .collect(Collectors.groupingBy(e -> new EnumProxy(e.getDiscounted().toString(), 0)));
     }
 
     public static Map<Months, Object> groupAndSumByMonth(List<UpdateTicketEntity> entityList) {

@@ -33,4 +33,43 @@ public interface JpaTicketV2Repository extends JpaRepository<UpdateTicketEntity,
             List<Integer> years
     );
 
+    @Query(
+            "SELECT new com.charts.general.entity.GroupingEntity(c.discounted, SUM(c.value)) "
+                    + "FROM UpdateTicketEntity AS c "
+                    + "WHERE c.month IN ?1 AND c.discounted IN ?2 AND c.ticketType IN ?3 AND c.year IN ?4 "
+                    + "GROUP BY c.discounted"
+    )
+    List<GroupingEntity<Boolean>> findGroupedByDiscounted (
+            List<Months> months,
+            List<Boolean> discounted,
+            List<TicketType> ticketTypes,
+            List<Integer> years
+    );
+
+    @Query(
+            "SELECT new com.charts.general.entity.GroupingEntity(c.year, SUM(c.value)) "
+                    + "FROM UpdateTicketEntity AS c "
+                    + "WHERE c.month IN ?1 AND c.discounted IN ?2 AND c.ticketType IN ?3 AND c.year IN ?4 "
+                    + "GROUP BY c.year"
+    )
+    List<GroupingEntity<Integer>> findGroupedByYear (
+            List<Months> months,
+            List<Boolean> discounted,
+            List<TicketType> ticketTypes,
+            List<Integer> years
+    );
+
+    @Query(
+            "SELECT new com.charts.general.entity.GroupingEntity(c.month, SUM(c.value)) "
+                    + "FROM UpdateTicketEntity AS c "
+                    + "WHERE c.month IN ?1 AND c.discounted IN ?2 AND c.ticketType IN ?3 AND c.year IN ?4 "
+                    + "GROUP BY c.month"
+    )
+    List<GroupingEntity<Months>> findGroupedByMonth (
+            List<Months> months,
+            List<Boolean> discounted,
+            List<TicketType> ticketTypes,
+            List<Integer> years
+    );
+
 }
