@@ -192,7 +192,7 @@ public class NivoCouponService {
         return createBubbleData(parameters, upperGroupingFunction, lowerGroupingFunction);
     }
 
-    private <T extends IEnum> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {
+    private <T> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {
         Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> groupingFunction;
 
         if ("person".equals(groupName)) {
@@ -203,6 +203,8 @@ public class NivoCouponService {
             groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupBySellType(e);
         } else if ("validity".equals(groupName)) {
             groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByValidity(e);
+        } else if ("year".equals(groupName)) {
+            groupingFunction = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByYear(e);
         } else {
             throw new IllegalArgumentException("Unknown group name: " + groupName);
         }

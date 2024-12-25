@@ -23,7 +23,7 @@ public class ApplicationListener {
     private final JpaTicketRepository ticketRepository;
     private final JpaTicketV2Repository ticketV2Repository;
 
-    @EventListener
+//    @EventListener
     public void onApplicationEvent(SpringApplicationEvent event) {
         List<CouponEntity> coupons = couponRepository.findAll();
         couponV2Repository.saveAll(CouponConvertor.convertCouponEntity(coupons));
