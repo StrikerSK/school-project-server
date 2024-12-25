@@ -11,15 +11,6 @@ import java.util.stream.Collectors;
 
 public class TicketGroupingUtils extends AbstractGroupingUtils {
 
-    public static Map<Integer, List<UpdateTicketEntity>> groupByYear(List<UpdateTicketEntity> couponEntityList) {
-        return couponEntityList.stream()
-                .collect(Collectors.groupingBy(UpdateTicketEntity::getYear));
-    }
-
-    public static Map<Months, List<UpdateTicketEntity>> groupByMonth(List<UpdateTicketEntity> entityList) {
-        return groupValues(entityList, UpdateTicketEntity::getMonth);
-    }
-
     public static Map<TicketType, List<UpdateTicketEntity>> groupByTicketType(List<UpdateTicketEntity> couponEntityList) {
         return groupValues(couponEntityList, UpdateTicketEntity::getTicketType);
     }
