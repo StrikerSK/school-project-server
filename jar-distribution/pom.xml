@@ -53,6 +53,11 @@
             <version>${parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.charts</groupId>
+            <artifactId>file-module</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
