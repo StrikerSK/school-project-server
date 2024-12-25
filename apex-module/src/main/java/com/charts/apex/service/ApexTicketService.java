@@ -1,10 +1,10 @@
 package com.charts.apex.service;
 
 import com.charts.apex.entity.ApexObject;
-import com.charts.general.entity.ticket.TicketsParameters;
-import com.charts.general.entity.ticket.updated.UpdateTicketEntity;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
-import com.charts.general.repository.ticket.TicketRepository;
+import com.charts.api.ticket.entity.TicketsParameters;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.api.ticket.entity.v2.UpdateTicketList;
+import com.charts.api.ticket.repository.TicketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

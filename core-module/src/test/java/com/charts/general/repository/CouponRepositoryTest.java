@@ -1,7 +1,7 @@
 package com.charts.general.repository;
 
 import com.charts.general.entity.coupon.AbstractCouponTest;
-import com.charts.general.repository.coupon.CouponRepository;
+import com.charts.api.coupon.repository.CouponRepository;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

@@ -1,6 +1,6 @@
 package com.charts.nivo.controller;
 
-import com.charts.general.entity.coupon.CouponsParameters;
+import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;

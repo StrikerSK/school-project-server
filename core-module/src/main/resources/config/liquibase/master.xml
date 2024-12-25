@@ -24,4 +24,22 @@
 
     </changeSet>
 
+    <changeSet id="3" author="TheStriker">
+
+        <createTable tableName="tickets_v2">
+            <column name="id" type="number">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="code" type="text"/>
+            <column name="month" type="text"/>
+            <column name="year" type="int"/>
+            <column name="value" type="int"/>
+            <column name="ticket_type" type="text"/>
+            <column name="discounted" type="boolean"/>
+        </createTable>
+
+        <addAutoIncrement tableName="tickets_v2" columnName="id" startWith="1" incrementBy="1"/>
+
+    </changeSet>
+
 </databaseChangeLog>

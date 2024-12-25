@@ -1,10 +1,13 @@
 package com.charts.general.migration;
 
-import com.charts.general.entity.coupon.CouponEntity;
-import com.charts.general.repository.coupon.JpaCouponRepository;
-import com.charts.general.repository.coupon.JpaCouponV2Repository;
-import com.charts.general.utils.converter.CouponConvertor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.charts.api.coupon.entity.v1.CouponEntity;
+import com.charts.api.coupon.repository.JpaCouponRepository;
+import com.charts.api.coupon.repository.JpaCouponV2Repository;
+import com.charts.api.coupon.utils.CouponConvertor;
+import com.charts.api.ticket.repository.JpaTicketRepository;
+import com.charts.api.ticket.repository.JpaTicketV2Repository;
+import com.charts.api.ticket.utils.TicketConverter;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.SpringApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -12,18 +15,21 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class ApplicationListener {
 
-    @Autowired
-    JpaCouponRepository couponRepository;
-
-    @Autowired
-    JpaCouponV2Repository couponV2Repository;
+    private final JpaCouponRepository couponRepository;
+    private final JpaCouponV2Repository couponV2Repository;
+    private final JpaTicketRepository ticketRepository;
+    private final JpaTicketV2Repository ticketV2Repository;
 
     @EventListener
     public void onApplicationEvent(SpringApplicationEvent event) {
         List<CouponEntity> coupons = couponRepository.findAll();
         couponV2Repository.saveAll(CouponConvertor.convertCouponEntity(coupons));
+
+        List<com.charts.api.ticket.entity.v1.TicketEntity> tickets = ticketRepository.findAll();
+        ticketV2Repository.saveAll(TicketConverter.convertTicketEntity(tickets));
     }
 
 }

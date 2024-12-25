@@ -1,12 +1,14 @@
 package com.charts.general.entity.coupon.updated;
 
+import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
+import com.charts.api.coupon.entity.v2.UpdateCouponList;
 import com.charts.general.entity.coupon.AbstractCouponTest;
-import com.charts.general.entity.coupon.CouponEntity;
-import com.charts.general.entity.coupon.CouponList;
-import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.PersonType;
-import com.charts.general.entity.enums.SellType;
-import com.charts.general.entity.enums.Validity;
+import com.charts.api.coupon.entity.v1.CouponEntity;
+import com.charts.api.coupon.entity.v1.CouponList;
+import com.charts.general.entity.enums.types.Months;
+import com.charts.api.coupon.enums.types.PersonType;
+import com.charts.api.coupon.enums.types.SellType;
+import com.charts.api.coupon.enums.types.Validity;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,8 +18,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.charts.general.constants.Months.*;
-import static com.charts.general.constants.PersonType.*;
+import static com.charts.api.coupon.constants.EnumerationCouponConstants.*;
 
 public class UpdateCouponListTest extends AbstractCouponTest {
 

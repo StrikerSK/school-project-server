@@ -2,10 +2,10 @@ package com.charts.apex.service;
 
 import com.charts.apex.entity.ApexObject;
 import com.charts.general.entity.AbstractUpdateEntity;
-import com.charts.general.entity.coupon.CouponsParameters;
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
-import com.charts.general.entity.enums.Months;
-import com.charts.general.repository.coupon.CouponRepository;
+import com.charts.api.coupon.entity.CouponsParameters;
+import com.charts.api.coupon.entity.v2.UpdateCouponList;
+import com.charts.general.entity.enums.types.Months;
+import com.charts.api.coupon.repository.CouponRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

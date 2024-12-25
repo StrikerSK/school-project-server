@@ -1,10 +1,8 @@
 package com.charts.recharts.entity;
 
 import com.charts.general.entity.enums.IEnum;
-import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.types.Months;
 import lombok.Data;
-
-import java.time.Month;
 
 @Data
 public class RechartsDataObject {
