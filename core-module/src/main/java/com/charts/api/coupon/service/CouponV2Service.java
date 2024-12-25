@@ -4,10 +4,10 @@ import com.charts.api.coupon.entity.GroupingEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.api.coupon.entity.CouponsParameters;
-import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.PersonType;
-import com.charts.general.entity.enums.SellType;
-import com.charts.general.entity.enums.Validity;
+import com.charts.general.entity.enums.types.Months;
+import com.charts.api.coupon.enums.types.PersonType;
+import com.charts.api.coupon.enums.types.SellType;
+import com.charts.api.coupon.enums.types.Validity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

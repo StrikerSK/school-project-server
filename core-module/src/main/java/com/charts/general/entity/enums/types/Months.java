@@ -1,5 +1,6 @@
-package com.charts.general.entity.enums;
+package com.charts.general.entity.enums.types;
 
+import com.charts.general.entity.enums.IEnum;
 import lombok.Getter;
 
 import static com.charts.api.coupon.constants.EnumerationCouponConstants.APRIL_VALUE;

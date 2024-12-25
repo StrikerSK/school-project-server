@@ -2,9 +2,9 @@ package com.charts.general.entity.coupon;
 
 import com.charts.api.coupon.entity.v1.CouponEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponList;
-import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.SellType;
-import com.charts.general.entity.enums.Validity;
+import com.charts.general.entity.enums.types.Months;
+import com.charts.api.coupon.enums.types.SellType;
+import com.charts.api.coupon.enums.types.Validity;
 import com.charts.api.coupon.repository.JpaCouponRepository;
 import org.mockito.Mock;
 import org.mockito.Mockito;

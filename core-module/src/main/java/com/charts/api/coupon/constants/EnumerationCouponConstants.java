@@ -1,5 +1,9 @@
 package com.charts.api.coupon.constants;
 
+import com.charts.general.entity.enums.types.Months;
+import com.charts.api.coupon.enums.types.PersonType;
+import com.charts.api.coupon.enums.types.SellType;
+import com.charts.api.coupon.enums.types.Validity;
 import com.charts.general.entity.enums.*;
 
 import java.util.List;

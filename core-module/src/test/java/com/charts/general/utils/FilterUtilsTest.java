@@ -3,7 +3,7 @@ package com.charts.general.utils;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.utils.CouponFilterUtils;
 import com.charts.general.entity.coupon.AbstractCouponTest;
-import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.types.Months;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

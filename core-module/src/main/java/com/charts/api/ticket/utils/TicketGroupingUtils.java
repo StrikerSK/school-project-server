@@ -1,6 +1,6 @@
 package com.charts.api.ticket.utils;
 
-import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.types.Months;
 import com.charts.api.ticket.enums.TicketType;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.general.utils.AbstractGroupingUtils;

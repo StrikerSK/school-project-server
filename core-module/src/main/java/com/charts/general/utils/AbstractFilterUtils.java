@@ -2,7 +2,7 @@ package com.charts.general.utils;
 
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
-import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.types.Months;
 
 import java.util.List;
 import java.util.function.Function;

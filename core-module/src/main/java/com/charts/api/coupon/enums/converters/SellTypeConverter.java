@@ -1,7 +1,7 @@
-package com.charts.general.entity.enums.converters;
+package com.charts.api.coupon.enums.converters;
 
 import com.charts.general.entity.enums.EnumUtils;
-import com.charts.general.entity.enums.SellType;
+import com.charts.api.coupon.enums.types.SellType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

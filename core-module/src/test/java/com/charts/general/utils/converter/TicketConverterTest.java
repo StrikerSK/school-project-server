@@ -1,7 +1,7 @@
 package com.charts.general.utils.converter;
 
 import com.charts.api.ticket.utils.TicketConverter;
-import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.types.Months;
 import com.charts.api.ticket.enums.TicketType;
 import com.charts.api.ticket.entity.v1.TicketEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;

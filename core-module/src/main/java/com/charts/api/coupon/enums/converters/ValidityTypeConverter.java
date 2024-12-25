@@ -1,7 +1,7 @@
-package com.charts.general.entity.enums.converters;
+package com.charts.api.coupon.enums.converters;
 
 import com.charts.general.entity.enums.EnumUtils;
-import com.charts.general.entity.enums.Validity;
+import com.charts.api.coupon.enums.types.Validity;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

@@ -1,10 +1,10 @@
 package com.charts.api.coupon.entity.v2;
 
 import com.charts.general.entity.AbstractUpdateEntity;
-import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.PersonType;
-import com.charts.general.entity.enums.SellType;
-import com.charts.general.entity.enums.Validity;
+import com.charts.general.entity.enums.types.Months;
+import com.charts.api.coupon.enums.types.PersonType;
+import com.charts.api.coupon.enums.types.SellType;
+import com.charts.api.coupon.enums.types.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

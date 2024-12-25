@@ -1,6 +1,6 @@
 package com.charts.general.entity;
 
-import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.types.Months;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

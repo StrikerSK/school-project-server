@@ -1,5 +1,6 @@
-package com.charts.general.entity.enums;
+package com.charts.api.coupon.enums.types;
 
+import com.charts.general.entity.enums.IEnum;
 import lombok.Getter;
 
 import java.util.Arrays;

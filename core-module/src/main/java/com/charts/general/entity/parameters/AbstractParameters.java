@@ -2,7 +2,7 @@ package com.charts.general.entity.parameters;
 
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.IEnum;
-import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.types.Months;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
