@@ -1,6 +1,6 @@
 package com.charts.nivo.service;
 
-import com.charts.api.coupon.entity.GroupingEntity;
+import com.charts.general.entity.GroupingEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.coupon.utils.CouponGroupingUtils;

@@ -1,6 +1,6 @@
 package com.charts.api.ticket.repository;
 
-import com.charts.api.coupon.entity.GroupingEntity;
+import com.charts.general.entity.GroupingEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.general.entity.enums.types.Months;
 import com.charts.api.ticket.enums.TicketType;
@@ -21,7 +21,7 @@ public interface JpaTicketV2Repository extends JpaRepository<UpdateTicketEntity,
     );
 
     @Query(
-            "SELECT new com.charts.api.coupon.entity.GroupingEntity(c.ticketType, SUM(c.value)) "
+            "SELECT new com.charts.general.entity.GroupingEntity(c.ticketType, SUM(c.value)) "
                     + "FROM UpdateTicketEntity AS c "
                     + "WHERE c.month IN ?1 AND c.discounted IN ?2 AND c.ticketType IN ?3 AND c.year IN ?4 "
                     + "GROUP BY c.ticketType"

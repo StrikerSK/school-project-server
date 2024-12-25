@@ -1,6 +1,6 @@
 package com.charts.api.ticket.service;
 
-import com.charts.api.coupon.entity.GroupingEntity;
+import com.charts.general.entity.GroupingEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.repository.JpaTicketV2Repository;
 import com.charts.api.ticket.enums.TicketType;

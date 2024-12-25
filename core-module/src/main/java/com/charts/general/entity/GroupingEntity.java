@@ -1,4 +1,4 @@
-package com.charts.api.coupon.entity;
+package com.charts.general.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

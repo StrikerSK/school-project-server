@@ -1,6 +1,6 @@
 package com.charts.api.coupon.repository;
 
-import com.charts.api.coupon.entity.GroupingEntity;
+import com.charts.general.entity.GroupingEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.general.entity.enums.types.Months;
 import com.charts.api.coupon.enums.types.PersonType;
@@ -22,7 +22,7 @@ public interface JpaCouponV2Repository extends JpaRepository<UpdateCouponEntity,
     );
 
     @Query(
-            "SELECT new com.charts.api.coupon.entity.GroupingEntity(c.personType, SUM(c.value)) "
+            "SELECT new com.charts.general.entity.GroupingEntity(c.personType, SUM(c.value)) "
             + "FROM UpdateCouponEntity AS c "
             + "WHERE c.personType IN ?1 AND c.validity IN ?2 AND c.sellType IN ?3 AND c.month IN ?4 AND c.year IN ?5 "
             + "GROUP BY c.personType"
@@ -36,7 +36,7 @@ public interface JpaCouponV2Repository extends JpaRepository<UpdateCouponEntity,
     );
 
     @Query(
-            "SELECT new com.charts.api.coupon.entity.GroupingEntity(c.month, SUM(c.value)) "
+            "SELECT new com.charts.general.entity.GroupingEntity(c.month, SUM(c.value)) "
                     + "FROM UpdateCouponEntity AS c "
                     + "WHERE c.personType IN ?1 AND c.validity IN ?2 AND c.sellType IN ?3 AND c.month IN ?4 AND c.year IN ?5 "
                     + "GROUP BY c.month"
@@ -50,7 +50,7 @@ public interface JpaCouponV2Repository extends JpaRepository<UpdateCouponEntity,
     );
 
     @Query(
-            "SELECT new com.charts.api.coupon.entity.GroupingEntity(c.validity, SUM(c.value)) "
+            "SELECT new com.charts.general.entity.GroupingEntity(c.validity, SUM(c.value)) "
                     + "FROM UpdateCouponEntity AS c "
                     + "WHERE c.personType IN ?1 AND c.validity IN ?2 AND c.sellType IN ?3 AND c.month IN ?4 AND c.year IN ?5 "
                     + "GROUP BY c.validity"
@@ -64,7 +64,7 @@ public interface JpaCouponV2Repository extends JpaRepository<UpdateCouponEntity,
     );
 
     @Query(
-            "SELECT new com.charts.api.coupon.entity.GroupingEntity(c.sellType, SUM(c.value)) "
+            "SELECT new com.charts.general.entity.GroupingEntity(c.sellType, SUM(c.value)) "
                     + "FROM UpdateCouponEntity AS c "
                     + "WHERE c.personType IN ?1 AND c.validity IN ?2 AND c.sellType IN ?3 AND c.month IN ?4 AND c.year IN ?5 "
                     + "GROUP BY c.sellType"

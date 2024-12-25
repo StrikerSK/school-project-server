@@ -1,6 +1,6 @@
 package com.charts.nivo.Utils;
 
-import com.charts.api.coupon.entity.GroupingEntity;
+import com.charts.general.entity.GroupingEntity;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.nivo.entity.NivoBubbleData;
