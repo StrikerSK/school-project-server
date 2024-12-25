@@ -1,6 +1,7 @@
 package com.charts.files.service;
 
 import com.charts.api.coupon.repository.JpaCouponRepository;
+import com.charts.api.coupon.service.CouponV2Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.charts.api.coupon.entity.v1.CouponEntity;
 import lombok.AllArgsConstructor;
@@ -13,13 +14,9 @@ import java.io.IOException;
 @AllArgsConstructor
 public class FileService {
 
-	private final JpaCouponRepository couponsRepository;
+	private final CouponV2Service couponService;
 
-	public void saveDataFromFile(MultipartFile file) throws IOException {
-		couponsRepository.save(getEmployeeFromJson(file));
-	}
-
-	private static CouponEntity getEmployeeFromJson(MultipartFile originalFile) throws IOException {
+	private static CouponEntity getCouponsFle(MultipartFile originalFile) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.readValue(new String(originalFile.getBytes()), CouponEntity.class);
 	}
