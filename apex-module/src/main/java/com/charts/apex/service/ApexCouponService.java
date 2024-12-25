@@ -2,7 +2,7 @@ package com.charts.apex.service;
 
 import com.charts.apex.entity.ApexObject;
 import com.charts.general.entity.AbstractUpdateEntity;
-import com.charts.general.entity.parameters.CouponsParameters;
+import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.api.coupon.entity.v2.UpdateCouponList;
 import com.charts.general.entity.enums.Months;
 import com.charts.api.coupon.repository.CouponRepository;

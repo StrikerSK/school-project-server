@@ -1,6 +1,6 @@
 package com.charts.recharts.controller;
 
-import com.charts.general.entity.parameters.CouponsParameters;
+import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.recharts.entity.RechartsDataObject;
 import com.charts.recharts.service.RechartsCouponService;
 import lombok.AllArgsConstructor;

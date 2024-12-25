@@ -1,6 +1,9 @@
-package com.charts.general.entity.parameters;
+package com.charts.api.coupon.entity;
 
-import com.charts.general.entity.enums.*;
+import com.charts.general.entity.enums.PersonType;
+import com.charts.general.entity.enums.SellType;
+import com.charts.general.entity.enums.Validity;
+import com.charts.general.entity.parameters.AbstractParameters;
 
 import java.util.List;
 

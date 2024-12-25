@@ -2,7 +2,7 @@ package com.charts.apex.controller;
 
 import com.charts.apex.entity.ApexObject;
 import com.charts.apex.service.ApexCouponService;
-import com.charts.general.entity.parameters.CouponsParameters;
+import com.charts.api.coupon.entity.CouponsParameters;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

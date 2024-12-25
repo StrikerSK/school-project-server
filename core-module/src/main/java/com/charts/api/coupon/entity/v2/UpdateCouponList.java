@@ -1,7 +1,7 @@
 package com.charts.api.coupon.entity.v2;
 
 import com.charts.api.coupon.utils.CouponFilterUtils;
-import com.charts.general.entity.parameters.CouponsParameters;
+import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.api.coupon.entity.v1.CouponEntity;
 import com.charts.api.coupon.entity.v1.CouponList;
 import com.charts.general.entity.enums.Months;

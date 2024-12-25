@@ -1,7 +1,7 @@
 package com.charts.recharts.service;
 
 import com.charts.general.entity.AbstractUpdateEntity;
-import com.charts.general.entity.parameters.CouponsParameters;
+import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.api.coupon.entity.v2.UpdateCouponList;
 import com.charts.api.coupon.repository.CouponRepository;
 import com.charts.recharts.entity.RechartsDataObject;

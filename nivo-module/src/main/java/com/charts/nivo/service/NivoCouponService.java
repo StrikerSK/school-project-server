@@ -4,7 +4,7 @@ import com.charts.api.coupon.entity.GroupingEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.coupon.utils.CouponGroupingUtils;
-import com.charts.general.entity.parameters.CouponsParameters;
+import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoDataXY;
