@@ -3,18 +3,7 @@ package com.charts.general.entity.enums.types;
 import com.charts.general.entity.enums.IEnum;
 import lombok.Getter;
 
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.APRIL_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.AUGUST_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.DECEMBER_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.FEBRUARY_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.JANUARY_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.JULY_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.JUNE_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.MARCH_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.MAY_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.NOVEMBER_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.OCTOBER_VALUE;
-import static com.charts.api.coupon.constants.EnumerationCouponConstants.SEPTEMBER_VALUE;
+import static com.charts.general.entity.constants.EnumerationConstants.*;
 
 @Getter
 public enum Months implements IEnum {
