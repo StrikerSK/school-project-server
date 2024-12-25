@@ -77,4 +77,18 @@ public interface JpaCouponV2Repository extends JpaRepository<UpdateCouponEntity,
             List<Integer> years
     );
 
+    @Query(
+            "SELECT new com.charts.general.entity.GroupingEntity(c.year, SUM(c.value)) "
+                    + "FROM UpdateCouponEntity AS c "
+                    + "WHERE c.personType IN ?1 AND c.validity IN ?2 AND c.sellType IN ?3 AND c.month IN ?4 AND c.year IN ?5 "
+                    + "GROUP BY c.year"
+    )
+    List<GroupingEntity<Integer>> findGroupedByYearValues (
+            List<PersonType> personTypes,
+            List<Validity> validityList,
+            List<SellType> sellTypes,
+            List<Months> months,
+            List<Integer> years
+    );
+
 }

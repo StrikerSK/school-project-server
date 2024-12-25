@@ -180,16 +180,44 @@ public class NivoCouponService {
                 .collect(Collectors.toList());
     }
 
+    public List<NivoPieData> createDynamicPieData(String groupName, CouponsParameters parameters) {
+        List<NivoPieData> groupingFunction;
+
+        if ("person".equals(groupName)) {
+            groupingFunction = abstractFetching(couponService.findByValidityAndGroupedByPersonType(parameters));
+        } else if ("month".equals(groupName)) {
+            groupingFunction = abstractFetching(couponService.findByValidityAndGroupedByMonth(parameters));
+        } else if ("sell".equals(groupName)) {
+            groupingFunction = abstractFetching(couponService.findByValidityAndGroupedBySellType(parameters));
+        } else if ("validity".equals(groupName)) {
+            groupingFunction = abstractFetching(couponService.findByValidityAndGroupedByValidity(parameters));
+        } else if ("year".equals(groupName)) {
+            groupingFunction = abstractFetching(couponService.findByValidityAndGroupedByYear(parameters));
+        } else {
+            throw new IllegalArgumentException("Unknown group name: " + groupName);
+        }
+
+        return groupingFunction;
+    }
+
     public <T extends IEnum> List<NivoLineData> createDynamicLineData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
+        validateGroups(upperGroup, lowerGroup);
         Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = createGrouping(upperGroup);
         Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerGroupingFunction = createGrouping(lowerGroup);
         return composeLineData(parameters, upperGroupingFunction, lowerGroupingFunction);
     }
 
     public <T extends IEnum> NivoBubbleData createDynamicBubbleData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
+        validateGroups(upperGroup, lowerGroup);
         Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = createGrouping(upperGroup);
         Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerGroupingFunction = createGrouping(lowerGroup);
         return createBubbleData(parameters, upperGroupingFunction, lowerGroupingFunction);
+    }
+
+    private void validateGroups(String upperGroup, String lowerGroup) {
+        if (upperGroup.equals(lowerGroup)) {
+            throw new IllegalArgumentException("Cannot use same groups!");
+        }
     }
 
     private <T> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {

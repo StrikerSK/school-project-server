@@ -4,6 +4,7 @@ import com.charts.general.entity.GroupingEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.api.coupon.entity.CouponsParameters;
+import com.charts.general.entity.enums.types.EnumProxy;
 import com.charts.general.entity.enums.types.Months;
 import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
@@ -11,6 +12,7 @@ import com.charts.api.coupon.enums.types.Validity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CouponV2Service {
@@ -69,6 +71,19 @@ public class CouponV2Service {
                 couponsParameters.getMonths(),
                 couponsParameters.getYearInteger()
         );
+    }
+
+    public List<GroupingEntity<EnumProxy>> findByValidityAndGroupedByYear(CouponsParameters couponsParameters) {
+        return couponRepository.findGroupedByYearValues(
+                couponsParameters.getPersonTypeList(),
+                couponsParameters.getValidity(),
+                couponsParameters.getSellTypes(),
+                couponsParameters.getMonths(),
+                couponsParameters.getYearInteger()
+        )
+                .stream()
+                .map(e -> new GroupingEntity<>(new EnumProxy(e.getKey()), e.getValue()))
+                .collect(Collectors.toList());
     }
 
 }
