@@ -48,11 +48,20 @@ public class FileController {
 
 		String csvContent = stringWriter.toString();
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + String.format("coupons-%s.csv", UUID.randomUUID()));
-		headers.add(HttpHeaders.CONTENT_TYPE, "text/csv; charset=UTF-8");
+	@PostMapping("/upload")
+	public ResponseEntity<List<UpdateCouponEntity>> uploadCsv(@RequestBody String payload) {
+		try {
+			CSVReader csvReader = new CSVReader(new StringReader(payload));
+			CsvToBean<UpdateCouponEntity> csvToBean = new CsvToBeanBuilder<UpdateCouponEntity>(csvReader)
+					.withType(UpdateCouponEntity.class)
+					.withIgnoreLeadingWhiteSpace(true)
+					.build();
 
-		return new ResponseEntity<>(csvContent, headers, HttpStatus.OK);
+			List<UpdateCouponEntity> users = csvToBean.parse();
+			return ResponseEntity.ok(users);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
 	}
 
 }
