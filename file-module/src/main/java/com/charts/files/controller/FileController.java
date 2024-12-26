@@ -2,53 +2,51 @@ package com.charts.files.controller;
 
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
-import com.charts.files.service.CsvGenerator;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/file")
 public class FileController {
 
-	private final CsvGenerator csvGeneratorUtil;
 	private final CouponV2Service couponService;
 
-	@GetMapping("/coupons")
-	public ResponseEntity<String> generateCsv() {
-		List<String[]> data = couponService.findAll().stream().map(
-				coupon -> new String[]{
-						coupon.getId().toString(),
-						coupon.getYear().toString(),
-						coupon.getMonth().getValue(),
-						coupon.getPersonType().getValue(),
-						coupon.getSellType().getValue(),
-						coupon.getValidity().getValue(),
-						coupon.getValue().toString()
-				}
-		).collect(Collectors.toList());
+	@GetMapping("/coupon")
+	public void exportToCsv(HttpServletResponse response) {
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", "attachment; filename=data.csv");
 
-		StringWriter stringWriter = new StringWriter();
-		try (PrintWriter writer = new PrintWriter(stringWriter)) {
-			data.forEach(row -> {
-				writer.println(String.join(",", row));
-			});
-		}
 
-		String csvContent = stringWriter.toString();
+		try (CSVWriter writer = new CSVWriter(response.getWriter())) {
+			StatefulBeanToCsvBuilder<UpdateCouponEntity> builder = new StatefulBeanToCsvBuilder<>(writer);
+			builder
+					.build()
+					.write(couponService.findAll());
+		} catch (IOException e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to generate CSV", e);
+        } catch (CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	@PostMapping("/upload")
+	@PostMapping("/coupon")
 	public ResponseEntity<List<UpdateCouponEntity>> uploadCsv(@RequestBody String payload) {
 		try {
 			CSVReader csvReader = new CSVReader(new StringReader(payload));
