@@ -7,6 +7,7 @@ import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opencsv.bean.CsvBindByName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,24 +40,31 @@ public class UpdateCouponEntity extends AbstractUpdateEntity implements Comparab
 
 	@Column(name = "code")
 	@JsonProperty("code")
+	@CsvBindByName(column = "code")
 	private String code;
 
 	@Column(name = "month")
+	@CsvBindByName(column = "month")
 	private Months month;
 
 	@Column(name = "year")
+	@CsvBindByName(column = "year")
 	private Integer year;
 
 	@Column(name = "value")
+	@CsvBindByName(column = "value")
 	private Integer value;
 
 	@Column(name = VALIDITY_COLUMN)
+	@CsvBindByName(column = "validity")
 	private Validity validity;
 
 	@Column(name = SELL_TYPE_COLUMN)
+	@CsvBindByName(column = "sellType")
 	private SellType sellType;
 
 	@Column(name = PERSON_TYPE_COLUMN)
+	@CsvBindByName(column = "personType")
 	private PersonType personType;
 
 	@Override
