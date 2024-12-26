@@ -21,7 +21,9 @@ public class TicketService {
         this.ticketRepository = ticketRepository;
     }
 
-    public List<UpdateTicketEntity> getAllTickets() { return ticketRepository.findAll(); }
+    public void saveAll(List<UpdateTicketEntity> ticketEntityList) { ticketRepository.saveAll(ticketEntityList); }
+
+    public List<UpdateTicketEntity> findAll() { return ticketRepository.findAll(); }
 
     public List<UpdateTicketEntity> getAllByFilter(TicketsParameters parameters) {
         return ticketRepository.findAllByMonthInAndYearInAndTicketTypeInAndDiscountedIn(

@@ -2,6 +2,8 @@ package com.charts.files.service;
 
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.api.ticket.service.TicketService;
 import com.opencsv.AbstractCSVWriter;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
@@ -20,6 +22,7 @@ import java.util.List;
 public class FileService {
 
 	private final CouponV2Service couponService;
+	private final TicketService ticketService;
 
 	public void fetchCoupons(AbstractCSVWriter writer) {
 		StatefulBeanToCsvBuilder<UpdateCouponEntity> builder = new StatefulBeanToCsvBuilder<>(writer);
@@ -30,6 +33,15 @@ public class FileService {
         }
     }
 
+	public void fetchTickets(AbstractCSVWriter writer) {
+		StatefulBeanToCsvBuilder<UpdateTicketEntity> builder = new StatefulBeanToCsvBuilder<>(writer);
+		try {
+			builder.build().write(ticketService.findAll());
+		} catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public void processCoupons(String payload) {
 		CSVReader csvReader = new CSVReader(new StringReader(payload));
 		CsvToBean<UpdateCouponEntity> csvToBean = new CsvToBeanBuilder<UpdateCouponEntity>(csvReader)
@@ -39,6 +51,17 @@ public class FileService {
 
 		List<UpdateCouponEntity> coupons = csvToBean.parse();
 		couponService.saveAll(coupons);
+	}
+
+	public void processTickets(String payload) {
+		CSVReader csvReader = new CSVReader(new StringReader(payload));
+		CsvToBean<UpdateTicketEntity> csvToBean = new CsvToBeanBuilder<UpdateTicketEntity>(csvReader)
+				.withType(UpdateTicketEntity.class)
+				.withIgnoreLeadingWhiteSpace(true)
+				.build();
+
+		List<UpdateTicketEntity> tickets = csvToBean.parse();
+		ticketService.saveAll(tickets);
 	}
 
 }
