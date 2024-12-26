@@ -82,7 +82,8 @@ public class NivoCouponService {
         }
     }
 
-    private <T> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {
+    @SuppressWarnings("unchecked")
+    private <T extends IEnum> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {
         Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> convertedData;
 
         switch (groupName) {

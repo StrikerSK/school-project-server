@@ -77,6 +77,7 @@ public class NivoTicketsService {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T> Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> createGrouping(String groupName) {
 		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> convertedData;
 
