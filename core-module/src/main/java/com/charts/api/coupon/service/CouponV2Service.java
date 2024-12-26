@@ -23,6 +23,8 @@ public class CouponV2Service {
 
     public List<UpdateCouponEntity> findAll() { return couponRepository.findAll(); }
 
+    public void saveAll(List<UpdateCouponEntity> couponEntityList) { couponRepository.saveAll(couponEntityList); }
+
     public List<UpdateCouponEntity> findCouponEntities(CouponsParameters couponsParameters) {
         return couponRepository.findAllByPersonTypeInAndValidityInAndSellTypeInAndMonthInAndYearIn(
                 couponsParameters.getPersonTypeList(),
