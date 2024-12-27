@@ -12,9 +12,12 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.StringReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -25,43 +28,44 @@ public class FileService {
 	private final TicketService ticketService;
 
 	public void fetchCoupons(AbstractCSVWriter writer) {
-		StatefulBeanToCsvBuilder<UpdateCouponEntity> builder = new StatefulBeanToCsvBuilder<>(writer);
-        try {
-            builder.build().write(couponService.findAll());
-        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
-            throw new RuntimeException(e);
-        }
+		fetchEntities(writer, couponService.findAll());
     }
 
 	public void fetchTickets(AbstractCSVWriter writer) {
-		StatefulBeanToCsvBuilder<UpdateTicketEntity> builder = new StatefulBeanToCsvBuilder<>(writer);
+		fetchEntities(writer, ticketService.findAll());
+	}
+
+	public List<UpdateCouponEntity> processCoupons(MultipartFile payload) throws IOException {
+		List<UpdateCouponEntity> coupons = processFile(payload, UpdateCouponEntity.class);
+		couponService.saveAll(coupons);
+		return coupons;
+	}
+
+	public List<UpdateTicketEntity> processTickets(MultipartFile payload) throws IOException {
+		List<UpdateTicketEntity> tickets = processFile(payload, UpdateTicketEntity.class);
+		ticketService.saveAll(tickets);
+		return tickets;
+	}
+
+	private <T> List<T> processFile(MultipartFile payload, Class<T> clazz) throws IOException {
+		InputStreamReader inputStream = new InputStreamReader(payload.getInputStream(), StandardCharsets.UTF_8);
+		BufferedReader fileReader = new BufferedReader(inputStream);
+		String stringReader = IOUtils.toString(fileReader);
+		CSVReader csvReader = new CSVReader(new StringReader(stringReader));
+		CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(csvReader)
+				.withType(clazz)
+				.withIgnoreLeadingWhiteSpace(true)
+				.build();
+		return csvToBean.parse();
+	}
+
+	private <T> void fetchEntities(AbstractCSVWriter writer, List<T> data) {
+		StatefulBeanToCsvBuilder<T> builder = new StatefulBeanToCsvBuilder<>(writer);
 		try {
-			builder.build().write(ticketService.findAll());
+			builder.build().write(data);
 		} catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public void processCoupons(String payload) {
-		CSVReader csvReader = new CSVReader(new StringReader(payload));
-		CsvToBean<UpdateCouponEntity> csvToBean = new CsvToBeanBuilder<UpdateCouponEntity>(csvReader)
-				.withType(UpdateCouponEntity.class)
-				.withIgnoreLeadingWhiteSpace(true)
-				.build();
-
-		List<UpdateCouponEntity> coupons = csvToBean.parse();
-		couponService.saveAll(coupons);
-	}
-
-	public void processTickets(String payload) {
-		CSVReader csvReader = new CSVReader(new StringReader(payload));
-		CsvToBean<UpdateTicketEntity> csvToBean = new CsvToBeanBuilder<UpdateTicketEntity>(csvReader)
-				.withType(UpdateTicketEntity.class)
-				.withIgnoreLeadingWhiteSpace(true)
-				.build();
-
-		List<UpdateTicketEntity> tickets = csvToBean.parse();
-		ticketService.saveAll(tickets);
 	}
 
 }
