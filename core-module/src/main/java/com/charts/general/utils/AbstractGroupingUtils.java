@@ -1,13 +1,23 @@
 package com.charts.general.utils;
 
 import com.charts.general.entity.AbstractUpdateEntity;
+import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.IEnum;
+import com.charts.general.entity.enums.types.Months;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class AbstractGroupingUtils {
+
+    public static <T extends AbstractUpdateEntity> Map<EnumAdapter, List<T>> groupByYear(List<T> couponEntityList) {
+        return couponEntityList.stream().collect(Collectors.groupingBy(t -> new EnumAdapter(t.getYear())));
+    }
+
+    public static <T extends AbstractUpdateEntity> Map<Months, List<T>> groupByMonth(List<T> entityList) {
+        return groupValues(entityList, T::getMonth);
+    }
 
     public static <T extends IEnum> Map<String, Object> convertMapKeysToString(Map<T, Object> map) {
         return map.entrySet().stream().collect(Collectors.toMap(k -> k.getKey().getValue(), Map.Entry::getValue));
@@ -51,25 +61,6 @@ public abstract class AbstractGroupingUtils {
         return entryList
                 .stream()
                 .collect(Collectors.groupingBy(groupingFunction));
-    }
-
-    protected static <R extends IEnum, T> Map<R, T> sortByOrderValue(Map<R, T> customMap) {
-        Map<R, T> sortedMap = new TreeMap<>(
-                (o1, o2) -> {
-                    Integer thisOrderValue = o1.getOrderValue();
-                    Integer nextOrderValue = o2.getOrderValue();
-
-                    if (thisOrderValue.equals(nextOrderValue)) {
-                        return 0;
-                    } else if (thisOrderValue > nextOrderValue) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                });
-
-        sortedMap.putAll(customMap);
-        return sortedMap;
     }
 
 }

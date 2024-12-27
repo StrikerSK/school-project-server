@@ -19,6 +19,13 @@ public class NivoPieData {
 		this.value = value;
 	}
 
+	public NivoPieData(String label, Integer orderValue, Integer value) {
+		this.id = label;
+		this.orderValue = orderValue;
+		this.label = label;
+		this.value = value;
+	}
+
 	public NivoPieData(IEnum label, Integer value) {
 		this.orderValue = label.getOrderValue();
 		this.id = label.getValue();

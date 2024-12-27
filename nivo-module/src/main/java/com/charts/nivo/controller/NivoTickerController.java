@@ -6,49 +6,50 @@ import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 import com.charts.nivo.service.NivoTicketsService;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/nivo")
+@RequestMapping("/nivo/ticket")
 @AllArgsConstructor
 public class NivoTickerController {
 
     private final NivoTicketsService nivoTicketsService;
 
-    @RequestMapping({"/tickets/line", "/tickets/line/monthly/type"})
+    @GetMapping({"/line"})
     public List<NivoLineData> getTicketTypesByMonth(@RequestParam(required = false) List<Boolean> discounted,
                                                     @RequestParam(required = false) List<String> month,
                                                     @RequestParam(required = false) List<Integer> year,
-                                                    @RequestParam(required = false) List<String> ticket) {
-        return nivoTicketsService.getTicketTypesByMonth(new TicketsParameters(month, year, discounted, ticket));
+                                                    @RequestParam(required = false) List<String> ticket,
+                                                    @RequestParam String upperGroup,
+                                                    @RequestParam String lowerGroup
+    ) {
+        return nivoTicketsService.createDynamicLineData(upperGroup, lowerGroup, new TicketsParameters(month, year, discounted, ticket));
     }
 
-    @RequestMapping("/tickets/bar")
-    public List<Map<String, Object>> retrieveBarData(@RequestParam(required = false) List<Boolean> discounted,
-                                                     @RequestParam(required = false) List<String> month,
-                                                     @RequestParam(required = false) List<Integer> year,
-                                                     @RequestParam(required = false) List<String> ticket) {
-        return nivoTicketsService.getTicketBarData(new TicketsParameters(month, year, discounted, ticket));
-    }
-
-    @RequestMapping({"/tickets/pie", "/tickets/waffle"})
+    @GetMapping({"/pie"})
     public List<NivoPieData> retrievePieData(@RequestParam(required = false) List<Boolean> discounted,
                                              @RequestParam(required = false) List<String> month,
                                              @RequestParam(required = false) List<Integer> year,
-                                             @RequestParam(required = false) List<String> ticket) {
-        return nivoTicketsService.getTicketTypePieData(new TicketsParameters(month, year, discounted, ticket));
+                                             @RequestParam(required = false) List<String> ticket,
+                                             @RequestParam String group
+    ) {
+        return nivoTicketsService.createDynamicPieData(group, (new TicketsParameters(month, year, discounted, ticket)));
     }
 
-    @RequestMapping({"/tickets/bubble"})
+    @GetMapping({"/bubble"})
     public NivoBubbleData retrieveBubbleData(@RequestParam(required = false) List<Boolean> discounted,
                                              @RequestParam(required = false) List<String> month,
                                              @RequestParam(required = false) List<Integer> year,
-                                             @RequestParam(required = false) List<String> ticket) {
-        return nivoTicketsService.getTicketTypeBubbleData(new TicketsParameters(month, year, discounted, ticket));
+                                             @RequestParam(required = false) List<String> ticket,
+                                             @RequestParam String upperGroup,
+                                             @RequestParam String lowerGroup
+    ) {
+        return nivoTicketsService.createDynamicBubbleData(upperGroup, lowerGroup, new TicketsParameters(month, year, discounted, ticket));
     }
+
 }
