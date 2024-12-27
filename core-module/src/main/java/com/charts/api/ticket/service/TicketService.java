@@ -5,7 +5,7 @@ import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.repository.JpaTicketV2Repository;
 import com.charts.api.ticket.enums.TicketType;
 import com.charts.api.ticket.entity.TicketsParameters;
-import com.charts.general.entity.enums.types.EnumProxy;
+import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.types.Months;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +50,7 @@ public class TicketService {
         );
     }
 
-    public List<GroupingEntity<EnumProxy>> getTicketsByYear(TicketsParameters parameters) {
+    public List<GroupingEntity<EnumAdapter>> getTicketsByYear(TicketsParameters parameters) {
         return ticketRepository.findGroupedByYear(
                 parameters.getMonths(),
                 parameters.getDiscounted(),
@@ -58,11 +58,11 @@ public class TicketService {
                 parameters.getYearInteger()
         )
                 .stream()
-                .map(e -> new GroupingEntity<>(new EnumProxy(e.getKey()), e.getValue()))
+                .map(e -> new GroupingEntity<>(new EnumAdapter(e.getKey()), e.getValue()))
                 .collect(Collectors.toList());
     }
 
-    public List<GroupingEntity<EnumProxy>> getTicketsByDiscounted(TicketsParameters parameters) {
+    public List<GroupingEntity<EnumAdapter>> getTicketsByDiscounted(TicketsParameters parameters) {
         return ticketRepository.findGroupedByDiscounted(
                 parameters.getMonths(),
                 parameters.getDiscounted(),
@@ -70,7 +70,7 @@ public class TicketService {
                 parameters.getYearInteger()
         )
                 .stream()
-                .map(e -> new GroupingEntity<>(new EnumProxy(e.getKey().toString(), 0), e.getValue()))
+                .map(e -> new GroupingEntity<>(new EnumAdapter(e.getKey().toString(), 0), e.getValue()))
                 .collect(Collectors.toList());
     }
 

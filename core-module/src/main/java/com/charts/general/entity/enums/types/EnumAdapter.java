@@ -4,24 +4,24 @@ import com.charts.general.entity.enums.IEnum;
 import lombok.Data;
 
 @Data
-public class EnumProxy implements IEnum {
+public class EnumAdapter implements IEnum {
 
     private String value;
     private Integer orderValue;
 
-    public EnumProxy(IEnum value) {
-        this.value = value.getValue();
-        this.orderValue = value.getOrderValue();
-    }
-
-    public EnumProxy(Integer value) {
+    public EnumAdapter(Integer value) {
         this.value = value.toString();
         this.orderValue = value;
     }
 
-    public EnumProxy(String value, Integer orderValue) {
+    public EnumAdapter(String value, Integer orderValue) {
         this.value = value;
         this.orderValue = orderValue;
+    }
+
+    public EnumAdapter(Boolean value) {
+        this.value = value.toString();
+        this.orderValue = value ? 1 : 0;
     }
 
     @Override

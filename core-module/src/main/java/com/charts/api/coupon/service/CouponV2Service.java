@@ -4,7 +4,7 @@ import com.charts.general.entity.GroupingEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.api.coupon.entity.CouponsParameters;
-import com.charts.general.entity.enums.types.EnumProxy;
+import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.types.Months;
 import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
@@ -73,7 +73,7 @@ public class CouponV2Service {
         );
     }
 
-    public List<GroupingEntity<EnumProxy>> findByValidityAndGroupedByYear(CouponsParameters couponsParameters) {
+    public List<GroupingEntity<EnumAdapter>> findByValidityAndGroupedByYear(CouponsParameters couponsParameters) {
         return couponRepository.findGroupedByYearValues(
                 couponsParameters.getPersonTypeList(),
                 couponsParameters.getValidity(),
@@ -82,7 +82,7 @@ public class CouponV2Service {
                 couponsParameters.getYearInteger()
         )
                 .stream()
-                .map(e -> new GroupingEntity<>(new EnumProxy(e.getKey()), e.getValue()))
+                .map(e -> new GroupingEntity<>(new EnumAdapter(e.getKey()), e.getValue()))
                 .collect(Collectors.toList());
     }
 
