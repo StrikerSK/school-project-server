@@ -16,7 +16,10 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -47,7 +50,7 @@ public class FileService {
 		return tickets;
 	}
 
-	private <T> List<T> processFile(MultipartFile payload, Class<T> clazz) throws IOException {
+	private static <T> List<T> processFile(MultipartFile payload, Class<T> clazz) throws IOException {
 		InputStreamReader inputStream = new InputStreamReader(payload.getInputStream(), StandardCharsets.UTF_8);
 		BufferedReader fileReader = new BufferedReader(inputStream);
 		String stringReader = IOUtils.toString(fileReader);
@@ -59,7 +62,7 @@ public class FileService {
 		return csvToBean.parse();
 	}
 
-	private <T> void fetchEntities(AbstractCSVWriter writer, List<T> data) {
+	private static <T> void fetchEntities(AbstractCSVWriter writer, List<T> data) {
 		StatefulBeanToCsvBuilder<T> builder = new StatefulBeanToCsvBuilder<>(writer);
 		try {
 			builder.build().write(data);
