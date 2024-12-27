@@ -5,10 +5,12 @@ import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.coupon.utils.CouponGroupingUtils;
 import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.general.entity.enums.IEnum;
+import com.charts.general.exception.InvalidParameterException;
 import com.charts.nivo.Utils.NivoConvertersUtils;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,31 +19,34 @@ import java.util.function.Function;
 import java.util.Comparator;
 
 @Service
+@AllArgsConstructor
 public class NivoCouponService {
 
     private final CouponV2Service couponService;
 
-    public NivoCouponService(CouponV2Service couponService) {
-        this.couponService = couponService;
-    }
+    private final String MONTH_GROUP = "month";
+    private final String YEAR_GROUP = "year";
+    private final String PERSON_GROUP = "person";
+    private final String SELL_GROUP = "sell";
+    private final String VALIDITY_GROUP = "validity";
 
     public List<NivoPieData> createDynamicPieData(String groupName, CouponsParameters parameters) {
         List<NivoPieData> convertedData;
 
-        switch (groupName) {
-            case "person":
+        switch (groupName.toLowerCase()) {
+            case PERSON_GROUP:
                 convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByPersonType(parameters));
                 break;
-            case "month":
+            case MONTH_GROUP:
                 convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByMonth(parameters));
                 break;
-            case "sell":
+            case SELL_GROUP:
                 convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedBySellType(parameters));
                 break;
-            case "validity":
+            case VALIDITY_GROUP:
                 convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByValidity(parameters));
                 break;
-            case "year":
+            case YEAR_GROUP:
                 convertedData = NivoConvertersUtils.createPieData(couponService.findByValidityAndGroupedByYear(parameters));
                 break;
             default:
@@ -78,7 +83,7 @@ public class NivoCouponService {
 
     private void validateGroups(String upperGroup, String lowerGroup) {
         if (upperGroup.equals(lowerGroup)) {
-            throw new IllegalArgumentException("Cannot use same groups!");
+            throw new InvalidParameterException("Cannot use same groups");
         }
     }
 
@@ -86,24 +91,26 @@ public class NivoCouponService {
     private <T extends IEnum> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {
         Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> convertedData;
 
-        switch (groupName) {
-            case "person":
+        switch (groupName.toLowerCase()) {
+            case PERSON_GROUP:
                 convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByPersonType(e);
                 break;
-            case "month":
+            case MONTH_GROUP:
                 convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByMonth(e);
                 break;
-            case "sell":
+            case SELL_GROUP:
                 convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupBySellType(e);
                 break;
-            case "validity":
+            case VALIDITY_GROUP:
                 convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByValidity(e);
                 break;
-            case "year":
+            case YEAR_GROUP:
                 convertedData = (e) -> (Map<T, List<UpdateCouponEntity>>) CouponGroupingUtils.groupByYear(e);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown group name: " + groupName);
+                throw new InvalidParameterException(
+                        String.format("Unknown group name: %s! Available groups: %s, %s, %s, %s, %s", groupName, YEAR_GROUP, MONTH_GROUP, SELL_GROUP, VALIDITY_GROUP, PERSON_GROUP)
+                );
         }
 
         return convertedData;
