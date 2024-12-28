@@ -18,16 +18,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import static com.charts.api.ticket.utils.TicketFunctionUtils.TICKET_GROUP;
+
 @Service
 @AllArgsConstructor
 public class NivoTicketsService {
 
 	private final TicketService ticketService;
-
-	private final String MONTH_GROUP = "month";
-	private final String YEAR_GROUP = "year";
-	private final String DISCOUNTED_GROUP = "discounted";
-	private final String TICKET_GROUP = "ticket";
 
 	public List<NivoPieData> createDynamicPieData(String groupName, TicketsParameters parameters) {
 		List<NivoPieData> convertedData;
@@ -81,32 +78,6 @@ public class NivoTicketsService {
 		if (upperGroup.equals(lowerGroup)) {
 			throw new InvalidParameterException("Cannot use same groups");
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private <T> Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> createGrouping(String groupName) {
-		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> convertedData;
-
-		switch (groupName.toLowerCase()) {
-			case TICKET_GROUP:
-				convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByTicketType(e);
-				break;
-			case MONTH_GROUP:
-				convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByMonth(e);
-				break;
-			case DISCOUNTED_GROUP:
-				convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByDiscounted(e);
-				break;
-			case YEAR_GROUP:
-				convertedData = (e) -> (Map<T, List<UpdateTicketEntity>>) TicketGroupingUtils.groupByYear(e);
-				break;
-			default:
-				throw new InvalidParameterException(
-						String.format("Unknown group name: %s! Available groups: %s, %s, %s, %s", groupName, YEAR_GROUP, MONTH_GROUP, TICKET_GROUP, DISCOUNTED_GROUP)
-				);
-		}
-
-		return convertedData;
 	}
 
 }
