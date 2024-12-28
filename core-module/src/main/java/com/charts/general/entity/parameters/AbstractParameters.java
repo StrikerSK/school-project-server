@@ -13,6 +13,9 @@ public abstract class AbstractParameters {
 
     private final List<String> month;
     private final List<Integer> year;
+//    private final String upperGroup;
+//    private final String lowerGroup;
+//    private final String group;
 
     protected AbstractParameters(List<String> month, List<Integer> year) {
         this.month = month;

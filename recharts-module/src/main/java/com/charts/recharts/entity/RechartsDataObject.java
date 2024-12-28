@@ -34,8 +34,8 @@ public class RechartsDataObject {
         this.upperGroup = upperGroup.getValue();
         this.upperOrderValue = upperGroup.getOrderValue();
 
-        this.lowerOrderValue = lowerGroup.getOrderValue();
         this.lowerGroup = lowerGroup.getValue();
+        this.lowerOrderValue = lowerGroup.getOrderValue();
 
         this.value = value;
     }

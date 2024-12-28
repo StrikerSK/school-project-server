@@ -17,13 +17,16 @@ public class RechartsCouponController {
 
 	private final RechartsCouponService couponService;
 
-	@RequestMapping({"/bar", "/pie", "/line", "/data"})
+	@RequestMapping({"/bar", "/pie", "/line", "/data", "/coupon"})
 	public List<List<RechartsDataObject>> getMonthlyDataByPersonType(@RequestParam(required = false) List<String> validity,
 																	 @RequestParam(required = false) List<String> type,
 																	 @RequestParam(required = false) List<String> month,
 																	 @RequestParam(required = false) List<Integer> year,
-																	 @RequestParam(required = false) List<String> person) {
-		return couponService.getMonthlyDataByPersonType(new CouponsParameters(validity, type, month, year, person));
+																	 @RequestParam(required = false) List<String> person,
+																	 @RequestParam String upperGroup,
+																	 @RequestParam String lowerGroup
+	) {
+		return couponService.getMonthlyDataByPersonType(upperGroup, lowerGroup, new CouponsParameters(validity, type, month, year, person));
 	}
 
 }
