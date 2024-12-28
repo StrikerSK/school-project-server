@@ -4,6 +4,10 @@ import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.coupon.utils.CouponFunctionUtils;
 import com.charts.api.coupon.entity.CouponsParameters;
+import com.charts.api.ticket.entity.TicketsParameters;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.api.ticket.service.TicketService;
+import com.charts.api.ticket.utils.TicketFunctionUtils;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.utils.AbstractGroupingUtils;
@@ -19,15 +23,11 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class RechartsCouponService {
+public class RechartsService {
 
 	private final CouponV2Service couponService;
+	private final TicketService ticketService;
 
-	/**
-	 * Method fetches and adjust data to Recharts module
-	 *
-	 * @return data adapted to Recharts module
-	 */
 	public <T extends IEnum> List<List<RechartsDataObject>> getCouponData(
 			String upperGroup,
 			String lowerGroup,
@@ -39,21 +39,33 @@ public class RechartsCouponService {
 		Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerFunction = CouponFunctionUtils.createGrouping(lowerGroup);
 
 		List<UpdateCouponEntity> couponList = couponService.findCouponEntities(parameters);
-		return upperFunction.apply(couponList)
-				.entrySet()
-				.stream()
-				.sorted(Comparator.comparing(e -> e.getKey().getOrderValue()))
-				.map(upper -> {
-					Map<T, List<UpdateCouponEntity>> nestedGrouping = lowerFunction.apply(upper.getValue());
-					return AbstractGroupingUtils.aggregateGroupsSum(nestedGrouping).entrySet()
-							.stream()
-							.sorted(Comparator.comparing(e -> e.getKey().getOrderValue()))
-							.map(lower -> new RechartsDataObject(upper.getKey(), lower.getKey(), (int) lower.getValue()))
-							.collect(Collectors.toList());
-				})
-				.collect(Collectors.toList());
+		return processValues(couponList, upperFunction, lowerFunction);
 	}
 
+	public <T extends IEnum> List<List<RechartsDataObject>> getTicketData(
+			String upperGroup,
+			String lowerGroup,
+			TicketsParameters parameters
+	) {
+		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
+
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+
+		List<UpdateTicketEntity> couponList = ticketService.getAllByFilter(parameters);
+		return processValues(couponList, upperFunction, lowerFunction);
+	}
+
+	/**
+	 * Method creates data structure according the Recharts model
+	 *
+	 * @param entries List of entries that will be grouped
+	 * @param upperFunction Name of the group that will be on upper level
+	 * @param lowerFunction Name of the group that will be on lower level
+	 * @return List of data that are grouped by specified group levels
+	 * @param <T> Type implementing {@link IEnum}, because of ordering value
+	 * @param <R> Type that should be utilizing {@link AbstractUpdateEntity} because of value
+	 */
 	private static <T extends IEnum, R extends AbstractUpdateEntity> List<List<RechartsDataObject>> processValues(
 			List<R> entries,
 			Function<List<R>, Map<T, List<R>>> upperFunction,
@@ -68,7 +80,7 @@ public class RechartsCouponService {
 					return AbstractGroupingUtils.aggregateGroupsSum(nestedGrouping).entrySet()
 							.stream()
 							.sorted(Comparator.comparing(e -> e.getKey().getOrderValue()))
-							.map(lower -> new RechartsDataObject(upper.getKey(), lower.getKey(), (int) lower.getValue()))
+							.map(lower -> new RechartsDataObject(upper.getKey(), lower.getKey(), ((Long) lower.getValue()).intValue()))
 							.collect(Collectors.toList());
 				})
 				.collect(Collectors.toList());
