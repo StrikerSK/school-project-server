@@ -2,23 +2,16 @@ package com.charts.api.ticket.utils;
 
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.general.exception.InvalidParameterException;
+import com.charts.general.utils.AbstractFunctionUtils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class TicketFunctionUtils {
+public class TicketFunctionUtils extends AbstractFunctionUtils {
 
-    public static final String MONTH_GROUP = "month";
-    public static final String YEAR_GROUP = "year";
     public static final String DISCOUNTED_GROUP = "discounted";
     public static final String TICKET_GROUP = "ticket";
-
-    public static void validateGroups(String upperGroup, String lowerGroup) {
-        if (upperGroup.equals(lowerGroup)) {
-            throw new InvalidParameterException("Cannot use same groups");
-        }
-    }
 
     @SuppressWarnings("unchecked")
     public static <T> Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> createGrouping(String groupName) {

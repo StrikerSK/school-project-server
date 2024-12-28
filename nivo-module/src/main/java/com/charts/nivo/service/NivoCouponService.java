@@ -6,7 +6,6 @@ import com.charts.api.coupon.utils.CouponFunctionUtils;
 import com.charts.api.coupon.utils.CouponGroupingUtils;
 import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.general.entity.enums.IEnum;
-import com.charts.general.exception.InvalidParameterException;
 import com.charts.nivo.Utils.NivoConvertersUtils;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoLineData;
@@ -80,12 +79,6 @@ public class NivoCouponService {
                 lowerGroupingFunction,
                 CouponGroupingUtils::aggregateGroupSum
         );
-    }
-
-    private void validateGroups(String upperGroup, String lowerGroup) {
-        if (upperGroup.equals(lowerGroup)) {
-            throw new InvalidParameterException("Cannot use same groups");
-        }
     }
 
 }

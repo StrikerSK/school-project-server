@@ -3,24 +3,17 @@ package com.charts.api.coupon.utils;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.exception.InvalidParameterException;
+import com.charts.general.utils.AbstractFunctionUtils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class CouponFunctionUtils {
+public class CouponFunctionUtils extends AbstractFunctionUtils {
 
-    public static final String MONTH_GROUP = "month";
-    public static final String YEAR_GROUP = "year";
     public static final String PERSON_GROUP = "person";
     public static final String SELL_GROUP = "sell";
     public static final String VALIDITY_GROUP = "validity";
-
-    public static void validateGroups(String upperGroup, String lowerGroup) {
-        if (upperGroup.equals(lowerGroup)) {
-            throw new InvalidParameterException("Cannot use same groups");
-        }
-    }
 
     @SuppressWarnings("unchecked")
     public static <T extends IEnum> Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> createGrouping(String groupName) {
