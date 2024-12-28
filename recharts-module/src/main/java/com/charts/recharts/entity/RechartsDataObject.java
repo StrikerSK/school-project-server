@@ -9,7 +9,10 @@ import lombok.Data;
 public class RechartsDataObject {
 
     @JsonIgnore
-    private Integer orderValue;
+    private Integer upperOrderValue;
+    @JsonIgnore
+    private Integer lowerOrderValue;
+
     private String upperGroup;
     private String lowerGroup;
     private Integer value;
@@ -22,8 +25,18 @@ public class RechartsDataObject {
 
     public RechartsDataObject(IEnum upperGroup, Months lowerGroup, Integer value) {
         this.upperGroup = upperGroup.getValue();
-        this.orderValue = upperGroup.getOrderValue();
+        this.upperOrderValue = upperGroup.getOrderValue();
         this.lowerGroup = lowerGroup.getValue();
+        this.value = value;
+    }
+
+    public RechartsDataObject(IEnum upperGroup, IEnum lowerGroup, Integer value) {
+        this.upperGroup = upperGroup.getValue();
+        this.upperOrderValue = upperGroup.getOrderValue();
+
+        this.lowerOrderValue = lowerGroup.getOrderValue();
+        this.lowerGroup = lowerGroup.getValue();
+
         this.value = value;
     }
 
