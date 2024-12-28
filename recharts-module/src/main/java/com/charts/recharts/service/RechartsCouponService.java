@@ -27,7 +27,7 @@ public class RechartsCouponService {
 	 *
 	 * @return data adapted to Recharts module
 	 */
-	public <T extends IEnum, R extends IEnum> List<List<RechartsDataObject>> getMonthlyDataByPersonType(
+	public <T extends IEnum> List<List<RechartsDataObject>> getCouponData(
 			String upperGroup,
 			String lowerGroup,
 			CouponsParameters parameters
