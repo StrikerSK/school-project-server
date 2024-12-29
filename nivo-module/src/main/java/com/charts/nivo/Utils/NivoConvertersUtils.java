@@ -3,6 +3,7 @@ package com.charts.nivo.Utils;
 import com.charts.general.entity.GroupingEntity;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
+import com.charts.general.utils.AbstractSortingUtils;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoDataXY;
 import com.charts.nivo.entity.NivoLineData;
@@ -42,18 +43,20 @@ public class NivoConvertersUtils {
             Function<List<E>, Map<R, List<E>>> nestedGrouping,
             Function<List<E>, Integer> aggregator
     ) {
-        List<Map<String, Object>> outputMapList = new ArrayList<>();
-        upperGrouping.apply(input)
-                .forEach((key, entities) -> {
-                    Map<String, Object> outputMap = nestedGrouping.apply(entities)
+        return upperGrouping.apply(input).entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(IEnum::getOrderValue)))
+                .map(upper -> {
+                    Map<String, Object> outputMap = nestedGrouping.apply(upper.getValue())
                             .entrySet()
                             .stream()
-                            .map(e -> new AbstractMap.SimpleEntry<>(e.getKey().getValue(), aggregator.apply(e.getValue())))
+                            .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(IEnum::getOrderValue)))
+                            .map(lower -> new AbstractMap.SimpleEntry<>(lower.getKey().getValue(), aggregator.apply(lower.getValue())))
                             .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-                    outputMap.put("label", key.getValue());
-                    outputMapList.add(outputMap);
-                });
-        return outputMapList;
+                    outputMap.put("label", upper.getKey().getValue());
+                    return outputMap;
+                })
+                .collect(Collectors.toList());
     }
 
     /**
