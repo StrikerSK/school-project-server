@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/nivo/coupon")
@@ -56,4 +57,18 @@ public class NivoCouponController {
     ) {
         return nivoCouponService.createDynamicPieData(group, new CouponsParameters(validity, type, month, year, person));
     }
+
+    @RequestMapping({"/bar"})
+    public List<Map<String, Object>> getDynamicBarData(
+            @RequestParam(required = false) List<String> validity,
+            @RequestParam(required = false) List<String> type,
+            @RequestParam(required = false) List<String> month,
+            @RequestParam(required = false) List<Integer> year,
+            @RequestParam(required = false) List<String> person,
+            @RequestParam() String upperGroup,
+            @RequestParam() String lowerGroup
+    ) {
+        return nivoCouponService.createDynamicBarData(upperGroup, lowerGroup, new CouponsParameters(validity, type, month, year, person));
+    }
+
 }

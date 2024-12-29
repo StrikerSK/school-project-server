@@ -50,7 +50,6 @@ public class NivoConvertersUtils {
                             .stream()
                             .map(e -> new AbstractMap.SimpleEntry<>(e.getKey().getValue(), aggregator.apply(e.getValue())))
                             .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-                    outputMap.put("month", key.getValue());
                     outputMap.put("label", key.getValue());
                     outputMapList.add(outputMap);
                 });

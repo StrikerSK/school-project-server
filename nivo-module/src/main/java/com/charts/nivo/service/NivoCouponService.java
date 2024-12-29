@@ -69,6 +69,18 @@ public class NivoCouponService {
         );
     }
 
+    public <T extends IEnum> List<Map<String, Object>> createDynamicBarData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
+        CouponFunctionUtils.validateGroups(upperGroup, lowerGroup);
+        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = CouponFunctionUtils.createGrouping(upperGroup);
+        Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> lowerGroupingFunction = CouponFunctionUtils.createGrouping(lowerGroup);
+        return NivoConvertersUtils.createBarData(
+                couponService.findCouponEntities(parameters),
+                upperGroupingFunction,
+                lowerGroupingFunction,
+                CouponGroupingUtils::aggregateGroupSum
+        );
+    }
+
     public <T extends IEnum> NivoBubbleData createDynamicBubbleData(String upperGroup, String lowerGroup, CouponsParameters parameters) {
         CouponFunctionUtils.validateGroups(upperGroup, lowerGroup);
         Function<List<UpdateCouponEntity>, Map<T, List<UpdateCouponEntity>>> upperGroupingFunction = CouponFunctionUtils.createGrouping(upperGroup);

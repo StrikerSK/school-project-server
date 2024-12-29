@@ -1,5 +1,6 @@
 package com.charts.nivo.service;
 
+import com.charts.api.coupon.utils.CouponGroupingUtils;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.service.TicketService;
 import com.charts.api.ticket.utils.TicketFunctionUtils;
@@ -74,6 +75,18 @@ public class NivoTicketsService {
 				upperGroupingFunction,
 				lowerGroupingFunction,
 				TicketGroupingUtils::aggregateGroupSum
+		);
+	}
+
+	public <T extends IEnum> List<Map<String, Object>> createDynamicBarData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
+		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		return NivoConvertersUtils.createBarData(
+				ticketService.getAllByFilter(parameters),
+				upperGroupingFunction,
+				lowerGroupingFunction,
+				CouponGroupingUtils::aggregateGroupSum
 		);
 	}
 
