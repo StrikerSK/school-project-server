@@ -10,6 +10,8 @@ import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,10 @@ public class CouponV2Service {
 
     private final JpaCouponV2Repository couponRepository;
 
-    public List<UpdateCouponEntity> findAll() { return couponRepository.findAll(); }
+    public List<UpdateCouponEntity> findAll(Integer size) {
+        Pageable pageable = PageRequest.of(0, size);
+        return couponRepository.findAll(pageable).getContent();
+    }
 
     public void saveAll(List<UpdateCouponEntity> couponEntityList) { couponRepository.saveAll(couponEntityList); }
 

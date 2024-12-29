@@ -28,7 +28,7 @@ public class FileController {
 	@GetMapping(value = "/coupon", produces = "text/csv")
 	public void exportCouponsCsv(
 			@RequestParam(name = "random", required = false) Boolean random,
-			@RequestParam(name = "count", required = false) Integer count,
+			@RequestParam(name = "count", required = false, defaultValue = "100") Integer count,
 			HttpServletResponse response
 	) {
 		try (CSVWriter writer = new CSVWriter(response.getWriter())) {
@@ -36,12 +36,7 @@ public class FileController {
 			response.setHeader(HttpHeaders.CONTENT_ENCODING, "UTF-8");
 			response.setHeader(HttpHeaders.CONTENT_TYPE, "text/csv");
 			response.setStatus(HttpServletResponse.SC_OK);
-
-			if (random != null && random) {
-				fileService.generateCoupons(writer);
-			} else {
-				fileService.fetchCoupons(writer);
-			}
+			fileService.fetchCoupons(writer, count, random);
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}

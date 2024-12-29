@@ -30,17 +30,16 @@ public class FileService {
 	private final CouponV2Service couponService;
 	private final TicketService ticketService;
 
-	public void fetchCoupons(AbstractCSVWriter writer) {
-		fetchEntities(writer, couponService.findAll());
-    }
-
-	public void generateCoupons(AbstractCSVWriter writer) {
-		List<UpdateCouponEntity> coupons = DataGenerator.generateCoupons(200);
-		fetchEntities(writer, coupons);
+	public void fetchCoupons(AbstractCSVWriter writer, Integer count, Boolean random) {
+		if (random != null && random) {
+			writeEntries(writer, DataGenerator.generateCoupons(count));
+		} else {
+			writeEntries(writer, couponService.findAll(count));
+		}
 	}
 
 	public void fetchTickets(AbstractCSVWriter writer) {
-		fetchEntities(writer, ticketService.findAll());
+		writeEntries(writer, ticketService.findAll());
 	}
 
 	public List<UpdateCouponEntity> processCoupons(MultipartFile payload) throws IOException {
@@ -67,7 +66,7 @@ public class FileService {
 		return csvToBean.parse();
 	}
 
-	private static <T> void fetchEntities(AbstractCSVWriter writer, List<T> data) {
+	private static <T> void writeEntries(AbstractCSVWriter writer, List<T> data) {
 		StatefulBeanToCsvBuilder<T> builder = new StatefulBeanToCsvBuilder<>(writer);
 		try {
 			builder.build().write(data);
