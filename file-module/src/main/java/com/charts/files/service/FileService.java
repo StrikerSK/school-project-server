@@ -4,13 +4,9 @@ import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.service.TicketService;
-import com.opencsv.AbstractCSVWriter;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
@@ -30,16 +26,20 @@ public class FileService {
 	private final CouponV2Service couponService;
 	private final TicketService ticketService;
 
-	public void fetchCoupons(AbstractCSVWriter writer, Integer count, Boolean random) {
+	public List<UpdateCouponEntity> fetchCoupons(Integer count, Boolean random) {
 		if (random != null && random) {
-			writeEntries(writer, DataGenerator.generateCoupons(count));
+			return DataGenerator.generateCoupons(count);
 		} else {
-			writeEntries(writer, couponService.findAll(count));
+			return couponService.findAll(count);
 		}
 	}
 
-	public void fetchTickets(AbstractCSVWriter writer) {
-		writeEntries(writer, ticketService.findAll());
+	public List<UpdateTicketEntity> fetchTickets(Integer count, Boolean random) {
+		if (random != null && random) {
+			return DataGenerator.generateTickets(count);
+		} else {
+			return ticketService.findAll(count);
+		}
 	}
 
 	public List<UpdateCouponEntity> processCoupons(MultipartFile payload) throws IOException {
@@ -64,15 +64,6 @@ public class FileService {
 				.withIgnoreLeadingWhiteSpace(true)
 				.build();
 		return csvToBean.parse();
-	}
-
-	private static <T> void writeEntries(AbstractCSVWriter writer, List<T> data) {
-		StatefulBeanToCsvBuilder<T> builder = new StatefulBeanToCsvBuilder<>(writer);
-		try {
-			builder.build().write(data);
-		} catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 }

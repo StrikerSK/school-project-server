@@ -27,7 +27,7 @@ public class DataGenerator {
                     .personType(getRandomElement(PersonType.class))
                     .validity(getRandomElement(Validity.class))
                     .sellType(getRandomElement(SellType.class))
-                    .value(new Random().nextInt(1000000))
+                    .value(generateValue())
                     .build();
             enitityList.add(coupon);
         }
@@ -45,6 +45,7 @@ public class DataGenerator {
                     .month(getRandomElement(Months.class))
                     .ticketType(getRandomElement(TicketType.class))
                     .discounted(getRandomElement(discounted))
+                    .value(generateValue())
                     .build();
             enitityList.add(ticket);
         }
@@ -66,6 +67,11 @@ public class DataGenerator {
     private static Integer generateYear() {
         Random random = new Random();
         return random.nextInt(15) + 2010;
+    }
+
+    private static Integer generateValue() {
+        Random random = new Random();
+        return random.nextInt(1000000);
     }
 
 }

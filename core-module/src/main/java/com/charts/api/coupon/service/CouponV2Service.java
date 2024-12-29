@@ -24,7 +24,7 @@ public class CouponV2Service {
     private final JpaCouponV2Repository couponRepository;
 
     public List<UpdateCouponEntity> findAll(Integer size) {
-        Pageable pageable = PageRequest.of(0, size);
+        Pageable pageable = PageRequest.ofSize(size);
         return couponRepository.findAll(pageable).getContent();
     }
 
