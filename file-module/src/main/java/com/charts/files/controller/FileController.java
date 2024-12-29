@@ -38,17 +38,8 @@ public class FileController {
 			@RequestParam(name = "count", required = false, defaultValue = "100") Integer count,
 			HttpServletResponse response
 	) {
-		try (CSVWriter writer = new CSVWriter(response.getWriter())) {
-			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=coupons_%s.csv", UUID.randomUUID()));
-			response.setHeader(HttpHeaders.CONTENT_ENCODING, "UTF-8");
-			response.setHeader(HttpHeaders.CONTENT_TYPE, "text/csv");
-			response.setStatus(HttpServletResponse.SC_OK);
-
-			List<UpdateCouponEntity> couponList = fileService.fetchCoupons(count, random);
-			writeEntries(writer, couponList);
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}
+		List<UpdateCouponEntity> couponList = fileService.fetchCoupons(count, random);
+		writeResponse(response, couponList, "coupon");
     }
 
 	@GetMapping(value = "/ticket", produces = "text/csv")
@@ -57,14 +48,18 @@ public class FileController {
 			@RequestParam(name = "count", required = false, defaultValue = "100") Integer count,
 			HttpServletResponse response
 	) {
+		List<UpdateTicketEntity> ticketList = fileService.fetchTickets(count, random);
+		writeResponse(response, ticketList, "ticket");
+	}
+
+	private static <T> void writeResponse(HttpServletResponse response, List<T> entries, String prefix) {
 		try (CSVWriter writer = new CSVWriter(response.getWriter())) {
-			response.setContentType(contentType);
-			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=tickets_%s.csv", UUID.randomUUID()));
+			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s_%s.csv", prefix, UUID.randomUUID()));
 			response.setHeader(HttpHeaders.CONTENT_ENCODING, "UTF-8");
+			response.setHeader(HttpHeaders.CONTENT_TYPE, "text/csv");
 			response.setStatus(HttpServletResponse.SC_OK);
 
-			List<UpdateTicketEntity> ticketList = fileService.fetchTickets(count, random);
-			writeEntries(writer, ticketList);
+			writeEntries(writer, entries);
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
