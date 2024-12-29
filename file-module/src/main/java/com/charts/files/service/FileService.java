@@ -25,10 +25,11 @@ public class FileService {
 
 	private final CouponV2Service couponService;
 	private final TicketService ticketService;
+	private final IDataGenerator dataGenerator;
 
 	public List<UpdateCouponEntity> fetchCoupons(Integer count, Boolean random) {
 		if (random != null && random) {
-			return DataGenerator.generateCoupons(count);
+			return dataGenerator.generateCoupons(count);
 		} else {
 			return couponService.findAll(count);
 		}
@@ -36,7 +37,7 @@ public class FileService {
 
 	public List<UpdateTicketEntity> fetchTickets(Integer count, Boolean random) {
 		if (random != null && random) {
-			return DataGenerator.generateTickets(count);
+			return dataGenerator.generateTickets(count);
 		} else {
 			return ticketService.findAll(count);
 		}

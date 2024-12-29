@@ -9,15 +9,17 @@ import com.charts.api.ticket.enums.TicketType;
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.types.Months;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DataGenerator {
+@Component
+public class DefaultDataGenerator implements IDataGenerator {
 
-    public static List<UpdateCouponEntity> generateCoupons(Integer counts) {
+    public List<UpdateCouponEntity> generateCoupons(Integer counts) {
         List<UpdateCouponEntity> enitityList = new java.util.ArrayList<>();
 
         for (int i = 0; i < counts; i++) {
@@ -35,7 +37,7 @@ public class DataGenerator {
         return enitityList;
     }
 
-    public static List<UpdateTicketEntity> generateTickets(Integer counts) {
+    public List<UpdateTicketEntity> generateTickets(Integer counts) {
         List<UpdateTicketEntity> enitityList = new java.util.ArrayList<>();
         List<Boolean> discounted = Stream.of(true, false).collect(Collectors.toList());
 
@@ -71,7 +73,7 @@ public class DataGenerator {
 
     private static Integer generateValue() {
         Random random = new Random();
-        return random.nextInt(1000000);
+        return random.nextInt(100000);
     }
 
 }
