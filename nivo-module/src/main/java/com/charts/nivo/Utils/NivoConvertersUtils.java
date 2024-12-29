@@ -50,9 +50,14 @@ public class NivoConvertersUtils {
                     Map<String, Object> outputMap = nestedGrouping.apply(upper.getValue())
                             .entrySet()
                             .stream()
-                            .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(IEnum::getOrderValue)))
+                            .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(R::getOrderValue)))
                             .map(lower -> new AbstractMap.SimpleEntry<>(lower.getKey().getValue(), aggregator.apply(lower.getValue())))
-                            .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+                            .collect(Collectors.toMap(
+                                    Map.Entry::getKey,
+                                    Map.Entry::getValue,
+                                    (e1, e2) -> e1,
+                                    LinkedHashMap::new
+                            ));
                     outputMap.put("label", upper.getKey().getValue());
                     return outputMap;
                 })
