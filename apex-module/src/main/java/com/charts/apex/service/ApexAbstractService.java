@@ -12,12 +12,22 @@ import java.util.stream.Collectors;
 
 abstract class ApexAbstractService {
 
+    /**
+     * Method creates data structure according the Apex model
+     *
+     * @param entries List of entries that will be grouped
+     * @param upperFunction Name of the group that will be on upper level
+     * @param lowerFunction Name of the group that will be on lower level
+     * @return List of data that are grouped by specified group levels
+     * @param <T> Type implementing {@link IEnum}, because of ordering value property
+     * @param <R> Type that should be utilizing {@link AbstractUpdateEntity} because of value property
+     */
     protected static <T extends IEnum, R extends AbstractUpdateEntity> List<ApexObject> processValues(
-            List<R> entryList,
+            List<R> entries,
             Function<List<R>, Map<T, List<R>>> upperFunction,
             Function<List<R>, Map<T, List<R>>> lowerFunction
     ) {
-        return upperFunction.apply(entryList)
+        return upperFunction.apply(entries)
                 .entrySet()
                 .stream()
                 .sorted(Comparator.comparing(e -> e.getKey().getOrderValue()))

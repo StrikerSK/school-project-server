@@ -4,7 +4,6 @@ import com.charts.apex.entity.ApexObject;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.coupon.utils.CouponFunctionUtils;
-import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.api.coupon.entity.CouponsParameters;
 import com.charts.general.entity.enums.IEnum;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ public class ApexCouponService extends ApexAbstractService {
 
 	private final CouponV2Service couponService;
 
-	public <T extends IEnum, R extends AbstractUpdateEntity> List<ApexObject> getCouponData(
+	public <T extends IEnum> List<ApexObject> getCouponData(
 			String upperGroup,
 			String lowerGroup,
 			CouponsParameters parameters
