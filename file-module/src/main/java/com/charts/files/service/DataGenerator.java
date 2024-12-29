@@ -5,42 +5,29 @@ import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
 import com.charts.general.entity.enums.EnumUtils;
+import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.types.Months;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class DataGenerator {
 
     public static List<UpdateCouponEntity> generateCoupons(Integer counts) {
-        Random random = new Random();
-
-        List<Months> monthList = EnumUtils.getValueList(Months.class);
-        List<SellType> sellTypeList = EnumUtils.getValueList(SellType.class);
-        List<Validity> validityList = EnumUtils.getValueList(Validity.class);
-        List<PersonType> personTypeList = EnumUtils.getValueList(PersonType.class);
-
-        List<Integer> years = new ArrayList<>();
-        for (int i = 0; i < counts; i++) {
-            years.add(random.nextInt(10) + 2010);
-        }
-
-        List<UpdateCouponEntity> myList = new java.util.ArrayList<>();
+        List<UpdateCouponEntity> enitityList = new java.util.ArrayList<>();
 
         for (int i = 0; i < counts; i++) {
             UpdateCouponEntity updateCouponEntity = new UpdateCouponEntity();
-            updateCouponEntity.setMonth(getRandomElement(monthList));
-            updateCouponEntity.setSellType(getRandomElement(sellTypeList));
-            updateCouponEntity.setValidity(getRandomElement(validityList));
-            updateCouponEntity.setPersonType(getRandomElement(personTypeList));
-            updateCouponEntity.setYear(getRandomElement(years));
-            updateCouponEntity.setValue(random.nextInt(1000000));
-
-            myList.add(updateCouponEntity);
+            updateCouponEntity.setMonth(getRandomElement(Months.class));
+            updateCouponEntity.setSellType(getRandomElement(SellType.class));
+            updateCouponEntity.setValidity(getRandomElement(Validity.class));
+            updateCouponEntity.setPersonType(getRandomElement(PersonType.class));
+            updateCouponEntity.setYear(generateYear());
+            updateCouponEntity.setValue(new Random().nextInt(1000000));
+            enitityList.add(updateCouponEntity);
         }
 
-        return myList;
+        return enitityList;
     }
 
     private static <T> T getRandomElement(List<T> list) {
@@ -49,5 +36,14 @@ public class DataGenerator {
         return list.get(randomIndex);
     }
 
+    private static <T extends IEnum> T getRandomElement(Class<T> clazz) {
+        List<T> valueList = EnumUtils.getValueList(clazz);
+        return getRandomElement(valueList);
+    }
+
+    private static Integer generateYear() {
+        Random random = new Random();
+        return random.nextInt(15) + 2010;
+    }
 
 }
