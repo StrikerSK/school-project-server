@@ -3,11 +3,7 @@ package com.charts.files.controller;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.files.service.FileService;
-import com.charts.general.exception.CsvContentException;
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import com.charts.files.utils.CsvProcessor;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.Writer;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,7 +54,7 @@ public class FileController {
 			response.setHeader(HttpHeaders.CONTENT_ENCODING, "UTF-8");
 			response.setHeader(HttpHeaders.CONTENT_TYPE, "text/csv");
 			response.setStatus(HttpServletResponse.SC_OK);
-			writeEntries(response.getWriter(), entries);
+			CsvProcessor.writeEntries(response.getWriter(), entries);
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
@@ -82,17 +77,6 @@ public class FileController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
-	}
-
-	private static <T> void writeEntries(Writer writer, List<T> data) {
-		try (CSVWriter csvWriter = new CSVWriter(writer)) {
-			StatefulBeanToCsvBuilder<T> builder = new StatefulBeanToCsvBuilder<>(csvWriter);
-			builder.build().write(data);
-		} catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
-			throw new CsvContentException(e.getMessage(), e);
-		}catch (Exception e) {
-			throw new RuntimeException(e);
 		}
 	}
 
