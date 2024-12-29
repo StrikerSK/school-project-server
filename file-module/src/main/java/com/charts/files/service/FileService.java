@@ -34,6 +34,11 @@ public class FileService {
 		fetchEntities(writer, couponService.findAll());
     }
 
+	public void generateCoupons(AbstractCSVWriter writer) {
+		List<UpdateCouponEntity> coupons = DataGenerator.generateCoupons(200);
+		fetchEntities(writer, coupons);
+	}
+
 	public void fetchTickets(AbstractCSVWriter writer) {
 		fetchEntities(writer, ticketService.findAll());
 	}

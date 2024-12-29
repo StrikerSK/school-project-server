@@ -26,13 +26,22 @@ public class FileController {
 	private final String contentType = "text/csv;charset=UTF-8";
 
 	@GetMapping(value = "/coupon", produces = "text/csv")
-	public void exportCouponsCsv(HttpServletResponse response) {
+	public void exportCouponsCsv(
+			@RequestParam(name = "random", required = false) Boolean random,
+			@RequestParam(name = "count", required = false) Integer count,
+			HttpServletResponse response
+	) {
 		try (CSVWriter writer = new CSVWriter(response.getWriter())) {
 			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=coupons_%s.csv", UUID.randomUUID()));
 			response.setHeader(HttpHeaders.CONTENT_ENCODING, "UTF-8");
 			response.setHeader(HttpHeaders.CONTENT_TYPE, "text/csv");
 			response.setStatus(HttpServletResponse.SC_OK);
-			fileService.fetchCoupons(writer);
+
+			if (random != null && random) {
+				fileService.generateCoupons(writer);
+			} else {
+				fileService.fetchCoupons(writer);
+			}
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
