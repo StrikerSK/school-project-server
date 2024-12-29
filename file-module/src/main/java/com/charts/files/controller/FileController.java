@@ -3,7 +3,7 @@ package com.charts.files.controller;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.files.service.FileService;
-import com.opencsv.AbstractCSVWriter;
+import com.charts.general.exception.CsvContentException;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.Writer;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,13 +54,12 @@ public class FileController {
 	}
 
 	private static <T> void writeResponse(HttpServletResponse response, List<T> entries, String prefix) {
-		try (CSVWriter writer = new CSVWriter(response.getWriter())) {
+		try  {
 			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s_%s.csv", prefix, UUID.randomUUID()));
 			response.setHeader(HttpHeaders.CONTENT_ENCODING, "UTF-8");
 			response.setHeader(HttpHeaders.CONTENT_TYPE, "text/csv");
 			response.setStatus(HttpServletResponse.SC_OK);
-
-			writeEntries(writer, entries);
+			writeEntries(response.getWriter(), entries);
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
@@ -85,11 +85,13 @@ public class FileController {
 		}
 	}
 
-	private static <T> void writeEntries(AbstractCSVWriter writer, List<T> data) {
-		StatefulBeanToCsvBuilder<T> builder = new StatefulBeanToCsvBuilder<>(writer);
-		try {
+	private static <T> void writeEntries(Writer writer, List<T> data) {
+		try (CSVWriter csvWriter = new CSVWriter(writer)) {
+			StatefulBeanToCsvBuilder<T> builder = new StatefulBeanToCsvBuilder<>(csvWriter);
 			builder.build().write(data);
 		} catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
+			throw new CsvContentException(e.getMessage(), e);
+		}catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
