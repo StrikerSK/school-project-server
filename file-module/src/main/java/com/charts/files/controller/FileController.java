@@ -26,8 +26,6 @@ public class FileController {
 
 	private final FileService fileService;
 
-	private final String contentType = "text/csv;charset=UTF-8";
-
 	@GetMapping(value = "/coupon", produces = "text/csv")
 	public void exportCouponsCsv(
 			@RequestParam(name = "random", required = false) Boolean random,

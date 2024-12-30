@@ -21,6 +21,13 @@ import java.util.List;
 
 public class CsvProcessor {
 
+    /**
+     * Method writes list of entries into CSV file
+     *
+     * @param writer Writer is used to write data to the response output
+     * @param data List of entries to be written into CSV file
+     * @param <T> Any class of entries that will be returned after parsing. These classes should have fields annotated with @CsvBindByName.
+     */
     public static <T> void writeEntries(Writer writer, List<T> data) {
         try (CSVWriter csvWriter = new CSVWriter(writer)) {
             StatefulBeanToCsvBuilder<T> builder = new StatefulBeanToCsvBuilder<>(csvWriter);
@@ -32,6 +39,15 @@ public class CsvProcessor {
         }
     }
 
+    /**
+     * Method read file into list of entries
+     *
+     * @param payload File containing entries in CSV format
+     * @param clazz Class of entries to be resolved by function
+     * @return List of entries that are processed into desired class
+     * @param <T> Any class of entries that will be returned after parsing. These classes should have fields annotated with @CsvBindByName.
+     * @throws IOException Exception coming from file reading
+     */
     public static <T> List<T> readEntries(MultipartFile payload, Class<T> clazz) throws IOException {
         InputStreamReader inputStream = new InputStreamReader(payload.getInputStream(), StandardCharsets.UTF_8);
         BufferedReader fileReader = new BufferedReader(inputStream);
