@@ -77,4 +77,15 @@ public class NivoTicketsService {
 		);
 	}
 
+	public <T extends IEnum> List<Map<String, Object>> createDynamicBarData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
+		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		return NivoConvertersUtils.createBarData(
+				ticketService.getAllByFilter(parameters),
+				upperGroupingFunction,
+				lowerGroupingFunction
+		);
+	}
+
 }
