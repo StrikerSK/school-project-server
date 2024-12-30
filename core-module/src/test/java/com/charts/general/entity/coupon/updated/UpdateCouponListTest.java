@@ -29,7 +29,6 @@ public class UpdateCouponListTest extends AbstractCouponTest {
         updateCouponList.getCouponEntityList().forEach(e -> {
             Assert.assertEquals(couponEntity1.getValidity(), e.getValidity());
             Assert.assertEquals(couponEntity1.getType(), e.getSellType());
-            Assert.assertEquals(couponEntity1.getCode(), e.getCode());
             Assert.assertEquals(couponEntity1.getMonth(), e.getMonth());
             Assert.assertEquals(couponEntity1.getYear(), e.getYear());
         });

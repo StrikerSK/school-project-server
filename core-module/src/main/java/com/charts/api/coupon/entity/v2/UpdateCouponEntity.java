@@ -1,12 +1,10 @@
 package com.charts.api.coupon.entity.v2;
 
 import com.charts.general.entity.AbstractUpdateEntity;
-import com.charts.general.entity.enums.types.Months;
 import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.opencsv.bean.CsvBindByName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,23 +35,6 @@ public class UpdateCouponEntity extends AbstractUpdateEntity implements Comparab
 	@Column(name = "id")
 	@JsonIgnore
 	private Long id;
-
-	@Column(name = "code")
-	@JsonProperty("code")
-	@CsvBindByName(column = "code")
-	private String code;
-
-	@Column(name = "month")
-	@CsvBindByName(column = "month")
-	private Months month;
-
-	@Column(name = "year")
-	@CsvBindByName(column = "year")
-	private Integer year;
-
-	@Column(name = "value")
-	@CsvBindByName(column = "value")
-	private Integer value;
 
 	@Column(name = VALIDITY_COLUMN)
 	@CsvBindByName(column = "validity")

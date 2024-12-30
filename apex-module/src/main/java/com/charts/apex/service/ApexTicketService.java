@@ -5,7 +5,6 @@ import com.charts.api.ticket.entity.TicketsParameters;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.service.TicketService;
 import com.charts.api.ticket.utils.TicketFunctionUtils;
-import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class ApexTicketService extends ApexAbstractService {
 
 	private final TicketService ticketService;
 
-	public <T extends IEnum, R extends AbstractUpdateEntity> List<ApexObject> getTicketData(
+	public <T extends IEnum> List<ApexObject> getTicketData(
 			String upperGroup,
 			String lowerGroup,
 			TicketsParameters parameters

@@ -75,12 +75,4 @@ public class UpdateCouponList {
         return new UpdateCouponList(filteredList);
     }
 
-    public UpdateCouponList filterWithParameters(CouponsParameters parameters) {
-        return filterByYear(parameters.getYearInteger())
-                .filterByValidity(parameters.getValidity())
-                .filterByPersonType(parameters.getPersonTypeList())
-                .filterBySellType(parameters.getSellTypes())
-                .filterByMonth(parameters.getMonths());
-    }
-
 }

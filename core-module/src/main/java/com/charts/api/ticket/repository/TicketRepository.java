@@ -1,8 +1,11 @@
 package com.charts.api.ticket.repository;
 
-import com.charts.api.ticket.entity.v2.UpdateTicketList;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.api.ticket.utils.TicketConverter;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class TicketRepository {
@@ -14,8 +17,8 @@ public class TicketRepository {
     }
 
     @Cacheable("ticketList")
-    public UpdateTicketList getUpdatedTicketList() {
-        return new UpdateTicketList(jpaTicketRepository.findAll());
+    public List<UpdateTicketEntity> getTicketList() {
+        return TicketConverter.convertTicketEntity(jpaTicketRepository.findAll());
     }
 
 }
