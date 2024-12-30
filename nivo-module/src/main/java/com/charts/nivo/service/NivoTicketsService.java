@@ -1,6 +1,5 @@
 package com.charts.nivo.service;
 
-import com.charts.api.coupon.utils.CouponGroupingUtils;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.service.TicketService;
 import com.charts.api.ticket.utils.TicketFunctionUtils;
@@ -85,8 +84,7 @@ public class NivoTicketsService {
 		return NivoConvertersUtils.createBarData(
 				ticketService.getAllByFilter(parameters),
 				upperGroupingFunction,
-				lowerGroupingFunction,
-				CouponGroupingUtils::aggregateGroupSum
+				lowerGroupingFunction
 		);
 	}
 

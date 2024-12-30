@@ -3,13 +3,18 @@ package com.charts.nivo.Utils;
 import com.charts.general.entity.GroupingEntity;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
-import com.charts.general.utils.AbstractSortingUtils;
+import com.charts.general.utils.AbstractGroupingUtils;
 import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoDataXY;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -35,13 +40,11 @@ public class NivoConvertersUtils {
      * @param input all entries obtained from database
      * @param upperGrouping top level grouping of data
      * @param nestedGrouping nested grouping within upper grouping
-     * @param aggregator aggregation function
      */
-    public static <T extends IEnum, R extends IEnum, E> List<Map<String, Object>> createBarData(
+    public static <T extends IEnum, R extends IEnum, E extends AbstractUpdateEntity> List<Map<String, Object>> createBarData(
             List<E> input,
             Function<List<E>, Map<T, List<E>>> upperGrouping,
-            Function<List<E>, Map<R, List<E>>> nestedGrouping,
-            Function<List<E>, Integer> aggregator
+            Function<List<E>, Map<R, List<E>>> nestedGrouping
     ) {
         return upperGrouping.apply(input).entrySet()
                 .stream()
@@ -51,7 +54,7 @@ public class NivoConvertersUtils {
                             .entrySet()
                             .stream()
                             .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(R::getOrderValue)))
-                            .map(lower -> new AbstractMap.SimpleEntry<>(lower.getKey().getValue(), aggregator.apply(lower.getValue())))
+                            .map(lower -> new AbstractMap.SimpleEntry<>(lower.getKey().getValue(), AbstractGroupingUtils.aggregateGroupSum(lower.getValue())))
                             .collect(Collectors.toMap(
                                     Map.Entry::getKey,
                                     Map.Entry::getValue,

@@ -76,8 +76,7 @@ public class NivoCouponService {
         return NivoConvertersUtils.createBarData(
                 couponService.findCouponEntities(parameters),
                 upperGroupingFunction,
-                lowerGroupingFunction,
-                CouponGroupingUtils::aggregateGroupSum
+                lowerGroupingFunction
         );
     }
 
