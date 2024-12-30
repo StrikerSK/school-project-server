@@ -6,9 +6,11 @@ import com.charts.api.ticket.enums.TicketType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.opencsv.bean.CsvBindByName;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
@@ -17,6 +19,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class UpdateTicketEntity extends AbstractUpdateEntity implements Comparable<UpdateTicketEntity> {
 
 	@Id
