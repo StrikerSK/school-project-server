@@ -20,7 +20,6 @@ public class CouponConvertorTest extends AbstractCouponTest {
         List<UpdateCouponEntity> convertedValues = CouponConvertor.convertCouponEntity(couponEntity1);
 
         Assert.assertEquals(convertedValues.size(), 6);
-        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getCode(), "032000")));
         Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getYear(), 2000)));
         Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getMonth(), Months.MARCH)));
 

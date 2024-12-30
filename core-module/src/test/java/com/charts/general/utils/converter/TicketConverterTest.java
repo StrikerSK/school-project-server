@@ -48,7 +48,6 @@ public class TicketConverterTest extends AbstractTestNGSpringContextTests {
         List<UpdateTicketEntity> convertedValues = TicketConverter.convertTicketEntity(ticketEntity);
 
         Assert.assertEquals(convertedValues.size(), 13);
-        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getCode(), "012015")));
         Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getDiscounted(), true)));
         Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getYear(), 2015)));
         Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getMonth(), Months.JANUARY)));

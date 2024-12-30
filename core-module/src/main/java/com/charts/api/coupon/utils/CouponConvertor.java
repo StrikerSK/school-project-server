@@ -49,7 +49,6 @@ public class CouponConvertor {
                 .personType(PersonType.getPersonType(personType).get())
                 .month(couponEntity.getMonth())
                 .year(couponEntity.getYear())
-                .code(couponEntity.getCode())
                 .build();
     }
 

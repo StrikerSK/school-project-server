@@ -53,7 +53,6 @@ public class TicketConverter {
         // From GeneralEntity class
         output.setMonth(ticketEntity.getMonth());
         output.setYear(ticketEntity.getYear());
-        output.setCode(ticketEntity.getCode());
 
         return output;
     }
