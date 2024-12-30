@@ -16,8 +16,7 @@ public class EnumUtilTest {
     @Test
     public void testFromValue_ValidLabel() {
         Class<SellType> enumClass = SellType.class;
-        String label = CHIP_CARD;
-        Optional<SellType> result = EnumUtils.getValue(enumClass, label);
+        Optional<SellType> result = EnumUtils.getValue(enumClass, CHIP_CARD);
 
         Assert.assertTrue(result.isPresent());
         Assert.assertEquals(result.get(), SellType.CARD);
@@ -32,8 +31,7 @@ public class EnumUtilTest {
 
     @Test
     public void testFromValue_NullEnumClass() {
-        String label = CHIP_CARD;
-        Assert.assertThrows(NullPointerException.class, () -> EnumUtils.fromValue(null, label));
+        Assert.assertThrows(NullPointerException.class, () -> EnumUtils.fromValue(null, CHIP_CARD));
     }
 
     @Test

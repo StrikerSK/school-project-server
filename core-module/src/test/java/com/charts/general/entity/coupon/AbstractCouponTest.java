@@ -2,7 +2,7 @@ package com.charts.general.entity.coupon;
 
 import com.charts.api.coupon.entity.v1.CouponEntity;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
-import com.charts.api.coupon.entity.v2.UpdateCouponList;
+import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.api.coupon.utils.CouponConvertor;
 import com.charts.general.entity.enums.types.Months;
 import com.charts.api.coupon.enums.types.SellType;
@@ -25,12 +25,15 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
     protected CouponEntity couponEntity2;
     protected CouponEntity couponEntity3;
 
-    protected UpdateCouponList updateCouponList;
-    protected List<UpdateCouponEntity> couponList;
-    protected List<CouponEntity> couponEntityList;
+    protected List<UpdateCouponEntity> singleEntryList;
+    protected List<UpdateCouponEntity> couponV2List;
+    protected List<CouponEntity> couponV1List;
 
     @Mock
-    protected JpaCouponRepository jpaCouponRepository;
+    protected JpaCouponRepository formerCouponRepository = Mockito.mock(JpaCouponRepository.class);
+
+    @Mock
+    protected JpaCouponV2Repository couponRepository = Mockito.mock(JpaCouponV2Repository.class);
 
     @BeforeClass
     public void setUp() {
@@ -76,12 +79,12 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
                 .year(2015)
                 .build();
 
-        updateCouponList = new UpdateCouponList(couponEntity1);
-        couponList = CouponConvertor.convertCouponEntity(Stream.of(couponEntity1, couponEntity2, couponEntity3).collect(Collectors.toList()));
-        couponEntityList = Stream.of(couponEntity1, couponEntity2, couponEntity3).collect(Collectors.toList());
+        singleEntryList = CouponConvertor.convertCouponEntity(couponEntity1);
+        couponV1List = Stream.of(couponEntity1, couponEntity2, couponEntity3).collect(Collectors.toList());
+        couponV2List = CouponConvertor.convertCouponEntity(couponV1List);
 
-        this.jpaCouponRepository = Mockito.mock(JpaCouponRepository .class);
-        when(jpaCouponRepository.findAll()).thenReturn(couponEntityList);
+        when(formerCouponRepository.findAll()).thenReturn(couponV1List);
+        when(couponRepository.findAll()).thenReturn(couponV2List);
     }
 
 }

@@ -13,13 +13,13 @@ public class CouponRepositoryTest extends AbstractCouponTest {
     @BeforeClass
     public void setUp() {
         super.setUp();
-        this.couponRepository = new CouponRepository(jpaCouponRepository);
+        this.couponRepository = new CouponRepository(formerCouponRepository);
     }
 
     @Test
     public void TestFindAll() {
-        Assert.assertEquals(couponRepository.getCouponList().getCoupons().size(), 3);
-        Assert.assertEquals(couponRepository.getUpdateCouponList().getCouponEntityList().size(), 18);
+        Assert.assertEquals(couponRepository.findAll().size(), 3);
+        Assert.assertEquals(couponRepository.getUpdateCouponList().size(), 18);
     }
 
 }
