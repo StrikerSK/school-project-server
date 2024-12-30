@@ -2,7 +2,6 @@ package com.charts.api.ticket.entity.v2;
 
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.api.ticket.enums.TicketType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.opencsv.bean.CsvBindByName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +17,6 @@ import javax.persistence.*;
 @Setter
 @SuperBuilder
 public class UpdateTicketEntity extends AbstractUpdateEntity implements Comparable<UpdateTicketEntity> {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	@JsonIgnore
-	private Long id;
 
 	@Column(name = "ticket_type")
 	@CsvBindByName

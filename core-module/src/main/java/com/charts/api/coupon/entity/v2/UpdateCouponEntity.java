@@ -4,7 +4,6 @@ import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.opencsv.bean.CsvBindByName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +12,6 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
@@ -29,12 +25,6 @@ public class UpdateCouponEntity extends AbstractUpdateEntity implements Comparab
 	public static final String PERSON_TYPE_COLUMN = "person_type";
 	public static final String SELL_TYPE_COLUMN = "sell_type";
 	public static final String VALIDITY_COLUMN = "validity";
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	@JsonIgnore
-	private Long id;
 
 	@Column(name = VALIDITY_COLUMN)
 	@CsvBindByName(column = "validity")
