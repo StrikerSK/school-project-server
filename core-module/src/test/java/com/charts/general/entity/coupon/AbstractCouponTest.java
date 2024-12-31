@@ -10,7 +10,9 @@ import com.charts.api.coupon.enums.types.Validity;
 import com.charts.api.coupon.repository.JpaCouponRepository;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.util.List;
@@ -29,6 +31,8 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
     protected List<UpdateCouponEntity> couponV2List;
     protected List<CouponEntity> couponV1List;
 
+    protected AutoCloseable closeable;
+
     @Mock
     protected JpaCouponRepository formerCouponRepository = Mockito.mock(JpaCouponRepository.class);
 
@@ -37,6 +41,7 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
 
     @BeforeClass
     public void setUp() {
+        closeable = MockitoAnnotations.openMocks(this);
         couponEntity1 = CouponEntity.builder()
                 .portable(100)
                 .seniors(200)
@@ -85,6 +90,11 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
 
         when(formerCouponRepository.findAll()).thenReturn(couponV1List);
         when(couponRepository.findAll()).thenReturn(couponV2List);
+    }
+
+    @AfterClass
+    public void tearDown() throws Exception {
+        closeable.close();
     }
 
 }
