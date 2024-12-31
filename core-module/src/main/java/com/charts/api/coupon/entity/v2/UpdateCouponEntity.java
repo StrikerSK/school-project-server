@@ -40,14 +40,12 @@ public class UpdateCouponEntity extends AbstractUpdateEntity implements Comparab
 
 	@Override
 	public int compareTo(UpdateCouponEntity o) {
-
 		int yearComparison = this.getYear().compareTo(o.getYear());
 		if (yearComparison == 0) {
 			return this.getMonth().getOrderValue().compareTo(o.getMonth().getOrderValue());
 		} else {
 			return yearComparison;
 		}
-
 	}
 
 }
