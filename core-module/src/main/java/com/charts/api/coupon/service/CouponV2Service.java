@@ -9,19 +9,26 @@ import com.charts.general.entity.enums.types.Months;
 import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class CouponV2Service {
 
     private final JpaCouponV2Repository couponRepository;
 
-    public CouponV2Service(JpaCouponV2Repository couponRepository) {
-        this.couponRepository = couponRepository;
+    public List<UpdateCouponEntity> findAll(Integer size) {
+        Pageable pageable = PageRequest.ofSize(size);
+        return couponRepository.findAll(pageable).getContent();
     }
+
+    public void saveAll(List<UpdateCouponEntity> couponEntityList) { couponRepository.saveAll(couponEntityList); }
 
     public List<UpdateCouponEntity> findCouponEntities(CouponsParameters couponsParameters) {
         return couponRepository.findAllByPersonTypeInAndValidityInAndSellTypeInAndMonthInAndYearIn(

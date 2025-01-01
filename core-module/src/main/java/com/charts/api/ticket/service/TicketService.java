@@ -7,6 +7,7 @@ import com.charts.api.ticket.enums.TicketType;
 import com.charts.api.ticket.entity.TicketsParameters;
 import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.types.Months;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,12 @@ public class TicketService {
         this.ticketRepository = ticketRepository;
     }
 
-    public List<UpdateTicketEntity> getAllTickets() { return ticketRepository.findAll(); }
+    public void saveAll(List<UpdateTicketEntity> ticketEntityList) { ticketRepository.saveAll(ticketEntityList); }
+
+    public List<UpdateTicketEntity> findAll(Integer size) {
+        Pageable pageable = Pageable.ofSize(size);
+        return ticketRepository.findAll(pageable).getContent();
+    }
 
     public List<UpdateTicketEntity> getAllByFilter(TicketsParameters parameters) {
         return ticketRepository.findAllByMonthInAndYearInAndTicketTypeInAndDiscountedIn(

@@ -5,9 +5,12 @@ import com.charts.general.entity.enums.types.Months;
 import com.charts.api.ticket.enums.TicketType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opencsv.bean.CsvBindByName;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
@@ -16,6 +19,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class UpdateTicketEntity extends AbstractUpdateEntity implements Comparable<UpdateTicketEntity> {
 
 	@Id
@@ -26,21 +30,27 @@ public class UpdateTicketEntity extends AbstractUpdateEntity implements Comparab
 
 	@Column(name = "code")
 	@JsonProperty("code")
+	@CsvBindByName
 	private String code;
 
 	@Column(name = "month")
+	@CsvBindByName
 	private Months month;
 
 	@Column(name = "year")
+	@CsvBindByName
 	private Integer year;
 
 	@Column(name = "value")
+	@CsvBindByName
 	private Integer value;
 
 	@Column(name = "ticket_type")
+	@CsvBindByName
 	private TicketType ticketType;
 
 	@Column(name = "discounted")
+	@CsvBindByName
 	private Boolean discounted;
 
 	@Override
