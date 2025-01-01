@@ -29,10 +29,6 @@ public class TicketsParameters extends AbstractParameters {
 	}
 
 	public List<TicketType> getTicketType() {
-		if (CollectionUtils.isEmpty(ticketType)) {
-			return EnumUtils.getValueList(TicketType.class);
-		} else {
-			return EnumUtils.getValueList(ticketType, TicketType.class);
-		}
+		return getValueList(ticketType, TicketType.class);
 	}
 }

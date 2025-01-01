@@ -8,7 +8,6 @@ import com.charts.general.utils.AbstractGroupingUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TicketGroupingUtils extends AbstractGroupingUtils {
 
@@ -17,8 +16,7 @@ public class TicketGroupingUtils extends AbstractGroupingUtils {
     }
 
     public static Map<EnumAdapter, List<UpdateTicketEntity>> groupByDiscounted(List<UpdateTicketEntity> couponEntityList) {
-        return couponEntityList.stream()
-                .collect(Collectors.groupingBy(e -> new EnumAdapter(e.getDiscounted())));
+        return groupValues(couponEntityList, e -> new EnumAdapter(e.getDiscounted()));
     }
 
     public static Map<Months, Object> groupAndSumByMonth(List<UpdateTicketEntity> entityList) {

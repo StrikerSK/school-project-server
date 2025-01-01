@@ -5,14 +5,16 @@ import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.types.Months;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class AbstractGroupingUtils {
 
     public static <T extends AbstractUpdateEntity> Map<EnumAdapter, List<T>> groupByYear(List<T> couponEntityList) {
-        return couponEntityList.stream().collect(Collectors.groupingBy(t -> new EnumAdapter(t.getYear())));
+        return groupValues(couponEntityList, e -> new EnumAdapter(e.getYear()));
     }
 
     public static <T extends AbstractUpdateEntity> Map<Months, List<T>> groupByMonth(List<T> entityList) {
