@@ -2,6 +2,7 @@ package com.charts.general.entity;
 
 import com.charts.general.entity.enums.types.Months;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.opencsv.bean.CsvBindByName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,12 +28,15 @@ public abstract class AbstractUpdateEntity {
     private Long id;
 
     @Column(name = "month")
+    @CsvBindByName
     private Months month;
 
     @Column(name = "year")
+    @CsvBindByName
     private Integer year;
 
     @Column(name = "value")
+    @CsvBindByName
     private Integer value;
 
 }
