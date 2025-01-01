@@ -5,6 +5,7 @@ import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.files.service.FileService;
 import com.charts.files.utils.CsvProcessor;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Controller
 @AllArgsConstructor
@@ -58,23 +60,24 @@ public class FileController {
 		}
 	}
 
-	@PostMapping(value = "/coupon", consumes = "multipart/form-data")
+	@SneakyThrows
+    @PostMapping(value = "/coupon", consumes = "multipart/form-data")
 	public ResponseEntity<?> uploadCouponsCsv(@RequestParam MultipartFile payload) {
-		try {
-			fileService.processCoupons(payload);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
+		return processRequest(payload, fileService::processCoupons);
 	}
 
-	@PostMapping(value = "/ticket", consumes = "multipart/form-data")
+    @SneakyThrows
+    @PostMapping(value = "/ticket", consumes = "multipart/form-data")
 	public ResponseEntity<?> uploadTicketsCsv(@RequestParam MultipartFile payload) {
+		return processRequest(payload, fileService::processTickets);
+	}
+
+	private static ResponseEntity<?> processRequest(MultipartFile payload, Consumer<MultipartFile> persistence) {
 		try {
-			fileService.processTickets(payload);
+			persistence.accept(payload);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 

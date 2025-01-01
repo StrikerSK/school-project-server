@@ -9,10 +9,10 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.apache.commons.io.IOUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.Writer;
@@ -42,14 +42,14 @@ public class CsvProcessor {
     /**
      * Method read file into list of entries
      *
-     * @param payload File containing entries in CSV format
+     * @param is InputStream for data to be read
      * @param clazz Class of entries to be resolved by function
      * @return List of entries that are processed into desired class
      * @param <T> Any class of entries that will be returned after parsing. These classes should have fields annotated with @CsvBindByName.
      * @throws IOException Exception coming from file reading
      */
-    public static <T> List<T> readEntries(MultipartFile payload, Class<T> clazz) throws IOException {
-        InputStreamReader inputStream = new InputStreamReader(payload.getInputStream(), StandardCharsets.UTF_8);
+    public static <T> List<T> readEntries(InputStream is, Class<T> clazz) throws IOException {
+        InputStreamReader inputStream = new InputStreamReader(is, StandardCharsets.UTF_8);
         BufferedReader fileReader = new BufferedReader(inputStream);
         String stringReader = IOUtils.toString(fileReader);
         CSVReader csvReader = new CSVReader(new StringReader(stringReader));

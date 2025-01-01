@@ -5,12 +5,13 @@ import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.api.ticket.service.TicketService;
 import com.charts.files.utils.CsvProcessor;
+import com.charts.general.exception.CsvContentException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Service
 @AllArgsConstructor
@@ -36,16 +37,25 @@ public class FileService {
 		}
 	}
 
-	public List<UpdateCouponEntity> processCoupons(MultipartFile payload) throws IOException {
-		List<UpdateCouponEntity> coupons = CsvProcessor.readEntries(payload, UpdateCouponEntity.class);
-		couponService.saveAll(coupons);
-		return coupons;
+	public void processCoupons(MultipartFile payload) {
+		processEntries(payload, UpdateCouponEntity.class, couponService::saveAll);
 	}
 
-	public List<UpdateTicketEntity> processTickets(MultipartFile payload) throws IOException {
-		List<UpdateTicketEntity> tickets = CsvProcessor.readEntries(payload, UpdateTicketEntity.class);
-		ticketService.saveAll(tickets);
-		return tickets;
+	public void processTickets(MultipartFile payload) {
+		processEntries(payload, UpdateTicketEntity.class, ticketService::saveAll);
+	}
+
+	private static <T> void processEntries(
+			MultipartFile payload,
+			Class<T> clazz,
+			Consumer<List<T>> persistence
+	) {
+		try {
+			List<T> coupons = CsvProcessor.readEntries(payload.getInputStream(), clazz);
+			persistence.accept(coupons);
+		} catch (Exception e) {
+			throw new CsvContentException(String.format("Failed to process file: %s", e.getMessage()), e);
+		}
 	}
 
 }
