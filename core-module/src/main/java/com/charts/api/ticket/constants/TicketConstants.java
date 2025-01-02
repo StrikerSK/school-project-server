@@ -1,7 +1,14 @@
 package com.charts.api.ticket.constants;
 
+import com.charts.general.entity.enums.types.EnumAdapter;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class TicketConstants {
 
+    // Ticket types values
     public static final String FIFTEEN_MINUTES = "15 Minútové";
     public static final String ONE_DAY = "24 Hodinový - Pásmo P";
     public static final String ONE_DAY_ALL = "24 Hodinový - Všetky pásma";
@@ -15,5 +22,8 @@ public class TicketConstants {
     public static final String NINE_ZONES = "9 Pásiem";
     public static final String TEN_ZONES = "10 Pásiem";
     public static final String ELEVEN_ZONES = "11 Pásiem";
+
+    public static final List<Boolean> DISCOUNTED_LIST = Arrays.asList(true, false);
+    public static final List<EnumAdapter> DISCOUNTED_VALUES = DISCOUNTED_LIST.stream().map(EnumAdapter::new).collect(Collectors.toList());
 
 }

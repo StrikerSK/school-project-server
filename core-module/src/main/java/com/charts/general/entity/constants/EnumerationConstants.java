@@ -1,9 +1,12 @@
 package com.charts.general.entity.constants;
 
 import com.charts.general.entity.enums.EnumUtils;
+import com.charts.general.entity.enums.types.EnumAdapter;
 import com.charts.general.entity.enums.types.Months;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EnumerationConstants {
 
@@ -22,7 +25,11 @@ public class EnumerationConstants {
     public static final String DECEMBER_VALUE = "December";
 
     // Month lists
-    public static final List<Months> MONTHS_LIST = EnumUtils.getValueList(Months.class);
-    public static final List<String> MONTHS_VALUES = EnumUtils.getStringValues(Months.class);
+    public static final List<Months> MONTH_LIST = EnumUtils.getValueList(Months.class);
+    public static final List<String> MONTH_VALUES = EnumUtils.getStringValues(Months.class);
+
+    // Year lists
+    public static final List<Integer> YEAR_LIST = Arrays.asList(2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025);
+    public static final List<EnumAdapter> YEAR_ENUMS = YEAR_LIST.stream().map(EnumAdapter::new).collect(Collectors.toList());
 
 }
