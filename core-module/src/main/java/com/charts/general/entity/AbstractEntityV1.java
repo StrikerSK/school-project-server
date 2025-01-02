@@ -21,7 +21,7 @@ import javax.persistence.MappedSuperclass;
 @Getter
 @Setter
 @SuperBuilder
-public abstract class AbstractEntity {
+public abstract class AbstractEntityV1 {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

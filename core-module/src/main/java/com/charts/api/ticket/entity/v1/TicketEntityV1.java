@@ -1,6 +1,6 @@
 package com.charts.api.ticket.entity.v1;
 
-import com.charts.general.entity.AbstractEntity;
+import com.charts.general.entity.AbstractEntityV1;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketEntityV1 extends AbstractEntity implements Comparable<TicketEntityV1> {
+public class TicketEntityV1 extends AbstractEntityV1 implements Comparable<TicketEntityV1> {
 
 	@Column(name = "zlavneny")
 	private Boolean discounted;
