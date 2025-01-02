@@ -2,7 +2,7 @@ package com.charts.api.ticket.utils;
 
 import com.charts.general.entity.enums.types.Months;
 import com.charts.api.ticket.enums.TicketType;
-import com.charts.api.ticket.entity.v1.TicketEntity;
+import com.charts.api.ticket.entity.v1.TicketEntityV1;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -17,11 +17,11 @@ import java.util.stream.Stream;
 
 public class TicketConverterTest extends AbstractTestNGSpringContextTests {
 
-    protected TicketEntity ticketEntity;
+    protected TicketEntityV1 ticketEntityV1;
 
     @BeforeClass
     public void setUp() {
-        ticketEntity = TicketEntity.builder()
+        ticketEntityV1 = TicketEntityV1.builder()
                 .id(123L)
                 .month(Months.JANUARY)
                 .year(2015)
@@ -45,27 +45,27 @@ public class TicketConverterTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void TestTicketConverter() {
-        List<UpdateTicketEntity> convertedValues = TicketConverter.convertTicketEntity(ticketEntity);
+        List<UpdateTicketEntity> convertedValues = TicketConverter.convertTicketEntity(ticketEntityV1);
 
         Assert.assertEquals(convertedValues.size(), 13);
-        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getDiscounted(), ticketEntity.getDiscounted())));
-        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getYear(), ticketEntity.getYear())));
-        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getMonth(), ticketEntity.getMonth())));
+        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getDiscounted(), ticketEntityV1.getDiscounted())));
+        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getYear(), ticketEntityV1.getYear())));
+        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getMonth(), ticketEntityV1.getMonth())));
 
         Stream.of(
-                Pair.of(TicketType.FIFTEEN_MINUTES, ticketEntity.getFifteenMinutes()),
-                Pair.of(TicketType.ONE_DAY, ticketEntity.getOneDay()),
-                Pair.of(TicketType.ONE_DAY_ALL, ticketEntity.getOneDayAll()),
-                Pair.of(TicketType.TWO_ZONES, ticketEntity.getTwoZones()),
-                Pair.of(TicketType.THREE_ZONES, ticketEntity.getThreeZones()),
-                Pair.of(TicketType.FOUR_ZONES, ticketEntity.getFourZones()),
-                Pair.of(TicketType.FIVE_ZONES, ticketEntity.getFiveZones()),
-                Pair.of(TicketType.SIX_ZONES, ticketEntity.getSixZones()),
-                Pair.of(TicketType.SEVEN_ZONES, ticketEntity.getSevenZones()),
-                Pair.of(TicketType.EIGHT_ZONES, ticketEntity.getEightZones()),
-                Pair.of(TicketType.NINE_ZONES, ticketEntity.getNineZones()),
-                Pair.of(TicketType.TEN_ZONES, ticketEntity.getTenZones()),
-                Pair.of(TicketType.ELEVEN_ZONES, ticketEntity.getElevenZones())
+                Pair.of(TicketType.FIFTEEN_MINUTES, ticketEntityV1.getFifteenMinutes()),
+                Pair.of(TicketType.ONE_DAY, ticketEntityV1.getOneDay()),
+                Pair.of(TicketType.ONE_DAY_ALL, ticketEntityV1.getOneDayAll()),
+                Pair.of(TicketType.TWO_ZONES, ticketEntityV1.getTwoZones()),
+                Pair.of(TicketType.THREE_ZONES, ticketEntityV1.getThreeZones()),
+                Pair.of(TicketType.FOUR_ZONES, ticketEntityV1.getFourZones()),
+                Pair.of(TicketType.FIVE_ZONES, ticketEntityV1.getFiveZones()),
+                Pair.of(TicketType.SIX_ZONES, ticketEntityV1.getSixZones()),
+                Pair.of(TicketType.SEVEN_ZONES, ticketEntityV1.getSevenZones()),
+                Pair.of(TicketType.EIGHT_ZONES, ticketEntityV1.getEightZones()),
+                Pair.of(TicketType.NINE_ZONES, ticketEntityV1.getNineZones()),
+                Pair.of(TicketType.TEN_ZONES, ticketEntityV1.getTenZones()),
+                Pair.of(TicketType.ELEVEN_ZONES, ticketEntityV1.getElevenZones())
         ).forEach(p -> findTicketEntity(convertedValues, p.getLeft(), p.getRight()));
     }
 

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketEntity extends AbstractEntity implements Comparable<TicketEntity> {
+public class TicketEntityV1 extends AbstractEntity implements Comparable<TicketEntityV1> {
 
 	@Column(name = "zlavneny")
 	private Boolean discounted;
@@ -63,7 +63,7 @@ public class TicketEntity extends AbstractEntity implements Comparable<TicketEnt
 	private Long elevenZones;
 
 	@Override
-	public int compareTo(TicketEntity o) {
+	public int compareTo(TicketEntityV1 o) {
 		int yearComparison = this.getYear().compareTo(o.getYear());
 		if (yearComparison == 0) {
 			return this.getMonth().getOrderValue().compareTo(o.getMonth().getOrderValue());
