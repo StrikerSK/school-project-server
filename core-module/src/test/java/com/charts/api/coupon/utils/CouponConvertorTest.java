@@ -16,19 +16,19 @@ public class CouponConvertorTest extends AbstractCouponTest {
 
     @Test
     public void TestCouponConverter() {
-        List<UpdateCouponEntity> convertedValues = CouponConvertor.convertCouponEntity(couponEntity1);
+        List<UpdateCouponEntity> convertedValues = CouponConvertor.convertCouponEntity(couponEntityV11);
 
         Assert.assertEquals(convertedValues.size(), 6);
-        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getYear(), couponEntity1.getYear())));
-        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getMonth(), couponEntity1.getMonth())));
+        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getYear(), couponEntityV11.getYear())));
+        Assert.assertTrue(convertedValues.stream().allMatch(e -> Objects.equals(e.getMonth(), couponEntityV11.getMonth())));
 
         Stream.of(
-                Pair.of(PersonType.PORTABLE, couponEntity1.getPortable()),
-                Pair.of(PersonType.SENIOR, couponEntity1.getSeniors()),
-                Pair.of(PersonType.ADULT, couponEntity1.getAdults()),
-                Pair.of(PersonType.STUDENT, couponEntity1.getStudents()),
-                Pair.of(PersonType.JUNIOR, couponEntity1.getJunior()),
-                Pair.of(PersonType.CHILDREN, couponEntity1.getChildren())
+                Pair.of(PersonType.PORTABLE, couponEntityV11.getPortable()),
+                Pair.of(PersonType.SENIOR, couponEntityV11.getSeniors()),
+                Pair.of(PersonType.ADULT, couponEntityV11.getAdults()),
+                Pair.of(PersonType.STUDENT, couponEntityV11.getStudents()),
+                Pair.of(PersonType.JUNIOR, couponEntityV11.getJunior()),
+                Pair.of(PersonType.CHILDREN, couponEntityV11.getChildren())
         ).forEach(p -> findCouponEntity(convertedValues, p.getLeft(), p.getRight()));
     }
 

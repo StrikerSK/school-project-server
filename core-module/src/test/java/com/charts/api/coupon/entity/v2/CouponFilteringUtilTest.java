@@ -3,7 +3,7 @@ package com.charts.api.coupon.entity.v2;
 import com.charts.api.coupon.utils.CouponConvertor;
 import com.charts.api.coupon.utils.CouponFilterUtils;
 import com.charts.general.entity.coupon.AbstractCouponTest;
-import com.charts.api.coupon.entity.v1.CouponEntity;
+import com.charts.api.coupon.entity.v1.CouponEntityV1;
 import com.charts.general.entity.enums.types.Months;
 import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
@@ -23,15 +23,15 @@ public class CouponFilteringUtilTest extends AbstractCouponTest {
 
     @Test
     public void EntityConversionTest() {
-        List<UpdateCouponEntity> result = CouponConvertor.convertCouponEntity(couponEntity1);
+        List<UpdateCouponEntity> result = CouponConvertor.convertCouponEntity(couponEntityV11);
 
         Assert.assertEquals(result.size(), 6);
 
         result.forEach(e -> {
-            Assert.assertEquals(couponEntity1.getValidity(), e.getValidity());
-            Assert.assertEquals(couponEntity1.getType(), e.getSellType());
-            Assert.assertEquals(couponEntity1.getMonth(), e.getMonth());
-            Assert.assertEquals(couponEntity1.getYear(), e.getYear());
+            Assert.assertEquals(couponEntityV11.getValidity(), e.getValidity());
+            Assert.assertEquals(couponEntityV11.getType(), e.getSellType());
+            Assert.assertEquals(couponEntityV11.getMonth(), e.getMonth());
+            Assert.assertEquals(couponEntityV11.getYear(), e.getYear());
         });
     }
 
@@ -111,21 +111,21 @@ public class CouponFilteringUtilTest extends AbstractCouponTest {
 
     @Test
     public void AssertValues() {
-        makeAssert(PORTABLE_VALUE, CouponEntity::getPortable);
-        makeAssert(SENIOR_VALUE, CouponEntity::getSeniors);
-        makeAssert(ADULT_VALUE, CouponEntity::getAdults);
-        makeAssert(STUDENT_VALUE, CouponEntity::getStudents);
-        makeAssert(JUNIOR_VALUE, CouponEntity::getJunior);
-        makeAssert(CHILDREN_VALUE, CouponEntity::getChildren);
+        makeAssert(PORTABLE_VALUE, CouponEntityV1::getPortable);
+        makeAssert(SENIOR_VALUE, CouponEntityV1::getSeniors);
+        makeAssert(ADULT_VALUE, CouponEntityV1::getAdults);
+        makeAssert(STUDENT_VALUE, CouponEntityV1::getStudents);
+        makeAssert(JUNIOR_VALUE, CouponEntityV1::getJunior);
+        makeAssert(CHILDREN_VALUE, CouponEntityV1::getChildren);
     }
 
-    private void makeAssert(String value, Function<CouponEntity, Integer> function) {
+    private void makeAssert(String value, Function<CouponEntityV1, Integer> function) {
         Optional<UpdateCouponEntity> assertedValue = singleEntryList.stream()
                 .filter(e -> value.equals(e.getPersonType().getValue()))
                 .findFirst();
 
         Assert.assertTrue(assertedValue.isPresent());
-        Assert.assertEquals(assertedValue.get().getValue(), function.apply(couponEntity1));
+        Assert.assertEquals(assertedValue.get().getValue(), function.apply(couponEntityV11));
     }
 
 }

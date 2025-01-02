@@ -1,6 +1,6 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.api.coupon.entity.v1.CouponEntity;
+import com.charts.api.coupon.entity.v1.CouponEntityV1;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.api.coupon.utils.CouponConvertor;
@@ -23,13 +23,13 @@ import static org.mockito.Mockito.when;
 
 public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTests {
 
-    protected CouponEntity couponEntity1;
-    protected CouponEntity couponEntity2;
-    protected CouponEntity couponEntity3;
+    protected CouponEntityV1 couponEntityV11;
+    protected CouponEntityV1 couponEntityV12;
+    protected CouponEntityV1 couponEntityV13;
 
     protected List<UpdateCouponEntity> singleEntryList;
     protected List<UpdateCouponEntity> couponV2List;
-    protected List<CouponEntity> couponV1List;
+    protected List<CouponEntityV1> couponV1List;
 
     protected AutoCloseable closeable;
 
@@ -42,7 +42,7 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
     @BeforeClass
     public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
-        couponEntity1 = CouponEntity.builder()
+        couponEntityV11 = CouponEntityV1.builder()
                 .portable(100)
                 .seniors(200)
                 .adults(300)
@@ -56,7 +56,7 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
                 .year(2000)
                 .build();
 
-        couponEntity2 = CouponEntity.builder()
+        couponEntityV12 = CouponEntityV1.builder()
                 .portable(1000)
                 .seniors(2000)
                 .adults(3000)
@@ -70,7 +70,7 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
                 .year(2020)
                 .build();
 
-        couponEntity3 = CouponEntity.builder()
+        couponEntityV13 = CouponEntityV1.builder()
                 .portable(100)
                 .seniors(200)
                 .adults(300)
@@ -84,8 +84,8 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
                 .year(2015)
                 .build();
 
-        singleEntryList = CouponConvertor.convertCouponEntity(couponEntity1);
-        couponV1List = Stream.of(couponEntity1, couponEntity2, couponEntity3).collect(Collectors.toList());
+        singleEntryList = CouponConvertor.convertCouponEntity(couponEntityV11);
+        couponV1List = Stream.of(couponEntityV11, couponEntityV12, couponEntityV13).collect(Collectors.toList());
         couponV2List = CouponConvertor.convertCouponEntity(couponV1List);
 
         when(formerCouponRepository.findAll()).thenReturn(couponV1List);

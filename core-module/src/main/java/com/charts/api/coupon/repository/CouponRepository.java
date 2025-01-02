@@ -1,6 +1,6 @@
 package com.charts.api.coupon.repository;
 
-import com.charts.api.coupon.entity.v1.CouponEntity;
+import com.charts.api.coupon.entity.v1.CouponEntityV1;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.utils.CouponConvertor;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ public class CouponRepository {
 
     private final JpaCouponRepository couponRepository;
 
-    public List<CouponEntity> findAll() { return couponRepository.findAll(); }
+    public List<CouponEntityV1> findAll() { return couponRepository.findAll(); }
 
     @Cacheable("couponList")
     public List<UpdateCouponEntity> getUpdateCouponList() {
