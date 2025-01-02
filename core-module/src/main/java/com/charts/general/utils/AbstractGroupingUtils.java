@@ -7,6 +7,7 @@ import com.charts.general.entity.enums.types.Months;
 
 import java.util.AbstractMap;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -40,7 +41,12 @@ public abstract class AbstractGroupingUtils {
         return entityList.entrySet()
                 .stream()
                 .map(e -> new AbstractMap.SimpleEntry<>(e.getKey(), aggregateGroupSum(e.getValue()).longValue()))
-                .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
     }
 
     /**
@@ -63,9 +69,7 @@ public abstract class AbstractGroupingUtils {
      * @param <R> Type of value that will be implementing {@link AbstractUpdateEntity}
      */
     protected static <T extends IEnum, R> Map<T, List<R>> groupValues(List<R> entryList, Function<R, T> groupingFunction) {
-        return entryList
-                .stream()
-                .collect(Collectors.groupingBy(groupingFunction));
+        return groupValues(entryList, groupingFunction, null);
     }
 
     /**
@@ -78,9 +82,15 @@ public abstract class AbstractGroupingUtils {
      * @param <R> Type of value that will be implementing {@link AbstractUpdateEntity}
      */
     protected static <T extends IEnum, R> Map<T, List<R>> groupValues(List<R> entryList, Function<R, T> groupingFunction, List<T> values) {
-        Map<T, List<R>> map = groupValues(entryList, groupingFunction);
-        values.forEach(v -> map.putIfAbsent(v, Collections.emptyList()));
-        return map;
+        Map<T, List<R>> map = entryList
+                .stream()
+                .collect(Collectors.groupingBy(groupingFunction));
+
+        if (values != null){
+            values.forEach(v -> map.putIfAbsent(v, Collections.emptyList()));
+        }
+
+        return AbstractSortingUtils.sortByOrderValue(map);
     }
 
 }

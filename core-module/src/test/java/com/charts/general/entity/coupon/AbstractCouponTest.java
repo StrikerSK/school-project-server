@@ -4,6 +4,7 @@ import com.charts.api.coupon.entity.v1.CouponEntityV1;
 import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.repository.JpaCouponV2Repository;
 import com.charts.api.coupon.utils.CouponConvertor;
+import com.charts.general.entity.enums.IEnum;
 import com.charts.general.entity.enums.types.Months;
 import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
@@ -16,6 +17,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -52,7 +54,7 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
                 .type(SellType.ESHOP)
                 .validity(Validity.YEARLY)
                 .code("032000")
-                .month(Months.MARCH)
+                .month(Months.AUGUST)
                 .year(2000)
                 .build();
 
@@ -66,7 +68,7 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
                 .type(SellType.CARD)
                 .validity(Validity.MONTHLY)
                 .code("082020")
-                .month(Months.AUGUST)
+                .month(Months.MARCH)
                 .year(2020)
                 .build();
 
@@ -95,6 +97,15 @@ public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTest
     @AfterClass
     public void tearDown() throws Exception {
         closeable.close();
+    }
+
+    protected <T extends IEnum, R> boolean isSorted(Map<T, List<R>> map) {
+        List<Integer> orderValues = map.keySet().stream().map(IEnum::getOrderValue).collect(Collectors.toList());
+        for (int i = 0; i < orderValues.size() - 1; i++) {
+            if (orderValues.get(i) > orderValues.get(i + 1))
+                return false;
+        }
+        return true;
     }
 
 }

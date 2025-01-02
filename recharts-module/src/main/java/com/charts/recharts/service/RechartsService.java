@@ -74,12 +74,10 @@ public class RechartsService {
 		return upperFunction.apply(entries)
 				.entrySet()
 				.stream()
-				.sorted(Comparator.comparing(e -> e.getKey().getOrderValue()))
 				.map(upper -> {
 					Map<T, List<R>> nestedGrouping = lowerFunction.apply(upper.getValue());
 					return AbstractGroupingUtils.aggregateGroupsSum(nestedGrouping).entrySet()
 							.stream()
-							.sorted(Comparator.comparing(e -> e.getKey().getOrderValue()))
 							.map(lower -> new RechartsDataObject(upper.getKey(), lower.getKey(), ((Long) lower.getValue()).intValue()))
 							.collect(Collectors.toList());
 				})
