@@ -15,7 +15,6 @@ import com.charts.recharts.entity.RechartsDataObject;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -74,13 +73,11 @@ public class RechartsService {
 		return upperFunction.apply(entries)
 				.entrySet()
 				.stream()
-				.map(upper -> {
-					Map<T, List<R>> nestedGrouping = lowerFunction.apply(upper.getValue());
-					return AbstractGroupingUtils.aggregateGroupsSum(nestedGrouping).entrySet()
-							.stream()
-							.map(lower -> new RechartsDataObject(upper.getKey(), lower.getKey(), ((Long) lower.getValue()).intValue()))
-							.collect(Collectors.toList());
-				})
+				.map(upper -> AbstractGroupingUtils.aggregateGroupsSum(upper.getValue(), lowerFunction)
+                        .entrySet()
+                        .stream()
+                        .map(lower -> new RechartsDataObject(upper.getKey(), lower.getKey(), ((Long) lower.getValue()).intValue()))
+                        .collect(Collectors.toList()))
 				.collect(Collectors.toList());
 	}
 

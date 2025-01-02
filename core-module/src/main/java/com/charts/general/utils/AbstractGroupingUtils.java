@@ -50,6 +50,20 @@ public abstract class AbstractGroupingUtils {
     }
 
     /**
+     * Method groups and sums all value present
+     * @param entryList Map of values that are supposed to be groups per enumeration implementing {@link IEnum}
+     * @param groupingFunction Function that would be used to group values
+     * @return Map of values that are supposed to be groups per enumeration implementing {@link IEnum}
+     *
+     * @param <T> Enumeration implementing {@link IEnum}
+     * @param <R> Values that are implementing implementing {@link AbstractUpdateEntity}
+     */
+    public static <T extends IEnum, R extends AbstractUpdateEntity> Map<T, Object> aggregateGroupsSum(List<R> entryList, Function<List<R>, Map<T, List<R>>> groupingFunction) {
+        Map<T, List<R>> groupedValues = groupingFunction.apply(entryList);
+        return aggregateGroupsSum(groupedValues);
+    }
+
+    /**
      * Method sums all values in list
      * @param entityList List of values
      * @return Sum of values

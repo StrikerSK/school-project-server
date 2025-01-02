@@ -30,7 +30,7 @@ public class FilterUtilsTest extends AbstractCouponTest {
         Months searchValue = Months.MARCH;
 
         List<UpdateCouponEntity> result = CouponFilterUtils.filterByMonth(
-                singleEntryList,
+                couponV2List,
                 Collections.singletonList(searchValue)
         );
 
