@@ -1,71 +1,111 @@
 package com.charts.general.entity.coupon;
 
-import com.charts.general.entity.coupon.updated.UpdateCouponList;
-import com.charts.general.entity.enums.Months;
-import com.charts.general.entity.enums.SellType;
-import com.charts.general.entity.enums.Validity;
+import com.charts.api.coupon.entity.v1.CouponEntityV1;
+import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
+import com.charts.api.coupon.repository.JpaCouponV2Repository;
+import com.charts.api.coupon.utils.CouponConvertor;
+import com.charts.general.entity.enums.IEnum;
+import com.charts.general.entity.enums.types.Months;
+import com.charts.api.coupon.enums.types.SellType;
+import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.coupon.repository.JpaCouponRepository;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.mockito.Mockito.when;
+
 public abstract class AbstractCouponTest extends AbstractTestNGSpringContextTests {
 
-    protected CouponEntity couponEntity1;
-    protected CouponEntity couponEntity2;
-    protected CouponEntity couponEntity3;
+    protected CouponEntityV1 couponEntityV11;
+    protected CouponEntityV1 couponEntityV12;
+    protected CouponEntityV1 couponEntityV13;
 
-    protected UpdateCouponList updateCouponList;
-    protected List<CouponEntity> couponEntityList;
+    protected List<UpdateCouponEntity> singleEntryList;
+    protected List<UpdateCouponEntity> couponV2List;
+    protected List<CouponEntityV1> couponV1List;
+
+    protected AutoCloseable closeable;
+
+    @Mock
+    protected JpaCouponRepository formerCouponRepository = Mockito.mock(JpaCouponRepository.class);
+
+    @Mock
+    protected JpaCouponV2Repository couponRepository = Mockito.mock(JpaCouponV2Repository.class);
 
     @BeforeClass
     public void setUp() {
-        couponEntity1 = new CouponEntity();
-        couponEntity1.setPortable(100);
-        couponEntity1.setSeniors(200);
-        couponEntity1.setAdults(300);
-        couponEntity1.setStudents(400);
-        couponEntity1.setJunior(500);
-        couponEntity1.setChildren(600);
-        couponEntity1.setType(SellType.ESHOP);
-        couponEntity1.setValidity(Validity.YEARLY);
+        closeable = MockitoAnnotations.openMocks(this);
+        couponEntityV11 = CouponEntityV1.builder()
+                .portable(100)
+                .seniors(200)
+                .adults(300)
+                .students(400)
+                .junior(500)
+                .children(600)
+                .type(SellType.ESHOP)
+                .validity(Validity.YEARLY)
+                .code("032000")
+                .month(Months.AUGUST)
+                .year(2000)
+                .build();
 
-        couponEntity1.setCode("032000");
-        couponEntity1.setMonth(Months.MARCH);
-        couponEntity1.setYear(2000);
+        couponEntityV12 = CouponEntityV1.builder()
+                .portable(1000)
+                .seniors(2000)
+                .adults(3000)
+                .students(4000)
+                .junior(5000)
+                .children(6000)
+                .type(SellType.CARD)
+                .validity(Validity.MONTHLY)
+                .code("082020")
+                .month(Months.MARCH)
+                .year(2020)
+                .build();
 
-        couponEntity2 = new CouponEntity();
-        couponEntity2.setPortable(1000);
-        couponEntity2.setSeniors(2000);
-        couponEntity2.setAdults(3000);
-        couponEntity2.setStudents(4000);
-        couponEntity2.setJunior(5000);
-        couponEntity2.setChildren(6000);
-        couponEntity2.setType(SellType.CARD);
-        couponEntity2.setValidity(Validity.MONTHLY);
+        couponEntityV13 = CouponEntityV1.builder()
+                .portable(100)
+                .seniors(200)
+                .adults(300)
+                .students(400)
+                .junior(500)
+                .children(600)
+                .type(SellType.ESHOP)
+                .validity(Validity.YEARLY)
+                .code("122015")
+                .month(Months.DECEMBER)
+                .year(2015)
+                .build();
 
-        couponEntity2.setCode("082020");
-        couponEntity2.setMonth(Months.AUGUST);
-        couponEntity2.setYear(2020);
+        singleEntryList = CouponConvertor.convertCouponEntity(couponEntityV11);
+        couponV1List = Stream.of(couponEntityV11, couponEntityV12, couponEntityV13).collect(Collectors.toList());
+        couponV2List = CouponConvertor.convertCouponEntity(couponV1List);
 
-        couponEntity3 = new CouponEntity();
-        couponEntity3.setPortable(10);
-        couponEntity3.setSeniors(20);
-        couponEntity3.setAdults(30);
-        couponEntity3.setStudents(40);
-        couponEntity3.setJunior(50);
-        couponEntity3.setChildren(60);
-        couponEntity3.setType(SellType.CARD);
-        couponEntity3.setValidity(Validity.YEARLY);
+        when(formerCouponRepository.findAll()).thenReturn(couponV1List);
+        when(couponRepository.findAll()).thenReturn(couponV2List);
+    }
 
-        couponEntity3.setCode("122015");
-        couponEntity3.setMonth(Months.DECEMBER);
-        couponEntity3.setYear(2015);
+    @AfterClass
+    public void tearDown() throws Exception {
+        closeable.close();
+    }
 
-        updateCouponList = new UpdateCouponList(couponEntity1);
-        couponEntityList = Stream.of(couponEntity1, couponEntity2, couponEntity3).collect(Collectors.toList());
+    protected <T extends IEnum, R> boolean isSorted(Map<T, List<R>> map) {
+        List<Integer> orderValues = map.keySet().stream().map(IEnum::getOrderValue).collect(Collectors.toList());
+        for (int i = 0; i < orderValues.size() - 1; i++) {
+            if (orderValues.get(i) > orderValues.get(i + 1))
+                return false;
+        }
+        return true;
     }
 
 }
