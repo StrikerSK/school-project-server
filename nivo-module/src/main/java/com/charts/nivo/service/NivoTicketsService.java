@@ -1,60 +1,91 @@
 package com.charts.nivo.service;
 
-import com.charts.general.utils.CouponGroupingUtils;
-import com.charts.nivo.entity.NivoDataXY;
-import com.charts.general.entity.ticket.TicketsParameters;
-import com.charts.general.entity.ticket.updated.UpdateTicketList;
-import com.charts.general.repository.ticket.TicketRepository;
-import com.charts.general.utils.TicketGroupingUtils;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
+import com.charts.api.ticket.service.TicketService;
+import com.charts.api.ticket.utils.TicketFunctionUtils;
+import com.charts.general.entity.enums.IEnum;
+import com.charts.nivo.Utils.NivoConvertersUtils;
+import com.charts.api.ticket.entity.TicketsParameters;
+import com.charts.api.ticket.utils.TicketGroupingUtils;
+import com.charts.nivo.entity.NivoBubbleData;
 import com.charts.nivo.entity.NivoLineData;
 import com.charts.nivo.entity.NivoPieData;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+
+import static com.charts.api.ticket.utils.TicketFunctionUtils.DISCOUNTED_GROUP;
+import static com.charts.api.ticket.utils.TicketFunctionUtils.TICKET_GROUP;
+import static com.charts.general.utils.AbstractFunctionUtils.MONTH_GROUP;
+import static com.charts.general.utils.AbstractFunctionUtils.YEAR_GROUP;
 
 @Service
+@AllArgsConstructor
 public class NivoTicketsService {
 
-	private final TicketRepository ticketRepository;
+	private final TicketService ticketService;
 
-	public NivoTicketsService(TicketRepository ticketRepository) {
-		this.ticketRepository = ticketRepository;
+	public List<NivoPieData> createDynamicPieData(String groupName, TicketsParameters parameters) {
+		List<NivoPieData> convertedData;
+
+		switch (groupName.toLowerCase()) {
+			case TICKET_GROUP:
+				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByTicketType(parameters));
+				break;
+			case DISCOUNTED_GROUP:
+				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByDiscounted(parameters));
+				break;
+			case MONTH_GROUP:
+				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByMonth(parameters));
+				break;
+			case YEAR_GROUP:
+				convertedData = NivoConvertersUtils.createPieData(ticketService.getTicketsByYear(parameters));
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown group name: " + groupName);
+		}
+
+		convertedData.sort(Comparator.comparingInt(NivoPieData::getOrderValue));
+		return convertedData;
 	}
 
-	public List<NivoLineData> getTicketTypesByMonth(TicketsParameters parameters) {
-		UpdateTicketList couponList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
-		List<NivoLineData> output = new ArrayList<>();
-		TicketGroupingUtils.groupByTicketType(couponList.getTicketEntities())
-				.forEach((ticketType, entity) -> {
-					List<NivoDataXY> nestedData = new ArrayList<>();
-					TicketGroupingUtils.groupAndSumByMonth(entity)
-							.forEach((month, integer) -> nestedData.add(new NivoDataXY(month, ((Integer) integer).longValue())));
-					output.add(new NivoLineData(ticketType, nestedData));
-				});
-		return output;
+	public <T extends IEnum> List<NivoLineData> createDynamicLineData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
+		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		return NivoConvertersUtils.createLineData(
+				ticketService.getAllByFilter(parameters),
+				upperGroupingFunction,
+				lowerGroupingFunction,
+				TicketGroupingUtils::aggregateGroupSum
+		);
 	}
 
-	public List<Map<String, Object>> getTicketBarData(TicketsParameters parameters) {
-		UpdateTicketList ticketList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
-		List<Map<String, Object>> outputMapList = new ArrayList<>();
-		TicketGroupingUtils.groupByMonth(ticketList.getTicketEntities())
-				.forEach((month, entities) -> {
-					Map<String, Object> tmpMap = CouponGroupingUtils.convertMapKeysToString(TicketGroupingUtils.groupByAndSumByTicketType(entities));
-					tmpMap.put("month", month.getValue());
-					outputMapList.add(tmpMap);
-				});
-		return outputMapList;
+	public <T extends IEnum> NivoBubbleData createDynamicBubbleData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
+		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		return NivoConvertersUtils.createBubbleData(
+				ticketService.getAllByFilter(parameters),
+				upperGroupingFunction,
+				lowerGroupingFunction,
+				TicketGroupingUtils::aggregateGroupSum
+		);
 	}
 
-	public List<NivoPieData> getTicketTypePieData(TicketsParameters parameters) {
-		UpdateTicketList couponList = ticketRepository.getUpdatedTicketList().filterWithParameters(parameters);
-		List<NivoPieData> pieData = new ArrayList<>();
-		TicketGroupingUtils.groupByAndSumByTicketType(couponList.getTicketEntities())
-				.forEach((validity, total) -> pieData.add(new NivoPieData(validity, (Integer) total)));
-		return pieData;
+	public <T extends IEnum> List<Map<String, Object>> createDynamicBarData(String upperGroup, String lowerGroup, TicketsParameters parameters) {
+		TicketFunctionUtils.validateGroups(upperGroup, lowerGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> upperGroupingFunction = TicketFunctionUtils.createGrouping(upperGroup);
+		Function<List<UpdateTicketEntity>, Map<T, List<UpdateTicketEntity>>> lowerGroupingFunction = TicketFunctionUtils.createGrouping(lowerGroup);
+		return NivoConvertersUtils.createBarData(
+				ticketService.getAllByFilter(parameters),
+				upperGroupingFunction,
+				lowerGroupingFunction
+		);
 	}
 
 }

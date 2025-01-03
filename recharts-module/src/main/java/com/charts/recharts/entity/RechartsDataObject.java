@@ -1,25 +1,42 @@
 package com.charts.recharts.entity;
 
 import com.charts.general.entity.enums.IEnum;
-import com.charts.general.entity.enums.Months;
+import com.charts.general.entity.enums.types.Months;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-
-import java.time.Month;
 
 @Data
 public class RechartsDataObject {
-    private String name;
-    private String month;
+
+    @JsonIgnore
+    private Integer upperOrderValue;
+    @JsonIgnore
+    private Integer lowerOrderValue;
+
+    private String upperGroup;
+    private String lowerGroup;
     private Integer value;
-    public RechartsDataObject(String name, String month, Integer value) {
-        this.name = name;
-        this.month = month;
+
+    public RechartsDataObject(String upperGroup, String lowerGroup, Integer value) {
+        this.upperGroup = upperGroup;
+        this.lowerGroup = lowerGroup;
         this.value = value;
     }
 
-    public RechartsDataObject(IEnum name, Months month, Integer value) {
-        this.name = name.getValue();
-        this.month = month.getValue();
+    public RechartsDataObject(IEnum upperGroup, Months lowerGroup, Integer value) {
+        this.upperGroup = upperGroup.getValue();
+        this.upperOrderValue = upperGroup.getOrderValue();
+        this.lowerGroup = lowerGroup.getValue();
+        this.value = value;
+    }
+
+    public RechartsDataObject(IEnum upperGroup, IEnum lowerGroup, Integer value) {
+        this.upperGroup = upperGroup.getValue();
+        this.upperOrderValue = upperGroup.getOrderValue();
+
+        this.lowerGroup = lowerGroup.getValue();
+        this.lowerOrderValue = lowerGroup.getOrderValue();
+
         this.value = value;
     }
 
