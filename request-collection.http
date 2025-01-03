@@ -1,0 +1,47 @@
+### Get Coupon data - File export
+GET http://localhost:8080/file/coupon?
+    random=true&
+    count={{$random.integer(100)}}
+
+### Get Coupon data - Line
+GET http://localhost:8080/nivo/coupon/line?
+    upperGroup=year&
+    lowerGroup=month
+
+### Get Coupon data - Bar
+GET http://localhost:8080/nivo/coupon/bar?
+    upperGroup=year&
+    lowerGroup=month
+
+### Get Coupon data - Bubble
+GET http://localhost:8080/nivo/coupon/bubble?
+    upperGroup=year&
+    lowerGroup=month
+
+### Get Coupon data - Pie
+GET http://localhost:8080/nivo/coupon/pie?
+    group=year
+
+### Get Ticket data - File export
+GET http://localhost:8080/file/ticket?
+    random=true&
+    count={{$random.integer(100)}}
+
+### Get Ticket data - Line
+GET http://localhost:8080/nivo/ticket/line?
+    upperGroup=year&
+    lowerGroup=month
+
+### Get Ticket data - Bar
+GET http://localhost:8080/nivo/ticket/bar?
+    upperGroup=year&
+    lowerGroup=month
+
+### Get Ticket data - Bubble
+GET http://localhost:8080/nivo/ticket/bubble?
+    upperGroup=year&
+    lowerGroup=month
+
+### Get Ticket data - Pie
+GET http://localhost:8080/nivo/ticket/pie?
+    group=year

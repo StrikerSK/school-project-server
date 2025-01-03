@@ -1,0 +1,25 @@
+package com.charts.api.ticket.enums;
+
+import com.charts.general.entity.enums.EnumUtils;
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
+
+@Converter(autoApply = true)
+public class TicketTypeConverter implements AttributeConverter<TicketType, String> {
+
+    @Override
+    public String convertToDatabaseColumn(TicketType ticketType) {
+        if (ticketType == null) {
+            return null;
+        }
+
+        return ticketType.getValue();
+    }
+
+    @Override
+    public TicketType convertToEntityAttribute(String ticketType) {
+        return EnumUtils.getValue(TicketType.class, ticketType).orElseThrow(IllegalArgumentException::new);
+    }
+
+}
