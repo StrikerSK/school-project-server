@@ -4,7 +4,6 @@ import com.charts.apex.entity.ApexObject;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.IEnum;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -30,12 +29,9 @@ abstract class ApexAbstractService {
         return upperFunction.apply(entries)
                 .entrySet()
                 .stream()
-                .sorted(Comparator.comparing(e -> e.getKey().getOrderValue()))
                 .map(upper -> {
-                    List<Integer> sum = lowerFunction.apply(upper.getValue()).entrySet()
+                    List<Integer> sum = lowerFunction.apply(upper.getValue()).values()
                             .stream()
-                            .sorted(Comparator.comparing(e -> e.getKey().getOrderValue()))
-                            .map(Map.Entry::getValue)
                             .map(list -> list.stream()
                                     .map(R::getValue)
                                     .reduce(0,  Integer::sum))

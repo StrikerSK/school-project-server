@@ -1,26 +1,25 @@
 package com.charts.api.coupon.repository;
 
-import com.charts.api.coupon.entity.v1.CouponList;
-import com.charts.api.coupon.entity.v2.UpdateCouponList;
+import com.charts.api.coupon.entity.v1.CouponEntityV1;
+import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
+import com.charts.api.coupon.utils.CouponConvertor;
+import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+import java.util.List;
+
+@Component
+@AllArgsConstructor
 public class CouponRepository {
 
     private final JpaCouponRepository couponRepository;
 
-    public CouponRepository(JpaCouponRepository couponRepository) {
-        this.couponRepository = couponRepository;
-    }
-
-    public CouponList getCouponList() {
-        return new CouponList(couponRepository.findAll());
-    }
+    public List<CouponEntityV1> findAll() { return couponRepository.findAll(); }
 
     @Cacheable("couponList")
-    public UpdateCouponList getUpdateCouponList() {
-        return new UpdateCouponList(couponRepository.findAll());
+    public List<UpdateCouponEntity> getUpdateCouponList() {
+        return CouponConvertor.convertCouponEntity(findAll());
     }
 
 }

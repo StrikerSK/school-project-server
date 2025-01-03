@@ -48,12 +48,10 @@ public class NivoConvertersUtils {
     ) {
         return upperGrouping.apply(input).entrySet()
                 .stream()
-                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(IEnum::getOrderValue)))
                 .map(upper -> {
                     Map<String, Object> outputMap = nestedGrouping.apply(upper.getValue())
                             .entrySet()
                             .stream()
-                            .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(R::getOrderValue)))
                             .map(lower -> new AbstractMap.SimpleEntry<>(lower.getKey().getValue(), AbstractGroupingUtils.aggregateGroupSum(lower.getValue())))
                             .collect(Collectors.toMap(
                                     Map.Entry::getKey,
@@ -83,7 +81,6 @@ public class NivoConvertersUtils {
     ) {
         return upperGrouping.apply(input).entrySet()
                 .stream()
-                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(T::getOrderValue)))
                 .map(e -> calculateLineData(e, nestedGrouping, aggregator))
                 .collect(Collectors.toList());
     }
@@ -95,7 +92,6 @@ public class NivoConvertersUtils {
     ) {
         List<NivoDataXY> summarizedGroups = nestedGrouping.apply(mapEntry.getValue()).entrySet()
                 .stream()
-                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(R::getOrderValue)))
                 .map(entry -> new NivoDataXY(entry.getKey(), aggregator.apply(entry.getValue()).longValue()))
                 .collect(Collectors.toList());
         return new NivoLineData(mapEntry.getKey(), summarizedGroups);
@@ -120,7 +116,6 @@ public class NivoConvertersUtils {
             List<NivoBubbleData> nestedNivoBubbleDataList = lowerGrouping.apply(entity)
                     .entrySet()
                     .stream()
-                    .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(R::getOrderValue)))
                     .map(e -> new NivoBubbleData(e.getKey(), aggregator.apply(e.getValue())))
                     .collect(Collectors.toList());
             middleNivoBubbleDataList.add(new NivoBubbleData(key, nestedNivoBubbleDataList));

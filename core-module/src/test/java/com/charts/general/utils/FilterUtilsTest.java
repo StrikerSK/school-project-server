@@ -17,7 +17,7 @@ public class FilterUtilsTest extends AbstractCouponTest {
         Integer year = 2000;
 
         List<UpdateCouponEntity> result = CouponFilterUtils.filterByYear(
-                updateCouponList.getCouponEntityList(),
+                singleEntryList,
                 Collections.singletonList(year)
         );
 
@@ -30,7 +30,7 @@ public class FilterUtilsTest extends AbstractCouponTest {
         Months searchValue = Months.MARCH;
 
         List<UpdateCouponEntity> result = CouponFilterUtils.filterByMonth(
-                updateCouponList.getCouponEntityList(),
+                couponV2List,
                 Collections.singletonList(searchValue)
         );
 

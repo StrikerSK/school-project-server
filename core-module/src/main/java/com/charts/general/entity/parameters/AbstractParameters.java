@@ -6,8 +6,8 @@ import com.charts.general.entity.enums.types.Months;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static com.charts.general.entity.constants.EnumerationConstants.YEAR_LIST;
 
 public abstract class AbstractParameters {
 
@@ -28,7 +28,7 @@ public abstract class AbstractParameters {
 
     public List<Integer> getYearInteger() {
         if (CollectionUtils.isEmpty(year)) {
-            return Stream.of(2015, 2016, 2017, 2018, 2019, 2020).collect(Collectors.toList());
+            return YEAR_LIST;
         }
 
         return year;

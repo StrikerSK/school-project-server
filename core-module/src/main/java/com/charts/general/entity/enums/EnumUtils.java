@@ -27,6 +27,10 @@ public class EnumUtils {
     }
 
     public static <T extends IEnum> T fromValue(Class<T> clazz, String label) {
+        if (clazz == null || !clazz.isEnum()) {
+            throw new IllegalArgumentException("Class must not be null and an enum");
+        }
+
         return EnumUtils.getValue(clazz, label).orElseThrow(() -> new IllegalArgumentException("Unknown label " + label));
     }
 

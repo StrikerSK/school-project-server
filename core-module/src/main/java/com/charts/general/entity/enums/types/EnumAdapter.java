@@ -24,14 +24,4 @@ public class EnumAdapter implements IEnum {
         this.orderValue = value ? 1 : 0;
     }
 
-    @Override
-    public String getValue() {
-        return value;
-    }
-
-    @Override
-    public Integer getOrderValue() {
-        return orderValue;
-    }
-
 }

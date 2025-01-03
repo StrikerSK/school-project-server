@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/nivo/ticket")
 @AllArgsConstructor
-public class NivoTickerController {
+public class NivoTicketController {
 
     private final NivoTicketsService nivoTicketsService;
 

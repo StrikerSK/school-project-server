@@ -1,6 +1,6 @@
 package com.charts.api.ticket.entity.v1;
 
-import com.charts.general.entity.AbstractEntity;
+import com.charts.general.entity.AbstractEntityV1;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketEntity extends AbstractEntity {
+public class TicketEntityV1 extends AbstractEntityV1 implements Comparable<TicketEntityV1> {
 
 	@Column(name = "zlavneny")
 	private Boolean discounted;
@@ -62,4 +62,13 @@ public class TicketEntity extends AbstractEntity {
 	@Column(name = "jedenast_pasem")
 	private Long elevenZones;
 
+	@Override
+	public int compareTo(TicketEntityV1 o) {
+		int yearComparison = this.getYear().compareTo(o.getYear());
+		if (yearComparison == 0) {
+			return this.getMonth().getOrderValue().compareTo(o.getMonth().getOrderValue());
+		} else {
+			return yearComparison;
+		}
+	}
 }
