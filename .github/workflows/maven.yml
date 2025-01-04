@@ -29,16 +29,19 @@ jobs:
         cache: maven
 
     - name: Verify application
-      run: mvn --batch-mode --update-snapshots verify
+      run: mvn --batch-mode --update-snapshots verify jacoco:report
 
     - name: Build application
       run: mvn --batch-mode --update-snapshots install
 
-    - name: Upload application
+    - name: Prepare resources
+      run:  mkdir ./pid-resources && cp -r ./core-module/target/site ./pid-resources/core-module && cp ./core-module/target/jacoco.exec ./pid-resources/core-module
+
+    - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: pid-server
-        path: jar-distribution/target/*.jar
+        name: pid-resources
+        path: ./pid-resources
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
