@@ -3,12 +3,14 @@ package com.charts.api.ticket.entity.v2;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.api.ticket.enums.TicketType;
 import com.opencsv.bean.CsvBindByName;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
 
 @Entity
 @Table(name = "tickets_v2")

@@ -2,9 +2,8 @@ package com.charts.api.coupon.enums.converters;
 
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.api.coupon.enums.types.PersonType;
-
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 /**
  * To make sure that enum type is converted to database value
