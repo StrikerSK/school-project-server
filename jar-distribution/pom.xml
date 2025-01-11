@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
         <artifactId>java-pid</artifactId>
         <groupId>com.charts</groupId>
@@ -11,11 +12,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jar-distribution</artifactId>
     <packaging>jar</packaging>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
 
     <build>
         <plugins>
@@ -56,10 +52,6 @@
             <groupId>com.charts</groupId>
             <artifactId>file-module</artifactId>
             <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
         </dependency>
     </dependencies>
 
