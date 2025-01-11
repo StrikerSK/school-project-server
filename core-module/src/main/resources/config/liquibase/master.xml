@@ -18,7 +18,7 @@
             <column name="person_type" type="text"/>
             <column name="validity" type="text"/>
         </createTable>
-        <addAutoIncrement tableName="coupon_entity_v2" columnName="id" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="coupon_entity_v2" columnName="id" startWith="1" incrementBy="1" columnDataType="number"/>
     </changeSet>
 
     <changeSet id="4326540658742-1" author="TheStriker">
@@ -33,12 +33,22 @@
             <column name="ticket_type" type="text"/>
             <column name="discounted" type="boolean"/>
         </createTable>
-        <addAutoIncrement tableName="tickets_v2" columnName="id" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="tickets_v2" columnName="id" startWith="1" incrementBy="1" columnDataType="number"/>
     </changeSet>
 
     <changeSet id="1735640658742-1" author="Teh|Striker">
         <dropColumn tableName="tickets_v2" columnName="code"/>
         <dropColumn tableName="coupon_entity_v2" columnName="code"/>
+    </changeSet>
+
+    <changeSet id="1736592675550-1" author="Teh|Striker">
+        <modifyDataType tableName="tickets_v2" columnName="month" newDataType="varchar(255)"/>
+        <modifyDataType tableName="tickets_v2" columnName="ticket_type" newDataType="varchar(255)"/>
+
+        <modifyDataType tableName="coupon_entity_v2" columnName="month" newDataType="varchar(255)"/>
+        <modifyDataType tableName="coupon_entity_v2" columnName="sell_type" newDataType="varchar(255)"/>
+        <modifyDataType tableName="coupon_entity_v2" columnName="person_type" newDataType="varchar(255)"/>
+        <modifyDataType tableName="coupon_entity_v2" columnName="validity" newDataType="varchar(255)"/>
     </changeSet>
 
 </databaseChangeLog>
