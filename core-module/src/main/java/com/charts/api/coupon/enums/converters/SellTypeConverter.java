@@ -2,9 +2,8 @@ package com.charts.api.coupon.enums.converters;
 
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.api.coupon.enums.types.SellType;
-
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
 public class SellTypeConverter implements AttributeConverter<SellType, String> {
