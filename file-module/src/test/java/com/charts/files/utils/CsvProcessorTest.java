@@ -6,11 +6,15 @@ import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.types.Months;
+import org.apache.commons.io.IOUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Function;
 
@@ -51,6 +55,33 @@ public class CsvProcessorTest {
         Assert.assertEquals(sumValues(couponList, Months.MARCH, UpdateCouponEntity::getMonth), 3300);
 
         Assert.assertEquals(couponList.stream().filter(e -> e.getYear().equals(2024)).count(), 6);
+    }
+
+    @Test
+    public void testFileWrite() throws IOException {
+        Writer writer = new StringWriter();
+        UpdateCouponEntity entity1 = UpdateCouponEntity.builder()
+                .year(2024)
+                .month(Months.JANUARY)
+                .personType(PersonType.ADULT)
+                .validity(Validity.MONTHLY)
+                .sellType(SellType.CARD)
+                .value(100)
+                .build();
+
+        UpdateCouponEntity entity2 = UpdateCouponEntity.builder()
+                .year(2024)
+                .month(Months.FEBRUARY)
+                .personType(PersonType.ADULT)
+                .validity(Validity.MONTHLY)
+                .sellType(SellType.CARD)
+                .value(200)
+                .build();
+
+        CsvProcessor.writeEntries(writer, List.of(entity1, entity2));
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ResultCouponData.csv");
+        String expString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+        Assert.assertEquals(writer.toString().trim(), expString.trim());
     }
 
     private <T> Integer sumValues(List<UpdateCouponEntity> inputList, T filterType, Function<UpdateCouponEntity, T> function) {
