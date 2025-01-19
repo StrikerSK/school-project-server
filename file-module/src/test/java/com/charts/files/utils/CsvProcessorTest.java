@@ -17,6 +17,7 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class CsvProcessorTest {
 
@@ -27,31 +28,31 @@ public class CsvProcessorTest {
 
         Assert.assertEquals(couponList.size(), 6);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getValidity().equals(Validity.MONTHLY)).count(), 3);
+        Assert.assertEquals(countValues(couponList, Validity.MONTHLY, UpdateCouponEntity::getValidity), 3);
         Assert.assertEquals(sumValues(couponList, Validity.MONTHLY, UpdateCouponEntity::getValidity), 600);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getValidity().equals(Validity.THREE_MONTHS)).count(), 3);
+        Assert.assertEquals(countValues(couponList, Validity.THREE_MONTHS, UpdateCouponEntity::getValidity), 3);
         Assert.assertEquals(sumValues(couponList, Validity.THREE_MONTHS, UpdateCouponEntity::getValidity), 6000);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getSellType().equals(SellType.CARD)).count(), 3);
+        Assert.assertEquals(countValues(couponList, SellType.CARD, UpdateCouponEntity::getSellType), 3);
         Assert.assertEquals(sumValues(couponList, SellType.CARD, UpdateCouponEntity::getSellType), 600);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getSellType().equals(SellType.ESHOP)).count(), 3);
+        Assert.assertEquals(countValues(couponList, SellType.ESHOP, UpdateCouponEntity::getSellType), 3);
         Assert.assertEquals(sumValues(couponList, SellType.ESHOP, UpdateCouponEntity::getSellType), 6000);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getPersonType().equals(PersonType.ADULT)).count(), 3);
+        Assert.assertEquals(countValues(couponList, PersonType.ADULT, UpdateCouponEntity::getPersonType), 3);
         Assert.assertEquals(sumValues(couponList, PersonType.ADULT, UpdateCouponEntity::getPersonType), 600);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getPersonType().equals(PersonType.STUDENT)).count(), 3);
+        Assert.assertEquals(countValues(couponList, PersonType.STUDENT, UpdateCouponEntity::getPersonType), 3);
         Assert.assertEquals(sumValues(couponList, PersonType.STUDENT, UpdateCouponEntity::getPersonType), 6000);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getMonth().equals(Months.JANUARY)).count(), 2);
+        Assert.assertEquals(countValues(couponList, Months.JANUARY, UpdateCouponEntity::getMonth), 2);
         Assert.assertEquals(sumValues(couponList, Months.JANUARY, UpdateCouponEntity::getMonth), 1100);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getMonth().equals(Months.FEBRUARY)).count(), 2);
+        Assert.assertEquals(countValues(couponList, Months.FEBRUARY, UpdateCouponEntity::getMonth), 2);
         Assert.assertEquals(sumValues(couponList, Months.FEBRUARY, UpdateCouponEntity::getMonth), 2200);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getMonth().equals(Months.MARCH)).count(), 2);
+        Assert.assertEquals(countValues(couponList, Months.MARCH, UpdateCouponEntity::getMonth), 2);
         Assert.assertEquals(sumValues(couponList, Months.MARCH, UpdateCouponEntity::getMonth), 3300);
 
         Assert.assertEquals(couponList.stream().filter(e -> e.getYear().equals(2024)).count(), 6);
@@ -80,12 +81,21 @@ public class CsvProcessorTest {
 
         CsvProcessor.writeEntries(writer, List.of(entity1, entity2));
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ResultCouponData.csv");
+        assert inputStream != null;
         String expString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         Assert.assertEquals(writer.toString().trim(), expString.trim());
     }
 
+    private <T> Long countValues(List<UpdateCouponEntity> inputList, T filterType, Function<UpdateCouponEntity, T> function) {
+        return getEntriesList(inputList, filterType, function).count();
+    }
+
     private <T> Integer sumValues(List<UpdateCouponEntity> inputList, T filterType, Function<UpdateCouponEntity, T> function) {
-        return inputList.stream().filter(e -> function.apply(e).equals(filterType)).map(AbstractUpdateEntity::getValue).reduce(0, Integer::sum);
+        return getEntriesList(inputList, filterType, function).reduce(0, Integer::sum);
+    }
+
+    private <T> Stream<Integer> getEntriesList(List<UpdateCouponEntity> inputList, T filterType, Function<UpdateCouponEntity, T> function) {
+        return inputList.stream().filter(e -> function.apply(e).equals(filterType)).map(AbstractUpdateEntity::getValue);
     }
 
 }
