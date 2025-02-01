@@ -3,6 +3,16 @@ GET http://localhost:8080/file/coupon?
     random=true&
     count={{$random.integer(100)}}
 
+### Post Coupon data - File upload
+POST http://localhost:8080/file/coupon
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="payload"; filename="file.csv"
+
+< [SOME_PATH]
+--WebAppBoundary--
+
 ### Get Coupon data - Line
 GET http://localhost:8080/nivo/coupon/line?
     upperGroup=year&
@@ -26,6 +36,18 @@ GET http://localhost:8080/nivo/coupon/pie?
 GET http://localhost:8080/file/ticket?
     random=true&
     count={{$random.integer(100)}}
+
+### Post Ticket data - File upload
+POST http://localhost:8080/file/ticket
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="payload"; filename="file.csv"
+
+< [SOME_PATH]
+--WebAppBoundary--
+
+###
 
 ### Get Ticket data - Line
 GET http://localhost:8080/nivo/ticket/line?
