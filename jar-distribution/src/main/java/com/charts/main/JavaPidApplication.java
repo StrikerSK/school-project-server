@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "com.charts.*")
-//@EnableJpaRepositories(basePackages = "com.charts.*")
+@EnableJpaRepositories(basePackages = "com.charts.*")
 @EntityScan(basePackages = "com.charts.*")
 public class JavaPidApplication {
 
