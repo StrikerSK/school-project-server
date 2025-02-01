@@ -55,7 +55,11 @@ public class CsvProcessorTest {
         Assert.assertEquals(countValues(couponList, Months.MARCH, UpdateCouponEntity::getMonth), 2);
         Assert.assertEquals(sumValues(couponList, Months.MARCH, UpdateCouponEntity::getMonth), 3300);
 
-        Assert.assertEquals(couponList.stream().filter(e -> e.getYear().equals(2024)).count(), 6);
+        Assert.assertEquals(countValues(couponList, 2024, UpdateCouponEntity::getYear), 4);
+        Assert.assertEquals(sumValues(couponList, 2024, UpdateCouponEntity::getYear), 3600);
+
+        Assert.assertEquals(countValues(couponList, 2023, UpdateCouponEntity::getYear), 2);
+        Assert.assertEquals(sumValues(couponList, 2023, UpdateCouponEntity::getYear), 3000);
     }
 
     @Test
@@ -79,7 +83,16 @@ public class CsvProcessorTest {
                 .value(200)
                 .build();
 
-        CsvProcessor.writeEntries(writer, List.of(entity1, entity2));
+        UpdateCouponEntity entity3 = UpdateCouponEntity.builder()
+                .year(2023)
+                .month(Months.MARCH)
+                .personType(PersonType.ADULT)
+                .validity(Validity.YEARLY)
+                .sellType(SellType.ESHOP)
+                .value(300)
+                .build();
+
+        CsvProcessor.writeEntries(writer, List.of(entity1, entity2, entity3));
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ResultCouponData.csv");
         assert inputStream != null;
         String expString = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
