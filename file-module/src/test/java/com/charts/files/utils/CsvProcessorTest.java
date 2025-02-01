@@ -4,8 +4,10 @@ import com.charts.api.coupon.entity.v2.UpdateCouponEntity;
 import com.charts.api.coupon.enums.types.PersonType;
 import com.charts.api.coupon.enums.types.SellType;
 import com.charts.api.coupon.enums.types.Validity;
+import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.types.Months;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.apache.commons.io.IOUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -20,6 +22,19 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class CsvProcessorTest {
+
+    @Test
+    public void testFileRead_Wrong() {
+        try {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("CouponData.csv");
+            CsvProcessor.readEntries(inputStream, UpdateTicketEntity.class);
+            Assert.fail("Exception should be thrown!");
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof RuntimeException);
+            Assert.assertTrue(e.getCause() instanceof CsvRequiredFieldEmptyException);
+        }
+
+    }
 
     @Test
     public void testFileRead() throws IOException {

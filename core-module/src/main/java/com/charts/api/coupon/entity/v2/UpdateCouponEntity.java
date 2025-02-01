@@ -26,15 +26,15 @@ public class UpdateCouponEntity extends AbstractUpdateEntity implements Comparab
 	public static final String VALIDITY_COLUMN = "validity";
 
 	@Column(name = VALIDITY_COLUMN)
-	@CsvBindByName(column = "validity")
+	@CsvBindByName(required = true)
 	private Validity validity;
 
 	@Column(name = SELL_TYPE_COLUMN)
-	@CsvBindByName(column = "sellType")
+	@CsvBindByName(required = true)
 	private SellType sellType;
 
 	@Column(name = PERSON_TYPE_COLUMN)
-	@CsvBindByName(column = "personType")
+	@CsvBindByName(required = true)
 	private PersonType personType;
 
 	@Override
