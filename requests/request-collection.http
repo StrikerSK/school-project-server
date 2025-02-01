@@ -10,7 +10,7 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="payload"; filename="file.csv"
 
-< [SOME_PATH]
+< ./data/DummyCouponData.csv
 --WebAppBoundary--
 
 ### Get Coupon data - Line
@@ -44,7 +44,7 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="payload"; filename="file.csv"
 
-< [SOME_PATH]
+< ./data/DummyTicketData.csv
 --WebAppBoundary--
 
 ###
