@@ -8,11 +8,9 @@ import com.charts.api.coupon.service.CouponV2Service;
 import com.charts.general.entity.coupon.AbstractCouponTest;
 import com.charts.general.entity.enums.EnumUtils;
 import com.charts.general.entity.enums.types.Months;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
@@ -22,7 +20,6 @@ import static org.mockito.Mockito.verify;
 
 public class CouponRepositoryTest extends AbstractCouponTest {
 
-    @InjectMocks
     private CouponRepository defaultCouponRepository;
 
     @Mock
@@ -30,6 +27,12 @@ public class CouponRepositoryTest extends AbstractCouponTest {
 
     @Captor
     private ArgumentCaptor<CouponsParameters> captor = ArgumentCaptor.forClass(CouponsParameters.class);
+
+    @BeforeClass
+    public void setUp() {
+        super.setUp();
+        defaultCouponRepository = new CouponRepository(formerCouponRepository);
+    }
 
     @Test
     public void TestFindAll() {
