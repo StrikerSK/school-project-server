@@ -1,6 +1,6 @@
 package com.charts.files.utils;
 
-import com.charts.general.exception.CsvContentException;
+import com.charts.files.excpetion.CsvContentException;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
@@ -62,7 +62,7 @@ public class CsvProcessor {
         } catch (Exception e) {
             if (e.getCause() instanceof CsvRequiredFieldEmptyException) {
                 Throwable cause = e.getCause();
-                throw new CsvContentException(cause.getMessage(), cause.getCause());
+                throw new CsvContentException(cause.getMessage(), cause);
             }
 
             throw e;
