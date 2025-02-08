@@ -73,12 +73,8 @@ public class FileController {
 	}
 
 	private static ResponseEntity<?> processRequest(MultipartFile payload, Consumer<MultipartFile> persistence) {
-		try {
-			persistence.accept(payload);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
+		persistence.accept(payload);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 }
