@@ -1,6 +1,6 @@
 package com.charts.files.utils;
 
-import com.charts.files.excpetion.CsvContentException;
+import com.charts.files.exception.CsvContentException;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;

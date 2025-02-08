@@ -1,4 +1,4 @@
-package com.charts.files.excpetion;
+package com.charts.files.exception;
 
 public class CsvContentException extends RuntimeException {
 

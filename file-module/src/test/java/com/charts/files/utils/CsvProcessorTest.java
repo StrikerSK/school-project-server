@@ -7,7 +7,7 @@ import com.charts.api.coupon.enums.types.Validity;
 import com.charts.api.ticket.entity.v2.UpdateTicketEntity;
 import com.charts.general.entity.AbstractUpdateEntity;
 import com.charts.general.entity.enums.types.Months;
-import com.charts.files.excpetion.CsvContentException;
+import com.charts.files.exception.CsvContentException;
 import org.apache.commons.io.IOUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;

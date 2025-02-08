@@ -1,4 +1,4 @@
-package com.charts.files.excpetion;
+package com.charts.files.exception;
 
 import com.charts.general.exception.ExceptionHandlers;
 import lombok.extern.slf4j.Slf4j;
