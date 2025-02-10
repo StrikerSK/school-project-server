@@ -2,6 +2,7 @@ package com.charts.general.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,16 +17,15 @@ public class ExceptionHandlers {
 
     @ExceptionHandler(value = InvalidParameterException.class)
     public ResponseEntity<Map<String, String>> handleException(InvalidParameterException ex) {
-        log.debug("{}", ex.getMessage(), ex);
-        Map<String, String> response = createResponse("Parameter error", ex);
-        return ResponseEntity.badRequest().body(response);
+        return createResponse(HttpStatus.BAD_REQUEST.value(), "Parameter error", ex);
     }
 
-    public static Map<String, String> createResponse(String message, Exception ex) {
+    public static ResponseEntity<Map<String, String>> createResponse(Integer statusCode, String message, Exception ex) {
+        log.debug(ex.getMessage(), ex);
         Map<String, String> response = new HashMap<>();
         response.put("message", message);
         response.put("error", ex.getMessage());
-        return response;
+        return ResponseEntity.status(statusCode).body(response);
     }
 
 }
