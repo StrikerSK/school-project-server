@@ -54,7 +54,7 @@ public class FileService {
 			List<T> coupons = CsvProcessor.readEntries(payload.getInputStream(), clazz);
 			persistence.accept(coupons);
 		} catch (Exception e) {
-			throw new CsvContentException(String.format("Failed to process file: %s", e.getMessage()), e);
+			throw new CsvContentException(e.getMessage(), e);
 		}
 	}
 
