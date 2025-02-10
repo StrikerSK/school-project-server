@@ -21,11 +21,11 @@ import lombok.experimental.SuperBuilder;
 public class UpdateTicketEntity extends AbstractUpdateEntity implements Comparable<UpdateTicketEntity> {
 
 	@Column(name = "ticket_type")
-	@CsvBindByName
+	@CsvBindByName(required = true)
 	private TicketType ticketType;
 
 	@Column(name = "discounted")
-	@CsvBindByName
+	@CsvBindByName(required = true)
 	private Boolean discounted;
 
 	@Override

@@ -27,15 +27,15 @@ public abstract class AbstractUpdateEntity {
     private Long id;
 
     @Column(name = "month")
-    @CsvBindByName
+    @CsvBindByName(required = true)
     private Months month;
 
     @Column(name = "year")
-    @CsvBindByName
+    @CsvBindByName(required = true)
     private Integer year;
 
     @Column(name = "value")
-    @CsvBindByName
+    @CsvBindByName(required = true)
     private Integer value;
 
 }

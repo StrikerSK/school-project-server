@@ -1,6 +1,6 @@
 package com.charts.files.utils;
 
-import com.charts.general.exception.CsvContentException;
+import com.charts.files.exception.CsvContentException;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
@@ -49,15 +49,24 @@ public class CsvProcessor {
      * @throws IOException Exception coming from file reading
      */
     public static <T> List<T> readEntries(InputStream is, Class<T> clazz) throws IOException {
-        InputStreamReader inputStream = new InputStreamReader(is, StandardCharsets.UTF_8);
-        BufferedReader fileReader = new BufferedReader(inputStream);
-        String stringReader = IOUtils.toString(fileReader);
-        CSVReader csvReader = new CSVReader(new StringReader(stringReader));
-        CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(csvReader)
-                .withType(clazz)
-                .withIgnoreLeadingWhiteSpace(true)
-                .build();
-        return csvToBean.parse();
+        try {
+            InputStreamReader inputStream = new InputStreamReader(is, StandardCharsets.UTF_8);
+            BufferedReader fileReader = new BufferedReader(inputStream);
+            String stringReader = IOUtils.toString(fileReader);
+            CSVReader csvReader = new CSVReader(new StringReader(stringReader));
+            CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(csvReader)
+                    .withType(clazz)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+            return csvToBean.parse();
+        } catch (Exception e) {
+            if (e.getCause() instanceof CsvRequiredFieldEmptyException) {
+                Throwable cause = e.getCause();
+                throw new CsvContentException(cause.getMessage(), cause);
+            }
+
+            throw e;
+        }
     }
 
 }
