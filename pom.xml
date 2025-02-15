@@ -12,7 +12,6 @@
     <modules>
         <module>core-module</module>
         <module>apex-module</module>
-        <module>file-module</module>
         <module>jar-distribution</module>
         <module>recharts-module</module>
         <module>nivo-module</module>
